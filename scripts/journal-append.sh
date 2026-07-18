@@ -25,9 +25,9 @@ if [[ -z "$TITLE" || -z "$SUMMARY" ]]; then
   exit 1
 fi
 
-# Date/time in AEST
-DATE=$(TZ=Australia/Melbourne date +%Y-%m-%d)
-HHMM=$(TZ=Australia/Melbourne date +%H:%M)
+# Date/time in MYT (Asia/Kuala_Lumpur)
+DATE=$(TZ=Asia/Kuala_Lumpur date +%Y-%m-%d)
+HHMM=$(TZ=Asia/Kuala_Lumpur date +%H:%M)
 JOURNAL_FILE="$WORKSPACE/memory/journal-${DATE}.md"
 
 mkdir -p "$(dirname "$JOURNAL_FILE")" "$(dirname "$LOCK_DIR")"

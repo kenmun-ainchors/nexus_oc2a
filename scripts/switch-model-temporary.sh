@@ -78,7 +78,7 @@ DURATION_MINS=$(parse_duration_mins "$DURATION")
 # ── Calculate reset time ─────────────────────────────────────────────────────
 RESET_EPOCH_MS=$(( $(date +%s) * 1000 + DURATION_MINS * 60 * 1000 ))
 RESET_ISO=$(date -u -r $(( RESET_EPOCH_MS / 1000 )) +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date -u -d @$(( RESET_EPOCH_MS / 1000 )) +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null)
-RESET_AEST=$(date -r $(( RESET_EPOCH_MS / 1000 )) +"%Y-%m-%dT%H:%M:%S+10:00" 2>/dev/null)
+RESET_LOCAL=$(date -r $(( RESET_EPOCH_MS / 1000 )) +"%Y-%m-%dT%H:%M:%S+08:00" 2>/dev/null)
 
 # ── Output instructions for Yoda ─────────────────────────────────────────────
 cat <<EOF
@@ -89,7 +89,7 @@ cat <<EOF
   Switch to:    $FULL_MODEL
   Duration:     ${DURATION_MINS}min
   Reset to:     $PRIMARY
-  Reset at:     $RESET_AEST
+  Reset at:     $RESET_LOCAL
 
   ACTION REQUIRED (in-session):
     session_status model="$FULL_MODEL"
@@ -113,7 +113,7 @@ payload = {
     'currentModel': '$FULL_MODEL',
     'scheduledAt': '$(date -u +"%Y-%m-%dT%H:%M:%SZ")',
     'resetAt': '$RESET_ISO',
-    'resetAtAEST': '$RESET_AEST',
+    'resetAtLocal': '$RESET_LOCAL',
     'durationMins': $DURATION_MINS,
     'triggeredBy': 'switch-model-temporary.sh',
     'status': 'pending'

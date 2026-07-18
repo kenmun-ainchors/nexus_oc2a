@@ -11,8 +11,8 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 QUEUE_FILE="$WORKSPACE/state/content-queue.json"
 SCRIPTS_DIR="$WORKSPACE/scripts"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
-DATE_SHORT=$(date '+%Y-%m-%d %H:%M AEST')
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
+DATE_SHORT=$(date +'%Y-%m-%d %H:%M MYT')
 
 # ── Colours ──────────────────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'

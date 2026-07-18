@@ -30,7 +30,7 @@ if [[ "${SKILL_GATE_BYPASS:-}" != "1" ]]; then
 fi
 
 LOG="/Users/ainchorsoc2a/.openclaw/workspace/state/cross-agent-alert.log"
-TS=$(date '+%Y-%m-%d %H:%M:%S AEST')
+TS=$(date '+%Y-%m-%d %H:%M:%S MYT')
 
 # Default dual recipients per CHG-0799 (Ken + Angie)
 DEFAULT_RECIPIENTS="8574109706,8141152780"
@@ -102,7 +102,7 @@ FULL="${PREFIX}: ${MESSAGE}"
 RC=$?
 
 # Log line per plan §5 Step 2
-# Format: "YYYY-MM-DD HH:MM:SS AEST OK|FAIL SOURCE → telegram to RECIPIENTS"
+# Format: "YYYY-MM-DD HH:MM:SS MYT OK|FAIL SOURCE → telegram to RECIPIENTS"
 if [[ $RC -eq 0 ]]; then
   /bin/echo "${TS} OK    ${SOURCE} → telegram to ${RECIPIENTS}" >> "$LOG"
 else

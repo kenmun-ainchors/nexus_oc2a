@@ -45,7 +45,7 @@ if [[ -z "$PARENT_TICKET" || -z "$SUB_TICKET_IDS_JSON" ]]; then
   exit 1
 fi
 
-CHECKED_AT=$(date -u +"%Y-%m-%dT%H:%M:%S+10:00")
+CHECKED_AT=$(date -u +"%Y-%m-%dT%H:%M:%S+08:00")
 
 # ── Temporary workspace ───────────────────────────────────────────────
 TMPDIR="${TMPDIR:-/tmp}/ms-$$"

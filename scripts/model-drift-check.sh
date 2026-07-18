@@ -13,7 +13,7 @@ POLICY="$WORKSPACE/state/model-policy.json"
 STATE="$WORKSPACE/state/model-drift-state.json"
 VIOLATIONS="$WORKSPACE/state/model-drift-violations.json"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+LOCAL_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 
 PASS=0
 FAIL=0
@@ -55,7 +55,7 @@ print('AGENT_NOT_FOUND')
       note="Note: agent has documented exceptions — check model-policy.json for allowed values."
     fi
     echo "  FAIL  agent:$agent_id → actual=$actual expected=$expected [$severity]"
-    FINDINGS+=("{\"agentId\":\"$agent_id\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"$severity\",\"note\":\"$note\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+    FINDINGS+=("{\"agentId\":\"$agent_id\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"$severity\",\"note\":\"$note\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
   fi
 }
 
@@ -84,7 +84,7 @@ print(val)
   else
     FAIL=$((FAIL + 1))
     echo "  FAIL  default:$label → actual=$actual expected=$expected [VIOLATION]"
-    FINDINGS+=("{\"agentId\":\"default.$label\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"VIOLATION\",\"note\":\"\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+    FINDINGS+=("{\"agentId\":\"default.$label\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"VIOLATION\",\"note\":\"\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
   fi
 }
 
@@ -104,7 +104,7 @@ print(d.get('models', {}).get('providers', {}).get('ollama', {}).get('apiKey', '
   else
     FAIL=$((FAIL + 1))
     echo "  FAIL  ollama apiKey → actual=$actual expected=ollama-local [VIOLATION]"
-    FINDINGS+=("{\"agentId\":\"system.ollama_apikey\",\"expected\":\"ollama-local\",\"actual\":\"$actual\",\"severity\":\"CRITICAL\",\"note\":\"Placeholder key will break fallback chain during billing outage.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+    FINDINGS+=("{\"agentId\":\"system.ollama_apikey\",\"expected\":\"ollama-local\",\"actual\":\"$actual\",\"severity\":\"CRITICAL\",\"note\":\"Placeholder key will break fallback chain during billing outage.\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
   fi
 }
 
@@ -161,13 +161,13 @@ for i in issues:
       cron_name=$(echo "$line" | cut -d'|' -f1 | sed 's/cron://')
       model_val=$(echo "$line" | cut -d'|' -f2 | sed 's/model://')
       echo "  FAIL  cron:\"$cron_name\" → model=$model_val [GEMMA4_INTERACTIVE_VIOLATION]"
-      FINDINGS+=("{\"agentId\":\"cron.$cron_name\",\"expected\":\"non-gemma4\",\"actual\":\"$model_val\",\"severity\":\"GEMMA4_INTERACTIVE_VIOLATION\",\"note\":\"Gemma4 only permitted for: AInchors Midday Cost Tracker, AInchors Workspace Backup\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      FINDINGS+=("{\"agentId\":\"cron.$cron_name\",\"expected\":\"non-gemma4\",\"actual\":\"$model_val\",\"severity\":\"GEMMA4_INTERACTIVE_VIOLATION\",\"note\":\"Gemma4 only permitted for: AInchors Midday Cost Tracker, AInchors Workspace Backup\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
     done <<< "$violations"
   fi
 }
 
 # ═══════════════════════════════════════════════════════════════════
-echo "🔍 Warden Model Compliance Check — $AEST_TIMESTAMP"
+echo "🔍 Warden Model Compliance Check — $LOCAL_TIMESTAMP"
 echo "─────────────────────────────────────────────────────────────"
 
 # ── Agent model checks ─────────────────────────────────────────────
@@ -258,7 +258,7 @@ while IFS='|' read -r check_status aid actual expected; do
     FAIL)
       FAIL=$((FAIL + 1))
       echo "  FAIL  agent:$aid -> actual=$actual expected=$expected [VIOLATION]"
-      FINDINGS+=("{\"agentId\":\"$aid\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"VIOLATION\",\"note\":\"Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      FINDINGS+=("{\"agentId\":\"$aid\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"VIOLATION\",\"note\":\"Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
       ;;
     SKIP)
       echo "  SKIP  agent:$aid -> $actual (no tier assignment)"
@@ -353,7 +353,7 @@ while IFS='|' read -r check_status aid actual expected session_key session_id; d
     FAIL)
       FAIL=$((FAIL + 1))
       echo "  FAIL  live-session agent:$aid -> actual=$actual expected=$expected [SESSION_MODEL_DRIFT]"
-      FINDINGS+=('{"agentId":"live-session.'"$aid"'","expected":"'"$expected"'","actual":"'"$actual"'","severity":"SESSION_MODEL_DRIFT","sessionKey":"'"$session_key"'","sessionId":"'"$session_id"'","note":"Live session model does not match tier primary. Session override may be stuck from temporary switch. Check and reset via session_status.","detectedAt":"'"$AEST_TIMESTAMP"'"}')
+      FINDINGS+=('{"agentId":"live-session.'"$aid"'","expected":"'"$expected"'","actual":"'"$actual"'","severity":"SESSION_MODEL_DRIFT","sessionKey":"'"$session_key"'","sessionId":"'"$session_id"'","note":"Live session model does not match tier primary. Session override may be stuck from temporary switch. Check and reset via session_status.","detectedAt":"'"$LOCAL_TIMESTAMP"'"}')
       ;;
     SKIP)
       echo "  SKIP  live-session agent:$aid -> $actual ($expected)"
@@ -429,7 +429,7 @@ while IFS='|' read -r check_status detail msg; do
     FAIL)
       FAIL=$((FAIL + 1))
       echo "  FAIL  ${detail} -> ${msg} [CREST_PHASE_VIOLATION]"
-      FINDINGS+=("{\"agentId\":\"crest.${detail}\",\"expected\":\"valid-phase-config\",\"actual\":\"${msg}\",\"severity\":\"CREST_PHASE_VIOLATION\",\"note\":\"CREST phase model map inconsistency. Check model-policy.json crestPhaseModelMap.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      FINDINGS+=("{\"agentId\":\"crest.${detail}\",\"expected\":\"valid-phase-config\",\"actual\":\"${msg}\",\"severity\":\"CREST_PHASE_VIOLATION\",\"note\":\"CREST phase model map inconsistency. Check model-policy.json crestPhaseModelMap.\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
       ;;
     SKIP)
       echo "  SKIP  ${detail}"
@@ -550,7 +550,7 @@ while IFS='|' read -r check_status a b c d e; do
       expected="$d"
       actual="$e"
       echo "  FAIL  agent:$a (role=$b phase=$c) expected=$expected actual=$actual [CREST_V13_DRIFT]";
-      FINDINGS+=("{\"agentId\":\"$a\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"CREST_V13_DRIFT\",\"note\":\"Agent model does not match CREST v1.3 phase_rules for role=$b phase=$c. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      FINDINGS+=("{\"agentId\":\"$a\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"CREST_V13_DRIFT\",\"note\":\"Agent model does not match CREST v1.3 phase_rules for role=$b phase=$c. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
       ;;
     SKIP)
       echo "  SKIP  $a: $b"
@@ -577,7 +577,7 @@ python3 /tmp/warden-context-drift.py 2>/dev/null | while IFS="|" read -r check_s
     FAIL)
       FAIL=$((FAIL + 1))
       echo "  FAIL  context:$model_name -> $rest [CONTEXT_DRIFT]"
-      FINDINGS+=("{\"agentId\":\"context.$model_name\",\"severity\":\"CONTEXT_DRIFT\",\"detail\":\"$rest\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      FINDINGS+=("{\"agentId\":\"context.$model_name\",\"severity\":\"CONTEXT_DRIFT\",\"detail\":\"$rest\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
       ;;
     SKIP)
       echo "  SKIP  context:$model_name -> $rest"
@@ -656,7 +656,7 @@ else
   # CHG-0812: Derive expected from model-policy.json defaultPolicy, not from FALLBACK_ACTUAL (self-comparison bug)
   FALLBACK_EXPECTED=$(python3 -c "import json; p=json.load(open('$POLICY')); print(json.dumps(p.get('defaultPolicy',{}).get('fallbacks',p.get('agentTiers',{}).get('userFacing',{}).get('fallbacks',[]))), separators=(',',':'), sort_keys=True)" 2>/dev/null || echo "$FALLBACK_ACTUAL")
   echo "  FAIL  fallback chain → actual=$FALLBACK_ACTUAL expected=$FALLBACK_EXPECTED [VIOLATION]"
-  FINDINGS+=("{\"agentId\":\"default.fallbacks\",\"expected\":$FALLBACK_EXPECTED,\"actual\":$FALLBACK_ACTUAL,\"severity\":\"VIOLATION\",\"note\":\"Fallback chain drift breaks resilient outage handling.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+  FINDINGS+=("{\"agentId\":\"default.fallbacks\",\"expected\":$FALLBACK_EXPECTED,\"actual\":$FALLBACK_ACTUAL,\"severity\":\"VIOLATION\",\"note\":\"Fallback chain drift breaks resilient outage handling.\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
 fi
 
 echo ""
@@ -688,7 +688,7 @@ if [[ -f "$LEX_LOG" ]]; then
   PASS=$((PASS + 1))
 else
   echo "  FAIL  governance: lex-qa-log.json missing — governance gate never run"
-  FINDINGS+=('{"agentId":"governance.lex-log","severity":"GOVERNANCE_GATE_MISSING","note":"lex-qa-log.json missing. Governance gate has never been run. All public assets unreviewed.","detectedAt":"'"$AEST_TIMESTAMP"'}')
+  FINDINGS+=('{"agentId":"governance.lex-log","severity":"GOVERNANCE_GATE_MISSING","note":"lex-qa-log.json missing. Governance gate has never been run. All public assets unreviewed.","detectedAt":"'"$LOCAL_TIMESTAMP"'}')
   FAIL=$((FAIL + 1))
 fi
 
@@ -698,7 +698,7 @@ if [[ -f "$HEALTH_STATE" ]]; then
   HEALTH_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$HEALTH_STATE" 2>/dev/null || echo 0) ) / 60 ))
   if (( HEALTH_AGE_MINS > 10 )); then
     echo "  FAIL  ITIL-3: health-state.json is ${HEALTH_AGE_MINS}min old (max: 10min)"
-    FINDINGS+=('{"agentId":"itil.health-freshness","severity":"ITIL_VIOLATION","note":"health-state.json is '"$HEALTH_AGE_MINS"'min old. health-check.sh may not be running. ITIL-3 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
+    FINDINGS+=('{"agentId":"itil.health-freshness","severity":"ITIL_VIOLATION","note":"health-state.json is '"$HEALTH_AGE_MINS"'min old. health-check.sh may not be running. ITIL-3 breach.","detectedAt":"'"$LOCAL_TIMESTAMP"'}')
     FAIL=$((FAIL + 1))
   else
     echo "  OK  ITIL-3: health-state.json ${HEALTH_AGE_MINS}min old"
@@ -706,7 +706,7 @@ if [[ -f "$HEALTH_STATE" ]]; then
   fi
 else
   echo "  FAIL  ITIL-3: health-state.json missing"
-  FINDINGS+=('{"agentId":"itil.health-state","severity":"ITIL_VIOLATION","note":"health-state.json missing. Health monitoring not running. ITIL-3 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
+  FINDINGS+=('{"agentId":"itil.health-state","severity":"ITIL_VIOLATION","note":"health-state.json missing. Health monitoring not running. ITIL-3 breach.","detectedAt":"'"$LOCAL_TIMESTAMP"'}')
   FAIL=$((FAIL + 1))
 fi
 
@@ -716,7 +716,7 @@ if [[ -f "$OBS_STATE" ]]; then
   OBS_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$OBS_STATE" 2>/dev/null || echo 0) ) / 60 ))
   if (( OBS_AGE_MINS > 10 )); then
     echo "  FAIL  ITIL-4: obs-collector-state.json is ${OBS_AGE_MINS}min old (max: 10min)"
-    FINDINGS+=('{"agentId":"itil.obs-freshness","severity":"ITIL_VIOLATION","note":"obs-collector-state.json is '"$OBS_AGE_MINS"'min old. Observability collector may not be running. ITIL-4 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
+    FINDINGS+=('{"agentId":"itil.obs-freshness","severity":"ITIL_VIOLATION","note":"obs-collector-state.json is '"$OBS_AGE_MINS"'min old. Observability collector may not be running. ITIL-4 breach.","detectedAt":"'"$LOCAL_TIMESTAMP"'}')
     FAIL=$((FAIL + 1))
   else
     echo "  OK  ITIL-4: obs-collector-state.json ${OBS_AGE_MINS}min old"
@@ -734,7 +734,7 @@ if [[ -f "$INC_LOG" ]]; then
   PASS=$((PASS + 1))
 else
   echo "  FAIL  ITIL-1: incident-log.json missing — incident management not operational"
-  FINDINGS+=('{"agentId":"itil.incident-log","severity":"ITIL_VIOLATION","note":"incident-log.json missing. Incident management not operational. ITIL-1 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
+  FINDINGS+=('{"agentId":"itil.incident-log","severity":"ITIL_VIOLATION","note":"incident-log.json missing. Incident management not operational. ITIL-1 breach.","detectedAt":"'"$LOCAL_TIMESTAMP"'}')
   FAIL=$((FAIL + 1))
 fi
 
@@ -744,7 +744,7 @@ if [[ -f "$COST_STATE" ]]; then
   COST_AGE_MINS=$(( ( $(date +%s) - $(stat -f %m "$COST_STATE" 2>/dev/null || echo 0) ) / 60 ))
   if (( COST_AGE_MINS > 1560 )); then
     echo "  FAIL  ITIL-5: cost-state.json is ${COST_AGE_MINS}min old (max: 1560min/26h)"
-    FINDINGS+=('{"agentId":"itil.cost-freshness","severity":"ITIL_VIOLATION","note":"cost-state.json is '"$COST_AGE_MINS"'min old. Cost tracking not running. ITIL-5 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
+    FINDINGS+=('{"agentId":"itil.cost-freshness","severity":"ITIL_VIOLATION","note":"cost-state.json is '"$COST_AGE_MINS"'min old. Cost tracking not running. ITIL-5 breach.","detectedAt":"'"$LOCAL_TIMESTAMP"'}')
     FAIL=$((FAIL + 1))
   else
     echo "  OK  ITIL-5: cost-state.json ${COST_AGE_MINS}min old"
@@ -752,7 +752,7 @@ if [[ -f "$COST_STATE" ]]; then
   fi
 else
   echo "  FAIL  ITIL-5: cost-state.json missing"
-  FINDINGS+=('{"agentId":"itil.cost-state","severity":"ITIL_VIOLATION","note":"cost-state.json missing. Cost tracking not operational. ITIL-5 breach.","detectedAt":"'"$AEST_TIMESTAMP"'}')
+  FINDINGS+=('{"agentId":"itil.cost-state","severity":"ITIL_VIOLATION","note":"cost-state.json missing. Cost tracking not operational. ITIL-5 breach.","detectedAt":"'"$LOCAL_TIMESTAMP"'}')
   FAIL=$((FAIL + 1))
 fi
 
@@ -786,7 +786,7 @@ except Exception as e:
     echo "  FAIL  content-governance: published items missing triad clearance: $QUEUE_VIOLATIONS"
     FAIL=$((FAIL + 1))
     while IFS= read -r item_id; do
-      FINDINGS+=("{\"agentId\":\"content-governance.$item_id\",\"severity\":\"content-published-without-clearance\",\"note\":\"Item $item_id is published but missing CLEAR/CONDITIONAL from one or more triad agents. TKT-0033 violation.\",\"detectedAt\":\"$AEST_TIMESTAMP\"}")
+      FINDINGS+=("{\"agentId\":\"content-governance.$item_id\",\"severity\":\"content-published-without-clearance\",\"note\":\"Item $item_id is published but missing CLEAR/CONDITIONAL from one or more triad agents. TKT-0033 violation.\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
     done <<< "$QUEUE_VIOLATIONS"
   fi
 else
@@ -829,7 +829,7 @@ if os.path.exists(state_file):
 else:
     state = {'totalChecksRun': 0, 'totalViolationsFound': 0, 'consecutiveClean': 0, 'violationHistory': []}
 
-state['lastCheck'] = '$AEST_TIMESTAMP'
+state['lastCheck'] = '$LOCAL_TIMESTAMP'
 state['lastStatus'] = '$STATUS'
 state['lastPassCount'] = $PASS
 state['lastFailCount'] = $FAIL
@@ -841,7 +841,7 @@ if '$STATUS' == 'clean':
 else:
     state['consecutiveClean'] = 0
     state['totalViolationsFound'] = state.get('totalViolationsFound', 0) + $FAIL
-    state['lastViolationAt'] = '$AEST_TIMESTAMP'
+    state['lastViolationAt'] = '$LOCAL_TIMESTAMP'
 
 with open(state_file, 'w') as f:
     json.dump(state, f, indent=2)
@@ -877,7 +877,7 @@ for f in findings:
 # Keep last 100 violations max
 data['violations'] = data['violations'][-100:]
 data['totalUnresolved'] = sum(1 for v in data['violations'] if v.get('status') == 'unresolved')
-data['lastUpdated'] = '$AEST_TIMESTAMP'
+data['lastUpdated'] = '$LOCAL_TIMESTAMP'
 
 with open(vfile, 'w') as f2:
     json.dump(data, f2, indent=2)

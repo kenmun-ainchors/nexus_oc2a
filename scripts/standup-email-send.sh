@@ -1,7 +1,7 @@
 #!/bin/bash
 # standup-email-send.sh — Send the standup canvas HTML as email
 # Called by cron: AInchors Stand-up Email Delivery (shell-only systemEvent)
-# Runs ~15 min after standup generation (08:15 AEST)
+# Runs ~15 min after standup generation (08:15 MYT)
 # CHG-0765 / TKT-0742: Fix messageId extraction (gog returns 'messageId', not 'id')
 #   and ensure idempotency skip updates state/standup-email-log.json
 # CHG-0799: Send to both Ken (kenmun@gmail.com) and Angie (angie.foong@ainchors.com)
@@ -27,20 +27,20 @@ if [[ "${CANVAS_SIZE}" -lt 500 ]]; then
 fi
 
 # --- Determine date/subject ---
-TODAY_AEST=$(TZ=Australia/Melbourne date '+%Y-%m-%d')
+TODAY_LOCAL=$(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%d')
 DAY_N=$(python3 -c "from datetime import date; d=(date.today() - date(2026,4,25)).days + 1; print(d)")
-SUBJECT="☀️ AInchors Stand-up — Day ${DAY_N} | $(TZ=Australia/Melbourne date '+%A %d %B %Y')"
+SUBJECT="☀️ AInchors Stand-up — Day ${DAY_N} | $(TZ=Asia/Kuala_Lumpur date '+%A %d %B %Y')"
 
 # --- Idempotency: check if already sent ---
 if [[ -f "${STATE_FILE}" ]]; then
     EMAIL_SENT=$(python3 -c "import json; d=json.load(open('${STATE_FILE}')); print(d.get('emailSentConfirmed',''))" 2>/dev/null || echo "")
-    if [[ "${EMAIL_SENT}" == "${TODAY_AEST}" ]]; then
-        echo "IDEMPOTENT: Email already confirmed sent for ${TODAY_AEST}. Skipping."
+    if [[ "${EMAIL_SENT}" == "${TODAY_LOCAL}" ]]; then
+        echo "IDEMPOTENT: Email already confirmed sent for ${TODAY_LOCAL}. Skipping."
         # Still update the log so it reflects today's state
-        NOW_ISO=$(TZ=Australia/Melbourne date -Iseconds)
+        NOW_ISO=$(TZ=Asia/Kuala_Lumpur date -Iseconds)
         python3 -c "
 import json
-json.dump({'date':'${TODAY_AEST}','dayNumber':${DAY_N},'sentAt':'${NOW_ISO}','messageId':'already_sent','status':'already_sent','canvasSize':${CANVAS_SIZE}}, open('${LOG_FILE}','w'))
+json.dump({'date':'${TODAY_LOCAL}','dayNumber':${DAY_N},'sentAt':'${NOW_ISO}','messageId':'already_sent','status':'already_sent','canvasSize':${CANVAS_SIZE}}, open('${LOG_FILE}','w'))
 " 2>/dev/null || true
         exit 0
     fi
@@ -71,7 +71,7 @@ if [[ "$COMPOSER_DEGRADED" == "true" ]]; then
 fi
 
 # --- Send email ---
-echo "Sending stand-up email for Day ${DAY_N} (${TODAY_AEST})..."
+echo "Sending stand-up email for Day ${DAY_N} (${TODAY_LOCAL})..."
 ${GOG} mail send \
     --to "kenmun@gmail.com" \
     --cc "angie.foong@ainchors.com" \
@@ -84,7 +84,7 @@ ${GOG} mail send \
 SEND_EXIT=${PIPESTATUS[0]}
 
 # --- Log result ---
-NOW_ISO=$(TZ=Australia/Melbourne date -Iseconds)
+NOW_ISO=$(TZ=Asia/Kuala_Lumpur date -Iseconds)
 
 if [[ ${SEND_EXIT} -eq 0 ]]; then
     MESSAGE_ID=$(python3 -c "import json; d=json.load(open('/tmp/standup-email-result.json')); print(d.get('messageId','') or d.get('id',''))" 2>/dev/null || echo "unknown")
@@ -95,18 +95,18 @@ if [[ ${SEND_EXIT} -eq 0 ]]; then
         python3 -c "
 import json
 d = json.load(open('${STATE_FILE}'))
-d['emailSentConfirmed'] = '${TODAY_AEST}'
+d['emailSentConfirmed'] = '${TODAY_LOCAL}'
 d['emailSentAt'] = '${NOW_ISO}'
 json.dump(d, open('${STATE_FILE}','w'))
-print('State updated: emailSentConfirmed = ${TODAY_AEST}')
+print('State updated: emailSentConfirmed = ${TODAY_LOCAL}')
 " 2>/dev/null || true
     fi
 
     # PG primary write: update email operational columns
     PSQL="${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus"
-    PG_SQL="UPDATE state_standups SET email_sent_at = '${NOW_ISO}'::timestamptz, email_sent_confirmed = '${TODAY_AEST}'::date WHERE standup_date = '${TODAY_AEST}'::date;"
+    PG_SQL="UPDATE state_standups SET email_sent_at = '${NOW_ISO}'::timestamptz, email_sent_confirmed = '${TODAY_LOCAL}'::date WHERE standup_date = '${TODAY_LOCAL}'::date;"
     if $PSQL -c "$PG_SQL" 2>/dev/null; then
-        echo "PG primary write: state_standups email fields updated for ${TODAY_AEST}"
+        echo "PG primary write: state_standups email fields updated for ${TODAY_LOCAL}"
     else
         echo "PG write WARNING: could not update state_standups email fields"
     fi
@@ -114,7 +114,7 @@ print('State updated: emailSentConfirmed = ${TODAY_AEST}')
     # Write success log
     python3 -c "
 import json
-json.dump({'date':'${TODAY_AEST}','dayNumber':${DAY_N},'sentAt':'${NOW_ISO}','messageId':'${MESSAGE_ID}','status':'ok','canvasSize':${CANVAS_SIZE},'recipients':['kenmun@gmail.com','angie.foong@ainchors.com']}, open('${LOG_FILE}','w'))
+json.dump({'date':'${TODAY_LOCAL}','dayNumber':${DAY_N},'sentAt':'${NOW_ISO}','messageId':'${MESSAGE_ID}','status':'ok','canvasSize':${CANVAS_SIZE},'recipients':['kenmun@gmail.com','angie.foong@ainchors.com']}, open('${LOG_FILE}','w'))
 " 2>/dev/null || true
 else
     echo "FAILED: Email send returned exit code ${SEND_EXIT}"
@@ -122,7 +122,7 @@ else
     # Write error log
     python3 -c "
 import json
-json.dump({'date':'${TODAY_AEST}','dayNumber':${DAY_N},'attemptedAt':'${NOW_ISO}','status':'failed','exitCode':${SEND_EXIT},'canvasSize':${CANVAS_SIZE}}, open('${LOG_FILE}','w'))
+json.dump({'date':'${TODAY_LOCAL}','dayNumber':${DAY_N},'attemptedAt':'${NOW_ISO}','status':'failed','exitCode':${SEND_EXIT},'canvasSize':${CANVAS_SIZE}}, open('${LOG_FILE}','w'))
 " 2>/dev/null || true
 
     exit ${SEND_EXIT}

@@ -33,7 +33,7 @@ DELEGATED_ACCOUNTS=(
 )
 
 # ---- STATE ----
-TODAY=$(TZ="Australia/Melbourne" date '+%Y-%m-%d')
+TODAY=$(TZ="Asia/Kuala_Lumpur" date '+%Y-%m-%d')
 NOW=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
 RESULTS=()
 HAS_EXPIRED=false

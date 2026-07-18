@@ -23,7 +23,7 @@ POLICY="$WORKSPACE/state/model-policy.json"
 SYNC_STATE="$WORKSPACE/state/allowlist-sync-state.json"
 CORE_PY="$WORKSPACE/scripts/allowlist_sync_core.py"
 CHANGELOG_SCRIPT="$WORKSPACE/scripts/changelog-append.sh"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 DRY_RUN=false
 SOURCE="manual"
 

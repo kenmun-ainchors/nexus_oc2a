@@ -640,7 +640,7 @@ cmd_create() {
   
   # Build timestamp
   local ts
-  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
   
   # Build metadata JSONB
   local metadata
@@ -834,7 +834,7 @@ cmd_create_from_json() {
   # Set created_at if not present
   if ! echo "$json_payload" | $JQ -e 'has("created_at")' >/dev/null 2>&1; then
     local ts
-    ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+    ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
     json_payload=$(echo "$json_payload" | $JQ --arg ts "$ts" '. + {created_at: $ts}')
   fi
   
@@ -1090,7 +1090,7 @@ cmd_groom() {
   fi
   
   local ts
-  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
   
   echo "=== Grooming: $tkt_id ==="
   
@@ -1198,7 +1198,7 @@ cmd_fold() {
   fi
   
   local ts
-  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
   
   log "=== CHG-0456 Fold SOP: $child_id → $parent_id ==="
   
@@ -1486,7 +1486,7 @@ cmd_sync() {
   local current_meta
   current_meta=$(get_metadata "$tkt_id")
   local ts
-  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
   
   local updated_meta
   updated_meta=$(echo "$current_meta" | $JQ --arg ts "$ts" '
@@ -1501,7 +1501,7 @@ cmd_sync() {
   
   # Update sync status after sync
   current_meta=$(get_metadata "$tkt_id")
-  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
   
   if [[ $ret -eq 0 ]]; then
     updated_meta=$(echo "$current_meta" | $JQ --arg ts "$ts" '

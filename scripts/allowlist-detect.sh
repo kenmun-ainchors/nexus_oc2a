@@ -13,7 +13,7 @@ POLICY="$WORKSPACE/state/model-policy.json"
 CI_STATE="$WORKSPACE/state/ci-agent-state.json"
 SYNC_STATE="$WORKSPACE/state/allowlist-sync-state.json"
 SYNC_SCRIPT="$WORKSPACE/scripts/allowlist-sync.sh"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 
 echo "=== allowlist-detect.sh | $TIMESTAMP ==="
 
@@ -73,7 +73,7 @@ if [[ -n "$POLICY_UPDATED" && -n "$LAST_SYNC" ]]; then
   IS_NEWER=$(python3 -c "
 from datetime import datetime
 def parse_dt(s):
-    for fmt in ['%Y-%m-%dT%H:%M:%S+10:00', '%Y-%m-%dT%H:%M:%S+11:00', '%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%dT%H:%M:%S']:
+    for fmt in ['%Y-%m-%dT%H:%M:%S+08:00', '%Y-%m-%dT%H:%M:%S+11:00', '%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%dT%H:%M:%S']:
         try:
             return datetime.strptime(s[:19], fmt[:19])
         except:

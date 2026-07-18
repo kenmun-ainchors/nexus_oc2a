@@ -1,6 +1,6 @@
 #!/bin/zsh
 # AInchors Auto-Heal — nightly system sweep, fix what's safe, file US for what needs Ken
-# Runs 23:30 AEST. Output: state/auto-heal-YYYY-MM-DD.json
+# Runs 23:30 MYT (Asia/Kuala_Lumpur). Output: state/auto-heal-YYYY-MM-DD.json
 # Full from Day 3 (2026-04-27) — auto-fixes safe items, files US for needs-Ken items
 #
 # Exit codes: 0 = clean run; 1 = scan errors; 2 = needs-Ken items present (informational)
@@ -18,9 +18,9 @@ set -euo pipefail
 # Resolve workspace root dynamically; fall back to known path only when unset.
 WORKSPACE="${WORKSPACE_ROOT:-$HOME/.openclaw/workspace}"
 STATE_DIR="$WORKSPACE/state"
-TODAY=$(TZ="Australia/Melbourne" date '+%Y-%m-%d')
+TODAY=$(TZ="Asia/Kuala_Lumpur" date '+%Y-%m-%d')
 NOW=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
-NOW_LOCAL=$(TZ="Australia/Melbourne" date '+%Y-%m-%d %H:%M %Z')
+NOW_LOCAL=$(TZ="Asia/Kuala_Lumpur" date '+%Y-%m-%d %H:%M %Z')
 REPORT="$STATE_DIR/auto-heal-${TODAY}.json"
 LOG="$STATE_DIR/auto-heal-${TODAY}.log"
 STATE_TMP="$STATE_DIR/auto-heal-current.json"
@@ -3042,7 +3042,7 @@ fi
 # Scrapes ollama.com/settings via browser automation for real request counts.
 # Updates cost-state.json with live data from Ollama's own dashboard.
 # Requires: browser running + signed into ollama.com.
-# Window: Monday 10:00 AEST → next Monday 10:00 AEST.
+# Window: Monday 10:00 MYT → next Monday 10:00 MYT.
 log "CHECK 38: ollama usage scraper (TKT-0533)"
 CHECKS_RUN+=("ollama_usage_scraper")
 

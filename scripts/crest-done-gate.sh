@@ -30,7 +30,7 @@ if [[ -z "$TKT_ID" ]]; then
   exit 1
 fi
 
-NOW=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+NOW=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
 FAILURES=()
 
 # ─── CHECK 1: Master Synthesize report exists ──────────────────────

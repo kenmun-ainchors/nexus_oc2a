@@ -5,7 +5,7 @@ Updates cost-state.json → turnsLimit with live data from Ollama's own dashboar
 
 Tracks Ollama's TWO native windows:
   - Session: resets every ~6h (shown on dashboard)
-  - Weekly: resets Monday 00:00 UTC (Monday 10:00 AEST)
+  - Weekly: resets Monday 00:00 UTC (Monday 08:00 MYT)
 
 Prerequisites:
   - OpenClaw browser must be running
@@ -23,7 +23,7 @@ from datetime import datetime, timezone, timedelta
 
 WORKSPACE = os.environ.get("WORKSPACE", os.path.expanduser("~/.openclaw/workspace"))
 COST_STATE = os.path.join(WORKSPACE, "state/cost-state.json")
-AEST = timezone(timedelta(hours=10))
+AEST = timezone(timedelta(hours=8))  # was hours=10 (AEST); CHG-0913: now Asia/Kuala_Lumpur (MYT)
 
 MODE = "update"
 if "--report" in sys.argv:
@@ -120,7 +120,7 @@ if weekly_total == 0:
 SESSION_LIMIT = round(session_total / (session_pct / 100)) if session_pct > 0 else 0
 WEEKLY_LIMIT = round(weekly_total / (weekly_pct / 100)) if weekly_pct > 0 else 0
 
-# --- Burn rate since Monday 10:00 AEST (Ollama weekly reset = Mon 00:00 UTC = Mon 10:00 AEST) ---
+# --- Burn rate since Monday 10:00 MYT (Ollama weekly reset = Mon 00:00 UTC = Mon 08:00 MYT) ---
 now = datetime.now(AEST)
 days_since_mon = now.weekday()
 monday = now - timedelta(days=days_since_mon)

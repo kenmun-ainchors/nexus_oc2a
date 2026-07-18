@@ -43,31 +43,31 @@ out_file      = reports_dir / f"sla-{MONTH}.md"
 month_label   = datetime(year, mon, 1).strftime("%B %Y")
 
 # AInchors ops commenced 2026-04-25 (partial months handled here)
-OPS_START = datetime(2026, 4, 25, 0, 0, 0, tzinfo=timezone(timedelta(hours=10)))
+OPS_START = datetime(2026, 4, 25, 0, 0, 0, tzinfo=timezone(timedelta(hours=8)))
 
-now_aest  = datetime.now(timezone(timedelta(hours=10)))
+now_aest  = datetime.now(timezone(timedelta(hours=8)))
 is_current = (year == now_aest.year and mon == now_aest.month)
 
 # Period boundaries
 if year < 2026 or (year == 2026 and mon < 4):
-    period_start = datetime(year, mon, 1, 0, 0, 0, tzinfo=timezone(timedelta(hours=10)))
+    period_start = datetime(year, mon, 1, 0, 0, 0, tzinfo=timezone(timedelta(hours=8)))
 elif year == 2026 and mon == 4:
     period_start = OPS_START
 else:
-    period_start = datetime(year, mon, 1, 0, 0, 0, tzinfo=timezone(timedelta(hours=10)))
+    period_start = datetime(year, mon, 1, 0, 0, 0, tzinfo=timezone(timedelta(hours=8)))
 
 if is_current:
     period_end = now_aest
 else:
     if mon == 12:
-        period_end = datetime(year + 1, 1, 1, tzinfo=timezone(timedelta(hours=10))) - timedelta(seconds=1)
+        period_end = datetime(year + 1, 1, 1, tzinfo=timezone(timedelta(hours=8))) - timedelta(seconds=1)
     else:
-        period_end = datetime(year, mon + 1, 1, tzinfo=timezone(timedelta(hours=10))) - timedelta(seconds=1)
+        period_end = datetime(year, mon + 1, 1, tzinfo=timezone(timedelta(hours=8))) - timedelta(seconds=1)
 
 delta_minutes = int((period_end - period_start).total_seconds() / 60)
 partial_month = (period_start.day != 1)
 
-generated_at  = now_aest.strftime("%Y-%m-%d %H:%M AEST")
+generated_at  = now_aest.strftime("%Y-%m-%d %H:%M MYT")
 
 # ============================================================
 # 1. INCIDENTS
@@ -260,7 +260,7 @@ if incidents:
     for inc in incidents:
         iid  = inc.get("id", "—")
         sev  = inc.get("severity", "—")
-        ts   = datetime.fromisoformat(inc["startedAt"]).strftime("%Y-%m-%d %H:%M AEST")
+        ts   = datetime.fromisoformat(inc["startedAt"]).strftime("%Y-%m-%d %H:%M MYT")
         dur  = inc.get("durationMinutes", 0)
         prev = "Yes" if inc.get("preventable", False) else "No"
         chg  = inc.get("linkedChg") or "—"
@@ -318,7 +318,7 @@ if partial_month:
 
 recs_md = "\n".join(f"- {r}" for r in recs)
 
-inc_table = f"""| ID | Sev | Started (AEST) | Title | Duration | Preventable | Linked CHG |
+inc_table = f"""| ID | Sev | Started (MYT) | Title | Duration | Preventable | Linked CHG |
 |----|-----|----------------|-------|----------|-------------|------------|
 {inc_table_rows}"""
 
@@ -355,7 +355,7 @@ _Generated: {generated_at} by Yoda (AI Ops)_
 
 ## Availability
 
-- **Monitored period:** {period_start.strftime("%Y-%m-%d %H:%M AEST")} to {period_end.strftime("%Y-%m-%d %H:%M AEST")}
+- **Monitored period:** {period_start.strftime("%Y-%m-%d %H:%M MYT")} to {period_end.strftime("%Y-%m-%d %H:%M MYT")}
 - **Total minutes:** {delta_minutes:,}
 - **Downtime minutes:** {total_downtime_min}
 - **Uptime minutes:** {uptime_min:,}

@@ -43,7 +43,7 @@ CRIT_RSS_MB=4096
 mkdir -p "$STATE_DIR"
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-AEST_TIMESTAMP=$(TZ="Australia/Sydney" date +"%Y-%m-%dT%H:%M:%S%z" 2>/dev/null || date +"%Y-%m-%dT%H:%M:%S%z")
+LOCAL_TIMESTAMP=$(TZ="Asia/Kuala_Lumpur" date +"%Y-%m-%dT%H:%M:%S%z" 2>/dev/null || date +"%Y-%m-%dT%H:%M:%S%z")
 
 # --- Find the REAL gateway PID -------------------------------------------------
 # 1) Primary: lsof on the production port (most reliable — only one process
@@ -124,7 +124,7 @@ DISK_USAGE_PCT=$(echo "$df_output" | awk '{print $5}' | tr -d '%' || echo "0")
 cat > "$HEAP_STATE_FILE" <<EOF
 {
   "timestamp": "$TIMESTAMP",
-  "aestTimestamp": "$AEST_TIMESTAMP",
+  "localTimestamp": "$LOCAL_TIMESTAMP",
   "gateway": {
     "pid": "$GATEWAY_PID",
     "port": $GATEWAY_PORT,

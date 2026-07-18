@@ -21,6 +21,32 @@ STALE_THRESHOLD_MIN=1440 # Flag state files if older than this (minutes) — 24h
 LOCK_STALE_MIN=5         # Clear lock files older than this (minutes)
 DISK_ALERT_PCT=85        # Alert if disk usage exceeds this percentage
 
+# TKT-1010 / CHG-0914: separate freshness check from ad-hoc runner.
+#   heartbeat = scheduled cron run (the 15min "AInchors Gateway Health Check").
+#   ad-hoc    = manual invocation (e.g. an agent running it interactively, or
+#               a one-off diagnostic). The script's OWN state files appear stale
+#               to a freshness check that compares against `now`, because the
+#               cost-state.json is only updated by the cost-tracker (not by
+#               health-check.sh), and health-state.json is only written at the
+#               END of this script. In ad-hoc mode we log the freshness info
+#               for the operator but do NOT let it flip the overall status —
+#               that would be a self-staleness false positive.
+#   auto      = detect from environment. The cron sets HEALTH_CHECK_MODE=heartbeat
+#               in the cron payload. Anything else (or unset) is treated as ad-hoc.
+HEALTH_CHECK_MODE="${HEALTH_CHECK_MODE:-auto}"
+HEARTBEAT_FILE="$HOME/.openclaw/workspace/state/health-state-heartbeat.json"
+case "$HEALTH_CHECK_MODE" in
+  heartbeat)  RUN_MODE="heartbeat" ;;
+  ad-hoc|adhoc|manual) RUN_MODE="ad-hoc" ;;
+  *)
+    if [[ -n "${HEALTH_CHECK_CRON_ID:-}" || -n "${HEALTH_CHECK_HEARTBEAT:-}" ]]; then
+      RUN_MODE="heartbeat"
+    else
+      RUN_MODE="ad-hoc"
+    fi
+    ;;
+esac
+
 mkdir -p "$(dirname $LOG)"
 mkdir -p "$(dirname $STATE_FILE)"
 
@@ -116,6 +142,13 @@ else
 fi
 
 # ── CHECK 4: State file freshness ─────────────────────────────────────────────
+# TKT-1010 / CHG-0914: self-staleness false positive fix.
+#   In heartbeat mode, the staleness check is authoritative — stale state files
+#   flip the overall status to degraded (this is what the cron expects).
+#   In ad-hoc mode, we LOG the staleness for the operator but do NOT flip
+#   the overall status. The freshness check is still reported in the state
+#   JSON (informational), so the operator can see "ad-hoc: cost-state is 30h old"
+#   without the script self-flagging as degraded for running itself.
 check_state_age() {
   local file="$1"
   local label="$2"
@@ -128,14 +161,32 @@ check_state_age() {
   local age_min=$(( (now_epoch - file_epoch) / 60 ))
   if (( age_min > STALE_THRESHOLD_MIN )); then
     if [[ "$label" == "health-state" ]]; then CHECK_health_state="stale"; else CHECK_cost_state="stale"; fi
-    [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
-    ISSUES+=("$label is stale (${age_min} min since last update)")
-    log "CHECK $label age: STALE (${age_min} min old — threshold: ${STALE_THRESHOLD_MIN} min)"
+    if [[ "$RUN_MODE" == "heartbeat" ]]; then
+      [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
+      ISSUES+=("$label is stale (${age_min} min since last update)")
+      log "CHECK $label age: STALE (${age_min} min old — threshold: ${STALE_THRESHOLD_MIN} min) [heartbeat mode — flagged]"
+    else
+      log "CHECK $label age: STALE (${age_min} min old — threshold: ${STALE_THRESHOLD_MIN} min) [ad-hoc mode — informational only, not flagged]"
+    fi
   else
     if [[ "$label" == "health-state" ]]; then CHECK_health_state="ok"; else CHECK_cost_state="ok"; fi
     log "CHECK $label age: OK (${age_min} min old)"
   fi
 }
+
+# TKT-1010: In ad-hoc mode, log the last background heartbeat (if recorded) so
+# the operator can see when the cron last ran without having to cross-reference
+# the openclaw cron list.
+if [[ "$RUN_MODE" == "ad-hoc" ]]; then
+  HEARTBEAT_FILE_NEW="$HOME/.openclaw/workspace/state/health-state-last-bg-run.json"
+  if [[ -f "$HEARTBEAT_FILE_NEW" ]]; then
+    BG_EPOCH=$(python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print(d.get('heartbeatEpoch',0))" "$HEARTBEAT_FILE_NEW" 2>/dev/null || echo 0)
+    if (( BG_EPOCH > 0 )); then
+      BG_AGE=$(( ($(date +%s) - BG_EPOCH) / 60 ))
+      log "INFO: last background heartbeat was ${BG_AGE} min ago (file: $HEARTBEAT_FILE_NEW)"
+    fi
+  fi
+fi
 
 check_state_age "$STATE_FILE" "health-state"
 check_state_age "$COST_STATE" "cost-state"
@@ -318,7 +369,7 @@ state = {
   "overallStatus": "critical",
   "consecutiveFailures": $NEW_FAILURES,
   "alerted": $([[ "$ALERTED" == "true" ]] && echo 'True' || echo 'False'),
-  "lastCheck": "$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)",
+  "lastCheck": "$(TZ=Asia/Kuala_Lumpur date +%Y-%m-%dT%H:%M:%S%z)",
   "issues": $(python3 -c "import json; print(json.dumps(${ISSUES[@]}))" 2>/dev/null || echo '[]'),
   "ollamaReachable": False,
   "checks": {
@@ -388,10 +439,11 @@ from datetime import datetime, timezone
 state = {
   "status": "$OVERALL_STATUS",
   "overallStatus": "$OVERALL_STATUS",
+  "runMode": "$RUN_MODE",
   "consecutiveFailures": 0,
   "alerted": False,
-  "lastCheck": "$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)",
-  "lastOk": "$(TZ=Australia/Melbourne date +%Y-%m-%dT%H:%M:%S%z)",
+  "lastCheck": "$(TZ=Asia/Kuala_Lumpur date +%Y-%m-%dT%H:%M:%S%z)",
+  "lastOk": "$(TZ=Asia/Kuala_Lumpur date +%Y-%m-%dT%H:%M:%S%z)",
   "exitCode": $EXIT_CODE,
   "issues": $ISSUES_JSON,
   "ollamaReachable": $([ "$OLLAMA_API_REACHABLE" = "1" ] && echo True || echo False),
@@ -414,6 +466,32 @@ PYEOF
   else
     log "STATUS: ok — all checks passed"
   fi
+fi
+
+
+# ── TKT-1010: write background-heartbeat marker when in heartbeat mode ──────
+# This file is read by ad-hoc runs to show "last background heartbeat was N
+# min ago" without forcing the freshness check to flip overall status.
+if [[ "$RUN_MODE" == "heartbeat" ]]; then
+  HB_FILE="$HOME/.openclaw/workspace/state/health-state-last-bg-run.json"
+  HB_EPOCH=$(date +%s)
+  HB_ISO=$(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%dT%H:%M:%S%z')
+  python3 - << HBEOF
+import json, os
+hbfile = "$HB_FILE"
+os.makedirs(os.path.dirname(hbfile), exist_ok=True)
+data = {
+  "heartbeatEpoch": $HB_EPOCH,
+  "heartbeatIso": "$HB_ISO",
+  "overallStatus": "${OVERALL_STATUS:-unknown}",
+  "exitCode": ${EXIT_CODE:-0}
+}
+tmp = hbfile + ".tmp"
+with open(tmp, "w") as f:
+    json.dump(data, f, indent=2)
+os.replace(tmp, hbfile)
+HBEOF
+  log "HEARTBEAT: wrote marker to $HB_FILE (epoch=$HB_EPOCH, status=${OVERALL_STATUS:-unknown})"
 fi
 
 
@@ -469,7 +547,7 @@ UEOF
 PROCESS_HISTORY="$HOME/.openclaw/workspace/state/process-count-history.json"
 PCOUNT=$(ps aux 2>/dev/null | wc -l | tr -d ' ')
 ULIMIT_U=$(ulimit -u 2>/dev/null || echo 0)
-NOW_ISO=$(TZ=Australia/Melbourne date '+%Y-%m-%dT%H:%M:%S%z')
+NOW_ISO=$(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%dT%H:%M:%S%z')
 
 python3 - << PHEOF
 import json, os

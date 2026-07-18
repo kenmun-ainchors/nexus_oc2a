@@ -3,7 +3,7 @@
 # Deterministic EOD journal finalizer called by cron 4d926b2c.
 # Usage: bash scripts/eod-journal-finalizer.sh [--dry-run] [--date YYYY-MM-DD]
 #   --dry-run: print what would be done without making changes
-#   --date: override target date (default: today's date in Australia/Melbourne)
+#   --date: override target date (default: today's date in Asia/Kuala_Lumpur)
 
 set -euo pipefail
 
@@ -30,14 +30,14 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Determine target date (AEST)
+# Determine target date (local Asia/Kuala_Lumpur)
 if [[ -z "$TARGET_DATE" ]]; then
-  TARGET_DATE=$(TZ=Australia/Melbourne date +%Y-%m-%d)
+  TARGET_DATE=$(TZ=Asia/Kuala_Lumpur date +%Y-%m-%d)
 fi
 
 # Calculate day number (epoch 2026-04-25 = Day 1)
-EPOCH_SECONDS=$(TZ=Australia/Melbourne date -j -f "%Y-%m-%d" "2026-04-25" "+%s" 2>/dev/null || echo 0)
-TARGET_SECONDS=$(TZ=Australia/Melbourne date -j -f "%Y-%m-%d" "$TARGET_DATE" "+%s" 2>/dev/null || echo 0)
+EPOCH_SECONDS=$(TZ=Asia/Kuala_Lumpur date -j -f "%Y-%m-%d" "2026-04-25" "+%s" 2>/dev/null || echo 0)
+TARGET_SECONDS=$(TZ=Asia/Kuala_Lumpur date -j -f "%Y-%m-%d" "$TARGET_DATE" "+%s" 2>/dev/null || echo 0)
 if [[ "$EPOCH_SECONDS" -gt 0 && "$TARGET_SECONDS" -gt 0 ]]; then
   DAY_NUM=$(( (TARGET_SECONDS - EPOCH_SECONDS) / 86400 + 1 ))
 else
@@ -168,7 +168,7 @@ log "Journal: $ENTRY_COUNT entries, $FILE_SIZE bytes"
 OVERVIEW_HEADER=$(cat << EOF
 # AInchors Day ${DAY_NUM} Journal — ${TARGET_DATE}
 _Author: Yoda 🟢 | For: Ken Mun (CTO) | Private — personal review only_
-_Finalized: 23:55 AEST_
+_Finalized: 23:55 MYT_
 
 ## Session Overview
 - [X] ${ENTRY_COUNT} entries logged today across sessions (webchat + Telegram)

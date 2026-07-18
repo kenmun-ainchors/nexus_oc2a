@@ -26,7 +26,7 @@ set -uo pipefail
 
 SCRIPT_DIR_SA="$(cd "$(dirname "$0")" && pwd)"
 LOG="/Users/ainchorsoc2a/.openclaw/workspace/state/sovereign-alert.log"
-TS=$(date '+%Y-%m-%d %H:%M:%S AEST')
+TS=$(date +'%Y-%m-%d %H:%M:%S MYT')
 
 # TKT-1004 (CHG-0898) + CHG-0799: default to BOTH Ken + Angie.
 # Override with --single-recipient for tests / one-off pings.

@@ -69,7 +69,7 @@ _uuid() {
 
 # ISO8601 timestamp with timezone
 _ts() {
-    TZ=Australia/Melbourne date '+%Y-%m-%dT%H:%M:%S%z'
+    TZ=Asia/Kuala_Lumpur date '+%Y-%m-%dT%H:%M:%S%z'
 }
 
 # Process count

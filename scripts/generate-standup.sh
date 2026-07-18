@@ -27,7 +27,7 @@ COST_FILE="${WORKSPACE}/state/cost-state.json"
 BACKUP_FILE="${WORKSPACE}/state/backup-state.json"
 AUTOHEAL_FILE="${WORKSPACE}/state/auto-heal-current.json"
 AUTOHEAL_FALLBACK_FILE="${WORKSPACE}/state/auto-heal-state.json"
-AUTOHEAL_DATED_FILE="${WORKSPACE}/state/auto-heal-$(TZ=Australia/Sydney date -v-1d '+%Y-%m-%d').json"
+AUTOHEAL_DATED_FILE="${WORKSPACE}/state/auto-heal-$(TZ=Asia/Kuala_Lumpur date -v-1d '+%Y-%m-%d').json"
 CHANGELOG="${WORKSPACE}/memory/CHANGELOG.md"
 DAILY_NOTE="${WORKSPACE}/state/daily-note.json"
 COMPOSER_FILE="${WORKSPACE}/.openclaw/tmp/standup-composer-input.json"
@@ -110,7 +110,7 @@ fi
 
 # Build source list for footer
 SOURCE_LIST="Aria brief $(head -1 "${WORKSPACE}/state/aria-daily-brief.md" 2>/dev/null | grep -oE '2026-[0-9][0-9]-[0-9][0-9]' || echo ''), "
-for day in "$(TZ=Australia/Sydney date '+%Y-%m-%d')" "$(TZ=Australia/Sydney date -v-1d '+%Y-%m-%d')"; do
+for day in "$(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%d')" "$(TZ=Asia/Kuala_Lumpur date -v-1d '+%Y-%m-%d')"; do
     if [[ -f "${WORKSPACE}/memory/journal-${day}.md" ]]; then
         SOURCE_LIST+="journal ${day}, "
     fi
@@ -169,7 +169,7 @@ def escape(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 # ── Date / day ───────────────────────────────────────────────────────────────
-aest = timezone(timedelta(hours=10))
+aest = timezone(timedelta(hours=8))
 now_aest = datetime.now(timezone.utc).astimezone(aest)
 today_str = now_aest.date().isoformat()
 day_n = day_number(now_aest.date())
@@ -616,7 +616,7 @@ html = f"""<!DOCTYPE html>
 
   <div class="header">
     <h1>☀️ AInchors Morning Stand-Up — Day {day_n}</h1>
-    <div class="sub">{fmt_date(now_aest.date())} · 8:00 AM AEST</div>
+    <div class="sub">{fmt_date(now_aest.date())} · 8:00 AM MYT</div>
     <div class="meta">
       <span class="pill {header_pill}">{header_text}</span>
       <span class="pill pill-blue">💰 {escape(balance_str)}</span>
@@ -649,7 +649,7 @@ html = f"""<!DOCTYPE html>
       <div class="card card-info">
         <div class="card-label">Auto-Heal</div>
         <div class="card-value">🟢 Ran</div>
-        <div class="card-sub">01:00 AEST today</div>
+        <div class="card-sub">01:00 MYT today</div>
       </div>
     </div>
     <div class="card-grid">
@@ -714,9 +714,9 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="section">
-    <h2>4 · Auto-Heal (Yesterday — {fmt_date(yesterday_dt)}, 01:00 AEST)</h2>
+    <h2>4 · Auto-Heal (Yesterday — {fmt_date(yesterday_dt)}, 01:00 MYT)</h2>
     <div class="alert-info" style="margin-bottom:8px;font-size:12px;">
-      <strong>Schedule:</strong> Daily 01:00 AEST · {escape(str(autoheal_current.get('checks_count',0)))} checks · Source: {escape(autoheal_current_source)}
+      <strong>Schedule:</strong> Daily 01:00 MYT · {escape(str(autoheal_current.get('checks_count',0)))} checks · Source: {escape(autoheal_current_source)}
     </div>
     <div>{autoheal_html}</div>
   </div>
@@ -788,7 +788,7 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="footer">
-    AInchors Nexus Platform · Generated at {now_aest.strftime('%H:%M AEST')} · Day {day_n}<br>
+    AInchors Nexus Platform · Generated at {now_aest.strftime('%H:%M MYT')} · Day {day_n}<br>
     Composer model: {escape(composer_model)} · {escape(source_footer)}<br>
     <span style="font-size:11px;opacity:0.7;">Sources: {escape(source_file_list)}</span>
   </div>
@@ -860,7 +860,7 @@ PG_CONN = {
     "dbname": os.environ.get("PGDATABASE", "ainchors_nexus"),
 }
 
-aest = timezone(timedelta(hours=10))
+aest = timezone(timedelta(hours=8))
 now_aest = datetime.now(timezone.utc).astimezone(aest)
 today_str = now_aest.date().isoformat()
 start = datetime(2026, 4, 25).date()
@@ -934,6 +934,6 @@ except Exception as e:
     print(f"[standup] PG write ERROR: {e}", file=sys.stderr)
 PYEOF
 
-echo "[standup] generated for $(TZ=Australia/Sydney date '+%Y-%m-%d %H:%M AEST')"
+echo "[standup] generated for $(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%d %H:%M MYT')"
 
-echo "[standup] generated for $(TZ=Australia/Sydney date '+%Y-%m-%d %H:%M AEST')"
+echo "[standup] generated for $(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%d %H:%M MYT')"

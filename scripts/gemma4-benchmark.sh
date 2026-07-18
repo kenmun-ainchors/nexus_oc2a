@@ -9,7 +9,7 @@ set -euo pipefail
 MODEL="${1:-gemma4:e4b}"
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 RESULTS_DIR="$WORKSPACE/state/benchmark"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 STAMP=$(date +"%Y%m%d-%H%M%S")
 RESULT_FILE="$RESULTS_DIR/gemma4-bench-${MODEL//[:\/]/-}-$STAMP.json"
 

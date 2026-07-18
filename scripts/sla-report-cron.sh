@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # sla-report-cron.sh — Monthly SLA Report cron wrapper
-# Computes the previous month in AEST and invokes sla-report.sh.
+# Computes the previous month in Asia/Kuala_Lumpur (MYT) and invokes sla-report.sh.
 # Run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sla-report-cron.sh
 
 set -euo pipefail
@@ -8,7 +8,7 @@ set -euo pipefail
 WORKSPACE="${WORKSPACE:-/Users/ainchorsoc2a/.openclaw/workspace}"
 
 # Previous month in YYYY-MM (macOS/BSD date compatible)
-PREV_MONTH=$(python3 -c "from datetime import datetime, timedelta; d=datetime.now()+timedelta(hours=10)-timedelta(days=1); d=d.replace(day=1)-timedelta(days=1); print(f'{d.year:04d}-{d.month:02d}')")
+PREV_MONTH=$(python3 -c "from datetime import datetime, timedelta; d=datetime.now()+timedelta(hours=8)-timedelta(days=1); d=d.replace(day=1)-timedelta(days=1); print(f'{d.year:04d}-{d.month:02d}')")
 
 echo "[sla-report] generating for $PREV_MONTH"
 

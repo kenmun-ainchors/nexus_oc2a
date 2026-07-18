@@ -21,7 +21,7 @@ WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 DB_SCRIPT="/scripts/db-raw.sh"
 REPORT_FILE="$WORKSPACE/state/aria-crest-compliance.json"
 ALERT_FILE="$WORKSPACE/state/aria-crest-alert.json"
-NOW=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+NOW=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
 
 # Initialize
 VIOLATIONS=()

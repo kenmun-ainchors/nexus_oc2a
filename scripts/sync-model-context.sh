@@ -16,12 +16,12 @@ STATE_DIR="$WORKSPACE/state"
 LOG_FILE="$STATE_DIR/model-context-sync.log"
 REGISTRY_FILE="$STATE_DIR/model-context-registry.json"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+LOCAL_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 
 mkdir -p "$STATE_DIR"
 
 log() {
-  echo "[$AEST_TIMESTAMP] $*" | tee -a "$LOG_FILE"
+  echo "[$LOCAL_TIMESTAMP] $*" | tee -a "$LOG_FILE"
 }
 
 # ── Step 1: Query Ollama API ─────────────────────────────────────────────
@@ -178,7 +178,7 @@ print(f"Registry written: {len(models)} models")
 print(f"PG updated: {len(models)} models")
 print("")
 print("═══════════════════════════════════════════════════════════════")
-print(f"  Model Context Sync — {datetime.now().strftime('%Y-%m-%dT%H:%M:%S+10:00')}")
+print(f"  Model Context Sync — {datetime.now().strftime('%Y-%m-%dT%H:%M:%S+08:00')}")
 print(f"  API available: {api_available}")
 print("═══════════════════════════════════════════════════════════════")
 for m in models:
@@ -188,4 +188,4 @@ for m in models:
 print("═══════════════════════════════════════════════════════════════")
 PYEOF
 
-echo "[$AEST_TIMESTAMP] Sync complete." >> "$LOG_FILE"
+echo "[$LOCAL_TIMESTAMP] Sync complete." >> "$LOG_FILE"

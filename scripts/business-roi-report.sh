@@ -28,7 +28,7 @@ roi_ratio = round(bv / tech_aud, 1) if tech_aud > 0 else 0
 print(f"""
 ╔══════════════════════════════════════════════════════════════════╗
   💼  AINCHORS BUSINESS ROI REPORT
-  Generated: {datetime.now().strftime('%Y-%m-%d %H:%M AEST')}
+  Generated: {datetime.now().strftime('%Y-%m-%d %H:%M MYT')}
 ╚══════════════════════════════════════════════════════════════════╝
 
   ┌─ TECHNOLOGY INVESTMENT (what we spent) ────────────────────┐

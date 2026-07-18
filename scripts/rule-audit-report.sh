@@ -2,7 +2,7 @@
 # AInchors Weekly Compliance Report — TKT-0237 B2
 # Generates HTML canvas report from rule-audit-report.json history.
 # Delivers Telegram flash + webchat embed (Telegram-only per CHG-0906).
-# Runs Monday 09:00 AEST. Owner: Warden | Sprint 4.
+# Runs Monday 09:00 MYT. Owner: Warden | Sprint 4.
 # CHG-0906: WEEK_END is previous Sunday (not run date). Run rule-audit.sh
 #   if state/rule-audit-report.json is missing/stale so the report never
 #   silently scores 0 from a placeholder. Email delivery removed — Ken
@@ -17,14 +17,14 @@ REPORT_DIR="$WORKSPACE_ROOT/canvas/documents/rule-audit-weekly"
 REPORT_HTML="$REPORT_DIR/index.html"
 
 # ──────────────────────────────────────────
-# Determine reporting window (AEST)
+# Determine reporting window (MYT)
 # ──────────────────────────────────────────
-# Cron runs Mon 09:00 AEST; WEEK_END must be the previous Sunday.
+# Cron runs Mon 09:00 MYT; WEEK_END must be the previous Sunday.
 # Use DOW (1=Mon..7=Sun ISO) and subtract that many days on macOS BSD date.
-TODAY=$(TZ=Australia/Melbourne date '+%Y-%m-%d')
-NOW_ISO=$(TZ=Australia/Melbourne date -Iseconds)
-DOW=$(TZ=Australia/Melbourne date '+%u')
-WEEK_END=$(TZ=Australia/Melbourne date -v -${DOW}d '+%d %b %Y')
+TODAY=$(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%d')
+NOW_ISO=$(TZ=Asia/Kuala_Lumpur date -Iseconds)
+DOW=$(TZ=Asia/Kuala_Lumpur date '+%u')
+WEEK_END=$(TZ=Asia/Kuala_Lumpur date -v -${DOW}d '+%d %b %Y')
 
 SCORE=0
 PASS_COUNT=0

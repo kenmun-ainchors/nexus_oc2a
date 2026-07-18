@@ -107,7 +107,7 @@ if [[ -z "$CHG_NUM" || "$CHG_NUM" == "null" ]]; then
 fi
 CHG_ID=$(printf "CHG-%04d" "$CHG_NUM")
 
-TS=$(date '+%Y-%m-%d %H:%M AEST')
+TS=$(date +'%Y-%m-%d %H:%M MYT')
 
 # Build entry
 FRAMEWORK_LINE=""

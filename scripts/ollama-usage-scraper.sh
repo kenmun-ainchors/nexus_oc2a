@@ -117,10 +117,10 @@ WEEKLY_LIMIT=30000
 OUR_PCT=$(echo "scale=2; $WEEKLY_TOTAL * 100 / $WEEKLY_LIMIT" | bc | sed 's/^0*//; s/^\./0./')
 REMAINING=$(( WEEKLY_LIMIT - WEEKLY_TOTAL ))
 
-# Burn rate: requests per hour since Monday 10:00 AEST
-AEST_DOW=$(TZ=Australia/Melbourne date +%u)
-DAYS_SINCE_MON=$(( AEST_DOW - 1 ))
-WINDOW_START_EPOCH=$(TZ=Australia/Melbourne date -v-${DAYS_SINCE_MON}d -v10H -v0M -v0S +%s 2>/dev/null || echo 0)
+# Burn rate: requests per hour since Monday 10:00 MYT (Asia/Kuala_Lumpur)
+MYT_DOW=$(TZ=Asia/Kuala_Lumpur date +%u)
+DAYS_SINCE_MON=$(( MYT_DOW - 1 ))
+WINDOW_START_EPOCH=$(TZ=Asia/Kuala_Lumpur date -v-${DAYS_SINCE_MON}d -v10H -v0M -v0S +%s 2>/dev/null || echo 0)
 NOW_EPOCH=$(date +%s)
 HOURS_ELAPSED=$(echo "scale=2; ($NOW_EPOCH - $WINDOW_START_EPOCH) / 3600" | bc 2>/dev/null || echo 0)
 if [[ "$(echo "$HOURS_ELAPSED > 0" | bc 2>/dev/null)" == "1" ]]; then
@@ -133,7 +133,7 @@ fi
 if [[ "$(echo "$BURN_RATE > 0" | bc 2>/dev/null)" == "1" ]]; then
   HOURS_TO_EXHAUST=$(echo "scale=0; $REMAINING / $BURN_RATE" | bc)
   EXHAUST_EPOCH=$(( NOW_EPOCH + HOURS_TO_EXHAUST * 3600 ))
-  PROJ_EXHAUST=$(TZ=Australia/Melbourne date -r $EXHAUST_EPOCH +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || echo "unknown")
+  PROJ_EXHAUST=$(TZ=Asia/Kuala_Lumpur date -r $EXHAUST_EPOCH +%Y-%m-%dT%H:%M:%S%z 2>/dev/null || echo "unknown")
 else
   PROJ_EXHAUST="N/A"
 fi
@@ -174,8 +174,8 @@ if [[ ! -f "$COST_STATE" ]]; then
   exit 4
 fi
 
-WINDOW_START=$(TZ=Australia/Melbourne date -v-${DAYS_SINCE_MON}d -v10H -v0M -v0S +%Y-%m-%dT%H:%M:%S%z)
-WINDOW_END=$(TZ=Australia/Melbourne date -v+$((7 - DAYS_SINCE_MON))d -v10H -v0M -v0S +%Y-%m-%dT%H:%M:%S%z)
+WINDOW_START=$(TZ=Asia/Kuala_Lumpur date -v-${DAYS_SINCE_MON}d -v10H -v0M -v0S +%Y-%m-%dT%H:%M:%S%z)
+WINDOW_END=$(TZ=Asia/Kuala_Lumpur date -v+$((7 - DAYS_SINCE_MON))d -v10H -v0M -v0S +%Y-%m-%dT%H:%M:%S%z)
 
 TMPFILE=$(mktemp)
 $JQ --arg total "$WEEKLY_TOTAL" \

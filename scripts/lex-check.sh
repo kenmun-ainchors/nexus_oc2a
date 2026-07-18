@@ -9,7 +9,7 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 QA_LOG="$WORKSPACE/state/lex-qa-log.json"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 
 ASSET_PATH=""; ASSET_TYPE=""; BRIEF=""; INTENDED_FOR=""; PRODUCED_BY="yoda"
 
@@ -28,7 +28,7 @@ done
 
 echo ""
 echo "╔══════════════════════════════════════════════════════╗"
-echo "║  LEX ⚖️  Legal Gate — $(date '+%Y-%m-%d %H:%M AEST')          ║"
+echo "║  LEX ⚖️  Legal Gate — $(date +'%Y-%m-%d %H:%M MYT')          ║"
 echo "╠══════════════════════════════════════════════════════╣"
 echo "  Asset:        $(basename "$ASSET_PATH")"
 echo "  Intended for: $INTENDED_FOR"

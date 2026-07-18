@@ -21,7 +21,7 @@ mkdir -p "$(dirname "$STATE_FILE")"
 cd "$WORKSPACE_ROOT" || exit 1
 
 aesthetic_now() {
-  TZ=Australia/Melbourne date '+%Y-%m-%dT%H:%M:%S%z'
+  TZ=Asia/Kuala_Lumpur date '+%Y-%m-%dT%H:%M:%S%z'
 }
 
 NOW=$(aesthetic_now)

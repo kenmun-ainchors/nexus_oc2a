@@ -32,7 +32,7 @@ MAX_CONTEXT_RATIO=75            # percentage of contextTokens used
 AVG_TOKENS_PER_MSG=750
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S%z")
+LOCAL_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S%z")
 
 find_dashboard_session() {
   $OPENCLAW_BIN sessions list --agent main --active 1440 --json 2>/dev/null
@@ -129,7 +129,7 @@ if [[ "$WARNING" == "true" ]]; then
   cat > "$WARNING_FILE" <<EOF
 {
   "timestamp": "$TIMESTAMP",
-  "aestTimestamp": "$AEST_TIMESTAMP",
+  "localTimestamp": "$LOCAL_TIMESTAMP",
   "sessionKey": "$SESSION_KEY",
   "sessionId": "$SESSION_ID",
   "totalTokens": $TOTAL_TOKENS,
@@ -156,7 +156,7 @@ else
   cat > "$OK_FILE" <<EOF
 {
   "timestamp": "$TIMESTAMP",
-  "aestTimestamp": "$AEST_TIMESTAMP",
+  "localTimestamp": "$LOCAL_TIMESTAMP",
   "sessionKey": "$SESSION_KEY",
   "sessionId": "$SESSION_ID",
   "totalTokens": $TOTAL_TOKENS,

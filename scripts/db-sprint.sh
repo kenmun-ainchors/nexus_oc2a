@@ -320,7 +320,7 @@ cmd_commit() {
     --arg seq "$seq" \
     --arg effort "$effort" \
     --arg agent "$agent" \
-    --arg ts "$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')" \
+    --arg ts "$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')" \
     '. + {
       sprint_target: $sprint,
       sprint_seq: ($seq | tonumber),
@@ -749,7 +749,7 @@ cmd_defer() {
     --arg to "$target_sprint" \
     --arg from "${from_sprint:-$current_sprint}" \
     --arg reason "$reason" \
-    --arg ts "$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')" \
+    --arg ts "$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')" \
     '. + {
       sprint_target: $to,
       deferred: true,
@@ -1080,7 +1080,7 @@ cache = {
     'ceremoniesCompleted': ceremonies,
     'auto_generated': True,
     'source': 'PG state_sprints',
-    'generated_at': '$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')'
+    'generated_at': '$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')'
 }
 
 print(json.dumps(cache, indent=2))
@@ -1154,7 +1154,7 @@ cmd_export() {
 
   # Build derived export JSON
   local ts
-  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
 
   local export_json
   export_json=$(echo "$sprint_json" | $JQ     --argjson ticket_count "${ticket_count:-0}"     --argjson done_count "${done_count:-0}"     --argjson open_count "${open_count:-0}"     --argjson in_progress_count "${in_progress_count:-0}"     --arg ts "$ts"     --arg sprint_name "$sprint_name"     '{
@@ -1236,7 +1236,7 @@ cmd_ceremony() {
   log "Logging $ceremony_key to PG state_sprints.ceremonies"
 
   local ts
-  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
 
   # Update ceremonies JSONB in PG
   local updated_ceremonies
@@ -1784,7 +1784,7 @@ cmd_complete() {
 
   local ceremony_key="sprint${sprint_num}Complete"
   local ts
-  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+10:00')
+  ts=$(date -u '+%Y-%m-%dT%H:%M:%S+08:00')
   local updated_ceremonies
   updated_ceremonies=$(echo "$current_ceremonies" | $JQ --arg key "$ceremony_key" --arg ts "$ts" '. + {($key): $ts}' 2>/dev/null)
   local escaped

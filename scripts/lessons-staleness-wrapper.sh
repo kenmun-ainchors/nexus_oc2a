@@ -8,7 +8,7 @@ set -u
 
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 FINDINGS="$WORKSPACE/state/warden-findings.jsonl"
-AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+LOCAL_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 
 mkdir -p "$(dirname "$FINDINGS")" 2>/dev/null || true
 
@@ -19,13 +19,13 @@ EXIT_CODE=$?
 # Read state file
 STATE_FILE="$WORKSPACE/state/lessons-staleness-state.json"
 if [[ ! -f "$STATE_FILE" ]]; then
-  echo "{\"check\":\"lessons-staleness\",\"timestamp\":\"$AEST_TIMESTAMP\",\"status\":\"error\",\"note\":\"state file missing\",\"exitCode\":$EXIT_CODE}" >> "$FINDINGS"
+  echo "{\"check\":\"lessons-staleness\",\"timestamp\":\"$LOCAL_TIMESTAMP\",\"status\":\"error\",\"note\":\"state file missing\",\"exitCode\":$EXIT_CODE}" >> "$FINDINGS"
   exit $EXIT_CODE
 fi
 
 # Append a single JSON line to warden-findings.jsonl
 # Schema: {check, timestamp, status, lessonId, ageDays, lastUpdated, exitCode, note}
-python3 - "$STATE_FILE" "$AEST_TIMESTAMP" "$EXIT_CODE" "$FINDINGS" <<'PYEOF'
+python3 - "$STATE_FILE" "$LOCAL_TIMESTAMP" "$EXIT_CODE" "$FINDINGS" <<'PYEOF'
 import json, sys
 state_file, ts, exit_code, findings = sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4]
 try:

@@ -14,14 +14,14 @@ LOG="$HOME/Backups/ainchors/logs/outage.log"
 STANDBY_FILE="$STATE/standby-mode.json"
 OUTAGE_STATE="$STATE/outage-alert-state.json"
 INC_SCRIPT="$WORKSPACE/scripts/incident-log.sh"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
-AEST=$(date +"%Y-%m-%d %H:%M AEST")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
+MYT=$(date +"%Y-%m-%d %H:%M MYT")
 
 mkdir -p "$(dirname $LOG)" "$STATE"
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] [OUTAGE] $1" | tee -a "$LOG"; }
 
-log "=== Outage Handler Triggered === $AEST"
+log "=== Outage Handler Triggered === $MYT"
 
 # ── Read current outage state ─────────────────────────────────────────────────
 ALREADY_ALERTED=false
@@ -103,7 +103,7 @@ json.dump(state, open('$OUTAGE_STATE','w'), indent=2)
     zsh "$INC_SCRIPT" \
       --title "Ollama Cloud outage — auto-detected" \
       --severity "P1" \
-      --description "Ollama Cloud unreachable. Health-check triggered outage handler at $AEST. Available fallback: $AVAILABLE_FALLBACK. Fallback chain status: $CHAIN_STATUS." \
+      --description "Ollama Cloud unreachable. Health-check triggered outage handler at $MYT. Available fallback: $AVAILABLE_FALLBACK. Fallback chain status: $CHAIN_STATUS." \
       >> "$LOG" 2>&1 || log "Incident log failed (non-blocking)"
   fi
 
@@ -119,7 +119,7 @@ banner_file = '$STATE/system-banner.json'
 banner = {
     'active': True,
     'type': 'warning',
-    'message': '⚠️ STANDBY MODE — Ollama Cloud unavailable since $AEST. Fallback: $AVAILABLE_FALLBACK. Check connectivity or restart Ollama.',
+    'message': '⚠️ STANDBY MODE — Ollama Cloud unavailable since $MYT. Fallback: $AVAILABLE_FALLBACK. Check connectivity or restart Ollama.',
     'since': '$OUTAGE_START',
     'dismissable': False
 }

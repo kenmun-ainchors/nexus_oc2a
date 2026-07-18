@@ -6,7 +6,7 @@
 export PATH="$PATH:/usr/local/bin"
 
 LOG_FILE="$HOME/.openclaw/workspace/state/delegation-log.json"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 DATE=$(date +"%Y-%m-%d")
 
 TIER=""; TASK_TYPE=""; MODEL=""; STATUS=""; LATENCY_MS="0"; NOTES=""

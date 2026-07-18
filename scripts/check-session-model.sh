@@ -38,7 +38,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+LOCAL_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 
 # ── Resolve expected primary from model-policy.json ──────────────────────────
 EXPECTED=$(python3 -c "
@@ -103,7 +103,7 @@ EXPECTED_SHORT="${EXPECTED#ollama/}"
 # ── Compare ──────────────────────────────────────────────────────────────────
 if [[ "$ACTUAL" == "$EXPECTED" || "$ACTUAL" == "$EXPECTED_SHORT" ]]; then
   if $JSON_MODE; then
-    echo "{\"status\":\"ok\",\"agentId\":\"$AGENT_ID\",\"expected\":\"$EXPECTED\",\"actual\":\"$ACTUAL\",\"checkedAt\":\"$AEST_TIMESTAMP\"}"
+    echo "{\"status\":\"ok\",\"agentId\":\"$AGENT_ID\",\"expected\":\"$EXPECTED\",\"actual\":\"$ACTUAL\",\"checkedAt\":\"$LOCAL_TIMESTAMP\"}"
   else
     echo "OK: agent:$AGENT_ID session model = $ACTUAL (expected: $EXPECTED)"
   fi
@@ -123,7 +123,7 @@ alert = {
     'agentId': '$AGENT_ID',
     'expected': '$EXPECTED',
     'actual': '$ACTUAL',
-    'detectedAt': '$AEST_TIMESTAMP',
+    'detectedAt': '$LOCAL_TIMESTAMP',
     'acknowledged': False,
     'autoFixed': $FIX_MODE
 }
@@ -161,7 +161,7 @@ emit_decision "session_model" "$AGENT_ID" \
 
 
 if $JSON_MODE; then
-  echo "{\"status\":\"drift\",\"agentId\":\"$AGENT_ID\",\"expected\":\"$EXPECTED\",\"actual\":\"$ACTUAL\",\"checkedAt\":\"$AEST_TIMESTAMP\",\"autoFixed\":$FIX_MODE}"
+  echo "{\"status\":\"drift\",\"agentId\":\"$AGENT_ID\",\"expected\":\"$EXPECTED\",\"actual\":\"$ACTUAL\",\"checkedAt\":\"$LOCAL_TIMESTAMP\",\"autoFixed\":$FIX_MODE}"
 fi
 
 exit 1

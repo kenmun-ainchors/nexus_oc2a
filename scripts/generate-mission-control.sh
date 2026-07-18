@@ -49,7 +49,7 @@ BACKLOG_DB  = os.environ["BACKLOG_DB"]
 
 NOW_UTC = datetime.now(timezone.utc)
 TODAY   = NOW_UTC.date().isoformat()
-AEST    = timezone(timedelta(hours=10))
+AEST    = timezone(timedelta(hours=8))
 NOW_AEST = NOW_UTC.astimezone(AEST)
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -356,7 +356,7 @@ for c in crons_raw:
 
 data = {
     "generatedAt": NOW_UTC.isoformat(),
-    "generatedAtAEST": NOW_AEST.strftime("%Y-%m-%d %H:%M AEST"),
+    "generatedAtLocal": NOW_AEST.strftime("%Y-%m-%d %H:%M MYT"),
     "gateway": {
         "status": gateway_status,
         "lastOk": gateway_uptime,
@@ -716,7 +716,7 @@ gov_html   = (
 )
 activity_rows = activity_html(recent_activity)
 
-generated_display = NOW_AEST.strftime("%H:%M AEST")
+generated_display = NOW_AEST.strftime("%H:%M MYT")
 gateway_display   = gateway_html(gateway_status)
 balance_display   = balance_html(balance_amount, balance_tier)
 

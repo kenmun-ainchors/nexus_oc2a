@@ -9,8 +9,8 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 RESULTS_FILE="$WORKSPACE/state/governance-results.json"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
-AEST=$(date +"%Y-%m-%d %H:%M AEST")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
+LOCAL=$(date +"%Y-%m-%d %H:%M MYT")
 
 ASSET_PATH=""; ASSET_TYPE=""; BRIEF=""; INTENDED_FOR=""; PRODUCED_BY="yoda"
 REPORT_ONLY=false
@@ -112,7 +112,7 @@ echo ""
 echo "════════════════════════════════════════════════════════════════"
 echo "  🏛️  GOVERNANCE GATE — RUNNING CHECKS"
 echo "  Asset: $(basename "$ASSET_PATH")"
-echo "  Time:  $AEST"
+echo "  Time:  $LOCAL"
 echo "════════════════════════════════════════════════════════════════"
 
 SHIELD_PASS=0; LEX_PASS=0; SAGE_PASS=0
@@ -156,7 +156,7 @@ SAGE_ICON="✅"; [ "$SAGE_PASS" = "1" ] || SAGE_ICON="❌"
 
 echo ""
 echo "════════════════════════════════════════════════════════════════"
-echo "  GOVERNANCE GATE COMPLETE — $AEST"
+echo "  GOVERNANCE GATE COMPLETE — $LOCAL"
 echo "  $OVERALL_ICON OVERALL: $OVERALL"
 echo "  $SHIELD_ICON Shield (Security)  $LEX_ICON Lex (Legal)  $SAGE_ICON Sage (QA)"
 echo "════════════════════════════════════════════════════════════════"
@@ -239,7 +239,7 @@ sg_icon = "OK" if sgp=="PASS" else "FAIL"
 print(f"  Model: [model] | Governance: {ov} (Shield:{s_icon} Lex:{l_icon} Sage:{sg_icon}) | /governance for report")
 GREOF
 
-python3 "$_GR_TMP" "$_SP" "$_LP" "$_SgP" "$_OV" "$AEST" "$ASSET_PATH" "$ASSET_TYPE" "$BRIEF" "$INTENDED_FOR" "$PRODUCED_BY"
+python3 "$_GR_TMP" "$_SP" "$_LP" "$_SgP" "$_OV" "$LOCAL" "$ASSET_PATH" "$ASSET_TYPE" "$BRIEF" "$INTENDED_FOR" "$PRODUCED_BY"
 rm -f "$_GR_TMP"
 
 # ── Dual-write to PG (TKT-0304) ────────────────────────────────────────────

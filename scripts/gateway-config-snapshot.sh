@@ -20,7 +20,7 @@ BASELINE_FILE="$STATE_DIR/critical-config-baseline.json"
 ENV_FILE="$HOME/.openclaw/service-env/ai.openclaw.gateway.env"
 CONFIG_FILE="$HOME/.openclaw/openclaw.json"
 TIMESTAMP=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
-TIMESTAMP_AEST=$(TZ=Australia/Melbourne date '+%Y-%m-%dT%H:%M:%S%z')
+TIMESTAMP_LOCAL=$(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%dT%H:%M:%S%z')
 
 MODE="${1:-snapshot}"
 
@@ -147,7 +147,7 @@ import json, sys
 snapshot = {
     'schemaVersion': 2,
     'lastSnapshot': '$TIMESTAMP',
-    'lastSnapshotAEST': '$TIMESTAMP_AEST',
+    'lastSnapshotAEST': '$TIMESTAMP_LOCAL',
     'openclawVersion': '$GW_VERSION',
     'configHash': '$CONFIG_HASH',
     'agentCount': $AGENT_COUNT,
@@ -169,7 +169,7 @@ with open('$BASELINE_FILE', 'w') as f:
 print('Snapshot written: $BASELINE_FILE')
 " 2>/dev/null
 
-  log "Snapshot complete: $TIMESTAMP_AEST"
+  log "Snapshot complete: $TIMESTAMP_LOCAL"
   echo "SNAPSHOT_OK: $BASELINE_FILE"
 }
 

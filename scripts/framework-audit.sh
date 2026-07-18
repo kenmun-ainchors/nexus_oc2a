@@ -118,7 +118,7 @@ for doc_path_str in sorted(all_docs_to_check):
         "path": doc_path_str,
         "exists": True,
         "updatedToday": updated_today,
-        "lastModified": datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M AEST")
+        "lastModified": datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M MYT")
     }
     checked.append(entry)
 

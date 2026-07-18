@@ -9,7 +9,7 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 QA_LOG="$WORKSPACE/state/sage-qa-log.json"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 
 ASSET_PATH=""; ASSET_TYPE=""; BRIEF=""; INTENDED_FOR=""; PRODUCED_BY="yoda"
 
@@ -29,7 +29,7 @@ done
 
 echo ""
 echo "╔══════════════════════════════════════════════════════╗"
-echo "║  SAGE 🧪 QA Gate — $(date '+%Y-%m-%d %H:%M AEST')         ║"
+echo "║  SAGE 🧪 QA Gate — $(date +'%Y-%m-%d %H:%M MYT')         ║"
 echo "╠══════════════════════════════════════════════════════╣"
 echo "  Asset:        $ASSET_PATH"
 echo "  Type:         $ASSET_TYPE"

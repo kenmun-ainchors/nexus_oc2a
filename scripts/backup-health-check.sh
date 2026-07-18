@@ -30,11 +30,11 @@ fi
 # Check freshness: backup must be within 25 hours
 # Parse timestamp — try ISO 8601 with timezone, then ISO 8601 Z, then YYYY-MM-DD-HHMM format
 BACKUP_EPOCH=0
-if [[ "$LAST_BACKUP" == *"+10:00"* ]] || [[ "$LAST_BACKUP" == *"+11:00"* ]]; then
+if [[ "$LAST_BACKUP" == *"+08:00"* ]] || [[ "$LAST_BACKUP" == *"+10:00"* ]] || [[ "$LAST_BACKUP" == *"+11:00"* ]]; then
     CLEAN_TS=$(echo "$LAST_BACKUP" | sed 's/\([+-][0-9][0-9]\):\([0-9][0-9]\)$/\1\2/')
     BACKUP_EPOCH=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$CLEAN_TS" +%s 2>/dev/null || echo "0")
 elif [[ "$LAST_BACKUP" == *"Z" ]]; then
-    # Parse as UTC — strip Z and use TZ=UTC so macOS date doesn't treat it as local AEST
+    # Parse as UTC — strip Z and use TZ=UTC so macOS date doesn't treat it as local MYT
     CLEAN_TS="${LAST_BACKUP%Z}"
     BACKUP_EPOCH=$(TZ=UTC date -j -f "%Y-%m-%dT%H:%M:%S" "$CLEAN_TS" +%s 2>/dev/null || echo "0")
 elif [[ "$LAST_BACKUP" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}$ ]]; then

@@ -9,7 +9,8 @@ set -u
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 LESSONS_FILE="${LESSONS_FILE:-$WORKSPACE/memory/LESSONS.md}"
 STATE="$WORKSPACE/state/lessons-staleness-state.json"
-AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
+# Note: variable name retained for backward compat with state schema; value is MYT (Asia/Kuala_Lumpur).
 TODAY=$(date +"%Y-%m-%d")
 
 # ── Source skill-gate for consistency with other domain scripts ──────────────

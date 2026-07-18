@@ -53,7 +53,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-AEST_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S%z")
+LOCAL_TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S%z")
 
 # ── Find the main dashboard/webchat session ──────────────────────────────────
 # We look at the most recently updated sessions for agent=main with kind=direct
@@ -197,7 +197,7 @@ if [[ "$OVERFLOW" == "true" ]]; then
   RESET_PAYLOAD=$(cat << EOF
 {
   "timestamp": "$TIMESTAMP",
-  "aestTimestamp": "$AEST_TIMESTAMP",
+  "localTimestamp": "$LOCAL_TIMESTAMP",
   "sessionKey": "$SESSION_KEY",
   "sessionId": "$SESSION_ID",
   "totalTokens": $TOTAL_TOKENS,
@@ -241,7 +241,7 @@ else
   OK_PAYLOAD=$(cat << EOF
 {
   "timestamp": "$TIMESTAMP",
-  "aestTimestamp": "$AEST_TIMESTAMP",
+  "localTimestamp": "$LOCAL_TIMESTAMP",
   "sessionKey": "$SESSION_KEY",
   "sessionId": "$SESSION_ID",
   "totalTokens": $TOTAL_TOKENS,

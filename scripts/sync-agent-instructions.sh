@@ -63,7 +63,7 @@ if ! command -v jq >/dev/null 2>&1; then
 fi
 
 aesthetic_now() {
-  TZ=Australia/Melbourne date '+%Y-%m-%dT%H:%M:%S%z'
+  TZ=Asia/Kuala_Lumpur date '+%Y-%m-%dT%H:%M:%S%z'
 }
 
 NOW=$(aesthetic_now)

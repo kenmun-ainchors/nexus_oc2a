@@ -13,7 +13,7 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
 CAMPAIGNS="$HOME/.openclaw/workspace-business/state/campaigns.json"
 FUNNEL="$HOME/.openclaw/workspace-business/state/funnel-metrics.json"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 DATE=$(date +"%Y-%m-%d")
 CMD="${1:-help}"; shift || true
 

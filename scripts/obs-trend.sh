@@ -110,12 +110,12 @@ worst_hour = dict(hour_rows[0]) if hour_rows else None
 con.close()
 
 now_utc  = datetime.now(timezone.utc)
-AEST     = timezone(timedelta(hours=10))
+AEST     = timezone(timedelta(hours=8))
 now_aest = now_utc.astimezone(AEST)
 
 output = {
     "generated_at":      now_utc.isoformat(),
-    "generated_at_aest": now_aest.strftime("%Y-%m-%d %H:%M AEST"),
+    "generated_at_local": now_aest.strftime("%Y-%m-%d %H:%M MYT"),
     "period_hours":      24,
     "totals":            totals_24h,
     "top_errors":        [{"type": k, "count": v} for k, v in top_errors],

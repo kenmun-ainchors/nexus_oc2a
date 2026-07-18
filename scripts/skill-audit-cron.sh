@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # skill-audit-cron.sh — Weekly automated skill security audit
 # TKT-0141 | Shield 🛡️ | CHG-0301
-# Schedule: Every Sunday 02:00 AEST
+# Schedule: Every Sunday 02:00 MYT (Asia/Kuala_Lumpur)
 # LaunchAgent: com.ainchors.shield.skill-audit
 #
 # Behaviour:
@@ -256,7 +256,7 @@ NEXT_RUN="$(python3 -c "
 from datetime import datetime, timedelta
 try:
     import pytz
-    tz = pytz.timezone('Australia/Melbourne')
+    tz = pytz.timezone("Asia/Kuala_Lumpur")
     now = datetime.now(tz)
     days_ahead = (6 - now.weekday()) % 7
     if days_ahead == 0:
@@ -264,8 +264,8 @@ try:
     next_sunday = (now + timedelta(days=days_ahead)).replace(hour=2, minute=0, second=0, microsecond=0)
     print(next_sunday.isoformat())
 except Exception:
-    print('next-sunday-02:00-AEST')
-" 2>/dev/null || echo "next-sunday-02:00-AEST")"
+    print('next-sunday-02:00-MYT')
+" 2>/dev/null || echo "next-sunday-02:00-MYT")"
 
 python3 << PYEOF2
 import json, os

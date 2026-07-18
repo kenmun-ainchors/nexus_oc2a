@@ -8,8 +8,8 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
 WORKSPACE="$HOME/.openclaw/workspace"
 PIR_DIR="$WORKSPACE/state/pir"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
-AEST=$(date +"%Y-%m-%d %H:%M AEST")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
+LOCAL=$(date +"%Y-%m-%d %H:%M MYT")
 
 INC_ID="${1:-}"
 SEVERITY="${2:-P3}"

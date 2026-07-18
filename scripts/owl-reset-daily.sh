@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Daily OWL compliance reset — runs at midnight AEST
+# Daily OWL compliance reset — runs at midnight MYT (Asia/Kuala_Lumpur)
 set -u
 WORKSPACE_ROOT="/Users/ainchorsoc2a/.openclaw/workspace"
 COMPLIANCE_FILE="$WORKSPACE_ROOT/state/owl-compliance-state.json"

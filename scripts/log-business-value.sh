@@ -8,7 +8,7 @@ export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
 ROI_FILE="$HOME/.openclaw/workspace-business/state/business-roi.json"
 RUBRIC="$HOME/.openclaw/workspace-business/state/business-value-rubric.json"
-TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+10:00")
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 DATE=$(date +"%Y-%m-%d")
 
 CATEGORY=""; SUBCATEGORY=""; UNITS=1; NOTES=""; CONFIRMED=false; DESCRIPTION=""

@@ -15,18 +15,18 @@ OUTPUT_FILE="${TMP_DIR}/standup-composer-input.json"
 PROMPT_FILE="${TMP_DIR}/standup-prompt-$(date +%Y%m%d).txt"
 mkdir -p "$TMP_DIR"
 
-aest_date=$(TZ=Australia/Sydney date '+%Y-%m-%d')
-aest_daynum=$(python3 -c "
+my_date=$(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%d')
+my_daynum=$(python3 -c "
 from datetime import datetime, timezone, timedelta
 start = datetime(2026, 4, 25).date()
-d = datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=10))).date()
+d = datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=8))).date()
 print((d - start).days + 1)
 ")
-yesterday_date=$(TZ=Australia/Sydney date -v-1d '+%Y-%m-%d')
+yesterday_date=$(TZ=Asia/Kuala_Lumpur date -v-1d '+%Y-%m-%d')
 yesterday_daynum=$(python3 -c "
 from datetime import datetime, timezone, timedelta
 start = datetime(2026, 4, 25).date()
-d = datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=10))).date() - timedelta(days=1)
+d = datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=8))).date() - timedelta(days=1)
 print((d - start).days + 1)
 ")
 
@@ -51,7 +51,7 @@ safe_json() {
 CONTEXT=""
 CONTEXT+="## Context: yesterday's date\n"
 CONTEXT+="Yesterday: ${yesterday_date} (Day ${yesterday_daynum})\n"
-CONTEXT+="Today: ${aest_date} (Day ${aest_daynum})\n\n"
+CONTEXT+="Today: ${my_date} (Day ${my_daynum})\n\n"
 
 # 1. Aria daily brief — full file, top entry is most recent day
 CONTEXT+="## Aria Daily Brief\n"
@@ -63,7 +63,7 @@ else
 fi
 
 # 2. Journal entries for last 3 calendar days
-for day in "$aest_date" "$yesterday_date" "$(TZ=Australia/Sydney date -v-2d '+%Y-%m-%d')"; do
+for day in "$my_date" "$yesterday_date" "$(TZ=Asia/Kuala_Lumpur date -v-2d '+%Y-%m-%d')"; do
     jfile="${WORKSPACE}/memory/journal-${day}.md"
     if [[ -f "$jfile" ]]; then
         CONTEXT+="## Journal ${day}\n$(safe_head "$jfile" 15000)\n\n"
@@ -71,7 +71,7 @@ for day in "$aest_date" "$yesterday_date" "$(TZ=Australia/Sydney date -v-2d '+%Y
 done
 
 # 3. Daily memory files for last 3 calendar days
-for day in "$aest_date" "$yesterday_date" "$(TZ=Australia/Sydney date -v-2d '+%Y-%m-%d')"; do
+for day in "$my_date" "$yesterday_date" "$(TZ=Asia/Kuala_Lumpur date -v-2d '+%Y-%m-%d')"; do
     mfile="${WORKSPACE}/memory/${day}.md"
     if [[ -f "$mfile" ]]; then
         CONTEXT+="## Daily Memory ${day}\n$(safe_head "$mfile" 15000)\n\n"
@@ -144,7 +144,7 @@ fi
 
 # ── Build prompt ─────────────────────────────────────────────────────────────
 PROMPT="You are a stand-up brief composer for AInchors Nexus Platform.
-Today is ${aest_date}. Craft concise, specific, context-driven content for the morning stand-up.
+Today is ${my_date}. Craft concise, specific, context-driven content for the morning stand-up.
 
 ${CONTEXT}
 
