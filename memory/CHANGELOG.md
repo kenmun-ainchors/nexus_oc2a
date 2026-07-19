@@ -1,3 +1,21 @@
+## 2026-07-19 17:50 MYT — [CHG-0939] Notion page-status helper ACTIVE ✅
+**Status:** FULLY ACTIVE
+**Evidence:** scripts/notion-update-page-status.sh created, bash -n OK, auth check OK, end-to-end test Done→In Progress→Done OK, no token leakage.
+---
+
+
+## 2026-07-19 17:48 MYT — [CHG-0939] Add canonical Notion page-status update helper
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** During CHG-0938 closure, an ad-hoc Python inline script tried to update Notion via the macOS keychain and failed because the token was not stored there. The canonical Notion auth file ~/.config/notion/api_key exists and works, but there is no reusable helper for page-status updates.
+**What changed:** Have Forge create scripts/notion-update-page-status.sh that reads ~/.config/notion/api_key, accepts page_id and status_name as arguments, and PATCHes the Notion page Status field. No keychain fallback. Validate auth and error handling.
+**Why:** Eliminates ad-hoc Notion API calls that depend on wrong token sources, reduces closure-step errors, and gives Yoda a reliable tool for future CHG status updates.
+**Verification:** Run bash -n and a test call to /v1/users/me to confirm auth. Optionally update CHG-0939's own Notion status to In Progress then back to its original state as an end-to-end test.
+**Rollback:** Delete the new script and any test artifacts.
+**Linked:** CHG-0938
+---
+
 ## 2026-07-19 17:03 MYT — [CHG-0938] EmbeddedAttemptSessionTakeoverError fix ACTIVE ✅
 **Status:** FULLY ACTIVE
 **Evidence:** Gateway PID 16312, runtime 2026.7.1-2, file-modifying infra subagent smoke test PASS (3 files created/read, no session errors). Patch in dist/selection-JInn13lc.js active after restart.
