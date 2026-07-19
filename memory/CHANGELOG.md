@@ -1,3 +1,21 @@
+## 2026-07-19 19:09 MYT — [CHG-0940] request-budget-check.sh false-exit fix ACTIVE ✅
+**Status:** FULLY ACTIVE
+**Evidence:** Warning thresholds (≥50%) now exit 0 while still printing the warning; fatal errors still exit non-zero. bash -n clean. Tested with current 52.7% usage (exit 0) and with missing cost-state.json (exit 1). Commit 5f430ba0 pushed to main.
+---
+
+
+## 2026-07-19 19:06 MYT — [CHG-0940] Fix request-budget-check.sh false non-zero exit on warning
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Runtime reports 'Exec failed' after request-budget-check.sh --report runs successfully but exits 1 when the Ollama request budget crosses the warning threshold (≥50%). This pollutes exec-health alerts.
+**What changed:** Have Forge modify scripts/request-budget-check.sh so warning thresholds print the warning but exit 0. Only fatal errors (missing state/cost-state.json, bad JSON, auth failure, etc.) should exit non-zero. Preserve --report and --json output unchanged.
+**Why:** Eliminates false exec-failed noise while keeping real failures detectable. Makes the 20:00 daily burn alert cron and manual usage queries cleaner.
+**Verification:** Run script with --report above 50% usage and confirm exit code 0. Temporarily rename state/cost-state.json and confirm non-zero exit with clear error. Run bash -n.
+**Rollback:** Restore previous version of scripts/request-budget-check.sh.
+**Linked:** CHG-0603
+---
+
 ## 2026-07-19 17:50 MYT — [CHG-0939] Notion page-status helper ACTIVE ✅
 **Status:** FULLY ACTIVE
 **Evidence:** scripts/notion-update-page-status.sh created, bash -n OK, auth check OK, end-to-end test Done→In Progress→Done OK, no token leakage.
