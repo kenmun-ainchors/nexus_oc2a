@@ -1,3 +1,39 @@
+## 2026-07-19 16:22 MYT — [CHG-0937] CLOSED ✅
+**Status:** COMPLETE
+**Evidence:** Added semicolons to one-liner zsh functions in projects/imessage-bridge/legacy/imessage-bridge.sh and scripts/imessage-bridge.sh so bash-3.2  passes. Backups at .chg-0937-backup/. Self-test and dry-run OK.
+---
+
+
+## 2026-07-19 16:16 MYT — [CHG-0938] Fix EmbeddedAttemptSessionTakeoverError for file-modifying subagents
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Infra subagents repeatedly fail with EmbeddedAttemptSessionTakeoverError when performing file-modifying work. The error is thrown by OpenClaw runtime dist/selection-JInn13lc.js when the parent session file fingerprint changes while the embedded attempt lock is released.
+**What changed:** Have Forge investigate the embedded session lock controller, reproduce the takeover error during file-modifying subagent work, and patch the OpenClaw runtime so subagents can safely modify files without triggering a false session takeover.
+**Why:** This error blocks infra subagents from completing file-modifying tasks reliably. The issue is in the runtime lock/fingerprint logic, not the subagent logic, so it requires a runtime patch.
+**Verification:** After the patch, spawn a test infra subagent that writes files and confirm it completes without EmbeddedAttemptSessionTakeoverError. Also verify normal chat/session operations still work and no session corruption occurs.
+**Rollback:** Restore the original dist/selection-JInn13lc.js (or the patched file) from backup and restart gateway.
+**Linked:** CHG-0933, CHG-0935, CHG-0937
+---
+
+## 2026-07-19 16:16 MYT — [CHG-0937] Fix imessage-bridge.sh pre-commit bash syntax errors
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** During CHG-0933/0935/0936 closure commit, the pre-commit hook ran bash -n on projects/imessage-bridge/legacy/imessage-bridge.sh and scripts/imessage-bridge.sh and reported syntax errors at line 199 (unexpected end of file), blocking commit.
+**What changed:** Have Forge inspect both imessage-bridge.sh files, identify the syntax error, and fix them so bash -n passes. Files must remain functionally equivalent to their intended behavior.
+**Why:** Pre-commit hook blocks any commit containing files that fail bash -n. These two scripts are currently unstaged and cannot be committed until fixed.
+**Verification:** After fix, run bash -n on both files and confirm no errors. Optionally run any existing test or dry-run command if available.
+**Rollback:** Restore the original files from git or backups and leave them unstaged.
+**Linked:** CHG-0933, CHG-0935, CHG-0936
+---
+
+## 2026-07-19 16:14 MYT — [CHG-0935] Gateway restart completed ✅
+**Status:** FULLY ACTIVE
+**Evidence:** PID 5371, runtime 2026.7.1-2, all 15 agents Indexed: 14/14 files · 1256 chunks · Dirty: no, memory_search returns state/memory-flush/ results.
+---
+
+
 ## 2026-07-19 15:58 MYT — [CHG-0933] CLOSED ✅
 **Status:** COMPLETE
 **Evidence:** scripts/sync-agent-memory.sh, cron every 4h, CREST plan state/chg0933-crest-plan.md
