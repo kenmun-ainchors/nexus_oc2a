@@ -2,29 +2,7 @@
 # Ollama Weekly Request Budget Check
 # Tracks request count (flat across all models) against weekly limit.
 # SSOT: state/cost-state.json → turnsLimit object.
-#
-# ─── Exit-code contract (CHG-0940, 2026-07-19) ─────────────────────────────
-# The OpenClaw runtime treats any non-zero exit as a failed exec, which
-# pollutes exec-health alerts. Warnings are NOT execution failures — they
-# are budget conditions. The two cases are now separated:
-#
-#   EXIT 0  → healthy, OR a budget warning threshold (warn/alert/critical)
-#             has been crossed. The warning is printed/JSON'd so downstream
-#             consumers (Daily Burn Alert cron, HEARTBEAT, sprint-review,
-#             shakedown) can surface it without treating the script as broken.
-#   EXIT 2  → EMERGENCY (≥95% of weekly limit). Treat as a hard stop.
-#   EXIT 1  → fatal execution error only:
-#               * missing state/cost-state.json (PG and file both empty)
-#               * invalid JSON structure (turnsLimit object absent)
-#               * unknown CLI argument
-#               * missing required dependency (jq)
-#               * unhandled exception
-#             Errors go to stderr and exit non-zero so exec-health alerts fire.
-#
-# Consumers MUST distinguish the two via the alert state file
-# (state/request-budget-alert-state.json) or the `status` field, not via
-# the exit code.
-# ───────────────────────────────────────────────────────────────────────────
+# Exit codes: 0=OK, 1=warning (WARN/ALERT/CRITICAL), 2=exceeded (EMERGENCY)
 
 # Ensure UTF-8 locale so jq/zsh handle Unicode in cost-state.json.
 export LC_ALL="en_US.UTF-8"
@@ -111,28 +89,17 @@ ALERT_REQ=$(python3 -c "print(int($WEEKLY_LIMIT * $ALERT_PCT / 100))")
 CRITICAL_REQ=$(python3 -c "print(int($WEEKLY_LIMIT * $CRITICAL_PCT / 100))")
 EMERGENCY_REQ=$(python3 -c "print(int($WEEKLY_LIMIT * $EMERGENCY_PCT / 100))")
 
-# Determine status and exit code.
-#
-# STATUS = human-readable budget state (ok/warn/alert/critical/emergency),
-#          always set; surfaces in stdout and the alert state file so
-#          downstream consumers can act on it.
-#
-# EXIT_CODE = process exit code, decoupled from STATUS:
-#             - Warning states (warn/alert/critical) → 0 (not an exec failure)
-#             - Emergency → 2 (hard stop, worth alerting on)
-#             - OK → 0
-# Errors before this point (bad JSON, missing state, bad arg) already exited
-# non-zero via the explicit `exit 1` paths above.
+# Determine status
 STATUS="ok"
 EXIT_CODE=0
 if [[ "$USED" -ge $EMERGENCY_REQ ]]; then
   STATUS="emergency"; EXIT_CODE=2
 elif [[ "$USED" -ge $CRITICAL_REQ ]]; then
-  STATUS="critical"  # EXIT_CODE stays 0 — warning, not exec failure
+  STATUS="critical"; EXIT_CODE=1
 elif [[ "$USED" -ge $ALERT_REQ ]]; then
-  STATUS="alert"     # EXIT_CODE stays 0 — warning, not exec failure
+  STATUS="alert"; EXIT_CODE=1
 elif [[ "$USED" -ge $WARN_REQ ]]; then
-  STATUS="warn"      # EXIT_CODE stays 0 — warning, not exec failure
+  STATUS="warn"; EXIT_CODE=1
 fi
 
 STATUS_DISPLAY="✅ OK"
@@ -214,12 +181,10 @@ os.replace(tmp, '$ALERT_STATE')
     echo "$ALERT_JSON" > "$ALERT_STATE"
   fi
 
-  case "$STATUS" in
-    emergency) echo "🚨 REQUEST BUDGET EMERGENCY — at/over $EMERGENCY_PCT%. Process exit 2 (hard stop)." ;;
-    critical)  echo "🔴 REQUEST BUDGET CRITICAL — at/over $CRITICAL_PCT% threshold. Process exit 0 (warning, not exec failure)." ;;
-    alert)     echo "⚠️  REQUEST BUDGET ALERT — at/over $ALERT_PCT% threshold. Process exit 0 (warning, not exec failure)." ;;
-    warn)      echo "⚠️  REQUEST BUDGET WARNING — at/over $WARN_PCT% threshold. Process exit 0 (warning, not exec failure)." ;;
-    *)         echo "✅ Request budget healthy." ;;
+  case "$EXIT_CODE" in
+    2) echo "🚨 REQUEST BUDGET EMERGENCY — at/over $EMERGENCY_PCT%." ;;
+    1) echo "⚠️  REQUEST BUDGET WARNING — at/over $WARN_PCT% threshold." ;;
+    *) echo "✅ Request budget healthy." ;;
   esac
   echo ""
 fi
