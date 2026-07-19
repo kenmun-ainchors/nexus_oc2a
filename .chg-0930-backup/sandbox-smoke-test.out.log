@@ -1,0 +1,13 @@
+=== CHG-0930 sandbox smoke test ===
+workspace root: /Users/ainchorsoc2a/.openclaw/workspace
+new path (Option B): state/memory-flush/2026-07-19.md
+legacy path (for comparison): memory/2026-07-19.md
+
+--- NEW: state/memory-flush/2026-07-19.md ---
+  OK: appended to state/memory-flush/2026-07-19.md
+--- LEGACY: memory/2026-07-19.md ---
+  FAIL: path alias escape blocked
+
+=== Summary ===
+new path  : ACCEPTED ✓
+old path  : REJECTED (expected — hardlink causes alias escape)

@@ -1,0 +1,388 @@
+{
+  "snapshotGeneratedAt": "2026-07-16T18:22:13+10:00",
+  "snapshotGeneratedBy": "infra subagent (heartbeat-state-snapshot task)",
+  "source": {
+    "heartbeatState": "state/heartbeat-state.json",
+    "costState": "state/cost-state.json",
+    "chgTriggers": "state/chg-triggers.json",
+    "standbyMode": "state/standby-mode.json",
+    "systemBanner": "state/system-banner.json",
+    "ariaCrestCompliance": "state/aria-crest-compliance.json",
+    "delegatedAuthStatus": "state/delegated-auth-status.json",
+    "soulAgentsHygiene": "state/soul-agents-hygiene.json",
+    "journalWriteState": "state/journal-write-state.json",
+    "blogVerificationAlert": "state/blog-verification-alert.json",
+    "taskVerificationAlert": "state/task-verification-alert.json"
+  },
+  "heartbeat": {
+    "lastCheck": "2026-07-16T18:02:13+1000",
+    "status": "ok",
+    "notes": "All checks passed",
+    "lastHeartbeat": "2026-07-16T17:55:00+1000"
+  },
+  "lastChecks": {
+    "email": null,
+    "calendar": null,
+    "costState": null,
+    "delegatedAuth": "2026-07-16T17:55:00+1000",
+    "cronHealth": "2026-07-16T18:02:13+1000",
+    "ariaCrest": "2026-07-16T18:02:13+1000",
+    "owlCompliance": "2026-07-16T18:22:07+10:00",
+    "mainSessionContext": "2026-07-16T18:02:13+1000",
+    "mainSessionResume": "2026-07-16T18:02:13+1000",
+    "taskWatchdog": "2026-07-16T18:02:13+1000",
+    "sessionModelDrift": "2026-07-16T18:02:13+1000",
+    "dodValidation": "2026-07-16T18:02:13+1000",
+    "taskVerificationAlerts": "2026-07-16T18:02:13+1000",
+    "budgetCheck": "2026-07-16T18:02:13+1000",
+    "requestBudgetCheck": "2026-07-16T18:02:13+1000",
+    "cronDeadLetter": "2026-07-16T18:02:13+1000",
+    "soulAgentsHygiene": null,
+    "blogVerification": null,
+    "journalCompleteness": null
+  },
+  "lastChecksNote": "heartbeat-state.json lastChecks map does not contain keys for email, calendar, costState, soulAgentsHygiene, blogVerification, or journalCompleteness. Actual check state for these was sourced from the dedicated files below.",
+  "checksFromSourceFiles": {
+    "email": {
+      "source": "delegated-auth-status.json (proxy — per-account gog token validity)",
+      "checkedAt": "2026-07-16T08:22:07Z",
+      "status": "OK",
+      "details": "Both accounts have valid gmail/calendar tokens; no email/calendar service checks exist as separate heartbeat lastChecks keys"
+    },
+    "calendar": {
+      "source": "delegated-auth-status.json (proxy)",
+      "checkedAt": "2026-07-16T08:22:07Z",
+      "status": "OK",
+      "details": "Ken: gmail/calendar/drive/contacts/sheets/docs token valid. Angie: calendar/gmail token valid."
+    },
+    "costState": {
+      "source": "cost-state.json turnsLimit.lastUpdated",
+      "checkedAt": "2026-07-16T18:00:18+1000",
+      "status": "OK"
+    },
+    "ariaCrest": {
+      "source": "aria-crest-compliance.json",
+      "checkedAt": "2026-07-16T08:22:11+10:00",
+      "status": "COMPLIANT",
+      "violationCount": 0,
+      "warningCount": 0
+    },
+    "owlCompliance": {
+      "source": "heartbeat-state.json lastChecks.owlCompliance",
+      "checkedAt": "2026-07-16T18:22:07+10:00",
+      "status": "OK"
+    },
+    "delegatedAuth": {
+      "source": "delegated-auth-status.json",
+      "checkedAt": "2026-07-16T08:22:07Z",
+      "status": "OK",
+      "allValid": true,
+      "okCount": 2,
+      "expiredCount": 0,
+      "missingCount": 0,
+      "warnCount": 0
+    },
+    "soulAgentsHygiene": {
+      "source": "soul-agents-hygiene.json",
+      "checkedAt": "2026-07-08T21:14:50+1000",
+      "overall": "PASS",
+      "pass": 14,
+      "warnings": 0,
+      "fail": 0,
+      "total": 14,
+      "note": "Last run 8 days ago. No current date in source — flagged as STALE for 8-day check."
+    },
+    "blogVerification": {
+      "source": "blog-verification-alert.json",
+      "checkedAt": "2026-07-16T06:50:15+10:00",
+      "escalatedAt": "2026-07-16T06:55:00+10:00",
+      "status": "ALERT",
+      "acknowledged": false,
+      "escalatedToKen": true,
+      "message": "❌ EOD blog for 2026-07-15 not found. Expected: /Users/ainchorsoc2a/.openclaw/canvas/documents/ainchors-2026-07-15/index.html. Day: Wednesday. EOD blog cron (a027fd60) may have silently failed. New finding — no prior blog alert."
+    },
+    "journalCompleteness": {
+      "source": "journal-write-state.json",
+      "checkedAt": "2026-05-26T13:55:00Z",
+      "lastWrittenAt": "1779796500000",
+      "lastDate": "2026-05-26",
+      "messageCount": 18,
+      "finalized": true,
+      "note": "Last journal state entry dated 2026-05-26 — ~51 days stale. No current journal completeness check in heartbeat."
+    },
+    "taskVerificationAlerts": {
+      "source": "task-verification-alert.json",
+      "checkedAt": "2026-06-28T05:12:00Z",
+      "alerts": [],
+      "acknowledged": true,
+      "note": "All 7 prior items were Monthly SLA Report duplicates from resolved TKT-0024 auto-discover loop. Acknowledged 2026-07-02. No action needed."
+    }
+  },
+  "costState": {
+    "turnsLimit": {
+      "note": "CONFIRMED 2026-06-16 19:14 AEST from Ollama dashboard. Weekly limit, not monthly.",
+      "windowType": "weekly",
+      "windowStart": "Monday 10:00 AEST",
+      "windowResetDay": "Monday",
+      "windowResetTime": "10:00",
+      "windowResetTz": "Australia/Melbourne",
+      "weeklyLimit": 85717,
+      "currentWindowStart": "2026-07-13T10:00:00+1000",
+      "currentWindowEnd": "2026-07-20T10:00:00+1000",
+      "currentRequests": 31201,
+      "currentPct": 36.4,
+      "requestsRemaining": 54516,
+      "burnRateRequestsPerHour": 390.0,
+      "projectedExhaustion": "2026-07-22T13:47:22+1000",
+      "projectedExhaustionNote": "Based on today's heavy config-work burn rate. Expected to normalize.",
+      "sustainableDailyBudget": 4285,
+      "pendingKenInput": false,
+      "lastUpdated": "2026-07-16T18:00:18+1000",
+      "byModel": {
+        "gemma4:31b": 47,
+        "kimi-k2.7-code": 15245,
+        "kimi-k2.6": 21,
+        "deepseek-v4-flash": 12920,
+        "deepseek-v4-pro": 230,
+        "minimax-m3": 2738
+      },
+      "session": {
+        "requests": 1003,
+        "limit": 17911,
+        "pct": 5.6,
+        "remaining": 16908,
+        "resetTime": "2026-07-16T10:00:00Z"
+      },
+      "weekly": {
+        "requests": 31201,
+        "limit": 85717,
+        "pct": 36.4,
+        "remaining": 54516,
+        "burnRateRequestsPerHour": 390.0,
+        "projectedExhaustion": "2026-07-22T13:47:22+1000",
+        "windowStart": "2026-07-13T10:00:00+1000",
+        "windowEnd": "2026-07-20T10:00:00+1000",
+        "resetTime": "2026-07-20T00:00:00Z"
+      }
+    },
+    "extractedAt": "2026-07-16T18:22:13+10:00"
+  },
+  "chgTriggers": {
+    "schema": "2.0",
+    "lastUpdated": "2026-07-10T11:57:00+10:00",
+    "lastUpdatedBy": "Yoda",
+    "changeNote": "CHG-0859: Added TRIGGER-01 sub-action 01-CLOUD-OUTAGE-PROBE — Ollama Cloud outage probe + local OC2 fallback, deferred from CHG-0858 outage-detect no-op.",
+    "totalTriggers": 21,
+    "triggerIds": [
+      "TRIGGER-01",
+      "TRIGGER-02",
+      "TRIGGER-03",
+      "TRIGGER-04",
+      "TRIGGER-05",
+      "TRIGGER-06",
+      "TRIGGER-07",
+      "TRIGGER-08",
+      "TRIGGER-09",
+      "TRIGGER-10",
+      "TRIGGER-11",
+      "TRIGGER-12",
+      "TRIGGER-13",
+      "TRIGGER-14",
+      "TRIGGER-15",
+      "TRIGGER-16",
+      "TRIGGER-17",
+      "TRIGGER-18",
+      "TRIGGER-QBR"
+    ],
+    "byStatus": {
+      "fired": ["TRIGGER-03", "TRIGGER-04"],
+      "monitoring": ["TRIGGER-06", "TRIGGER-11"],
+      "active": ["TRIGGER-09", "TRIGGER-12"],
+      "pending": ["TRIGGER-07", "TRIGGER-13", "TRIGGER-14", "TRIGGER-15", "TRIGGER-16", "TRIGGER-17", "TRIGGER-18"],
+      "not_applicable": ["TRIGGER-01", "TRIGGER-02"],
+      "passed-phase6-implemented": ["TRIGGER-05"],
+      "recurring": ["TRIGGER-QBR"],
+      "retired": ["TRIGGER-10"]
+    },
+    "activeTriggers": [
+      {
+        "id": "TRIGGER-01",
+        "name": "OC2 Arrival — Master Gate",
+        "status": "not_applicable",
+        "firedAt": null,
+        "note": "OC2-A/B arrival gate closed; only OC2A commissioned as single-node PROD. HA pair deferred. See CHG-1783.",
+        "subActionCount": 11
+      },
+      {
+        "id": "TRIGGER-02",
+        "name": "OC2 HA Live",
+        "status": "not_applicable",
+        "firedAt": null,
+        "note": "HA pair not commissioned; OC2A running single-node PROD. HA deferred."
+      },
+      {
+        "id": "TRIGGER-03",
+        "name": "Gemma4 Validated on OC2",
+        "status": "fired",
+        "firedAt": "2026-07-14T08:25:58+10:00",
+        "validatedBy": "forge/infra",
+        "closureNote": "OC2A validated as live PROD HIVE lead node: Mac16,11, 48GB RAM, Tailscale 100.123.95.47. CHG-1783."
+      },
+      {
+        "id": "TRIGGER-04",
+        "name": "OpenClaw Security Patch",
+        "status": "fired",
+        "firedAt": "2026-06-13T06:00:00+10:00",
+        "currentVersion": "2026.5.27",
+        "availableVersion": "2026.6.6",
+        "lastDecision": {
+          "version": "2026.6.6",
+          "decision": "defer+sandbox",
+          "decidedBy": "Ken Mun",
+          "decidedAt": "2026-06-13T07:53:00+10:00",
+          "chgId": "CHG-0521"
+        }
+      },
+      {
+        "id": "TRIGGER-05",
+        "name": "Ollama Cloud PoC PASS",
+        "status": "passed-phase6-implemented",
+        "firedAt": "2026-05-02T10:13:00+10:00"
+      },
+      {
+        "id": "TRIGGER-06",
+        "name": "OpenClaw v4.0 Ships",
+        "status": "monitoring",
+        "firedAt": null
+      },
+      {
+        "id": "TRIGGER-07",
+        "name": "First P2 Client",
+        "status": "pending",
+        "firedAt": null
+      },
+      {
+        "id": "TRIGGER-08",
+        "name": "Daily API Cost Threshold",
+        "status": "monitoring",
+        "thresholds": {"t1": 60, "t2": 80, "t3": 100},
+        "lastFired": "2026-05-15T02:00:54Z"
+      },
+      {
+        "id": "TRIGGER-09",
+        "name": "Warden Model Drift",
+        "status": "active",
+        "cronId": "83accf7b"
+      },
+      {
+        "id": "TRIGGER-11",
+        "name": "glm-5.1 No-Think Mode Availability",
+        "status": "monitoring",
+        "lastChecked": "2026-07-02T09:00:00+10:00"
+      },
+      {
+        "id": "TRIGGER-12",
+        "name": "Agent Allowlist Sync",
+        "status": "active",
+        "cronId": "6a059e9e"
+      },
+      {
+        "id": "TRIGGER-13",
+        "name": "Semantic Memory Store Go-Live",
+        "status": "pending",
+        "ticket": "TKT-0153"
+      },
+      {
+        "id": "TRIGGER-14",
+        "name": "Phase 3: Event Sourcing Design",
+        "status": "pending",
+        "linkedCHG": "CHG-0308"
+      },
+      {
+        "id": "TRIGGER-15",
+        "name": "P1→P2 Checkpoint: Golden Blueprint Review",
+        "status": "pending",
+        "linkedCHG": "CHG-0318"
+      },
+      {
+        "id": "TRIGGER-16",
+        "name": "P2→P4 Checkpoint: Golden Blueprint Review",
+        "status": "pending",
+        "linkedCHG": "CHG-0318"
+      },
+      {
+        "id": "TRIGGER-17",
+        "name": "Annual Review: Golden Blueprints (May each year)",
+        "status": "pending",
+        "linkedCHG": "CHG-0318"
+      },
+      {
+        "id": "TRIGGER-18",
+        "name": "Spark: LinkedIn Stability Arc Post",
+        "status": "pending",
+        "linkedTKT": "TKT-0177"
+      },
+      {
+        "id": "TRIGGER-QBR",
+        "name": "Quarterly QBR — Agent Fleet Review + Tribal Knowledge Audit",
+        "status": "recurring",
+        "firstDue": "2026-07-01"
+      }
+    ],
+    "retiredTriggers": [
+      {
+        "id": "TRIGGER-10",
+        "name": "RETIRED — Business Stream Migration OC1→OC2",
+        "retiredAt": "2026-05-29T22:10:00+10:00",
+        "replacedBy": "TRIGGER-01 sub-action 01-PLATFORM-SEPARATION"
+      }
+    ]
+  },
+  "standbyMode": {
+    "exists": true,
+    "path": "state/standby-mode.json",
+    "active": false,
+    "clearedAt": "2026-07-09T23:47:01Z",
+    "reason": "Ollama Cloud recovered"
+  },
+  "systemBanner": {
+    "exists": true,
+    "path": "state/system-banner.json",
+    "active": false,
+    "type": "recovery",
+    "title": "✅ Ollama Cloud Recovered",
+    "message": "Ollama Cloud is back online. Standby mode cleared. Normal operations resumed.",
+    "clearedAt": "2026-07-09T23:47:01Z",
+    "dismissable": true
+  },
+  "anomalies": [
+    {
+      "field": "lastChecks.email",
+      "issue": "Missing from heartbeat-state.json lastChecks map. No dedicated email check present."
+    },
+    {
+      "field": "lastChecks.calendar",
+      "issue": "Missing from heartbeat-state.json lastChecks map. No dedicated calendar check present."
+    },
+    {
+      "field": "lastChecks.costState",
+      "issue": "Missing from heartbeat-state.json lastChecks map. Actual cost-state.json file is fresh (lastUpdated 2026-07-16T18:00:18+1000)."
+    },
+    {
+      "field": "lastChecks.soulAgentsHygiene",
+      "issue": "Missing from heartbeat-state.json. Actual soul-agents-hygiene.json is 8 days stale (2026-07-08)."
+    },
+    {
+      "field": "lastChecks.blogVerification",
+      "issue": "Missing from heartbeat-state.json. ACTIVE ALERT: EOD blog for 2026-07-15 not found, escalated to Ken 2026-07-16T06:55:00+10:00, not acknowledged."
+    },
+    {
+      "field": "lastChecks.journalCompleteness",
+      "issue": "Missing from heartbeat-state.json. journal-write-state.json is 51 days stale (lastDate 2026-05-26)."
+    },
+    {
+      "field": "heartbeat-state.json lastChecks map",
+      "issue": "Map only contains 18 keys; task listed 20 expected checks. 6 of the listed checks (email, calendar, costState, soulAgentsHygiene, blogVerification, journalCompleteness) are not in the map."
+    }
+  ]
+}

@@ -112,7 +112,7 @@ ssh -i ~/.ssh/id_oc2a_oc1 ainchorsangiefpl@ainchorss-mac-mini.tailfc3ed1.ts.net 
 | Port | Environment | Purpose |
 |------|------------|---------|
 | 18789 | Production | Main gateway (Nexus platform) |
-| 18791 | Production | Browser control sidecar |
+| 18791 | Production | Browser control sidecar (lazy-spawn, TKT-1009 — Chrome --remote-debugging-port; not always-on) |
 | 28789 | Sandbox | Isolated Forge/build/infra gateway |
 | 38789 | Shadow | Read-only production mirror for CI/staging validation |
 

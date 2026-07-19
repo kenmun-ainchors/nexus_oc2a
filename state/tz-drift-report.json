@@ -1,7 +1,13 @@
 {
-  "timestamp": "2026-07-15T21:13:44Z",
-  "host_time": "Thu Jul 16 07:13:44 AEST 2026",
-  "target_time": "Thu Jul 16 07:13:44 AEST 2026",
+  "timestamp": "2026-07-19T07:36:22Z",
+  "host_time": "Sun Jul 19 15:36:22 +08 2026",
+  "host_timezone": "+08",
+  "host_offset": "+0800",
+  "expected_timezone": "Asia/Kuala_Lumpur",
+  "expected_offset": "+08:00",
+  "ntp_server": "0.asia.pool.ntp.org",
+  "ntp_offset_seconds": "+0.035909",
+  "ntp_ok": true,
   "drifts_detected": 0,
   "drifts": [],
   "status": "OK"

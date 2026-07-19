@@ -38,15 +38,44 @@ if [[ -f "$GATEWAY_LOG" ]]; then
   fi
 fi
 SESSION_DIR="$HOME/.openclaw/agents"
+# CHG-0918 (2026-07-18): Removed `| head -30` cap that was hiding the
+# majority of tilde-path violations in the 24h window. Now scans ALL
+# active-agent .jsonl files modified in the last 1440 minutes. Performance:
+# ~1200 files / ~125 MB total on OC2A — well within acceptable runtime.
 if [[ -d "$SESSION_DIR" ]]; then
-  for sess in $(find "$SESSION_DIR" -name "*.jsonl" -mmin -1440 2>/dev/null | head -30); do
-    TC=$(grep -c '~/.openclaw' "$sess" 2>/dev/null) || TC=0
-    TC=${TC:-0}
-    if [[ "$TC" -gt 0 ]]; then
+  # CHG-0928 v6 (2026-07-19): Narrow the session .jsonl check to path-like
+  # fields only. The previous literal "sess" pattern matched anywhere in
+  # the line, which produced false positives on message/tool text that
+  # legitimately discusses the path. The companion Python helper
+  # (scripts/r01-path-field-scan.py) parses each line as JSON and only
+  # flags values of these keys (recursively): cwd, workspaceDir,
+  # sessionFile, filePath, spawnedCwd, spawnedWorkspaceDir, agentDir,
+  # workspace, parentSession.
+  #
+  # Batch mode: one python invocation handles the whole tree to avoid
+  # 6k+ python startups. Output is "<count>\\t<path>" lines, only for
+  # files with >= 1 offending line.
+  R01_SCAN="$WORKSPACE_ROOT/scripts/r01-path-field-scan.py"
+  if [[ -f "$R01_SCAN" ]]; then
+    while IFS=$'\t' read -r TC P; do
+      TC=$(echo "$TC" | tr -dc '0-9' | head -c 10)
+      [[ -z "$TC" ]] && TC=0
+      [[ "$TC" -eq 0 ]] && continue
       VIOLATIONS=$((VIOLATIONS + TC))
-      DETAIL="${DETAIL:+$DETAIL; }$(basename "$sess"):$TC"
-    fi
-  done
+      DETAIL="${DETAIL:+$DETAIL; }$(basename "$P"):$TC"
+    done < <(python3 "$R01_SCAN" --batch "$SESSION_DIR" 2>/dev/null)
+  else
+    # Fallback: if the helper is missing, fall back to the old broad grep
+    # so we never silently skip the check.
+    while IFS= read -r sess; do
+      TC=$(grep -c '~/.openclaw' "$sess" 2>/dev/null) || TC=0
+      TC=${TC:-0}
+      if [[ "$TC" -gt 0 ]]; then
+        VIOLATIONS=$((VIOLATIONS + TC))
+        DETAIL="${DETAIL:+$DETAIL; }$(basename "$sess"):$TC"
+      fi
+    done < <(find "$SESSION_DIR" -name "*.jsonl" -mmin -1440 2>/dev/null)
+  fi
 fi
 if [[ "$VIOLATIONS" -gt 0 ]]; then
   R01='{"status":"FAIL","violations":'"$VIOLATIONS"',"detail":"'"${DETAIL:0:500}"'","remediation":"Replace tilde paths with absolute paths. See CHG-0281.","severity":"BLOCKER"}'

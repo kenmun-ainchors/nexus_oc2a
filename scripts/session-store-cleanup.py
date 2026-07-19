@@ -1,0 +1,482 @@
+#!/usr/bin/env python3
+"""
+session-store-cleanup.py — Safe, idempotent retention sweep for OpenClaw session stores.
+
+CHG-0910: Automate cleanup of unreferenced session files, reset/deleted archives,
+old backup snapshots, and misplaced non-session files. Archive (move) rather than
+delete, so every action is reversible from ~/.openclaw/archive/session-cleanup/.
+
+Design priorities (in order):
+  1. SAFETY  — Never touch sessions.json or *.lock. Never touch referenced UUIDs.
+               Refuse to proceed if sessions.json is unparseable or if archiving
+               would remove >50% of the directory contents.
+  2. REVERSIBILITY — Always move (mv), never delete. Atomic on same-filesystem.
+  3. IDEMPOTENCE — Re-running on a clean directory is a no-op.
+  4. OBSERVABILITY — Log to stdout AND to ~/.openclaw/logs/session-store-cleanup.log.
+
+Usage:
+  session-store-cleanup.py [--dry-run] [--agent <id> | --all-agents] [--force]
+                           [--min-age-hours N] [--backup-age-days N]
+                           [--archive-root <path>] [--log-file <path>]
+                           [--big-trajectory-mb N] [--max-archive-pct N]
+
+Defaults:
+  --min-age-hours 24       # unreferenced files must be older than this
+  --backup-age-days 7      # sessions.json.bak-* must be older than this
+  --archive-root ~/.openclaw/archive/session-cleanup
+  --log-file     ~/.openclaw/logs/session-store-cleanup.log
+  --big-trajectory-mb 10   # warn (do not archive) on referenced trajectory files > this
+  --max-archive-pct 50     # refuse to archive more than this fraction of the directory
+
+Exit codes:
+  0  success (or dry-run completed with no errors)
+  2  sessions.json missing or unparseable
+  3  safety guard tripped (would archive > max-archive-pct of files)
+  4  unexpected error during move
+  5  invalid CLI arguments
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import shutil
+import sys
+import uuid
+from pathlib import Path
+from typing import Any, Iterable
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Constants
+# ─────────────────────────────────────────────────────────────────────────────
+
+OPENCLAW_HOME = Path(os.environ.get("OPENCLAW_HOME", Path.home() / ".openclaw"))
+AGENTS_DIR = OPENCLAW_HOME / "agents"
+ARCHIVE_ROOT_DEFAULT = OPENCLAW_HOME / "archive" / "session-cleanup"
+LOG_FILE_DEFAULT = OPENCLAW_HOME / "logs" / "session-store-cleanup.log"
+MISC_DIR_NAME = "misc"
+
+# Filename patterns (regex-friendly prefixes we derive elsewhere)
+UUID_HEX_RE = (
+    r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+)
+RESET_SUFFIX_RE = r"\.jsonl\.reset\.[0-9T:\-]+Z?$"
+DELETED_SUFFIX_RE = r"\.jsonl\.deleted\.[0-9T:\-]+Z?$"
+BAK_SUFFIX_RE = r"^sessions\.json\.bak-.+$"
+LOCK_SUFFIX_RE = r"\.lock$"
+TRAJECTORY_PATH_RE = r"\.trajectory-path\.json$"
+TRAJECTORY_RE = r"\.trajectory\.jsonl$"
+SESSION_JSONL_RE = r"\.jsonl$"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Logger (stdout + file, thread-safe enough for sequential cron use)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class Logger:
+    def __init__(self, log_file: Path, dry_run: bool) -> None:
+        self.log_file = log_file
+        self.dry_run = dry_run
+
+    def _emit(self, level: str, msg: str) -> None:
+        ts = dt.datetime.now().strftime("%Y-%m-%dT%H:%M:%S%z") or dt.datetime.now().isoformat(timespec="seconds")
+        prefix = "[DRY-RUN] " if self.dry_run else ""
+        line = f"{ts} {level} {prefix}{msg}"
+        print(line, flush=True)
+        try:
+            self.log_file.parent.mkdir(parents=True, exist_ok=True)
+            with self.log_file.open("a", encoding="utf-8") as fh:
+                fh.write(line + "\n")
+        except OSError as exc:
+            # If logging fails, surface to stderr but do not abort cleanup.
+            print(f"WARN: log write failed: {exc}", file=sys.stderr, flush=True)
+
+    def info(self, msg: str) -> None:
+        self._emit("INFO ", msg)
+
+    def warn(self, msg: str) -> None:
+        self._emit("WARN ", msg)
+
+    def error(self, msg: str) -> None:
+        self._emit("ERROR", msg)
+
+    def action(self, action: str, path: str) -> None:
+        self._emit("ACT  ", f"{action} {path}")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def is_uuid(s: str) -> bool:
+    try:
+        uuid.UUID(s)
+        return True
+    except (ValueError, AttributeError, TypeError):
+        return False
+
+
+def parse_sessions_json(sessions_json: Path, log: Logger) -> dict[str, Any] | None:
+    """Return the parsed index, or None on failure (and log)."""
+    if not sessions_json.is_file():
+        log.error(f"sessions.json missing at {sessions_json}")
+        return None
+    try:
+        with sessions_json.open("r", encoding="utf-8") as fh:
+            data = json.load(fh)
+    except json.JSONDecodeError as exc:
+        log.error(f"sessions.json is not valid JSON at {sessions_json}: {exc}")
+        return None
+    except OSError as exc:
+        log.error(f"sessions.json could not be read at {sessions_json}: {exc}")
+        return None
+    if not isinstance(data, dict):
+        log.error(f"sessions.json root is not an object: {type(data).__name__}")
+        return None
+    return data
+
+
+def collect_referenced_uuids(index: dict[str, Any]) -> set[str]:
+    """Build the set of UUIDs that MUST NOT be archived."""
+    referenced: set[str] = set()
+    for key, entry in index.items():
+        if not isinstance(entry, dict):
+            continue
+        # 1. The canonical sessionId
+        sid = entry.get("sessionId")
+        if isinstance(sid, str) and is_uuid(sid):
+            referenced.add(sid)
+        # 2. The family members (compaction ancestors / reused)
+        for member in entry.get("usageFamilySessionIds") or []:
+            if isinstance(member, str) and is_uuid(member):
+                referenced.add(member)
+        # 3. Pre-compaction leaves referenced via 'preCompaction' / 'postCompaction'
+        for wrapper_key in ("preCompaction", "postCompaction"):
+            wrapper = entry.get(wrapper_key)
+            if isinstance(wrapper, dict):
+                inner_sid = wrapper.get("sessionId")
+                if isinstance(inner_sid, str) and is_uuid(inner_sid):
+                    referenced.add(inner_sid)
+        # 4. Compaction checkpoints
+        for ckpt in entry.get("compactionCheckpoints") or []:
+            if isinstance(ckpt, dict):
+                ck_sid = ckpt.get("sessionId")
+                if isinstance(ck_sid, str) and is_uuid(ck_sid):
+                    referenced.add(ck_sid)
+        # 5. Defensive: any string field that looks like a UUID
+        for k, v in entry.items():
+            if isinstance(v, str) and is_uuid(v):
+                referenced.add(v)
+    return referenced
+
+
+def iter_files(sessions_dir: Path) -> Iterable[Path]:
+    """Yield direct children that are files (skip subdirs and symlinks pointing to dirs)."""
+    for child in sorted(sessions_dir.iterdir()):
+        try:
+            if child.is_file() and not child.is_symlink():
+                yield child
+        except OSError:
+            continue
+
+
+def file_uuid(name: str) -> str | None:
+    """If a filename starts with a UUID, return it; else None."""
+    head = name.split(".", 1)[0]
+    return head if is_uuid(head) else None
+
+
+def file_age_hours(path: Path) -> float:
+    st = path.stat()
+    return (dt.datetime.now().timestamp() - st.st_mtime) / 3600.0
+
+
+def safe_move(src: Path, dest: Path, log: Logger, dry_run: bool) -> bool:
+    """Move src -> dest atomically. Returns True if moved (or would be, in dry-run)."""
+    if dry_run:
+        log.action("would-move", f"{src} -> {dest}")
+        return True
+    try:
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        # Use shutil.move; on same filesystem it's atomic-ish (rename).
+        # If dest exists (rare — collision), append a numeric suffix.
+        target = dest
+        if target.exists():
+            stem, suffix = target.stem, target.suffix
+            for n in range(1, 1000):
+                candidate = target.with_name(f"{stem}.{n}{suffix}")
+                if not candidate.exists():
+                    target = candidate
+                    break
+        shutil.move(str(src), str(target))
+        log.action("moved", f"{src} -> {target}")
+        return True
+    except OSError as exc:
+        log.error(f"move failed: {src} -> {dest}: {exc}")
+        return False
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Per-agent processing
+# ─────────────────────────────────────────────────────────────────────────────
+
+def process_agent(
+    agent_id: str,
+    sessions_dir: Path,
+    *,
+    min_age_hours: float,
+    backup_age_days: float,
+    archive_root: Path,
+    big_trajectory_mb: float,
+    max_archive_pct: float,
+    force: bool,
+    dry_run: bool,
+    log: Logger,
+) -> tuple[int, int, int]:
+    """
+    Returns (files_archived, files_warned, files_skipped_referenced_or_locked).
+    """
+    log.info(f"=== agent={agent_id} sessions_dir={sessions_dir} ===")
+    if not sessions_dir.is_dir():
+        log.warn(f"sessions dir does not exist, skipping: {sessions_dir}")
+        return (0, 0, 0)
+
+    sessions_json = sessions_dir / "sessions.json"
+    index = parse_sessions_json(sessions_json, log)
+    if index is None:
+        # Hard fail: do not proceed without an authoritative index.
+        log.error(f"refusing to process agent={agent_id}: sessions.json unparseable")
+        raise SystemExit(2)
+    referenced = collect_referenced_uuids(index)
+    log.info(f"agent={agent_id} referenced UUIDs in sessions.json: {len(referenced)}")
+
+    all_files = list(iter_files(sessions_dir))
+    total = len(all_files)
+    if total == 0:
+        log.info(f"agent={agent_id} sessions dir is empty, nothing to do")
+        return (0, 0, 0)
+
+    big_traj_bytes = int(big_trajectory_mb * 1024 * 1024)
+    today = dt.date.today().isoformat()
+    agent_archive_dir = archive_root / agent_id / today
+
+    to_archive: list[tuple[Path, Path, str]] = []  # (src, dest, reason)
+    warned_big: list[Path] = []
+    skipped = 0
+
+    for f in all_files:
+        name = f.name
+        # Rule: NEVER touch sessions.json or *.lock files.
+        if name == "sessions.json":
+            skipped += 1
+            continue
+        if name.endswith(".lock"):
+            log.info(f"keeping lock file: {f.name}")
+            skipped += 1
+            continue
+
+        u = file_uuid(name)
+
+        # Misplaced non-session files (no UUID prefix) — move to misc/.
+        if u is None:
+            if name.startswith("sessions.json.bak-"):
+                # Backups: archive only if older than backup_age_days.
+                age_h = file_age_hours(f)
+                if age_h < backup_age_days * 24:
+                    log.info(f"keeping recent backup: {name} (age={age_h:.1f}h < {backup_age_days}d)")
+                    skipped += 1
+                    continue
+                dest = agent_archive_dir / name
+                to_archive.append((f, dest, "backup"))
+                continue
+            # Otherwise, treat as misplaced (e.g., .usage-cost-cache.json, skills-prompts file).
+            dest = archive_root / MISC_DIR_NAME / agent_id / today / name
+            to_archive.append((f, dest, "misplaced"))
+            continue
+
+        # From here on, file is uuid-prefixed.
+        # Check if the UUID is referenced.
+        if u in referenced:
+            # Large-trajectory warning (no archive).
+            if (
+                name.endswith(".trajectory.jsonl")
+                and f.stat().st_size > big_traj_bytes
+            ):
+                warned_big.append(f)
+            skipped += 1
+            continue
+
+        # Unreferenced uuid file. Decide based on suffix.
+        is_reset = ".jsonl.reset." in name
+        is_deleted = ".jsonl.deleted." in name
+        if is_reset or is_deleted:
+            dest = agent_archive_dir / name
+            to_archive.append((f, dest, "reset-or-deleted"))
+            continue
+
+        # Default: age gate (must be > min_age_hours old).
+        age_h = file_age_hours(f)
+        if age_h < min_age_hours:
+            log.info(
+                f"keeping recent unreferenced: {name} (age={age_h:.1f}h < {min_age_hours}h)"
+            )
+            skipped += 1
+            continue
+
+        dest = agent_archive_dir / name
+        to_archive.append((f, dest, "unreferenced-old"))
+
+    # Safety guard: never archive more than max_archive_pct of the directory.
+    if total > 0:
+        pct = (len(to_archive) / total) * 100.0
+    else:
+        pct = 0.0
+    if pct > max_archive_pct and not force:
+        log.error(
+            f"SAFETY GUARD: would archive {len(to_archive)}/{total} files "
+            f"({pct:.1f}% > {max_archive_pct:.1f}%). Refusing. Use --force to override."
+        )
+        raise SystemExit(3)
+    if pct > max_archive_pct and force:
+        log.warn(
+            f"SAFETY GUARD OVERRIDDEN via --force: archiving {len(to_archive)}/{total} "
+            f"files ({pct:.1f}%) > {max_archive_pct:.1f}%"
+        )
+
+    # Emit big-trajectory warnings (informational; never archive).
+    for f in warned_big:
+        size_mb = f.stat().st_size / (1024 * 1024)
+        log.warn(
+            f"large referenced trajectory: {f.name} ({size_mb:.1f} MB) — "
+            f"consider compaction; not archived"
+        )
+
+    # Execute the moves.
+    moved = 0
+    for src, dest, reason in to_archive:
+        log.info(f"queue [{reason}]: {src.name}")
+        if safe_move(src, dest, log, dry_run):
+            moved += 1
+
+    log.info(
+        f"agent={agent_id} summary: total={total} moved={moved} "
+        f"skipped={skipped} warned-big={len(warned_big)}"
+    )
+    return (moved, len(warned_big), skipped)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CLI
+# ─────────────────────────────────────────────────────────────────────────────
+
+def discover_agents() -> list[str]:
+    if not AGENTS_DIR.is_dir():
+        return []
+    out = []
+    for child in sorted(AGENTS_DIR.iterdir()):
+        if not child.is_dir():
+            continue
+        if (child / "sessions").is_dir():
+            out.append(child.name)
+    return out
+
+
+def main(argv: list[str] | None = None) -> int:
+    p = argparse.ArgumentParser(
+        prog="session-store-cleanup",
+        description="Safe retention sweep for OpenClaw session stores (CHG-0910).",
+    )
+    p.add_argument("--dry-run", action="store_true", help="Log actions but do not move files.")
+    p.add_argument("--agent", help="Process only this agent id.")
+    p.add_argument("--all-agents", action="store_true", help="Process every agent with a sessions dir.")
+    p.add_argument("--force", action="store_true", help="Override the 50%% safety guard.")
+    p.add_argument("--min-age-hours", type=float, default=24.0, help="Min age (h) for unreferenced files. Default 24.")
+    p.add_argument("--backup-age-days", type=float, default=7.0, help="Min age (d) for sessions.json.bak-*. Default 7.")
+    p.add_argument("--archive-root", type=Path, default=ARCHIVE_ROOT_DEFAULT)
+    p.add_argument("--log-file", type=Path, default=LOG_FILE_DEFAULT)
+    p.add_argument("--big-trajectory-mb", type=float, default=10.0, help="Warn (no archive) when referenced trajectory > this MB. Default 10.")
+    p.add_argument("--max-archive-pct", type=float, default=50.0, help="Refuse to archive more than this %% of the dir. Default 50.")
+    args = p.parse_args(argv)
+
+    if not (args.agent or args.all_agents):
+        p.error("specify --agent <id> or --all-agents")
+
+    if args.agent and args.all_agents:
+        p.error("--agent and --all-agents are mutually exclusive")
+
+    # Sanitize --agent: must be a simple directory name (no slashes, no .., no leading dot)
+    if args.agent:
+        if "/" in args.agent or "\\" in args.agent or ".." in args.agent or args.agent.startswith("."):
+            p.error(
+                f"--agent must be a simple directory name (no slashes, dots, or '..'), got: {args.agent!r}"
+            )
+
+    if args.min_age_hours < 0 or args.backup_age_days < 0:
+        p.error("--min-age-hours and --backup-age-days must be non-negative")
+
+    log = Logger(args.log_file, args.dry_run)
+    log.info(
+        f"start dry_run={args.dry_run} force={args.force} "
+        f"min_age_hours={args.min_age_hours} backup_age_days={args.backup_age_days} "
+        f"archive_root={args.archive_root} big_trajectory_mb={args.big_trajectory_mb} "
+        f"max_archive_pct={args.max_archive_pct}"
+    )
+
+    if args.agent:
+        agents = [args.agent]
+    else:
+        agents = discover_agents()
+        if not agents:
+            log.warn(f"no agents with sessions dirs under {AGENTS_DIR}")
+            return 0
+    log.info(f"agents to process: {agents}")
+
+    total_moved = 0
+    total_warned = 0
+    total_skipped = 0
+    failed_agents: list[str] = []
+
+    for agent_id in agents:
+        sessions_dir = AGENTS_DIR / agent_id / "sessions"
+        try:
+            moved, warned, skipped = process_agent(
+                agent_id,
+                sessions_dir,
+                min_age_hours=args.min_age_hours,
+                backup_age_days=args.backup_age_days,
+                archive_root=args.archive_root,
+                big_trajectory_mb=args.big_trajectory_mb,
+                max_archive_pct=args.max_archive_pct,
+                force=args.force,
+                dry_run=args.dry_run,
+                log=log,
+            )
+            total_moved += moved
+            total_warned += warned
+            total_skipped += skipped
+        except SystemExit as exc:
+            code = int(exc.code) if exc.code is not None else 1
+            if code in (2, 3):
+                failed_agents.append(f"{agent_id}(exit={code})")
+                log.error(f"agent={agent_id} failed with exit code {code}; continuing other agents")
+                continue
+            raise
+
+    log.info(
+        f"DONE moved={total_moved} warned-big={total_warned} skipped={total_skipped} "
+        f"failed_agents={failed_agents or 'none'}"
+    )
+    if failed_agents:
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        print("interrupted", file=sys.stderr)
+        sys.exit(130)
+

@@ -1,0 +1,23 @@
+{
+  "check": "R01 Path Discipline (Tilde Sweep)",
+  "timestamp": "2026-07-19T05:50:02Z",
+  "status": "PASS",
+  "sweepResult": {
+    "filesProcessed": 8,
+    "tildeRefsReplaced": 28,
+    "filesSkippedLocked": 0,
+    "filesSkippedFresh": 2,
+    "filesSkippedStructural": 1,
+    "filesFailed": 0
+  },
+  "remainingTildeFiles": {
+    "count": 6,
+    "details": {
+      "structuralSkip_gatewaySession": 1,
+      "freshUnder60s": 4,
+      "currentActiveSession": 1
+    },
+    "note": "All remaining tilde paths are in active/locked/fresh files intentionally excluded by sweep safety gates. No actionable tilde paths remain in sweepable files."
+  },
+  "verdict": "R01 PASS — all sweepable session files are tilde-free"
+}

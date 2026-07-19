@@ -46,7 +46,7 @@ Telegram (@dinnercrew_ainchors_bot)
    bash scripts/secrets-init.sh store dinner-crew-bot-token "<token>"
    ```
 
-3. **Apply config**:
+3. **Apply config + CHG-0909 allowlist fix** (see openclaw.json manual edits):
    ```
    bash scripts/foodie-enable.sh
    ```
@@ -57,6 +57,14 @@ Telegram (@dinnercrew_ainchors_bot)
    ```
 
 5. **Verify**: Send a message to @dinnercrew_ainchors_bot in Telegram
+   - **First test:** ask Foodie for a restaurant recommendation. Confirm one
+     short reply, no loop.
+   - **Second test:** ask Foodie to send an email. Confirm ONE message
+     stating it cannot, then silence.
+   - **Third test:** ask Foodie a known out-of-scope question. Confirm
+     one-message redirect, no retry.
+   - Only after all three tests pass should Ken re-enable the Foodie
+     Telegram account in openclaw.json.
 
 ## Adding Users
 

@@ -11,8 +11,17 @@
 #   telegram-alert.sh --message "text" --chat-id CHAT_ID [--silent]
 #
 # SKILL GATE: telegram skill MUST be loaded before use.
+# CHG-0927: Run the gate as a child process (do NOT `source` it) so that
+# the gate's `exit` does not kill this script. The gate returns 0 if the
+# skill is loaded (or the gate is bypassed), and non-zero if blocked.
+# The gate's stderr box is preserved for the user.
 SCRIPT_DIR_TG="$(cd "$(dirname "$0")" && pwd)"
-source "${SCRIPT_DIR_TG}/skill-gate.sh" "telegram" || exit $?
+if ! "${SCRIPT_DIR_TG}/skill-gate.sh" "telegram" 2>/tmp/telegram-alert-gate.err; then
+  cat /tmp/telegram-alert-gate.err >&2
+  rm -f /tmp/telegram-alert-gate.err
+  exit 1
+fi
+rm -f /tmp/telegram-alert-gate.err
 #
 # Requirements:
 #   - Telegram bot token in Keychain: telegram-bot-token
@@ -39,6 +48,7 @@ SILENT=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --message|-m)   MESSAGE="$2"; shift 2 ;;
+    --message-file|-f) MESSAGE_FILE="$2"; shift 2 ;;
     --chat-id|-c)   CHAT_ID="$2"; shift 2 ;;
     --recipients|-r) RECIPIENTS="$2"; shift 2 ;;
     --silent)       SILENT=true; shift ;;
@@ -46,8 +56,19 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Resolve --message-file: read the file content into MESSAGE so the rest of
+# the pipeline is unchanged. (CHG-0927: helps LLM agents that struggle with
+# multi-line message quoting on the command line.)
+if [[ -n "${MESSAGE_FILE:-}" ]]; then
+  if [[ ! -f "$MESSAGE_FILE" ]]; then
+    /bin/echo "❌ --message-file: file not found: $MESSAGE_FILE" >&2
+    exit 1
+  fi
+  MESSAGE=$(cat "$MESSAGE_FILE")
+fi
+
 if [[ -z "$MESSAGE" ]]; then
-  /bin/echo "❌ --message required" >&2
+  /bin/echo "❌ --message or --message-file required" >&2
   exit 1
 fi
 
@@ -73,19 +94,47 @@ fi
 
 # Build chat ID list: use --recipients if given, else --chat-id
 # CHG-0799: Multi-recipient support
+# CHG-0927: Sanitize chat IDs to strip whitespace and surrounding quote chars
+#   (the most common LLM-agent artefact: an exec call with `"8574109706"`
+#   passed as a single arg to --chat-id). Curly quotes are also stripped.
+#   If a sanitized ID is non-numeric, skip it loudly rather than silently
+#   sending to a malformed ID.
+sanitize_chat_id() {
+  local raw="$1"
+  # Strip whitespace + straight quotes + curly quotes. The literal Unicode
+  # chars (U+2018, U+2019, U+201C, U+201D) are written here as raw bytes
+  # for portability across bash and zsh (no $'...' / \uXXXX escape needed).
+  local stripped
+  # Two passes: first strip whitespace + ASCII quotes, then strip Unicode curly quotes.
+  stripped=$(printf '%s' "$raw" | tr -d "[:space:]\"'\"")
+  stripped=$(printf '%s' "$stripped" | tr -d "“”‘’")
+  # Validate: must be all digits, optional leading minus for groups
+  if [[ "$stripped" =~ ^-?[0-9]+$ ]]; then
+    printf '%s' "$stripped"
+    return 0
+  fi
+  return 1
+}
+
 if [[ -n "${RECIPIENTS:-}" ]]; then
-  # Split comma-separated IDs and trim whitespace
   CHAT_ID_LIST=()
   OLD_IFS="$IFS"
   IFS=','
   for _cid in $(echo "$RECIPIENTS"); do
-    # Trim whitespace
-    _cid=$(echo "$_cid" | xargs)
-    CHAT_ID_LIST+=("$_cid")
+    if _clean=$(sanitize_chat_id "$_cid"); then
+      [[ -n "$_clean" ]] && CHAT_ID_LIST+=("$_clean")
+    else
+      /bin/echo "❌ Skipping non-numeric chat ID: '$_cid' (sanitize failed)" >&2
+    fi
   done
   IFS="$OLD_IFS"
 else
-  CHAT_ID_LIST=("$CHAT_ID")
+  if _clean=$(sanitize_chat_id "$CHAT_ID"); then
+    CHAT_ID_LIST=("$_clean")
+  else
+    /bin/echo "❌ Telegram recipient must be a numeric chat ID (got: '$CHAT_ID')" >&2
+    exit 2
+  fi
 fi
 
 OVERALL_EXIT=0

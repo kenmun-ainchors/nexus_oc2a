@@ -1,1 +1,19 @@
-{"status":"error","error":"","at":"2026-06-15T03:15:31Z"}
+{
+  "violations": [],
+  "passes": [
+    {
+      "job": "AInchors Morning Stand-Up",
+      "id": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
+      "to": "8574109706",
+      "accountId": "yoda(default)"
+    }
+  ],
+  "warnings": [],
+  "auditAt": "2026-07-16T02:32:17Z",
+  "summary": {
+    "violations": 0,
+    "passes": 1,
+    "warnings": 0
+  },
+  "status": "pass"
+}

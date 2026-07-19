@@ -1,59 +1,59 @@
 {
   "registry_version": "1.0",
   "created_at": "2026-04-26T08:50:00Z",
-  "last_reviewed": "2026-07-12T07:00:03Z",
+  "last_reviewed": "2026-07-18",
   "assets": [
     {
       "id": "asset-001",
       "name": "SOUL.md",
       "type": "Design Doc",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/SOUL.md",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/SOUL.md",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-12",
+      "last_updated": "2026-07-13",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "Core values and mission for AInchors AI system [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81fb-a3bf-fd654f291c07"
+      "notion_page_id": "3a1890b6-ece8-81d4-b6cf-f58ca836d94d"
     },
     {
       "id": "asset-002",
       "name": "AGENTS.md",
       "type": "Design Doc",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/AGENTS.md",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/AGENTS.md",
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "Agent roster and responsibility definitions [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-815d-8d31-dd810aac4311"
+      "notion_page_id": "3a1890b6-ece8-81c7-a9a3-d6f48f87d8cc"
     },
     {
       "id": "asset-003",
       "name": "MEMORY.md",
       "type": "Memory",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/MEMORY.md",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/MEMORY.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-07-12",
+      "last_updated": "2026-07-15",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "Primary system memory and persistent context [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-810e-a4f3-c4c47dd7eac7"
+      "notion_page_id": "3a1890b6-ece8-81cb-981f-da8153508b11"
     },
     {
       "id": "asset-004",
       "name": "HEARTBEAT.md",
       "type": "Config",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/HEARTBEAT.md",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/HEARTBEAT.md",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-05",
+      "last_updated": "2026-07-13",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Infra Agent",
       "notes": "Heartbeat config and scheduled operations manifest [Review 2026-07-05: content verified current]",
-      "notion_page_id": "386c1829-53ff-81b3-9921-e88a542c73e7"
+      "notion_page_id": "3a1890b6-ece8-8109-b51b-e9bb4c2f39a6"
     },
     {
       "id": "asset-005",
@@ -63,23 +63,23 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-26",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "System-level agent architecture design and protocols",
-      "notion_page_id": "386c1829-53ff-8164-86fa-c86f767a0f73"
+      "notes": "System-level agent architecture design and protocols [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8199-be11-ca51c2c21b56"
     },
     {
       "id": "asset-006",
       "name": "IDENTITY.md",
       "type": "Design Doc",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/IDENTITY.md",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/IDENTITY.md",
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "Yoda agent identity, persona, and operating principles [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-816a-a1bc-e9710cef5e6f"
+      "notion_page_id": "3a1890b6-ece8-8129-9819-de39c6297463"
     },
     {
       "id": "asset-007",
@@ -89,166 +89,166 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-05-03",
       "review_frequency": "Weekly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Shared context injected into all agent sessions",
-      "notion_page_id": "386c1829-53ff-819d-a2c7-e6135a6a159e"
+      "notes": "Shared context injected into all agent sessions [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-815e-b93a-f9d0ec9e4ad8"
     },
     {
       "id": "asset-008",
       "name": "USER.md",
       "type": "Config",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/USER.md",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/USER.md",
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Ken",
       "notes": "Ken Mun profile, preferences, and communication style [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81f8-9bb8-e6eb5a2b69e3"
+      "notion_page_id": "3a1890b6-ece8-8124-84a1-fb7a2ae5ba44"
     },
     {
       "id": "asset-009",
       "name": "TOOLS.md",
       "type": "Guide",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/TOOLS.md",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/TOOLS.md",
       "created_date": "2026-04-25",
-      "last_updated": "2026-06-19",
+      "last_updated": "2026-07-18",
       "review_frequency": "Quarterly",
       "status": "Current",
       "owner": "Infra Agent",
       "notes": "Tool usage guidelines and policies for agents",
-      "notion_page_id": "386c1829-53ff-8137-950e-c575acda85ab"
+      "notion_page_id": "3a1890b6-ece8-8110-a397-d2dd0b59e588"
     },
     {
       "id": "asset-010",
       "name": "backup.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/backup.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/backup.sh",
       "created_date": "2026-04-25",
       "last_updated": "2026-06-21",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Infra Agent",
       "notes": "Backup automation script for workspace and vault",
-      "notion_page_id": "386c1829-53ff-8185-8544-df197d1e30d4"
+      "notion_page_id": "3a1890b6-ece8-810c-9700-e4496ad450cf"
     },
     {
       "id": "asset-011",
       "name": "cost-tracker.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/cost-tracker.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/cost-tracker.sh",
       "created_date": "2026-04-26",
       "last_updated": "2026-06-11",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "API cost tracking and budget monitoring script",
-      "notion_page_id": "386c1829-53ff-8113-b595-f9e2c3062e8b"
+      "notion_page_id": "3a1890b6-ece8-81c3-9e57-eb8ff5f10654"
     },
     {
       "id": "asset-012",
       "name": "delegate-gemma4.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/delegate-gemma4.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/delegate-gemma4.sh",
       "created_date": "2026-04-26",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Infra Agent",
       "notes": "Delegation script for routing tasks to Gemma4 model [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81f9-be7d-d4b0f996aecf"
+      "notion_page_id": "3a1890b6-ece8-817f-a1e3-fcce1693eca7"
     },
     {
       "id": "asset-013",
       "name": "health-check.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/health-check.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/health-check.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-12",
+      "last_updated": "2026-07-18",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Infra Agent",
       "notes": "System health check and monitoring script [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81c4-8ba0-f478edd2430b"
+      "notion_page_id": "3a1890b6-ece8-81d8-9086-d013409751b9"
     },
     {
       "id": "asset-014",
       "name": "roi-update.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/roi-update.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/roi-update.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-12",
+      "last_updated": "2026-07-13",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "ROI model update and business value tracking [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-818c-ae03-f9aa6c0cdf47"
+      "notion_page_id": "3a1890b6-ece8-8101-8664-de9c0513e4e8"
     },
     {
       "id": "asset-015",
       "name": "startup-recovery.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/startup-recovery.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/startup-recovery.sh",
       "created_date": "2026-04-26",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Infra Agent",
       "notes": "Startup recovery and state restoration script [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81f0-a5e4-d2ee3fc5f6a3"
+      "notion_page_id": "3a1890b6-ece8-8193-82ac-f3061905257c"
     },
     {
       "id": "asset-016",
       "name": "task-checkpoint.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-checkpoint.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/task-checkpoint.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-12",
+      "last_updated": "2026-07-13",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "Task checkpoint writing utility [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-8103-b3dd-ff6c1844b76a"
+      "notion_page_id": "3a1890b6-ece8-81e0-841a-fb411faa39cc"
     },
     {
       "id": "asset-017",
       "name": "task-complete.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-complete.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/task-complete.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-12",
+      "last_updated": "2026-07-13",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "Task completion signaling script [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81eb-bbdb-e2d201ae9ac0"
+      "notion_page_id": "3a1890b6-ece8-8163-9c73-ed0241911d4d"
     },
     {
       "id": "asset-018",
       "name": "task-create.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-create.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/task-create.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-07-12",
+      "last_updated": "2026-07-13",
       "review_frequency": "Monthly",
       "status": "Current",
       "owner": "Yoda",
       "notes": "Task creation and registration script [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-813e-90bd-e04691b50aed"
+      "notion_page_id": "3a1890b6-ece8-81da-a733-d86443181331"
     },
     {
       "id": "asset-019",
       "name": "task-watchdog.sh",
       "type": "Script",
-      "location": "/Users/ainchorsangiefpl/.openclaw/workspace/scripts/task-watchdog.sh",
+      "location": "/Users/ainchorsoc2a/.openclaw/workspace/scripts/task-watchdog.sh",
       "created_date": "2026-04-26",
-      "last_updated": "2026-06-19",
+      "last_updated": "2026-07-13",
       "review_frequency": "Weekly",
       "status": "Current",
       "owner": "Infra Agent",
       "notes": "Watchdog for monitoring stuck or failed tasks",
-      "notion_page_id": "386c1829-53ff-81d1-a036-d9180e1955f4"
+      "notion_page_id": "3a1890b6-ece8-8149-9534-eed716aa88d4"
     },
     {
       "id": "asset-020",
@@ -258,10 +258,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Content agent design, capabilities, and prompts [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-8111-a6bb-d59154ef5656"
+      "notes": "Content agent design, capabilities, and prompts [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81b9-bcdd-ea8e912f1c7a"
     },
     {
       "id": "asset-021",
@@ -271,10 +271,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Dev agent design, capabilities, and prompts [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81ee-92ca-f65861d04598"
+      "notes": "Dev agent design, capabilities, and prompts [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81cb-bcda-efb255133109"
     },
     {
       "id": "asset-022",
@@ -284,10 +284,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-07-12",
       "review_frequency": "Weekly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Infra Agent",
-      "notes": "Infra agent design, responsibilities, and cron manifest [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-813c-8a24-c57b96121038"
+      "notes": "Infra agent design, responsibilities, and cron manifest [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-819a-9aa7-e02b9988907c"
     },
     {
       "id": "asset-023",
@@ -297,10 +297,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Quarterly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Ken",
-      "notes": "Legal agent design and compliance guidance",
-      "notion_page_id": "386c1829-53ff-8171-900f-c2faa41e67e6"
+      "notes": "Legal agent design and compliance guidance [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8166-a778-e8f7c36f4a67"
     },
     {
       "id": "asset-024",
@@ -310,10 +310,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Marketing agent design and campaign protocols [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-8164-84c7-f939d1da8955"
+      "notes": "Marketing agent design and campaign protocols [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8179-a0ce-c2d76ba0911b"
     },
     {
       "id": "asset-025",
@@ -323,10 +323,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "QA agent design and testing protocols [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81a6-9adc-e9b489685398"
+      "notes": "QA agent design and testing protocols [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81fe-a7d8-f20118ffcbf6"
     },
     {
       "id": "asset-026",
@@ -336,10 +336,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Report agent design and output templates [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-8191-a4d9-e74144d69eea"
+      "notes": "Report agent design and output templates [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8118-b08b-ebc2f88959d6"
     },
     {
       "id": "asset-027",
@@ -349,10 +349,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Research agent design and methodology [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-8196-96db-e68d7353f5fc"
+      "notes": "Research agent design and methodology [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-816a-807c-ffd901b11a32"
     },
     {
       "id": "asset-028",
@@ -362,10 +362,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Infra Agent",
-      "notes": "Security agent design and threat protocols [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-8133-97ba-feb2b69aca57"
+      "notes": "Security agent design and threat protocols [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81d9-bf35-e898a6b9b318"
     },
     {
       "id": "asset-029",
@@ -375,10 +375,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Social media agent design and content protocols [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-818c-aa73-ca97a00e6fea"
+      "notes": "Social media agent design and content protocols [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81cb-883d-f827b73f3807"
     },
     {
       "id": "asset-030",
@@ -388,10 +388,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Support agent design and client protocols [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-8101-81a5-f93872dcc613"
+      "notes": "Support agent design and client protocols [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8131-b240-f055f8616d8e"
     },
     {
       "id": "asset-031",
@@ -401,10 +401,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Ken",
-      "notes": "Company profile, clients, and strategic context [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81a4-b40a-d9725b892fc3"
+      "notes": "Company profile, clients, and strategic context [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8114-8d72-ca2e14e64ad0"
     },
     {
       "id": "asset-032",
@@ -414,10 +414,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-07-12",
       "review_frequency": "Weekly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Running API cost history and budget tracking [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-811f-a410-de741d4fda89"
+      "notes": "Running API cost history and budget tracking [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81a9-b93f-ee71768249e9"
     },
     {
       "id": "asset-033",
@@ -427,10 +427,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-06-20",
       "review_frequency": "Weekly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Key decisions log \u2014 strategic and architectural choices",
-      "notion_page_id": "386c1829-53ff-813a-8eb5-d505c762a2d8"
+      "notes": "Key decisions log \u2014 strategic and architectural choices [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-816b-bf90-ff1cc9f8b81e"
     },
     {
       "id": "asset-034",
@@ -440,10 +440,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Infra Agent",
-      "notes": "Third-party integrations, API keys reference, and connection status [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-814f-8ed0-c1adae78e4ce"
+      "notes": "Third-party integrations, API keys reference, and connection status [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8148-af43-d2fb38f25ec0"
     },
     {
       "id": "asset-035",
@@ -453,10 +453,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-07-12",
       "review_frequency": "Monthly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Infra Agent",
-      "notes": "Notion workspace structure and database IDs [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-81b9-800e-dadd35720622"
+      "notes": "Notion workspace structure and database IDs [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8137-b829-c08b81f99ed3"
     },
     {
       "id": "asset-036",
@@ -466,10 +466,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-07-12",
       "review_frequency": "Weekly",
-      "status": "Current",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Active and pipeline project tracking [Review 2026-07-12: content verified current]",
-      "notion_page_id": "386c1829-53ff-812e-b598-e76e3aa56734"
+      "notes": "Active and pipeline project tracking [Review 2026-07-12: content verified current] [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8176-8ae5-edeeb104701d"
     },
     {
       "id": "asset-037",
@@ -479,10 +479,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-04-26",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Ken",
-      "notes": "ROI model and business value calculation framework",
-      "notion_page_id": "386c1829-53ff-81d8-bbb8-f822aee2b9f4"
+      "notes": "ROI model and business value calculation framework [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-811a-b23e-d5ddb9295ee8"
     },
     {
       "id": "asset-038",
@@ -492,10 +492,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Weekly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Ken",
-      "notes": "Project management playbook and active project list",
-      "notion_page_id": "386c1829-53ff-8173-b253-e6b197b8377e"
+      "notes": "Project management playbook and active project list [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8143-b59a-edeba059da33"
     },
     {
       "id": "asset-039",
@@ -505,10 +505,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Quarterly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Operations overview and navigation guide",
-      "notion_page_id": "386c1829-53ff-8139-80ed-d8295b2ffb3f"
+      "notes": "Operations overview and navigation guide [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81bb-a2a0-c732aa1634ee"
     },
     {
       "id": "asset-040",
@@ -518,10 +518,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Infra Agent",
-      "notes": "System reliability standards and incident response playbook",
-      "notion_page_id": "386c1829-53ff-819c-8196-c64b05dd7a48"
+      "notes": "System reliability standards and incident response playbook [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81d5-accc-f39d6c6f4bc3"
     },
     {
       "id": "asset-041",
@@ -531,10 +531,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Quarterly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Ken",
-      "notes": "Compliance policies and regulatory requirements",
-      "notion_page_id": "386c1829-53ff-8163-b276-f7ac0f419428"
+      "notes": "Compliance policies and regulatory requirements [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8146-977c-c1ae73b51c66"
     },
     {
       "id": "asset-042",
@@ -544,10 +544,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-04-26",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Infra Agent",
-      "notes": "Offline/degraded mode operations playbook",
-      "notion_page_id": "386c1829-53ff-8170-9d6a-edf0e61dbcfb"
+      "notes": "Offline/degraded mode operations playbook [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8108-9186-d6531127085d"
     },
     {
       "id": "asset-043",
@@ -557,10 +557,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-04-26",
       "review_frequency": "Quarterly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Operational standards and quality benchmarks",
-      "notion_page_id": "386c1829-53ff-8148-a773-dbbe8f2608d4"
+      "notes": "Operational standards and quality benchmarks [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-811a-8af2-f47dcec7d4e5"
     },
     {
       "id": "asset-044",
@@ -570,10 +570,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-04-26",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Async task execution patterns and best practices",
-      "notion_page_id": "386c1829-53ff-812a-a7a8-d5f86a715722"
+      "notes": "Async task execution patterns and best practices [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8164-9d21-e4dfab85f27f"
     },
     {
       "id": "asset-045",
@@ -583,10 +583,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Agent system architecture and design patterns",
-      "notion_page_id": "386c1829-53ff-818b-886b-fe9a8d0975b0"
+      "notes": "Agent system architecture and design patterns [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81e8-8c08-d8ef7049dd54"
     },
     {
       "id": "asset-046",
@@ -596,10 +596,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Quarterly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Dual-instance (cloud+local) architecture design",
-      "notion_page_id": "386c1829-53ff-811e-a83a-c0cc73d86104"
+      "notes": "Dual-instance (cloud+local) architecture design [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-812d-a775-c05d7048de21"
     },
     {
       "id": "asset-047",
@@ -609,10 +609,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-04-26",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Model selection strategy and cost-quality tradeoffs",
-      "notion_page_id": "386c1829-53ff-81b9-8b24-cdc7fbea5cc8"
+      "notes": "Model selection strategy and cost-quality tradeoffs [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-813b-a18f-ca9a191d6194"
     },
     {
       "id": "asset-048",
@@ -622,10 +622,10 @@
       "created_date": "2026-04-26",
       "last_updated": "2026-04-26",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Infra Agent",
-      "notes": "Infra agent detailed design specification in Obsidian",
-      "notion_page_id": "386c1829-53ff-81be-bdab-ef6d8e314d38"
+      "notes": "Infra agent detailed design specification in Obsidian [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-814d-98b4-cc350a70cecb"
     },
     {
       "id": "asset-049",
@@ -635,10 +635,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Quarterly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Infra Agent",
-      "notes": "Agent migration and upgrade guide",
-      "notion_page_id": "386c1829-53ff-81e9-b1dd-fa850b27f889"
+      "notes": "Agent migration and upgrade guide [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81f4-814d-c5236a511eff"
     },
     {
       "id": "asset-050",
@@ -648,10 +648,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Quarterly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Yoda",
-      "notes": "Agents section navigation and overview",
-      "notion_page_id": "386c1829-53ff-818d-a9e1-d30033ea8769"
+      "notes": "Agents section navigation and overview [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-813a-8d8d-c14683ac156c"
     },
     {
       "id": "asset-051",
@@ -661,10 +661,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Ken",
-      "notes": "AInchors company overview, mission, and positioning",
-      "notion_page_id": "386c1829-53ff-81bf-8772-f782f7cb1eeb"
+      "notes": "AInchors company overview, mission, and positioning [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-81dd-ab90-ccfb415186f0"
     },
     {
       "id": "asset-052",
@@ -674,10 +674,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Quarterly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Ken",
-      "notes": "Brand guidelines, voice, and visual standards",
-      "notion_page_id": "386c1829-53ff-811e-a40a-fbc7be2a003f"
+      "notes": "Brand guidelines, voice, and visual standards [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-816e-a0c6-e4e8ce970e66"
     },
     {
       "id": "asset-053",
@@ -687,10 +687,10 @@
       "created_date": "2026-04-25",
       "last_updated": "2026-04-25",
       "review_frequency": "Monthly",
-      "status": "Missing",
+      "status": "Archived",
       "owner": "Ken",
-      "notes": "Company-level strategic decisions log (Obsidian copy)",
-      "notion_page_id": "386c1829-53ff-818a-a56d-ec93f6614e01"
+      "notes": "Company-level strategic decisions log (Obsidian copy) [Archived 2026-07-18: OC1-only asset, not migrated to OC2A]",
+      "notion_page_id": "3a1890b6-ece8-8102-a203-c0b6ff509c2a"
     }
   ]
 }

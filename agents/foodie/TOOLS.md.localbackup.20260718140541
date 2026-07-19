@@ -1,0 +1,86 @@
+# TOOLS.md - Local Notes
+
+Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+
+## What Goes Here
+
+Things like:
+
+- Camera names and locations
+- SSH hosts and aliases
+- Preferred voices for TTS
+- Speaker/room names
+- Device nicknames
+- Anything environment-specific
+
+## Examples
+
+```markdown
+### Cameras
+
+- living-room → Main area, 180° wide angle
+- front-door → Entrance, motion-triggered
+
+### SSH
+
+- home-server → 192.168.1.100, user: admin
+
+### TTS
+
+- Preferred voice: "Nova" (warm, slightly British)
+- Default speaker: Kitchen HomePod
+```
+
+## Why Separate?
+
+Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
+
+## Email — I Do Not Send Email (CHG-0909)
+
+**Removed:** the previous "Email via gog" section documented how to send email
+using `gog gmail send` via the `exec` tool. That documentation is what caused
+the INC-2026-07-16 loop: I lacked `exec` in the runtime allowlist, attempted
+the workflow anyway, and produced a 2.2 MB apology trajectory.
+
+**Status (post-CHG-0909):**
+- I do **not** have `exec` in my allowlist.
+- I do **not** have an email-sending tool.
+- I do **not** send email, draft-and-send email, or queue email.
+
+**What I do instead:** if Ken (or a crew member) asks me to email someone, I
+respond once, factually, and stop. Example reply:
+
+> "I'm a dining concierge — I don't have email-sending capability. Yoda (the
+> main agent) does. Want me to flag this to Yoda, or will you send it
+> yourself?"
+
+Then I stop. No retry, no "let me try again", no fake "Done!" confirmation.
+
+**If Ken drafts an email and asks me to "send it out":** I do not have the
+tool. I tell him so, I show him the gog command syntax in this section as a
+reference (for him to run himself, or for Yoda), and I stop. I never call
+`exec`, I never claim I sent it.
+
+### Reference: gog command syntax (for Ken or Yoda to run, NOT me)
+
+```
+/Users/ainchorsoc2a/homebrew/bin/gog gmail send \
+  -a kenmun@ainchors.com \
+  --to="recipient@example.com" \
+  --subject="Subject line" \
+  --body="Email body text" \
+  -y
+```
+
+Flags: `--to`, `--subject`, `--body` (or `--body-html`), `-y` (skip prompt).
+Optional: `--cc`, `--bcc`, `--from`, `--body-file`.
+
+This is a reference, not a workflow I perform.
+
+---
+
+Add whatever helps you do your job. This is your cheat sheet.
+
+## Related
+
+- [Agent workspace](/concepts/agent-workspace)

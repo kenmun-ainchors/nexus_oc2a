@@ -9912,10 +9912,240 @@
       "status": "fail",
       "latencyMs": 0,
       "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-16T08:07:11+10:00",
+      "date": "2026-07-16",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-16T10:07:11+10:00",
+      "date": "2026-07-16",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-16T12:07:10+10:00",
+      "date": "2026-07-16",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-16T14:11:50+10:00",
+      "date": "2026-07-16",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-16T16:07:10+10:00",
+      "date": "2026-07-16",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-16T18:07:10+10:00",
+      "date": "2026-07-16",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-16T20:07:27+10:00",
+      "date": "2026-07-16",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-16T22:07:10+10:00",
+      "date": "2026-07-16",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-17T00:07:10+10:00",
+      "date": "2026-07-17",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-18T12:07:11+10:00",
+      "date": "2026-07-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-18T14:07:19+10:00",
+      "date": "2026-07-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-18T16:07:15+08:00",
+      "date": "2026-07-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-18T18:07:21+08:00",
+      "date": "2026-07-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-18T20:07:14+08:00",
+      "date": "2026-07-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-18T22:07:14+08:00",
+      "date": "2026-07-18",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T00:07:10+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T02:07:09+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T04:07:10+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T06:07:09+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T08:07:09+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T10:07:09+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T12:35:14+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T14:07:09+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
     }
   ],
   "summary": {
-    "total": 991,
+    "total": 1014,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -9924,7 +10154,7 @@
       },
       "T2": {
         "pass": 700,
-        "fail": 291,
+        "fail": 314,
         "timeout": 0
       },
       "T3": {
@@ -9936,7 +10166,7 @@
     "byTaskType": {
       "warden-check": {
         "pass": 682,
-        "fail": 291,
+        "fail": 314,
         "timeout": 0,
         "tier": "T2"
       },

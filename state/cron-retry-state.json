@@ -4,10 +4,10 @@
     "2c855a3e": {
       "cronId": "2c855a3e",
       "name": "PG-Notion Batch Sync (30-min)",
-      "consecutiveTimeouts": 11,
-      "totalTimeouts": 11,
+      "consecutiveTimeouts": 15,
+      "totalTimeouts": 15,
       "retriesUsed": 2,
-      "lastTimeoutAt": "2026-07-14T08:06:35.031582+00:00",
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },
@@ -34,40 +34,250 @@
     "d32f2b9a": {
       "cronId": "d32f2b9a",
       "name": "AInchors Mission Control Refresh (systemEvent)",
-      "consecutiveTimeouts": 2,
-      "totalTimeouts": 2,
+      "consecutiveTimeouts": 6,
+      "totalTimeouts": 6,
       "retriesUsed": 2,
-      "lastTimeoutAt": "2026-07-08T02:49:21.663334+00:00",
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },
     "a89d00ef": {
       "cronId": "a89d00ef",
       "name": "AInchors Task Queue Processor (5-min \u2014 systemEvent)",
-      "consecutiveTimeouts": 2,
-      "totalTimeouts": 2,
+      "consecutiveTimeouts": 6,
+      "totalTimeouts": 6,
       "retriesUsed": 2,
-      "lastTimeoutAt": "2026-07-08T02:49:21.663334+00:00",
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },
     "637ecb12": {
       "cronId": "637ecb12",
       "name": "AInchors Task Monitor (systemEvent)",
-      "consecutiveTimeouts": 2,
-      "totalTimeouts": 2,
+      "consecutiveTimeouts": 6,
+      "totalTimeouts": 6,
       "retriesUsed": 2,
-      "lastTimeoutAt": "2026-07-08T02:49:21.663334+00:00",
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     },
     "c65ace85": {
       "cronId": "c65ace85",
       "name": "AInchors Gateway Health Check (silent)",
-      "consecutiveTimeouts": 2,
-      "totalTimeouts": 2,
+      "consecutiveTimeouts": 6,
+      "totalTimeouts": 6,
       "retriesUsed": 2,
-      "lastTimeoutAt": "2026-07-08T02:49:21.663334+00:00",
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "4a6c25d4": {
+      "cronId": "4a6c25d4",
+      "name": "task-queue-processor-runner",
+      "consecutiveTimeouts": 3,
+      "totalTimeouts": 3,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T03:35:29.853595+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "4d1920f6": {
+      "cronId": "4d1920f6",
+      "name": "TQP Daily Runner (fixed)",
+      "consecutiveTimeouts": 4,
+      "totalTimeouts": 4,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "9f43cf29": {
+      "cronId": "9f43cf29",
+      "name": "Main Session Context Early Warning (CHG-0840)",
+      "consecutiveTimeouts": 4,
+      "totalTimeouts": 4,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "f1dd43fc": {
+      "cronId": "f1dd43fc",
+      "name": "Main Session Context Watchdog (CHG-0840)",
+      "consecutiveTimeouts": 4,
+      "totalTimeouts": 4,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "e38eb280": {
+      "cronId": "e38eb280",
+      "name": "Gateway Heap Check (CHG-0840)",
+      "consecutiveTimeouts": 4,
+      "totalTimeouts": 4,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "bb3575e0": {
+      "cronId": "bb3575e0",
+      "name": "ollama-usage-scraper-refresh",
+      "consecutiveTimeouts": 4,
+      "totalTimeouts": 4,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "83accf7b": {
+      "cronId": "83accf7b",
+      "name": "Warden \u2014 Model Compliance (every 2h)",
+      "consecutiveTimeouts": 4,
+      "totalTimeouts": 4,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "065bd5a9": {
+      "cronId": "065bd5a9",
+      "name": "AInchors Post-Deliverable Validation (2h \u2014 systemEvent)",
+      "consecutiveTimeouts": 4,
+      "totalTimeouts": 4,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T03:50:09.770216+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "176cd48b": {
+      "cronId": "176cd48b",
+      "name": "retention-cleanup-daily (fixed delivery)",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "cfc40ddb": {
+      "cronId": "cfc40ddb",
+      "name": "Shield \ud83d\udee1\ufe0f \u2014 Security Review Sweep (daily)",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "4ae7274d": {
+      "cronId": "4ae7274d",
+      "name": "Lex \u2696\ufe0f \u2014 Legal Review Sweep (daily)",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "8231f723": {
+      "cronId": "8231f723",
+      "name": "Sage \ud83e\uddea \u2014 QA Review Sweep (daily)",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "e269d620": {
+      "cronId": "e269d620",
+      "name": "AInchors Auto-Heal (nightly)",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "516135b9": {
+      "cronId": "516135b9",
+      "name": "Daily Stale Task Cleanup (systemEvent)",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "6f7cfa99": {
+      "cronId": "6f7cfa99",
+      "name": "Model Context Sync (nightly)",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "dce1ada4": {
+      "cronId": "dce1ada4",
+      "name": "AKB Holocron \u2014 Daily Update (3AM \u2014 systemEvent)",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "6bd53c89": {
+      "cronId": "6bd53c89",
+      "name": "TRIGGER-04/06: OpenClaw Release Monitor",
+      "consecutiveTimeouts": 13,
+      "totalTimeouts": 13,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:44:09.397462+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "0afc4d20": {
+      "cronId": "0afc4d20",
+      "name": "Daily Memory Hygiene \u2014 Pre-Standup Sweep",
+      "consecutiveTimeouts": 12,
+      "totalTimeouts": 12,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:20:05.219473+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "3c279099": {
+      "cronId": "3c279099",
+      "name": "AInchors Morning Stand-Up",
+      "consecutiveTimeouts": 12,
+      "totalTimeouts": 12,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:20:05.219473+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "80c9226b": {
+      "cronId": "80c9226b",
+      "name": "AInchors Daily Backup (shell-direct, systemEvent)",
+      "consecutiveTimeouts": 12,
+      "totalTimeouts": 12,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:20:05.219473+00:00",
+      "nextRetryBackoffMs": 240000,
+      "deadLetter": false
+    },
+    "c5debd26": {
+      "cronId": "c5debd26",
+      "name": "AInchors Midday Cost Tracker",
+      "consecutiveTimeouts": 12,
+      "totalTimeouts": 12,
+      "retriesUsed": 2,
+      "lastTimeoutAt": "2026-07-18T06:20:05.219473+00:00",
       "nextRetryBackoffMs": 240000,
       "deadLetter": false
     }

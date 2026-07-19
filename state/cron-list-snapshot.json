@@ -6,13 +6,13 @@
       "description": "Minutely TQP runner for background task queue processing",
       "enabled": true,
       "createdAtMs": 1782230930306,
-      "updatedAtMs": 1783953663250,
+      "updatedAtMs": 1784393943477,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "cron",
         "expr": "*/1 * * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -26,18 +26,122 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783953660010,
+        "lastRunAtMs": 1784393940044,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 3240,
+        "lastDurationMs": 3433,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783953720000,
-        "scheduleErrorCount": 0
+        "nextRunAtMs": 1784394000000,
+        "scheduleErrorCount": 0,
+        "runningAtMs": 1784394000052
       },
-      "status": "ok"
+      "nextRunAtMs": 1784394000000,
+      "lastRunAtMs": 1784393940044,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "running"
+    },
+    {
+      "id": "ad213be3-35d4-427c-a58f-2cfaf033a66f",
+      "name": "R01 Session Trajectory Tilde Sweep (CHG-0924)",
+      "enabled": true,
+      "createdAtMs": 1784383279037,
+      "updatedAtMs": 1784393741598,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "*/5 * * * *",
+        "tz": "Asia/Kuala_Lumpur",
+        "staggerMs": 0
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Run R01 session trajectory sweep: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/r01-session-sweep.sh. Log results and report summary to Yoda/main session if R01 still FAIL.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "toolsAllow": [
+          "exec",
+          "read",
+          "write",
+          "edit"
+        ]
+      },
+      "delivery": {
+        "mode": "none",
+        "channel": "last"
+      },
+      "state": {
+        "nextRunAtMs": 1784394000000,
+        "lastRunAtMs": 1784393700044,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 41554,
+        "lastDeliveryStatus": "not-requested",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "runningAtMs": 1784394000052
+      },
+      "nextRunAtMs": 1784394000000,
+      "lastRunAtMs": 1784393700044,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "running"
+    },
+    {
+      "id": "e269d620-bf99-4515-b1a8-93ef8c0579b1",
+      "name": "AInchors Auto-Heal (nightly)",
+      "enabled": true,
+      "createdAtMs": 1777238338241,
+      "updatedAtMs": 1784357181518,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 1 * * *",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "AUTO-HEAL NIGHTLY: First load the pg-sprint-backlog skill: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/skill-load.sh pg-sprint-backlog. Then run zsh /Users/ainchorsoc2a/.openclaw/workspace/scripts/auto-heal.sh. After completion, read /Users/ainchorsoc2a/.openclaw/workspace/state/auto-heal-current.json. For each needs_ken item, log it. Report summary: 'AUTO-HEAL: [N] checks run, [M] issues, [K] needs_ken items'. If needs_ken_count > 0, list the items with severity.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 180,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "lastRunAtMs": 1784357162470,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 19048,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784394000000,
+        "scheduleErrorCount": 0,
+        "runningAtMs": 1784394000050
+      },
+      "nextRunAtMs": 1784394000000,
+      "lastRunAtMs": 1784357162470,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "running"
     },
     {
       "id": "4d1920f6-0515-4e1e-87e6-05f4ed4797bd",
@@ -45,7 +149,7 @@
       "description": "TQP Daily Runner — renamed/fixed from disabled cron. Runs task-queue-processor.sh every 4 min silently.",
       "enabled": true,
       "createdAtMs": 1782603070000,
-      "updatedAtMs": 1783953569280,
+      "updatedAtMs": 1784393796372,
       "agentId": "main",
       "schedule": {
         "kind": "every",
@@ -64,17 +168,22 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783953565282,
+        "lastRunAtMs": 1784393792996,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 3998,
+        "lastDurationMs": 3376,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783953805282,
+        "nextRunAtMs": 1784394032996,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784394032996,
+      "lastRunAtMs": 1784393792996,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
@@ -82,7 +191,7 @@
       "name": "Main Session Context Early Warning (CHG-0840)",
       "enabled": true,
       "createdAtMs": 1783559788377,
-      "updatedAtMs": 1783953096650,
+      "updatedAtMs": 1784393197741,
       "agentId": "main",
       "schedule": {
         "kind": "every",
@@ -127,80 +236,55 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783953091020,
+        "lastRunAtMs": 1784393190573,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 5630,
+        "lastDurationMs": 7168,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783953991020,
-        "scheduleErrorCount": 0
+        "nextRunAtMs": 1784394090573,
+        "scheduleErrorCount": 0,
+        "lastDiagnostics": {
+          "summary": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
+          "entries": [
+            {
+              "ts": 1784393190584,
+              "source": "cron-preflight",
+              "severity": "warn",
+              "message": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
+              "toolName": "web_search"
+            }
+          ]
+        },
+        "lastDiagnosticSummary": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider."
       },
+      "nextRunAtMs": 1784394090573,
+      "lastRunAtMs": 1784393190573,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
-      "id": "c65ace85-c5b0-4e96-ace6-ae925812c09b",
-      "name": "AInchors Gateway Health Check (15min)",
+      "id": "d3b1e203-741b-444a-9852-7bb8839d2c99",
+      "name": "AInchors Observability Collector (hourly)",
       "enabled": true,
-      "createdAtMs": 1777194033813,
-      "updatedAtMs": 1783953452824,
+      "createdAtMs": 1777509477205,
+      "updatedAtMs": 1784390842611,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "every",
-        "everyMs": 900000,
-        "anchorMs": 1783559223734
+        "everyMs": 3600000,
+        "anchorMs": 1783559215159
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
-        "message": "HEALTH_CHECK: Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/health-check.sh silently. After run, read /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_diagnostics — if consecutiveFailures >= 3 OR status=degraded, alert Ken via sovereign-alert.sh --source HEALTH. Otherwise output exactly: OK",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "failureAlert": {
-        "after": 3,
-        "channel": "last",
-        "to": "Ken",
-        "mode": "announce"
-      },
-      "state": {
-        "lastRunAtMs": 1783953440158,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 12666,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783954340158,
-        "scheduleErrorCount": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "637ecb12-eae2-4c16-b174-8acdaa2729cc",
-      "name": "AInchors Task Monitor (15min)",
-      "enabled": true,
-      "createdAtMs": 1777510853023,
-      "updatedAtMs": 1783953447897,
-      "schedule": {
-        "kind": "every",
-        "everyMs": 900000,
-        "anchorMs": 1783559222250
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "TASK_MONITOR: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/task-collector.sh. Then use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_task_queue — check for stalled tasks. If non-empty, use the exec tool to alert Ken via: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source TASK --message \"<summary>\". TKT-0501 fix: direct Bot API, no sessions_send.",
+        "message": "OBS_COLLECT: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/obs-collector.sh silently. No reply needed.",
         "model": "ollama/deepseek-v4-flash:cloud",
         "timeoutSeconds": 120,
         "lightContext": true
@@ -209,17 +293,22 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783953440159,
+        "lastRunAtMs": 1784390833728,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7738,
+        "lastDurationMs": 8883,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783954340159,
+        "nextRunAtMs": 1784394433728,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784394433728,
+      "lastRunAtMs": 1784390833728,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
@@ -227,7 +316,7 @@
       "name": "AInchors Mission Control Refresh (systemEvent)",
       "enabled": true,
       "createdAtMs": 1777294946970,
-      "updatedAtMs": 1783953458190,
+      "updatedAtMs": 1784393550925,
       "schedule": {
         "kind": "every",
         "everyMs": 900000,
@@ -246,17 +335,114 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783953454853,
+        "lastRunAtMs": 1784393546275,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 3337,
+        "lastDurationMs": 4650,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783954354853,
+        "nextRunAtMs": 1784394446275,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784394446275,
+      "lastRunAtMs": 1784393546275,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "c65ace85-c5b0-4e96-ace6-ae925812c09b",
+      "name": "AInchors Gateway Health Check (15min)",
+      "enabled": true,
+      "createdAtMs": 1777194033813,
+      "updatedAtMs": 1784393580833,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "every",
+        "everyMs": 900000,
+        "anchorMs": 1783559223734
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "HEALTH_CHECK: Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/health-check-heartbeat.sh silently. After run, read /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_diagnostics \\u2014 if consecutiveFailures >= 3 OR status=degraded, alert Ken via sovereign-alert.sh --source HEALTH. Otherwise output exactly: OK",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "failureAlert": {
+        "after": 3,
+        "channel": "last",
+        "to": "Ken",
+        "mode": "announce"
+      },
+      "state": {
+        "lastRunAtMs": 1784393573137,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 7696,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784394473137,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784394473137,
+      "lastRunAtMs": 1784393573137,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "637ecb12-eae2-4c16-b174-8acdaa2729cc",
+      "name": "AInchors Task Monitor (15min)",
+      "enabled": true,
+      "createdAtMs": 1777510853023,
+      "updatedAtMs": 1784393577404,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 900000,
+        "anchorMs": 1783559222250
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "TASK_MONITOR: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/task-collector.sh. Then use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/db-read.sh state_task_queue — check for stalled tasks. If non-empty, use the exec tool to alert Ken via: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source TASK --message \"<summary>\". TKT-0501 fix: direct Bot API, no sessions_send.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "lastRunAtMs": 1784393573139,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 4265,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784394473139,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784394473139,
+      "lastRunAtMs": 1784393573139,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
@@ -264,7 +450,7 @@
       "name": "AInchors Task Queue Processor (15min)",
       "enabled": true,
       "createdAtMs": 1779422036451,
-      "updatedAtMs": 1783953458232,
+      "updatedAtMs": 1784393596394,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
@@ -294,17 +480,22 @@
         "cooldownMs": 3600000
       },
       "state": {
-        "lastRunAtMs": 1783953454854,
+        "lastRunAtMs": 1784393591736,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 3378,
+        "lastDurationMs": 4658,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783954354854,
+        "nextRunAtMs": 1784394491736,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784394491736,
+      "lastRunAtMs": 1784393591736,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
@@ -312,7 +503,7 @@
       "name": "Main Session Context Watchdog (CHG-0840)",
       "enabled": true,
       "createdAtMs": 1783559273031,
-      "updatedAtMs": 1783953478004,
+      "updatedAtMs": 1784393596671,
       "agentId": "main",
       "schedule": {
         "kind": "every",
@@ -357,17 +548,132 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783953473150,
+        "lastRunAtMs": 1784393591737,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 4854,
+        "lastDurationMs": 4934,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783954373150,
+        "nextRunAtMs": 1784394491737,
+        "scheduleErrorCount": 0,
+        "lastDiagnostics": {
+          "summary": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
+          "entries": [
+            {
+              "ts": 1784393591776,
+              "source": "cron-preflight",
+              "severity": "warn",
+              "message": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
+              "toolName": "web_search"
+            }
+          ]
+        },
+        "lastDiagnosticSummary": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider."
+      },
+      "nextRunAtMs": 1784394491737,
+      "lastRunAtMs": 1784393591737,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "9ce7f295-98b1-487b-97a1-60a80cb0209e",
+      "name": "TZ Drift Monitor (hourly)",
+      "enabled": true,
+      "createdAtMs": 1779586493473,
+      "updatedAtMs": 1784390985642,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "every",
+        "everyMs": 3600000,
+        "anchorMs": 1783559378727
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "TZ_DRIFT_CHECK: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/tz-drift-monitor.sh. If exit code 2 (DRIFT_DETECTED), use the exec tool to alert Ken via: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source TZDRIFT --file state/tz-drift-report.json. TKT-0501 fix. No reply if OK.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "lastRunAtMs": 1784390979308,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 6334,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784394579308,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784394579308,
+      "lastRunAtMs": 1784390979308,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "2c855a3e-6b66-43f5-98a1-2a9293f7a527",
+      "name": "PG-Notion Batch Sync (hourly)",
+      "description": "TKT-0406: Batch reconciliation — sync all tickets with notion_sync.status != 'synced' every 30 min",
+      "enabled": true,
+      "createdAtMs": 1781167853325,
+      "updatedAtMs": 1784390999548,
+      "agentId": "main",
+      "schedule": {
+        "kind": "every",
+        "everyMs": 3600000,
+        "anchorMs": 1783559379491
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/pg-to-notion-sync.sh --batch\n\nThis syncs all tickets where notion_sync.status != 'synced'. It is self-healing — catches tickets whose event-driven sync failed. Process each ticket, apply rate limiting, update notion_sync metadata on success.\n\nIf errors: log to /Users/ainchorsoc2a/.openclaw/workspace/state/pg-notion-sync-errors.json\nIf 3 consecutive failures for same ticket: log to /Users/ainchorsoc2a/.openclaw/workspace/state/pg-notion-sync-dlq.json",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 120
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "failureAlert": {
+        "after": 3,
+        "channel": "telegram",
+        "to": "+61403650578",
+        "cooldownMs": 3600000
+      },
+      "state": {
+        "lastRunAtMs": 1784390987505,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 12043,
+        "lastDeliveryStatus": "not-requested",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "nextRunAtMs": 1784394587505,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784394587505,
+      "lastRunAtMs": 1784390987505,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
@@ -375,7 +681,7 @@
       "name": "Gateway Heap Check (CHG-0840)",
       "enabled": true,
       "createdAtMs": 1783559411647,
-      "updatedAtMs": 1783953681893,
+      "updatedAtMs": 1784393774640,
       "agentId": "main",
       "schedule": {
         "kind": "every",
@@ -420,249 +726,35 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783953679258,
+        "lastRunAtMs": 1784393771758,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 2635,
+        "lastDurationMs": 2882,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783954579258,
-        "scheduleErrorCount": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "e269d620-bf99-4515-b1a8-93ef8c0579b1",
-      "name": "AInchors Auto-Heal (nightly)",
-      "enabled": true,
-      "createdAtMs": 1777238338241,
-      "updatedAtMs": 1783868432627,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 1 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "AUTO-HEAL NIGHTLY: First load the pg-sprint-backlog skill: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/skill-load.sh pg-sprint-backlog. Then run zsh /Users/ainchorsoc2a/.openclaw/workspace/scripts/auto-heal.sh. After completion, read /Users/ainchorsoc2a/.openclaw/workspace/state/auto-heal-current.json. For each needs_ken item, log it. Report summary: 'AUTO-HEAL: [N] checks run, [M] issues, [K] needs_ken items'. If needs_ken_count > 0, list the items with severity.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud",
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 180,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783868400060,
-        "lastRunStatus": "idle",
-        "lastStatus": "ok",
-        "lastDurationMs": 32567,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "lastDiagnostics": {
-          "summary": "⚠️ 🛠️ `zsh ~/.openclaw/workspace/scripts/auto-heal.sh` failed",
-          "entries": [
-            {
-              "ts": 1783868432625,
-              "source": "tool",
-              "severity": "warn",
-              "message": "⚠️ 🛠️ `zsh ~/.openclaw/workspace/scripts/auto-heal.sh` failed"
-            }
-          ]
-        },
-        "lastDiagnosticSummary": "⚠️ 🛠️ `zsh ~/.openclaw/workspace/scripts/auto-heal.sh` failed",
-        "nextRunAtMs": 1783954800000,
-        "scheduleErrorCount": 0
-      },
-      "status": "idle"
-    },
-    {
-      "id": "f7668f6a-1c66-40cf-b9af-d1c09be03916",
-      "name": "PG Sync Check — Hourly Stability Monitor",
-      "description": "TKT-0268: DISABLED 2026-06-02 — PG is SSOT, JSON dual-write decommissioned. This cron was comparing PG against non-existent file. False alarm.",
-      "enabled": true,
-      "createdAtMs": 1779536430603,
-      "updatedAtMs": 1783951250255,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 * * * *",
-        "tz": "Australia/Melbourne",
-        "staggerMs": 300000
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "Run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sync-check.sh. Compare output to /Users/ainchorsoc2a/.openclaw/workspace/state/cutover-baseline.txt. If any new mismatches appear (beyond known file-count differences), alert Ken via Telegram. This is TKT-0268 — 24h Postgres dual-write stability monitoring.",
-        "timeoutSeconds": 30
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783951240042,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 10213,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783954839995,
-        "scheduleErrorCount": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "d3b1e203-741b-444a-9852-7bb8839d2c99",
-      "name": "AInchors Observability Collector (hourly)",
-      "enabled": true,
-      "createdAtMs": 1777509477205,
-      "updatedAtMs": 1783951619472,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "every",
-        "everyMs": 3600000,
-        "anchorMs": 1783559215159
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "OBS_COLLECT: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/obs-collector.sh silently. No reply needed.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783951615200,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 4272,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783955215200,
-        "scheduleErrorCount": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "9ce7f295-98b1-487b-97a1-60a80cb0209e",
-      "name": "TZ Drift Monitor (hourly)",
-      "enabled": true,
-      "createdAtMs": 1779586493473,
-      "updatedAtMs": 1783951782512,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "every",
-        "everyMs": 3600000,
-        "anchorMs": 1783559378727
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "TZ_DRIFT_CHECK: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/tz-drift-monitor.sh. If exit code 2 (DRIFT_DETECTED), use the exec tool to alert Ken via: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source TZDRIFT --file state/tz-drift-report.json. TKT-0501 fix. No reply if OK.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783951778771,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 3741,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783955378771,
-        "scheduleErrorCount": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "2c855a3e-6b66-43f5-98a1-2a9293f7a527",
-      "name": "PG-Notion Batch Sync (hourly)",
-      "description": "TKT-0406: Batch reconciliation — sync all tickets with notion_sync.status != 'synced' every 30 min",
-      "enabled": true,
-      "createdAtMs": 1781167853325,
-      "updatedAtMs": 1783951877141,
-      "agentId": "main",
-      "schedule": {
-        "kind": "every",
-        "everyMs": 3600000,
-        "anchorMs": 1783559379491
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "Run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/pg-to-notion-sync.sh --batch\n\nThis syncs all tickets where notion_sync.status != 'synced'. It is self-healing — catches tickets whose event-driven sync failed. Process each ticket, apply rate limiting, update notion_sync metadata on success.\n\nIf errors: log to /Users/ainchorsoc2a/.openclaw/workspace/state/pg-notion-sync-errors.json\nIf 3 consecutive failures for same ticket: log to /Users/ainchorsoc2a/.openclaw/workspace/state/pg-notion-sync-dlq.json",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "fallbacks": [
-          "ollama/gemma4:31b-cloud",
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 120
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "failureAlert": {
-        "after": 3,
-        "channel": "telegram",
-        "to": "+61403650578",
-        "cooldownMs": 3600000
-      },
-      "state": {
-        "lastRunAtMs": 1783951784572,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 92569,
-        "lastDeliveryStatus": "not-requested",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783955384572,
+        "nextRunAtMs": 1784394671758,
         "scheduleErrorCount": 0,
         "lastDiagnostics": {
-          "summary": "⚠️ 🛠️ `run security find-generic-password → print text → run security find-generic-password` failed",
+          "summary": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
           "entries": [
             {
-              "ts": 1783951877114,
-              "source": "tool",
+              "ts": 1784393771767,
+              "source": "cron-preflight",
               "severity": "warn",
-              "message": "⚠️ 🛠️ `run security find-generic-password → print text → run security find-generic-password` failed"
+              "message": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
+              "toolName": "web_search"
             }
           ]
         },
-        "lastDiagnosticSummary": "⚠️ 🛠️ `run security find-generic-password → print text → run security find-generic-password` failed"
+        "lastDiagnosticSummary": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider."
       },
+      "nextRunAtMs": 1784394671758,
+      "lastRunAtMs": 1784393771758,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
@@ -670,13 +762,13 @@
       "name": "Warden — Model Compliance (every 2h)",
       "enabled": true,
       "createdAtMs": 1777326843682,
-      "updatedAtMs": 1783951638035,
+      "updatedAtMs": 1784390831664,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "cron",
         "expr": "7 */2 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -699,17 +791,22 @@
         "mode": "announce"
       },
       "state": {
-        "lastRunAtMs": 1783951620039,
+        "lastRunAtMs": 1784390820048,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 17996,
+        "lastDurationMs": 11616,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783958820000,
+        "nextRunAtMs": 1784398020000,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784398020000,
+      "lastRunAtMs": 1784390820048,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
@@ -717,7 +814,7 @@
       "name": "AInchors Post-Deliverable Validation (2h — systemEvent)",
       "enabled": true,
       "createdAtMs": 1779423125418,
-      "updatedAtMs": 1783951993818,
+      "updatedAtMs": 1784391128904,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
@@ -744,31 +841,75 @@
         "cooldownMs": 7200000
       },
       "state": {
-        "lastRunAtMs": 1783951971419,
+        "lastRunAtMs": 1784391125686,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 22399,
+        "lastDurationMs": 3218,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783959171419,
+        "nextRunAtMs": 1784398325686,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784398325686,
+      "lastRunAtMs": 1784391125686,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "7ac14f60-f7aa-4a80-9368-466616b2e144",
+      "name": "Weekly Gateway Restart (Sunday 02:55 MYT — systemEvent)",
+      "description": "Weekly defense-in-depth restart — guarantees fresh heap even if nightly restart is missed. 5 min before standard 03:00 restart for double-reset on Sundays.",
+      "enabled": true,
+      "createdAtMs": 1780954862757,
+      "updatedAtMs": 1784356286487,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "55 2 * * 0",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "WEEKLY_RESTART: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/nightly-gateway-restart.sh. Same script as nightly. This session WILL BE INTERRUPTED — expected."
+      },
+      "state": {
+        "lastRunAtMs": 1784356286480,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 7,
+        "lastDeliveryStatus": "not-requested",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "nextRunAtMs": 1784400900000,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784400900000,
+      "lastRunAtMs": 1784356286480,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
       "id": "20f59555-781a-4863-a8bf-c90a088317d4",
-      "name": "Nightly Gateway Restart (03:00 AEST — systemEvent)",
-      "description": "Nightly Gateway Restart (03:00 AEST) — writes marker then restarts. Cron will report 'interrupted' — expected. Verification by 03:05 follow-up cron.",
+      "name": "Nightly Gateway Restart (03:00 MYT — systemEvent)",
+      "description": "Nightly Gateway Restart (03:00 MYT) — writes marker then restarts. Cron will report 'interrupted' — expected. Verification by 03:05 follow-up cron.",
       "enabled": true,
       "createdAtMs": 1778741428635,
-      "updatedAtMs": 1783875600059,
+      "updatedAtMs": 1784354624097,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
         "expr": "0 3 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "main",
       "wakeMode": "now",
@@ -777,32 +918,37 @@
         "text": "NIGHTLY_RESTART: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/nightly-gateway-restart.sh. This session WILL BE INTERRUPTED by gateway restart — expected. Follow-up verification at 03:05."
       },
       "state": {
-        "lastRunAtMs": 1783875600057,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784330785803,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 2,
+        "lastDurationMs": 1,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783962000000,
+        "nextRunAtMs": 1784401200000,
         "scheduleErrorCount": 0
       },
-      "status": "idle"
+      "nextRunAtMs": 1784401200000,
+      "lastRunAtMs": 1784330785803,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "d94ad8bb-513c-4569-8720-f5ed2a73cb04",
-      "name": "Nightly Gateway Restart Verify (03:05 AEST — systemEvent)",
-      "description": "Post-restart verification (03:05 AEST) — checks marker from 03:00 restart cron, verifies gateway is alive, sends success/failure to Ken via Telegram. Part of CHG-0411 two-cron design.",
+      "name": "Nightly Gateway Restart Verify (03:05 MYT — systemEvent)",
+      "description": "Post-restart verification (03:05 MYT) — checks marker from 03:00 restart cron, verifies gateway is alive, sends success/failure to Ken via Telegram. Part of CHG-0411 two-cron design.",
       "enabled": true,
       "createdAtMs": 1779138794114,
-      "updatedAtMs": 1783875900055,
+      "updatedAtMs": 1784354624751,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "cron",
         "expr": "5 3 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "main",
       "wakeMode": "now",
@@ -811,30 +957,35 @@
         "text": "NIGHTLY_RESTART_VERIFY: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/nightly-restart-verify.sh. If output is success/failure: use the exec tool to forward to Ken via: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source RESTART. TKT-0501 fix. If 'no restart marker found': silent."
       },
       "state": {
-        "lastRunAtMs": 1783875900053,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784330785804,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 2,
+        "lastDurationMs": 1,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783962300000,
+        "nextRunAtMs": 1784401500000,
         "scheduleErrorCount": 0
       },
-      "status": "idle"
+      "nextRunAtMs": 1784401500000,
+      "lastRunAtMs": 1784330785804,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "516135b9-2c17-4cbd-ac93-2113405e3743",
       "name": "Daily Stale Task Cleanup (systemEvent)",
       "enabled": true,
       "createdAtMs": 1778741440806,
-      "updatedAtMs": 1783876215515,
+      "updatedAtMs": 1784357167016,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
         "expr": "10 3 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -849,30 +1000,35 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783876200054,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784357163093,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 15461,
+        "lastDurationMs": 3923,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783962600000,
+        "nextRunAtMs": 1784401800000,
         "scheduleErrorCount": 0
       },
-      "status": "idle"
+      "nextRunAtMs": 1784401800000,
+      "lastRunAtMs": 1784357163093,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "6f7cfa99-a174-4b76-beed-d6c3b27676d7",
       "name": "Model Context Sync (nightly)",
       "enabled": true,
       "createdAtMs": 1782297705363,
-      "updatedAtMs": 1783876505761,
+      "updatedAtMs": 1784357168566,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
         "expr": "15 3 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -887,31 +1043,36 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783876500057,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784357163693,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 5704,
+        "lastDurationMs": 4873,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783962900000,
+        "nextRunAtMs": 1784402100000,
         "scheduleErrorCount": 0
       },
-      "status": "idle"
+      "nextRunAtMs": 1784402100000,
+      "lastRunAtMs": 1784357163693,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "dce1ada4-8012-4ab9-bd13-2da68ae0c9bb",
       "name": "AKB Holocron — Daily Update (3AM — systemEvent)",
       "enabled": true,
       "createdAtMs": 1777344283249,
-      "updatedAtMs": 1783876815972,
+      "updatedAtMs": 1784357171881,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "cron",
         "expr": "20 3 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -926,31 +1087,79 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783876800059,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784357164308,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 15913,
+        "lastDurationMs": 7573,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783963200000,
+        "nextRunAtMs": 1784402400000,
         "scheduleErrorCount": 0
       },
-      "status": "idle"
+      "nextRunAtMs": 1784402400000,
+      "lastRunAtMs": 1784357164308,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "a1ce9946-43c1-4100-a745-c9c6a0320c30",
+      "name": "TKT-0343-daily-config-snapshot (weekly)",
+      "enabled": true,
+      "createdAtMs": 1782127293365,
+      "updatedAtMs": 1784356414142,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 4 * * 0",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "CONFIG_SNAPSHOT: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/gateway-config-snapshot.sh silently. If exit non-zero, use the exec tool to alert Ken via: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source CONFIG_SNAPSHOT. No reply if OK.",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "timeoutSeconds": 120,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "lastRunAtMs": 1784356406750,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 7392,
+        "lastDeliveryStatus": "not-requested",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "nextRunAtMs": 1784404800000,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784404800000,
+      "lastRunAtMs": 1784356406750,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "6bd53c89-c208-45a9-b77a-47157443c1ef",
       "name": "TRIGGER-04/06: OpenClaw Release Monitor",
       "enabled": true,
       "createdAtMs": 1777628249317,
-      "updatedAtMs": 1783886412861,
+      "updatedAtMs": 1784357172963,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "cron",
         "expr": "0 6 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -969,31 +1178,48 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783886400060,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784357164915,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 12801,
+        "lastDurationMs": 8048,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783972800000,
-        "scheduleErrorCount": 0
+        "nextRunAtMs": 1784412000000,
+        "scheduleErrorCount": 0,
+        "lastDiagnostics": {
+          "summary": "⚠️ 🛠️ Exec failed: `bash ~/.openclaw/workspace/scripts/version-check.sh`",
+          "entries": [
+            {
+              "ts": 1784357172934,
+              "source": "tool",
+              "severity": "warn",
+              "message": "⚠️ 🛠️ Exec failed: `bash ~/.openclaw/workspace/scripts/version-check.sh`"
+            }
+          ]
+        },
+        "lastDiagnosticSummary": "⚠️ 🛠️ Exec failed: `bash ~/.openclaw/workspace/scripts/version-check.sh`"
       },
-      "status": "idle"
+      "nextRunAtMs": 1784412000000,
+      "lastRunAtMs": 1784357164915,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "0afc4d20-11d8-4d23-9fd8-ab7b9aabffe0",
       "name": "Daily Memory Hygiene — Pre-Standup Sweep",
       "enabled": true,
       "createdAtMs": 1777966723322,
-      "updatedAtMs": 1783892708219,
+      "updatedAtMs": 1784356423500,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "cron",
         "expr": "45 7 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -1012,30 +1238,35 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783892700060,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784356416225,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 8159,
+        "lastDurationMs": 7275,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783979100000,
+        "nextRunAtMs": 1784418300000,
         "scheduleErrorCount": 0
       },
-      "status": "idle"
+      "nextRunAtMs": 1784418300000,
+      "lastRunAtMs": 1784356416225,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "3c279099-bddb-4ef3-bfea-fc22f342abd8",
       "name": "AInchors Morning Stand-Up",
       "enabled": true,
       "createdAtMs": 1777156431093,
-      "updatedAtMs": 1783893624669,
+      "updatedAtMs": 1784356465573,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
         "expr": "0 8 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -1047,33 +1278,42 @@
         "lightContext": true
       },
       "delivery": {
-        "mode": "none"
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706"
       },
       "state": {
-        "lastRunAtMs": 1783893600053,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784356425563,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 24616,
-        "lastDeliveryStatus": "not-requested",
+        "lastDurationMs": 40010,
+        "lastDeliveryStatus": "delivered",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783980000000,
-        "scheduleErrorCount": 0
+        "nextRunAtMs": 1784419200000,
+        "scheduleErrorCount": 0,
+        "lastDelivered": true
       },
-      "status": "idle"
+      "nextRunAtMs": 1784419200000,
+      "lastRunAtMs": 1784356425563,
+      "lastRunStatus": "ok",
+      "lastDelivered": true,
+      "lastDeliveryStatus": "delivered",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "bb3575e0-2d6b-4cf6-87c7-8e00cf856652",
       "name": "ollama-usage-scraper-refresh",
       "enabled": true,
       "createdAtMs": 1781830641790,
-      "updatedAtMs": 1783949374026,
+      "updatedAtMs": 1784383222082,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
         "expr": "0 8,10,12,14,16,18,20,22 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -1087,17 +1327,22 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783949309031,
+        "lastRunAtMs": 1784383200046,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 64995,
+        "lastDurationMs": 22036,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1783980000000,
+        "nextRunAtMs": 1784419200000,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784419200000,
+      "lastRunAtMs": 1784383200046,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
     },
     {
@@ -1105,13 +1350,13 @@
       "name": "AInchors Daily Backup (shell-direct, systemEvent)",
       "enabled": true,
       "createdAtMs": 1777236186787,
-      "updatedAtMs": 1783893927459,
+      "updatedAtMs": 1784356440155,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "cron",
         "expr": "5 8 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -1126,17 +1371,116 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783893900056,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784356425565,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 27403,
+        "lastDurationMs": 14590,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783980300000,
+        "nextRunAtMs": 1784419500000,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1784419500000,
+      "lastRunAtMs": 1784356425565,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "dc82912a-8b6d-49ff-9f4a-a26cd4710cfc",
+      "name": "AInchors Stand-up Telegram Delivery",
+      "description": "Sends the standup canvas HTML to Ken via Telegram. Runs 20 min after generation, 5 min after email cron. Shell-only — no model tokens. Idempotent via state/standup-state.json telegramSentConfirmed. CHG-0899.",
+      "enabled": true,
+      "createdAtMs": 1784169143244,
+      "updatedAtMs": 1784356286696,
+      "agentId": "main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "20 8 * * *",
+        "tz": "Asia/Kuala_Lumpur",
+        "staggerMs": 0
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "command",
+        "argv": [
+          "sh",
+          "-lc",
+          "bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/standup-telegram-send.sh"
+        ],
+        "env": {
+          "TELEGRAM_BOT_TOKEN": "8606254045:AAG-X2IRaYNDq6zQ2KW10QscfbFC8jWtwlU"
+        },
+        "timeoutSeconds": 180
+      },
+      "delivery": {
+        "mode": "none",
+        "channel": "last"
+      },
+      "state": {
+        "nextRunAtMs": 1784420400000,
+        "lastRunAtMs": 1784356286487,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 209,
+        "lastDiagnostics": {
+          "summary": "stdout:\nSending 1 chunk(s) to 8574109706 (canvas=17664B)...\n  → chunk 1/1 (289 chars)\n\nstderr:\nWARNING: Composer is in degraded mode — content may be placeholder text\nFAILED: chunk 1 send returned non-zero",
+          "entries": [
+            {
+              "ts": 1784356286695,
+              "source": "exec",
+              "severity": "error",
+              "message": "command error: \"sh\" \"-lc\" \"bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/standup-telegram-send.sh\"",
+              "exitCode": 1
+            }
+          ]
+        },
+        "lastDiagnosticSummary": "stdout:\nSending 1 chunk(s) to 8574109706 (canvas=17664B)...\n  → chunk 1/1 (289 chars)\n\nstderr:\nWARNING: Composer is in degraded mode — content may be placeholder text\nFAILED: chunk 1 send returned non-zero",
+        "lastDeliveryStatus": "not-requested",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "consecutiveErrors": 2,
+        "consecutiveSkipped": 0,
+        "lastError": "command exited with code 1"
+      },
+      "nextRunAtMs": 1784420400000,
+      "lastRunAtMs": 1784356286487,
+      "lastRunStatus": "error",
+      "lastRunError": "command exited with code 1",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "error"
+    },
+    {
+      "id": "ed9d1841-92b6-4741-89fa-64f8daf85902",
+      "owner": {
+        "agentId": "main",
+        "sessionKey": "agent:main:dashboard:be3c4040-84e1-4939-8c9c-ec3bea41002a"
+      },
+      "name": "OC1 post-move recheck",
+      "enabled": true,
+      "deleteAfterRun": true,
+      "createdAtMs": 1784344634009,
+      "updatedAtMs": 1784344634009,
+      "agentId": "main",
+      "sessionKey": "agent:main:dashboard:be3c4040-84e1-4939-8c9c-ec3bea41002a",
+      "schedule": {
+        "kind": "at",
+        "at": "2026-07-19T03:00:00.000Z"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "Reminder: Ken requested OC1 post-move recheck. Run full health/diagnostic sweep on OC1 (Tailscale, SSH, gateway, OpenClaw version, basic services). OC1 is dev/test standby and currently not connected. Report findings to Ken."
+      },
+      "state": {
+        "nextRunAtMs": 1784430000000
+      },
+      "nextRunAtMs": 1784430000000,
       "status": "idle"
     },
     {
@@ -1144,13 +1488,13 @@
       "name": "AInchors Midday Cost Tracker",
       "enabled": true,
       "createdAtMs": 1777191607719,
-      "updatedAtMs": 1783908011508,
+      "updatedAtMs": 1784356474667,
       "agentId": "main",
       "sessionKey": "agent:main:main",
       "schedule": {
         "kind": "cron",
         "expr": "0 12 * * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -1165,37 +1509,42 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783908000055,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784356467642,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 11453,
+        "lastDurationMs": 7025,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1783994400000,
+        "nextRunAtMs": 1784433600000,
         "scheduleErrorCount": 0
       },
-      "status": "idle"
+      "nextRunAtMs": 1784433600000,
+      "lastRunAtMs": 1784356467642,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "176cd48b-0afd-4111-be37-850040c7316f",
       "name": "retention-cleanup-daily (fixed delivery)",
       "enabled": true,
       "createdAtMs": 1783425272526,
-      "updatedAtMs": 1783926016676,
+      "updatedAtMs": 1784380680803,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * *",
-        "tz": "Australia/Sydney"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
       "payload": {
         "kind": "agentTurn",
         "message": "Run canonical session maintenance per CHG-0831. Execute: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/run-openclaw-sessions-cleanup.sh --enforce. Uses OpenClaw session.maintenance config + openclaw sessions cleanup --all-agents --enforce. Log results and report summary to Yoda/main session.",
-        "model": "deepseek-flash",
+        "model": "ollama/deepseek-v4-flash:cloud",
         "timeoutSeconds": 600,
         "toolsAllow": [
           "read",
@@ -1222,282 +1571,36 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783926000050,
-        "lastRunStatus": "idle",
-        "lastStatus": "ok",
-        "lastDurationMs": 16626,
-        "lastDeliveryStatus": "not-requested",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "nextRunAtMs": 1784012400000,
-        "scheduleErrorCount": 0
-      },
-      "status": "idle"
-    },
-    {
-      "id": "cfc40ddb-a876-4bb7-8bb9-b6a240cb761a",
-      "name": "Shield 🛡️ — Security Review Sweep (daily)",
-      "enabled": true,
-      "createdAtMs": 1777336965185,
-      "updatedAtMs": 1783949237111,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 22 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "SHIELD_SECURITY_SWEEP: Daily security review — Shield Rule 1 enforcement.\n\n1. Read /Users/ainchorsoc2a/.openclaw/workspace/state/shield-qa-pending.json (if exists)\n2. For each pending asset: run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/shield-check.sh with its metadata\n3. For each item, also perform LLM-level review: read the asset content, check S1-S5 with reasoning, flag anything the script may have missed\n4. Write final verdict to shield-qa-log.json\n5. If FAIL: write to /Users/ainchorsoc2a/.openclaw/workspace/state/shield-escalation-pending.json\n6. If all clear or no pending items: output exactly 'SHIELD: clear' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
-        "model": "ollama/gemma4:31b-cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 300,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783949231184,
+        "lastRunAtMs": 1784365200046,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 5927,
+        "lastDurationMs": 10482,
         "lastDeliveryStatus": "not-requested",
+        "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1784030400000,
-        "scheduleErrorCount": 0
+        "nextRunAtMs": 1784451600000,
+        "scheduleErrorCount": 0,
+        "lastDiagnostics": {
+          "summary": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
+          "entries": [
+            {
+              "ts": 1784365200060,
+              "source": "cron-preflight",
+              "severity": "warn",
+              "message": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
+              "toolName": "web_search"
+            }
+          ]
+        },
+        "lastDiagnosticSummary": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider."
       },
+      "nextRunAtMs": 1784451600000,
+      "lastRunAtMs": 1784365200046,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "ok"
-    },
-    {
-      "id": "4ae7274d-71b8-4220-8f42-bec7c7ba5a1a",
-      "name": "Lex ⚖️ — Legal Review Sweep (daily)",
-      "enabled": true,
-      "createdAtMs": 1777336975312,
-      "updatedAtMs": 1783949242891,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "5 22 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "LEX_LEGAL_SWEEP: Daily legal review — Lex Rule 1 enforcement.\n\n1. Read /Users/ainchorsoc2a/.openclaw/workspace/state/lex-qa-pending.json (if exists)\n2. For each pending asset: run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/lex-check.sh with its metadata\n3. For each item, also perform LLM-level legal review: read the asset content and original brief, apply L1-L5 checks with full legal reasoning, flag contractual risk, regulatory issues, liability, IP, missing disclosures. Note: Lex flags risk — not a substitute for qualified legal advice on matters >A$10,000\n4. Write final verdict to lex-qa-log.json\n5. If FAIL: write to /Users/ainchorsoc2a/.openclaw/workspace/state/lex-escalation-pending.json\n6. If all clear or no pending items: output exactly 'LEX: clear' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
-        "model": "ollama/gemma4:31b-cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 300,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783949237111,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 5780,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1784030700000,
-        "scheduleErrorCount": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "8231f723-5580-435e-a8d5-8962f4843495",
-      "name": "Sage 🧪 — QA Review Sweep (daily)",
-      "enabled": true,
-      "createdAtMs": 1777336975316,
-      "updatedAtMs": 1783949248955,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "10 22 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "SAGE_QA_SWEEP: Daily QA review — Sage Rule 1 enforcement.\n\n## Step 1 — Check pending queue\nRead /Users/ainchorsoc2a/.openclaw/workspace/state/sage-qa-pending.json (if exists).\nFor each pending asset: read the asset file, run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sage-qa.sh with its metadata, write verdict to sage-qa-log.json, if FAIL write to sage-qa-failures.json, mark PASS as cleared.\n\n## Step 2 — LLM checks\nFor each item: check (1) meets the brief? (2) clear conclusion/CTA? (3) facts verifiable? Cross-check numbers against state files.\n\n## Step 3 — Escalate failures\nIf any FAIL: write to /Users/ainchorsoc2a/.openclaw/workspace/state/sage-escalation-pending.json\n\n## Step 4 — Output\nIf no pending items or all PASS: output exactly 'SAGE: clear' and stop.\nIf escalated: output exactly 'SAGE: escalated [N] items' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
-        "model": "ollama/gemma4:31b-cloud",
-        "fallbacks": [
-          "ollama/kimi-k2.6:cloud"
-        ],
-        "timeoutSeconds": 300,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783949242891,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 6064,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1784031000000,
-        "scheduleErrorCount": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "7d362d91-4d61-4028-9c01-066e2b0dc876",
-      "name": "Yoda → Aria daily context sync",
-      "enabled": true,
-      "createdAtMs": 1777250446742,
-      "updatedAtMs": 1783948768782,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 23 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "systemEvent",
-        "text": "ARIA_CONTEXT_SYNC: Update the shared knowledge bridge for Aria before daily close.\n\n## 0. Pre-flight: Delegated Auth Check (TKT-0336)\nUse the exec tool to run: zsh /Users/ainchorsoc2a/.openclaw/workspace/scripts/check-delegated-auth.sh --json\nRead /Users/ainchorsoc2a/.openclaw/workspace/state/delegated-auth-status.json\nIf allValid=false: include a ⚠️ AUTH ALERT section in yoda-daily-brief.md listing which accounts need re-auth and the exact gog command to fix them.\n\n## 1. Read today's work\n- memory/2026-MM-DD.md and memory/CHANGELOG.md (today's CHG entries)\n\n## 2. Read shared decisions\n- memory/shared/decisions.md (today's decisions)\n\n## 3. Write/update yoda-daily-brief.md\n\n## 4. Review training-pipeline.md\n\n## 5. Git commit\nUse the exec tool to run: bash -c 'cd /Users/ainchorsoc2a/.openclaw/workspace && git add -A && git commit -m \"chore: yoda daily context sync YYYY-MM-DD\"'\n\nKeep language accessible — Aria and Angie will read this, not just Ken."
-      },
-      "state": {
-        "lastRunAtMs": 1783948768777,
-        "lastRunStatus": "idle",
-        "lastStatus": "ok",
-        "lastDurationMs": 5,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1784034000000,
-        "scheduleErrorCount": 0
-      },
-      "status": "idle"
-    },
-    {
-      "id": "c5a3911d-d06f-453f-882b-caf64dbfd699",
-      "name": "Drive sync — journal, blog, memory, docs (00:30 AEST)",
-      "enabled": true,
-      "createdAtMs": 1778391963983,
-      "updatedAtMs": 1783953000046,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "30 0 * * *",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "systemEvent",
-        "text": "## 0. EOD BLOCK CHECK\nIf /Users/ainchorsoc2a/.openclaw/workspace/state/eod-blocked-$(date +%Y-%m-%d).json exists, exit 0. Do not proceed.\n\nDRIVE_SYNC: Use the exec tool to run: zsh /Users/ainchorsoc2a/.openclaw/workspace/scripts/drive-sync.sh. If any failures: use the exec tool to invoke 'bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source DRIVE_SYNC --message DRIVE_SYNC_FAILED' to send Telegram to Ken (8574109706). No reply if all passed."
-      },
-      "state": {
-        "lastRunAtMs": 1783953000042,
-        "lastRunStatus": "ok",
-        "lastStatus": "ok",
-        "lastDurationMs": 4,
-        "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "nextRunAtMs": 1784039400000,
-        "scheduleErrorCount": 0
-      },
-      "status": "ok"
-    },
-    {
-      "id": "7ac14f60-f7aa-4a80-9368-466616b2e144",
-      "name": "Weekly Gateway Restart (Sunday 02:55 AEST — systemEvent)",
-      "description": "Weekly defense-in-depth restart — guarantees fresh heap even if nightly restart is missed. 5 min before standard 03:00 restart for double-reset on Sundays.",
-      "enabled": true,
-      "createdAtMs": 1780954862757,
-      "updatedAtMs": 1783788900050,
-      "agentId": "main",
-      "sessionKey": "agent:main:main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "55 2 * * 0",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "main",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "systemEvent",
-        "text": "WEEKLY_RESTART: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/nightly-gateway-restart.sh. Same script as nightly. This session WILL BE INTERRUPTED — expected."
-      },
-      "state": {
-        "lastRunAtMs": 1783788900048,
-        "lastRunStatus": "idle",
-        "lastStatus": "ok",
-        "lastDurationMs": 2,
-        "lastDeliveryStatus": "not-requested",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "nextRunAtMs": 1784393700000,
-        "scheduleErrorCount": 0
-      },
-      "status": "idle"
-    },
-    {
-      "id": "a1ce9946-43c1-4100-a745-c9c6a0320c30",
-      "name": "TKT-0343-daily-config-snapshot (weekly)",
-      "enabled": true,
-      "createdAtMs": 1782127293365,
-      "updatedAtMs": 1783792813679,
-      "agentId": "main",
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 4 * * 0",
-        "tz": "Australia/Melbourne"
-      },
-      "sessionTarget": "isolated",
-      "wakeMode": "now",
-      "payload": {
-        "kind": "agentTurn",
-        "message": "CONFIG_SNAPSHOT: Use the exec tool to run: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/gateway-config-snapshot.sh silently. If exit non-zero, use the exec tool to alert Ken via: bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source CONFIG_SNAPSHOT. No reply if OK.",
-        "model": "ollama/deepseek-v4-flash:cloud",
-        "timeoutSeconds": 120,
-        "lightContext": true
-      },
-      "delivery": {
-        "mode": "none"
-      },
-      "state": {
-        "lastRunAtMs": 1783792800052,
-        "lastRunStatus": "idle",
-        "lastStatus": "ok",
-        "lastDurationMs": 13627,
-        "lastDeliveryStatus": "not-requested",
-        "lastFailureNotificationDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "consecutiveSkipped": 0,
-        "nextRunAtMs": 1784397600000,
-        "scheduleErrorCount": 0
-      },
-      "status": "idle"
     },
     {
       "id": "e8d960b4-556d-49af-b182-7e009b44e554",
@@ -1505,12 +1608,12 @@
       "description": "Weekly asset registry review — flags stale assets, updates Notion, keeps AInchors assets evergreen.",
       "enabled": true,
       "createdAtMs": 1781494133083,
-      "updatedAtMs": 1783839786025,
+      "updatedAtMs": 1784356638027,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
         "expr": "0 17 * * 0",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -1528,30 +1631,47 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783839600052,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784356467644,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 185973,
+        "lastDurationMs": 170383,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1784444400000,
-        "scheduleErrorCount": 0
+        "nextRunAtMs": 1784451600000,
+        "scheduleErrorCount": 0,
+        "lastDiagnostics": {
+          "summary": "⚠️ 🛠️ Exec failed: `NOTION_KEY=\"$(cat ~/.config/notion/api_key)\" # Create Asset…\\\")}') else: print(f'Error: {json.dumps(data, indent=2)}') \"`",
+          "entries": [
+            {
+              "ts": 1784356638001,
+              "source": "tool",
+              "severity": "warn",
+              "message": "⚠️ 🛠️ Exec failed: `NOTION_KEY=\"$(cat ~/.config/notion/api_key)\" # Create Asset…\\\")}') else: print(f'Error: {json.dumps(data, indent=2)}') \"`"
+            }
+          ]
+        },
+        "lastDiagnosticSummary": "⚠️ 🛠️ Exec failed: `NOTION_KEY=\"$(cat ~/.config/notion/api_key)\" # Create Asset…\\\")}') else: print(f'Error: {json.dumps(data, indent=2)}') \"`"
       },
-      "status": "idle"
+      "nextRunAtMs": 1784451600000,
+      "lastRunAtMs": 1784356467644,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
     },
     {
       "id": "d1c03b59-7ed1-407a-a7c9-b95e39d6151f",
       "name": "Aria 🔵 — Weekly Business ROI Summary",
       "enabled": true,
       "createdAtMs": 1782036264046,
-      "updatedAtMs": 1783843203233,
+      "updatedAtMs": 1784356471156,
       "agentId": "main",
       "schedule": {
         "kind": "cron",
         "expr": "0 18 * * 0",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "isolated",
       "wakeMode": "now",
@@ -1564,29 +1684,352 @@
         "mode": "none"
       },
       "state": {
-        "lastRunAtMs": 1783843200053,
-        "lastRunStatus": "idle",
+        "lastRunAtMs": 1784356467645,
+        "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 3180,
+        "lastDurationMs": 3511,
         "lastDeliveryStatus": "not-requested",
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveErrors": 0,
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1784448000000,
+        "nextRunAtMs": 1784455200000,
         "scheduleErrorCount": 0
       },
-      "status": "idle"
+      "nextRunAtMs": 1784455200000,
+      "lastRunAtMs": 1784356467645,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "cfc40ddb-a876-4bb7-8bb9-b6a240cb761a",
+      "name": "Shield 🛡️ — Security Review Sweep (daily)",
+      "enabled": true,
+      "createdAtMs": 1777336965185,
+      "updatedAtMs": 1784383206562,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 22 * * *",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "SHIELD_SECURITY_SWEEP: Daily security review — Shield Rule 1 enforcement.\n\n1. Read /Users/ainchorsoc2a/.openclaw/workspace/state/shield-qa-pending.json (if exists)\n2. For each pending asset: run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/shield-check.sh with its metadata\n3. For each item, also perform LLM-level review: read the asset content, check S1-S5 with reasoning, flag anything the script may have missed\n4. Write final verdict to shield-qa-log.json\n5. If FAIL: write to /Users/ainchorsoc2a/.openclaw/workspace/state/shield-escalation-pending.json\n6. If all clear or no pending items: output exactly 'SHIELD: clear' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
+        "model": "ollama/gemma4:31b-cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 300,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "lastRunAtMs": 1784383200045,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 6517,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784469600000,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784469600000,
+      "lastRunAtMs": 1784383200045,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "4ae7274d-71b8-4220-8f42-bec7c7ba5a1a",
+      "name": "Lex ⚖️ — Legal Review Sweep (daily)",
+      "enabled": true,
+      "createdAtMs": 1777336975312,
+      "updatedAtMs": 1784383506146,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "5 22 * * *",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "LEX_LEGAL_SWEEP: Daily legal review — Lex Rule 1 enforcement.\n\n1. Read /Users/ainchorsoc2a/.openclaw/workspace/state/lex-qa-pending.json (if exists)\n2. For each pending asset: run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/lex-check.sh with its metadata\n3. For each item, also perform LLM-level legal review: read the asset content and original brief, apply L1-L5 checks with full legal reasoning, flag contractual risk, regulatory issues, liability, IP, missing disclosures. Note: Lex flags risk — not a substitute for qualified legal advice on matters >A$10,000\n4. Write final verdict to lex-qa-log.json\n5. If FAIL: write to /Users/ainchorsoc2a/.openclaw/workspace/state/lex-escalation-pending.json\n6. If all clear or no pending items: output exactly 'LEX: clear' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
+        "model": "ollama/gemma4:31b-cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 300,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "lastRunAtMs": 1784383500043,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 6103,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784469900000,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784469900000,
+      "lastRunAtMs": 1784383500043,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "8231f723-5580-435e-a8d5-8962f4843495",
+      "name": "Sage 🧪 — QA Review Sweep (daily)",
+      "enabled": true,
+      "createdAtMs": 1777336975316,
+      "updatedAtMs": 1784383806241,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "10 22 * * *",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "SAGE_QA_SWEEP: Daily QA review — Sage Rule 1 enforcement.\n\n## Step 1 — Check pending queue\nRead /Users/ainchorsoc2a/.openclaw/workspace/state/sage-qa-pending.json (if exists).\nFor each pending asset: read the asset file, run bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sage-qa.sh with its metadata, write verdict to sage-qa-log.json, if FAIL write to sage-qa-failures.json, mark PASS as cleared.\n\n## Step 2 — LLM checks\nFor each item: check (1) meets the brief? (2) clear conclusion/CTA? (3) facts verifiable? Cross-check numbers against state files.\n\n## Step 3 — Escalate failures\nIf any FAIL: write to /Users/ainchorsoc2a/.openclaw/workspace/state/sage-escalation-pending.json\n\n## Step 4 — Output\nIf no pending items or all PASS: output exactly 'SAGE: clear' and stop.\nIf escalated: output exactly 'SAGE: escalated [N] items' and stop.\n\nAlways output exactly one line. Never generate an empty response.",
+        "model": "ollama/gemma4:31b-cloud",
+        "fallbacks": [
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 300,
+        "lightContext": true
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "lastRunAtMs": 1784383802591,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 3650,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784470200000,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784470200000,
+      "lastRunAtMs": 1784383802591,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "7d362d91-4d61-4028-9c01-066e2b0dc876",
+      "name": "Yoda → Aria daily context sync",
+      "enabled": true,
+      "createdAtMs": 1777250446742,
+      "updatedAtMs": 1784386800068,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 23 * * *",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "ARIA_CONTEXT_SYNC: Update the shared knowledge bridge for Aria before daily close.\n\n## 0. Pre-flight: Delegated Auth Check (TKT-0336)\nUse the exec tool to run: zsh /Users/ainchorsoc2a/.openclaw/workspace/scripts/check-delegated-auth.sh --json\nRead /Users/ainchorsoc2a/.openclaw/workspace/state/delegated-auth-status.json\nIf allValid=false: include a ⚠️ AUTH ALERT section in yoda-daily-brief.md listing which accounts need re-auth and the exact gog command to fix them.\n\n## 1. Read today's work\n- memory/2026-MM-DD.md and memory/CHANGELOG.md (today's CHG entries)\n\n## 2. Read shared decisions\n- memory/shared/decisions.md (today's decisions)\n\n## 3. Write/update yoda-daily-brief.md\n\n## 4. Review training-pipeline.md\n\n## 5. Git commit\nUse the exec tool to run: bash -c 'cd /Users/ainchorsoc2a/.openclaw/workspace && git add -A && git commit -m \"chore: yoda daily context sync YYYY-MM-DD\"'\n\nKeep language accessible — Aria and Angie will read this, not just Ken."
+      },
+      "state": {
+        "lastRunAtMs": 1784386800046,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 22,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784473200000,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784473200000,
+      "lastRunAtMs": 1784386800046,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "c5a3911d-d06f-453f-882b-caf64dbfd699",
+      "name": "Drive sync — journal, blog, memory, docs (00:30 MYT)",
+      "enabled": true,
+      "createdAtMs": 1778391963983,
+      "updatedAtMs": 1784392200071,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 0 * * *",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "## 0. EOD BLOCK CHECK\nIf /Users/ainchorsoc2a/.openclaw/workspace/state/eod-blocked-$(date +%Y-%m-%d).json exists, exit 0. Do not proceed.\n\nDRIVE_SYNC: Use the exec tool to run: zsh /Users/ainchorsoc2a/.openclaw/workspace/scripts/drive-sync.sh. If any failures: use the exec tool to invoke 'bash /Users/ainchorsoc2a/.openclaw/workspace/scripts/sovereign-alert.sh --source DRIVE_SYNC --message DRIVE_SYNC_FAILED' to send Telegram to Ken (8574109706). No reply if all passed."
+      },
+      "state": {
+        "lastRunAtMs": 1784392200060,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 11,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "not-requested",
+        "nextRunAtMs": 1784478600000,
+        "scheduleErrorCount": 0
+      },
+      "nextRunAtMs": 1784478600000,
+      "lastRunAtMs": 1784392200060,
+      "lastRunStatus": "ok",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
+      "status": "ok"
+    },
+    {
+      "id": "9b190d3e-c320-43f4-a05f-59a8709af451",
+      "name": "AInchors Weekly Compliance Report (Mon 09:00)",
+      "enabled": true,
+      "createdAtMs": 1779423663484,
+      "updatedAtMs": 1784356515265,
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 9 * * 1",
+        "tz": "Asia/Kuala_Lumpur"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "WEEKLY_COMPLIANCE_REPORT: Run /Users/ainchorsoc2a/.openclaw/workspace/scripts/rule-audit-report.sh. Send the generated Telegram flash to 8574109706 via announce, then announce the webchat embed for canvas/documents/rule-audit-weekly/index.html.\n\n⛔ CRITICAL — ALL FILE WRITES GO THROUGH cron-write.sh. Do NOT use the native write tool for paths outside ~/.openclaw/workspace/. ⛔",
+        "model": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/gemma4:31b-cloud",
+          "ollama/kimi-k2.6:cloud"
+        ],
+        "timeoutSeconds": 300,
+        "toolsAllow": [
+          "read",
+          "edit",
+          "write",
+          "apply_patch",
+          "exec",
+          "process",
+          "cron",
+          "get_goal",
+          "create_goal",
+          "update_goal",
+          "skill_workshop",
+          "update_plan",
+          "sessions_list",
+          "sessions_history",
+          "sessions_send",
+          "sessions_spawn",
+          "sessions_yield",
+          "subagents",
+          "session_status",
+          "web_search",
+          "web_fetch",
+          "memory_search",
+          "memory_get"
+        ]
+      },
+      "delivery": {
+        "mode": "announce",
+        "channel": "telegram",
+        "to": "8574109706,8141152780"
+      },
+      "state": {
+        "lastRunAtMs": 1784356467644,
+        "lastRunStatus": "error",
+        "lastStatus": "error",
+        "lastDurationMs": 47621,
+        "lastDeliveryStatus": "unknown",
+        "consecutiveErrors": 1,
+        "consecutiveSkipped": 0,
+        "lastFailureNotificationDeliveryStatus": "unknown",
+        "scheduleErrorCount": 0,
+        "nextRunAtMs": 1784509200000,
+        "lastError": "OutboundDeliveryError: Telegram recipient must be a numeric chat ID",
+        "lastDiagnostics": {
+          "summary": "OutboundDeliveryError: Telegram recipient must be a numeric chat ID",
+          "entries": [
+            {
+              "ts": 1784356467706,
+              "source": "cron-preflight",
+              "severity": "warn",
+              "message": "web_search tool requested in toolsAllow but no web search provider is selected. Configure one with: openclaw configure --section web, or set tools.web.search.provider.",
+              "toolName": "web_search"
+            },
+            {
+              "ts": 1784356515232,
+              "source": "tool",
+              "severity": "warn",
+              "message": "⚠️ 🛠️ Exec failed: `bash ~/.openclaw/workspace/scripts/telegr… 📌 Full report → webchat embed\" --chat-id \"8574109706\" 2>&1`"
+            },
+            {
+              "ts": 1784356515238,
+              "source": "delivery",
+              "severity": "error",
+              "message": "OutboundDeliveryError: Telegram recipient must be a numeric chat ID"
+            }
+          ]
+        },
+        "lastDiagnosticSummary": "OutboundDeliveryError: Telegram recipient must be a numeric chat ID"
+      },
+      "nextRunAtMs": 1784509200000,
+      "lastRunAtMs": 1784356467644,
+      "lastRunStatus": "error",
+      "lastRunError": "OutboundDeliveryError: Telegram recipient must be a numeric chat ID",
+      "lastDeliveryStatus": "unknown",
+      "lastFailureNotificationDeliveryStatus": "unknown",
+      "status": "error"
     },
     {
       "id": "6a88375e-438e-4adc-a0f8-f7927cc77b90",
       "name": "AInchors Monthly SLA Report",
       "enabled": true,
       "createdAtMs": 1777458657035,
-      "updatedAtMs": 1783077382730,
+      "updatedAtMs": 1784354636619,
       "schedule": {
         "kind": "cron",
         "expr": "0 8 1 * *",
-        "tz": "Australia/Melbourne"
+        "tz": "Asia/Kuala_Lumpur"
       },
       "sessionTarget": "main",
       "wakeMode": "now",
@@ -1603,19 +2046,32 @@
         "consecutiveErrors": 0,
         "lastFailureNotificationDeliveryStatus": "not-requested",
         "consecutiveSkipped": 0,
-        "nextRunAtMs": 1785535200000,
+        "nextRunAtMs": 1785542400000,
         "scheduleErrorCount": 0
       },
+      "nextRunAtMs": 1785542400000,
+      "lastRunAtMs": 1783077265130,
+      "lastRunStatus": "idle",
+      "lastDeliveryStatus": "not-requested",
+      "lastFailureNotificationDeliveryStatus": "not-requested",
       "status": "idle"
     }
   ],
-  "total": 38,
+  "total": 41,
   "offset": 0,
-  "limit": 38,
+  "limit": 41,
   "hasMore": false,
   "nextOffset": null,
   "deliveryPreviews": {
     "4a6c25d4-e4a7-4e5a-8f1d-0ff2932d1321": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
+    "ad213be3-35d4-427c-a58f-2cfaf033a66f": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
+    "e269d620-bf99-4515-b1a8-93ef8c0579b1": {
       "label": "not requested",
       "detail": "not requested"
     },
@@ -1627,15 +2083,19 @@
       "label": "not requested",
       "detail": "not requested"
     },
+    "d3b1e203-741b-444a-9852-7bb8839d2c99": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
+    "d32f2b9a-6caa-4878-8de6-93a0bd1eb03e": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
     "c65ace85-c5b0-4e96-ace6-ae925812c09b": {
       "label": "not requested",
       "detail": "not requested"
     },
     "637ecb12-eae2-4c16-b174-8acdaa2729cc": {
-      "label": "not requested",
-      "detail": "not requested"
-    },
-    "d32f2b9a-6caa-4878-8de6-93a0bd1eb03e": {
       "label": "not requested",
       "detail": "not requested"
     },
@@ -1647,22 +2107,6 @@
       "label": "not requested",
       "detail": "not requested"
     },
-    "e38eb280-d042-404b-955a-0631578324f5": {
-      "label": "not requested",
-      "detail": "not requested"
-    },
-    "e269d620-bf99-4515-b1a8-93ef8c0579b1": {
-      "label": "not requested",
-      "detail": "not requested"
-    },
-    "f7668f6a-1c66-40cf-b9af-d1c09be03916": {
-      "label": "not requested",
-      "detail": "not requested"
-    },
-    "d3b1e203-741b-444a-9852-7bb8839d2c99": {
-      "label": "not requested",
-      "detail": "not requested"
-    },
     "9ce7f295-98b1-487b-97a1-60a80cb0209e": {
       "label": "not requested",
       "detail": "not requested"
@@ -1671,11 +2115,19 @@
       "label": "not requested",
       "detail": "not requested"
     },
+    "e38eb280-d042-404b-955a-0631578324f5": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
     "83accf7b-c3e5-4f0a-9a0c-d67d74ffff01": {
       "label": "not requested",
       "detail": "not requested"
     },
     "065bd5a9-2888-41ca-bc0e-7771f2dfa565": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
+    "7ac14f60-f7aa-4a80-9368-466616b2e144": {
       "label": "not requested",
       "detail": "not requested"
     },
@@ -1699,6 +2151,10 @@
       "label": "not requested",
       "detail": "not requested"
     },
+    "a1ce9946-43c1-4100-a745-c9c6a0320c30": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
     "6bd53c89-c208-45a9-b77a-47157443c1ef": {
       "label": "not requested",
       "detail": "not requested"
@@ -1708,8 +2164,8 @@
       "detail": "not requested"
     },
     "3c279099-bddb-4ef3-bfea-fc22f342abd8": {
-      "label": "not requested",
-      "detail": "not requested"
+      "label": "announce -> telegram:8574109706",
+      "detail": "explicit"
     },
     "bb3575e0-2d6b-4cf6-87c7-8e00cf856652": {
       "label": "not requested",
@@ -1719,11 +2175,27 @@
       "label": "not requested",
       "detail": "not requested"
     },
+    "dc82912a-8b6d-49ff-9f4a-a26cd4710cfc": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
+    "ed9d1841-92b6-4741-89fa-64f8daf85902": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
     "c5debd26-fb07-4b36-a904-86c9bc95625a": {
       "label": "not requested",
       "detail": "not requested"
     },
     "176cd48b-0afd-4111-be37-850040c7316f": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
+    "e8d960b4-556d-49af-b182-7e009b44e554": {
+      "label": "not requested",
+      "detail": "not requested"
+    },
+    "d1c03b59-7ed1-407a-a7c9-b95e39d6151f": {
       "label": "not requested",
       "detail": "not requested"
     },
@@ -1747,21 +2219,9 @@
       "label": "not requested",
       "detail": "not requested"
     },
-    "7ac14f60-f7aa-4a80-9368-466616b2e144": {
-      "label": "not requested",
-      "detail": "not requested"
-    },
-    "a1ce9946-43c1-4100-a745-c9c6a0320c30": {
-      "label": "not requested",
-      "detail": "not requested"
-    },
-    "e8d960b4-556d-49af-b182-7e009b44e554": {
-      "label": "not requested",
-      "detail": "not requested"
-    },
-    "d1c03b59-7ed1-407a-a7c9-b95e39d6151f": {
-      "label": "not requested",
-      "detail": "not requested"
+    "9b190d3e-c320-43f4-a05f-59a8709af451": {
+      "label": "announce -> telegram:8574109706,8141152780",
+      "detail": "explicit"
     },
     "6a88375e-438e-4adc-a0f8-f7927cc77b90": {
       "label": "not requested",

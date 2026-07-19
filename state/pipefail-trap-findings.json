@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-10T09:05:56",
+  "generatedAt": "2026-07-19T01:00:19",
   "schemaVersion": 1,
   "scope": "scripts/*.sh (excluding .bak/.backup)",
   "pattern": "set -o pipefail + trap ERR + ungated $(...) / awk|head / tr|procsub / read|procsub",
@@ -96,7 +96,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 688,
+      "line": 691,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -105,7 +105,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 710,
+      "line": 713,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -114,7 +114,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 711,
+      "line": 714,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -123,7 +123,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 724,
+      "line": 727,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -132,7 +132,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 732,
+      "line": 735,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -141,7 +141,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 777,
+      "line": 780,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -150,7 +150,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 795,
+      "line": 798,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -159,7 +159,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 796,
+      "line": 799,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -168,7 +168,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 837,
+      "line": 842,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -177,7 +177,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 903,
+      "line": 908,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -186,7 +186,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1041,
+      "line": 1046,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -195,7 +195,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1072,
+      "line": 1077,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -204,7 +204,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1153,
+      "line": 1158,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -213,7 +213,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1206,
+      "line": 1211,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",
@@ -222,7 +222,7 @@
     },
     {
       "script": "auto-heal.sh",
-      "line": 1215,
+      "line": 1220,
       "severity": "medium",
       "rule": 5,
       "pattern": "dollar_paren_no_fallback",

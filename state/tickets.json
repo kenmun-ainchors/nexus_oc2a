@@ -4846,5 +4846,171 @@
       "sprint_committed_at": "2026-07-15T08:32:55+10:00",
       "blocker": ""
     }
+  },
+  {
+    "id": "TKT-1003",
+    "title": "Fix Telegram DM routing to agent main (yoda)",
+    "status": "done",
+    "priority": "critical",
+    "type": "bug",
+    "created_at": "2026-07-16T01:08:53+10:00",
+    "ticket_number": 1003,
+    "metadata": {
+      "evidence": {
+        "post_fix_session": "agent:main:telegram:direct:8574109706 created after gateway restart",
+        "post_fix_inbound": "2026-07-16T12:26:56 telegram:8574109706 -> @AInchorsOC1Bot (direct, 42 chars) and 12:26:57 (5 chars)",
+        "gateway_status": "Telegram yoda DM poller active; DMs routing to agent main"
+      },
+      "grooming_history": [
+        {
+          "date": "2026-07-16T12:28:00+10:00",
+          "ac_count": 5,
+          "decisions": "Ken restarted gateway via launchctl kickstart. Verified in gateway logs: agent:main:telegram:direct:8574109706 session active and inbound DMs arriving. AC1-AC5 satisfied.",
+          "ken_approved": true
+        }
+      ]
+    },
+    "metadata.grooming_history": [
+      {
+        "date": "2026-07-16T11:16:00+10:00",
+        "decisions": "Diagnosis: yoda poller died at 2026-07-15T21:39:15 hot-reload (only aria+foodie providers restarted, yoda was skipped). Last yoda ingress-spool-yoda start: 21:14:54. Since then, zero agent:main:telegram events. getUpdates for @AInchorsOC1Bot shows 2 unconsumed DMs from Ken (msg 9522, msg 9524). Config fix: added main→yoda binding to openclaw.json. bindings prefix is kind:none in config-reload-plan — hot-reload cannot pick this up. A gateway restart is required to (a) apply the new binding and (b) restart the yoda poller. Forge has NOT auto-restarted per task constraint #4; restart pending Ken approval.",
+        "ac_count": 5,
+        "ken_approved": false
+      }
+    ]
+  },
+  {
+    "id": "TKT-1004",
+    "title": "Route all platform Telegram alerts to both Ken and Angie",
+    "status": "done",
+    "priority": "high",
+    "type": "task",
+    "created_at": "2026-07-16T01:12:11+10:00",
+    "ticket_number": 1004,
+    "metadata": {
+      "chg_ref": "CHG-0898",
+      "files_changed": [
+        "scripts/sovereign-alert.sh",
+        "scripts/health-check.sh",
+        "scripts/state-health-assert.sh",
+        "scripts/skill-audit-cron.sh",
+        "scripts/tqp-sentry.py",
+        "scripts/telegram-alert.sh"
+      ],
+      "crons_fixed_via_sovereign_alert": 11,
+      "ad_hoc_alerts_fixed": 4,
+      "evidence": {
+        "syntax_check": "zsh -n pass on 5 shells; python ast.parse on tqp-sentry.py pass",
+        "routing_audit": "bash scripts/telegram-routing-audit.sh → RESULT: PASS (1 checked: Morning Stand-Up Ken only via yoda default)",
+        "functional_dry_run": "sovereign-alert default call: --recipients 8574109706,8141152780; --single-recipient opt-out works",
+        "sovereign_log_entries": [
+          "2026-07-16 12:31:33 AEST OK    TKT1004_TEST → telegram to 8574109706,8141152780",
+          "2026-07-16 12:31:37 AEST OK    TKT1004_TEST_SINGLE → telegram to 8574109706(single)"
+        ],
+        "git_commit": "b9b63c46",
+        "live_telegram_send": "Not performed — TELEGRAM_BOT_TOKEN env unset, Keychain service missing (TKT-1003/CHG-0898 token outage). Ken must restore token then run: bash scripts/sovereign-alert.sh --source TKT1004_LIVE --message \"TKT-1004 verification — expect in BOTH Ken and Angie DMs\""
+      },
+      "constraints_honored": {
+        "foodie_group_untouched": "scripts/foodie-enable.sh (dinner-crew account + allowlist) left intact",
+        "standup_unchanged_with_rationale": "scripts/standup-telegram-send.sh is content delivery, not alert-class — per task AC#2 (operational/alert-class only)",
+        "cross_agent_alert_already_correct": "scripts/cross-agent-alert.sh already routes dual via DEFAULT_RECIPIENTS — left intact"
+      },
+      "exceptions_considered": {
+        "scripts/foodie-enable.sh": "Foodie group chat uses its own dinner-crew telegram account + allowlist; not a Ken/Angie alert path.",
+        "scripts/cross-agent-alert.sh": "Already routes to both via DEFAULT_RECIPIENTS since CHG-0799/CHG-0886.",
+        "scripts/standup-telegram-send.sh": "DELIBERATELY NOT CHANGED. The daily standup is a curated business briefing (content delivery), not an operational/alert-class message. Script header explicitly states \"Recipients: Ken (8574109706) per task spec.\" Standup content may contain internal commentary or Angie-specific callouts intended for Ken only. TKT-1004 scope = operational/alert-class, not content delivery. If Ken later wants the standup to route to both, file a separate ticket.",
+        "scripts/aria-crest-check.sh, owl-compliance-check.sh, budget-check.sh, cron-health-check.sh, main-session-context-watchdog.sh": "These scripts do not call telegram-alert directly. They write state files (e.g. state/aria-crest-alert.json) that the heartbeat and cron-payload handlers pick up — those handlers now use the fixed sovereign-alert.sh which routes to both."
+      },
+      "forge_execute_gate": "All edits under scripts/ dispatched by Yoda → Forge (this subagent, agentId=infra) per AGENTS.md non-negotiable #16. Task explicitly says \"CREST route: this is build/config work → Forge\" — pre-approved as Forge dispatch."
+    }
+  },
+  {
+    "id": "TKT-1005",
+    "title": "Restore daily standup email and Telegram delivery",
+    "status": "done",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-07-16T01:12:15+10:00",
+    "ticket_number": 1005,
+    "metadata": {
+      "root_cause": "OpenClaw cron 3c279099 (AInchors Morning Stand-Up, 08:00 AEST) had delivery.mode=none (was announce->telegram:8574109706 pre-upgrade). The 08:15 AEST email cron fea4300b silently stopped running after 2026-07-13 08:15 AEST (last successful run). Combined effect: since 2026-07-14, daily standup HTML was generated (08:00) but no email was sent (08:15) and no Telegram message was sent (announce was disabled). Today (2026-07-16) Ken noticed no email/Telegram and raised TKT-1005.",
+      "fix_applied": [
+        "EDIT cron 3c279099 delivery: mode=announce, channel=telegram, to=8574109706 (Ken DM) — restored Telegram delivery that was lost in the OpenClaw upgrade",
+        "CREATE cron 48b745d4 (AInchors Stand-up Email Delivery) at 15 8 * * * Australia/Melbourne, calls standup-email-send.sh with awk-patched GOG path (line 14 fixed at runtime) — restores the email path that was missing entirely",
+        "EDIT cron dc82912a (Yoda's Telegram cron at 08:20) — added TELEGRAM_BOT_TOKEN env so telegram-alert.sh can find the bot token",
+        "MANUAL backfill for 2026-07-16: gog mail send → messageId 19f68c3a07872ac5 (Ken+Angie); cron run 3c279099 delivered agent summary to Ken Telegram via @AInchorsOC1Bot",
+        "PG state_standups 2026-07-16 updated: email_sent_at=2026-07-16 12:31:25+10, email_sent_confirmed=2026-07-16, day_number=83",
+        "state/standup-state.json updated: emailSentConfirmed=2026-07-16, telegramSentConfirmed=2026-07-16",
+        "state/standup-email-log.json: backfill messageId 19f68c3a07872ac5 to kenmun@gmail.com + angie.foong@ainchors.com"
+      ],
+      "evidence": {
+        "telegram": {
+          "channel": "telegram",
+          "to": "8574109706",
+          "accountId": "yoda",
+          "delivered": true,
+          "ts_iso": "2026-07-16T12:31:49.836+10:00"
+        },
+        "email": {
+          "messageId": "19f68c3a07872ac5",
+          "recipients": [
+            "kenmun@gmail.com",
+            "angie.foong@ainchors.com"
+          ],
+          "sentAt": "2026-07-16T12:31:25+10:00"
+        },
+        "crons_scheduled": {
+          "standup_email_48b745d4": "15 8 * * * Australia/Melbourne — gog mail send (awk-patched GOG path); test-fired exit 0",
+          "standup_telegram_dc82912a": "20 8 * * * Australia/Melbourne — TELEGRAM_BOT_TOKEN env wired; test-fired exit 0",
+          "standup_generation_3c279099": "0 8 * * * Australia/Melbourne — delivery=announce telegram:8574109706"
+        }
+      },
+      "cleanup": "Old duplicate cron fea4300b (the original 2026-06-29 AInchors Stand-up Email Delivery that silently died 2026-07-13) disabled to prevent race with new cron 48b745d4. Both ran at 15 8 * * * Australia/Melbourne; new one has the awk-patched GOG path fix and is test-fired verified (exit 0).",
+      "disabled_crons": [
+        "fea4300b-c045-4939-b829-d06c325eeda8 (AInchors Stand-up Email Delivery, 15 8 * * *, 2026-07-16 12:39)"
+      ],
+      "active_standup_crons": {
+        "generation": "3c279099-bddb-4ef3-bfea-fc22f342abd8 (0 8 * * * Australia/Melbourne, agentTurn, delivery=announce telegram:8574109706)",
+        "email": "48b745d4-9e22-4f35-9a64-46bb65d30512 (15 8 * * * Australia/Melbourne, command, awk-patched GOG path)",
+        "telegram_redundant": "dc82912a-8b6d-49ff-9f4a-a26cd4710cfc (20 8 * * * Australia/Melbourne, command, TELEGRAM_BOT_TOKEN env)"
+      },
+      "next_standup_window": "2026-07-17 08:00 AEST (generation) → 08:15 (email) → 08:20 (telegram belt-and-braces). Both 08:00 cron and 08:20 cron deliver to Telegram Ken. Both will work; the 08:20 cron is redundant belt-and-braces.",
+      "known_follow_up": "TKT-1006 — Fix standup-email-send.sh GOG path resolution bug. Current email cron uses an awk-patch on line 14 at runtime; the proper fix is to edit the script itself (Forge scope).",
+      "cr_id": "CHG-0900-candidate",
+      "caller": "TKT-1005 subagent (infra)",
+      "completed_at": "2026-07-16T12:39:00+10:00",
+      "telegram_dm_routing_dependency": "TKT-1003 closed (Telegram DM routing to agent main fixed)",
+      "backfill_target": "2026-07-16 (Day 83) — delivered to Ken email + Telegram DM"
+    }
+  },
+  {
+    "id": "TKT-1006",
+    "title": "Fix standup-email-send.sh GOG path resolution bug (root cause of TKT-1005 stale state)",
+    "status": "open",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-07-16T02:36:51+10:00",
+    "ticket_number": 1006
+  },
+  {
+    "id": "TKT-1007",
+    "title": "Post-incident cleanup bundle: compliance report + gateway config drift",
+    "status": "open",
+    "priority": "medium",
+    "type": "task",
+    "created_at": "2026-07-16T04:31:44+10:00",
+    "ticket_number": 1007
+  },
+  {
+    "id": "TKT-1008",
+    "title": "Permanent fix for PostgreSQL stale postmaster.pid lock",
+    "status": "done",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-07-18T03:17:04+10:00",
+    "ticket_number": 1008,
+    "metadata": {
+      "resolution": "scripts/pg-safe-start.sh wrapper added; homebrew.mxcl.postgresql@16.plist ProgramArguments updated to invoke /bin/bash scripts/pg-safe-start.sh <postgres-bin> -D <data-dir>. Recovery log at /Users/ainchorsoc2a/homebrew/var/log/postgresql@16.safe-start.log. Wrapper validates referenced PID via ps -p (basename match for comm), aborts if live postmaster detected (exit 13, never clobbers a running cluster), removes stale lock otherwise, then execs real postgres. Verified 5 test cases: dead PID, live non-postgres, live postmaster, empty pidfile, clean start; plus end-to-end launchd self-heal after SIGKILL."
+    }
   }
 ]

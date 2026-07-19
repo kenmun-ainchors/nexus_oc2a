@@ -1,10 +1,11 @@
 {
   "status": "ok",
   "overallStatus": "ok",
+  "runMode": "heartbeat",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-07-16T08:00:54+1000",
-  "lastOk": "2026-07-16T08:00:54+1000",
+  "lastCheck": "2026-07-19T15:51:37+0800",
+  "lastOk": "2026-07-19T15:51:37+0800",
   "exitCode": 0,
   "issues": [],
   "ollamaReachable": true,

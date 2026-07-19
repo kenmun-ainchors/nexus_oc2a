@@ -1,0 +1,6 @@
+{"type":"session","version":3,"id":"384ad626-547a-4ded-b2b8-be3ce65bf8a3","timestamp":"2026-07-16T08:49:58.118Z","cwd":"/Users/ainchorsoc2a/.openclaw/workspace"}
+{"type":"model_change","id":"3ed10873","parentId":null,"timestamp":"2026-07-16T08:49:58.119Z","provider":"ollama","modelId":"deepseek-v4-flash:cloud"}
+{"type":"thinking_level_change","id":"4c514a04","parentId":"3ed10873","timestamp":"2026-07-16T08:49:58.119Z","thinkingLevel":"off"}
+{"type":"custom","customType":"model-snapshot","data":{"timestamp":1784191798125,"provider":"ollama","modelApi":"ollama","modelId":"deepseek-v4-flash:cloud"},"id":"2348b3f9","parentId":"4c514a04","timestamp":"2026-07-16T08:49:58.125Z"}
+{"type":"message","id":"75135b10","parentId":"2348b3f9","timestamp":"2026-07-16T08:49:58.148Z","message":{"role":"user","content":"[OpenClaw heartbeat poll]","timestamp":1784191798054,"__openclaw":{"senderIsOwner":false}}}
+{"type":"message","id":"a01ab69b","parentId":"75135b10","timestamp":"2026-07-16T08:49:59.566Z","message":{"role":"assistant","content":[{"type":"text","text":"NO_REPLY"}],"stopReason":"stop","api":"ollama","provider":"ollama","model":"deepseek-v4-flash:cloud","usage":{"input":11289,"output":5,"cacheRead":0,"cacheWrite":0,"totalTokens":11294,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"timestamp":1784191799561}}

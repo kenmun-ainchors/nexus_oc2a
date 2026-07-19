@@ -10,9 +10,28 @@
 set -euo pipefail
 
 # ── Workspace root resolution ─────────────────────────────────────────────
-# Derive from the script's actual location (portable across usernames).
+# Derive from the script's actual location (portable across bash and zsh).
+# BASH_SOURCE is bash-only; under zsh we fall back to $0 + readlink/realpath.
 # Allow env override: WORKSPACE_ROOT, SKILL_INDEX, SKILL_REGISTRY.
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -n "${BASH_SOURCE[0]:-}" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+elif [[ -n "${ZSH_VERSION:-}" ]] && [[ -n "${(%):-%x}" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "${(%):-%x}")" && pwd)"
+else
+  # Last-resort portable fallback: resolve $0 via readlink/realpath.
+  _skill_self="${0:-}"
+  if [[ -n "$_skill_self" ]] && command -v readlink >/dev/null 2>&1; then
+    while [[ -L "$_skill_self" ]]; do
+      _skill_dir="$(cd -P "$(dirname "$_skill_self")" >/dev/null 2>&1 && pwd)"
+      _skill_self="$(readlink "$_skill_self")"
+      [[ "$_skill_self" != /* ]] && _skill_self="$_skill_dir/$_skill_self"
+    done
+    SCRIPT_DIR="$(cd -P "$(dirname "$_skill_self")" >/dev/null 2>&1 && pwd)"
+  else
+    SCRIPT_DIR="$(pwd)"
+  fi
+  unset _skill_self _skill_dir
+fi
 WORKSPACE_ROOT="${WORKSPACE_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 SKILL_REGISTRY="${SKILL_REGISTRY:-$WORKSPACE_ROOT/state/skill-load-registry.json}"
 SKILL_INDEX="${SKILL_INDEX:-$WORKSPACE_ROOT/agent-skills/.index.json}"

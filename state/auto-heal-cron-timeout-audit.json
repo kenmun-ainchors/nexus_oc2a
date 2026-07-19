@@ -1,7 +1,15 @@
 {
-  "checkedAt": "2026-07-09T23:05:44Z",
-  "offenders": [],
-  "offenderCount": 0,
+  "checkedAt": "2026-07-18T17:00:09Z",
+  "offenders": [
+    {
+      "cronId": "ad213be3-35d4-427c-a58f-2cfaf033a66f",
+      "name": "R01 Session Trajectory Tilde Sweep (CHG-0924)",
+      "currentTimeout": 0,
+      "model": "ollama/deepseek-v4-flash:cloud",
+      "suggestedTimeout": 300
+    }
+  ],
+  "offenderCount": 1,
   "live": true,
   "baseline": false
 }

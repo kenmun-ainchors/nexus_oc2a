@@ -1,6 +1,6 @@
 {
-    "auditedAt": "2026-07-12T15:00:07Z",
-    "failures": 0,
+    "auditedAt": "2026-07-18T17:00:14Z",
+    "failures": 3,
     "results": [
         {
             "agent": "business",
@@ -9,8 +9,8 @@
         },
         {
             "agent": "security",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_soul",
+            "issue": "No SOUL.md in workspace/security/"
         },
         {
             "agent": "legal",
@@ -44,8 +44,8 @@
         },
         {
             "agent": "biz-process",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_soul",
+            "issue": "No SOUL.md in workspace/biz-process/"
         },
         {
             "agent": "change-mgt",
@@ -69,8 +69,8 @@
         },
         {
             "agent": "thrawn",
-            "status": "ok_no_rules",
-            "issue": null
+            "status": "missing_soul",
+            "issue": "No SOUL.md in workspace/thrawn/"
         },
         {
             "agent": "forge",

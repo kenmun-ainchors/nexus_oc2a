@@ -1,0 +1,393 @@
+Memory index complete.
+Memory Search (main)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/main/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1295 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/75f4316b3e56bf1873ea1bef18e7ba7cb8fdf7ed303cf75331feff90c631cc33
+Dreaming artifacts: diary present · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace/memory/.dreams/session-ingestion.json
+Dream diary: ~/.openclaw/workspace/DREAMS.md
+
+Memory index complete.
+Memory Search (business)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/business/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-business
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1227 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/4ad3e96cabd9ea7c944bb132ea82e79b7b4dffc28ceeaa3fc970f5a0e282ba38
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-business/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-business/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (architect)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/architect/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-architect
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1227 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/0c058694d098634a07115bef8cc91607a322e62647c7d68cf9dba9475e703073
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-architect/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-architect/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (platform-arch)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/platform-arch/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-platform-arch
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1227 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/53bfd51b6a657bd91618cdb00cfad4e51ba02367690bd9e358fd17b436638abd
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-platform-arch/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-platform-arch/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (infra)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/infra/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1238 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/75f4316b3e56bf1873ea1bef18e7ba7cb8fdf7ed303cf75331feff90c631cc33
+Dreaming artifacts: diary present · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace/memory/.dreams/session-ingestion.json
+Dream diary: ~/.openclaw/workspace/DREAMS.md
+
+Memory index complete.
+Memory Search (ahsoka)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/ahsoka/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-ahsoka
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/98c7bcbde560f6363a817bfadbb013b00e40c5b824d77e084a6feeba1f3be109
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-ahsoka/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-ahsoka/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (social)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/social/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-social
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/46d37917c12a0e180d29f3d5ddc1895e5e8587314192a4a926c29b5b5cd6b838
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-social/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-social/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (biz-process)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/biz-process/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-bpm
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/b7f37d4c53b37f801cca72cf95b0356a3d3a1afd0c31c350430add508e9e4757
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-bpm/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-bpm/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (change-mgt)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/change-mgt/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-dtcm
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/ed3308527a2dbdd4351ad4467b21060131076571d87e7b56494fe4ab5966d55f
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-dtcm/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-dtcm/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (security)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/security/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-security
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/0dde00a19857363b73e55c8f3be5e82e9a528d3fc812cd3d6b3b65091c446802
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-security/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-security/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (legal)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/legal/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-legal
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/93f2bd1895b3970bcf6908d0ba2a9998798017152de8245215c12aac9580e999
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-legal/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-legal/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (qa)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/qa/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-qa
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/c8271623fc6300e8e14041e1bdfcda2f9f68d6f75fa684234b572d323ab7f9cf
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-qa/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-qa/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (governance)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/governance/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-governance
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/0df125ab83f9727be950d63c1314fe25aee689e2cb266815bb6aa89501268444
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-governance/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-governance/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (luthen)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/luthen/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace-luthen
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1226 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/2b51102716b22d62013b78e6b7981b99e0a437fd1264902af19619eba5adde16
+Dreaming artifacts: diary absent · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace-luthen/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace-luthen/memory/.dreams/session-ingestion.json
+
+Memory index complete.
+Memory Search (foodie)
+Provider: ollama (requested: ollama)
+Model: nomic-embed-text
+Sources: memory
+Indexed: 13/13 files · 1226 chunks
+Dirty: no
+Store: ~/.openclaw/agents/foodie/agent/openclaw-agent.sqlite
+Workspace: ~/.openclaw/workspace
+Dreaming: off
+Embeddings: ready
+By source:
+  memory · 13/13 files · 1226 chunks
+Vector store: ready
+Semantic vectors: ready
+Vector dims: 768
+Vector path: ~/local/lib/node_modules/openclaw/node_modules/sqlite-vec-darwin-arm64/vec0.dylib
+FTS: ready
+Embedding cache: enabled (1284 entries)
+Batch: disabled (failures 0/2)
+Recall store: 0 entries · 0 promoted · 0 concept-tagged · 0 spaced
+Recall path: plugin-state:memory-core/short-term-recall/75f4316b3e56bf1873ea1bef18e7ba7cb8fdf7ed303cf75331feff90c631cc33
+Dreaming artifacts: diary present · 0 corpus files · ingestion state absent
+Dream corpus: ~/.openclaw/workspace/memory/.dreams/session-corpus
+Dream ingestion: ~/.openclaw/workspace/memory/.dreams/session-ingestion.json
+Dream diary: ~/.openclaw/workspace/DREAMS.md
+

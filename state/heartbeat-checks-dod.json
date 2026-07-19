@@ -1,0 +1,31 @@
+{
+  "schema": "heartbeat-checks-dod-v1",
+  "checked_at": "2026-07-16T18:22:00+10:00",
+  "checked_by": "subagent:infra:heartbeat",
+  "session_id": "agent:infra:subagent:689bd267-a4c3-4691-a29e-a58ad8f80881",
+  "results": {
+    "dod-validation-alert.json": {
+      "exists": false,
+      "path": "/Users/ainchorsoc2a/.openclaw/workspace/state/dod-validation-alert.json",
+      "unacknowledged_count": 0,
+      "status": "absent",
+      "note": "File does not exist. No DoD validation alerts to report."
+    },
+    "task-verification-alert.json": {
+      "exists": true,
+      "path": "/Users/ainchorsoc2a/.openclaw/workspace/state/task-verification-alert.json",
+      "alerts_count": 0,
+      "non_empty_alerts": 0,
+      "acknowledged": true,
+      "status": "clear",
+      "note": "Alerts array empty. Acknowledged 2026-07-02 — all 7 items were Monthly SLA Report duplicates from resolved TKT-0024 auto-discover loop. No action required.",
+      "generated_at": "2026-06-28T05:12:00Z",
+      "source": "task-collector (cron)"
+    }
+  },
+  "summary": {
+    "doD_alerts": 0,
+    "task_verification_alerts": 0,
+    "overall_status": "all_clear"
+  }
+}

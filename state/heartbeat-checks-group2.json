@@ -1,0 +1,100 @@
+{
+  "checkedAt": "2026-07-16T18:22:11+10:00",
+  "checkedAtUtc": "2026-07-16T08:22:11Z",
+  "agent": "infra",
+  "session": "agent:infra:subagent:f66793d3-09b0-4e88-be18-a11653e043a5",
+  "checks": {
+    "1_session_model_drift": {
+      "status": "ok",
+      "script": "scripts/check-session-model.sh --json",
+      "result": {
+        "status": "ok",
+        "agentId": "main",
+        "expected": "ollama/kimi-k2.7-code:cloud",
+        "actual": "kimi-k2.7-code:cloud",
+        "checkedAt": "2026-07-16T18:22:11+10:00"
+      },
+      "drift_alert_file": "state/session-model-drift-alert.json",
+      "pending_reset_file": "state/pending-model-reset.json",
+      "drift_detected": false,
+      "pending_resets": "none (files not present; no drift state files exist)"
+    },
+    "2_main_session_context_watchdog": {
+      "status": "ok",
+      "script": "scripts/main-session-context-watchdog.sh",
+      "result_file": "state/main-session-context-ok.json",
+      "reset_file": "state/main-session-context-reset.json",
+      "context": {
+        "sessionKey": "agent:main:dashboard:be3c4040-84e1-4939-8c9c-ec3bea41002a",
+        "sessionId": "936020f0-8a8e-4476-91a1-562b42a4fc95",
+        "totalTokens": 102009,
+        "contextTokens": 262144,
+        "contextRatio": 38,
+        "estimatedMessages": 137,
+        "model": "kimi-k2.7-code:cloud",
+        "status": "ok"
+      },
+      "reset_required": false
+    },
+    "3_main_session_resume_registry": {
+      "status": "ok",
+      "script": "scripts/main-session-resume-check.sh",
+      "result": "all registered sessions alive",
+      "result_file": "state/main-session-resume.json",
+      "needs_ken_file": "state/main-session-resume-needs-ken.json",
+      "unacknowledged_tasks": "none (registry tasks array empty; no needs-ken file present)"
+    },
+    "4_async_task_watchdog": {
+      "status": "ok",
+      "script": "scripts/task-watchdog.sh",
+      "result": "no stale running/dispatched tasks; all 8 task(s) healthy — no stalls, no spawn delays, no stuck pending",
+      "stall_alert_file": "state/task-stall-alert.json",
+      "stalls_detected": false
+    },
+    "5_agent_health": {
+      "status": "ok",
+      "health_state_file": "state/health-state.json",
+      "agent_status_file": "state/agent-status.json",
+      "gateway": "ok",
+      "ollama": "ok",
+      "ollamaApi": "ok",
+      "disk": "ok",
+      "overallStatus": "ok",
+      "consecutiveFailures": 0,
+      "alerted": false,
+      "ollamaReachable": true,
+      "agents": {
+        "foodie": {
+          "status": "ok",
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "lastSeen": "2026-07-15T12:25:00+10:00",
+          "role": "heartbeat agent"
+        }
+      },
+      "failed_agents": "none",
+      "agents_lastUpdated": "2026-07-15T12:25:00+10:00",
+      "note": "agent-status.json has not been updated since 2026-07-15; only 'foodie' agent is registered — main agent is not in this registry (it uses session-model check instead)"
+    },
+    "6_aria_crest_compliance": {
+      "status": "COMPLIANT",
+      "script": "scripts/aria-crest-check.sh",
+      "result": {
+        "checked_at": "2026-07-16T08:22:11+10:00",
+        "specialist": "aria",
+        "violations": [],
+        "warnings": [],
+        "violation_count": 0,
+        "status": "COMPLIANT"
+      },
+      "alert_file": "state/aria-crest-alert.json",
+      "violations": "none"
+    }
+  },
+  "summary": {
+    "total_checks": 6,
+    "passed": 6,
+    "failed": 0,
+    "alerts": 0,
+    "verdict": "ALL CLEAR — no drifts, no stalls, no violations, no failed agents"
+  }
+}

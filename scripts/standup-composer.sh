@@ -143,23 +143,34 @@ else
 fi
 
 # ── Build prompt ─────────────────────────────────────────────────────────────
+# CHG-0928 v7: strengthened JSON instructions + explicit example output
+# to reduce model side-channel prose that breaks downstream validation.
 PROMPT="You are a stand-up brief composer for AInchors Nexus Platform.
 Today is ${my_date}. Craft concise, specific, context-driven content for the morning stand-up.
 
 ${CONTEXT}
 
-Return ONLY valid JSON — no markdown fences, no extra text, no commentary. Use this exact schema:
-{\"businessStream\":\"...\",\"frameworkMaturity\":\"...\",\"progress\":\"...\",\"rtb\":{\"rose\":\"...\",\"thorn\":\"...\",\"bud\":\"...\"}}
+CRITICAL OUTPUT FORMAT — read carefully:
+- Respond with ONLY a single JSON object. No prose, no commentary, no explanation.
+- Do NOT wrap the output in markdown fences (no \`\`\`json, no \`\`\`).
+- Do NOT write any text before the opening { or after the closing }.
+- The first character of your response must be { and the last must be }.
 
-Requirements:
+Required JSON schema (use exactly these keys):
+{\"businessStream\":\"<string>\",\"frameworkMaturity\":\"<string>\",\"progress\":\"<string OR array of bullet strings>\",\"rtb\":{\"rose\":\"<string>\",\"thorn\":\"<string>\",\"bud\":\"<string>\"}}
 
-1. **businessStream** (2-4 sentences): What Aria/the business stream did yesterday. Reference specific items from Angie interactions, proposal work, LinkedIn publishing status, or open business items. Be concrete — use names, amounts, dates.
+Concrete example of a valid response (do not copy the content, only the shape):
+{\"businessStream\":\"Yesterday X happened. Y is in progress. Z is blocked.\",\"frameworkMaturity\":\"Shield CLEAR. Lex CLEAR. Sage CONDITIONAL. Warden: 1 escalation pending.\",\"progress\":\"• CHG-1234 did A\\n• CHG-1235 did B\",\"rtb\":{\"rose\":\"positive thing\",\"thorn\":\"blocker\",\"bud\":\"upcoming focus\"}}
 
-2. **frameworkMaturity** (2-3 sentences): Governance/framework progress. Reference Shield/Lex/Sage/Warden status, CREST compliance, sprint ceremonies, or policy work. Use actual statuses (CLEAR/CONDITIONAL/ESCALATED).
+Field requirements:
 
-3. **progress** (3-5 bullet points): Summary of CHGs/sprint work since last stand-up. Reference actual CHG numbers, sprint status (Sprint 10: 3/17 done, 13 open), and specific infrastructure changes. Each bullet must reference a real CHG ID or ticket.
+1. **businessStream** (1-4 sentences, min 5 chars): What Aria/the business stream did yesterday. Reference specific items from Angie interactions, proposal work, LinkedIn publishing status, or open business items. Be concrete — use names, amounts, dates.
 
-4. **rtb** (Rose/Thorn/Bud):
+2. **frameworkMaturity** (1-3 sentences, min 5 chars): Governance/framework progress. Reference Shield/Lex/Sage/Warden status, CREST compliance, sprint ceremonies, or policy work. Use actual statuses (CLEAR/CONDITIONAL/ESCALATED).
+
+3. **progress** (3-5 bullet points, min 10 chars total): Summary of CHGs/sprint work since last stand-up. Reference actual CHG numbers, sprint status, and specific infrastructure changes. Each bullet must reference a real CHG ID or ticket. progress may be a JSON string with newline-separated bullets starting with the unicode bullet character (•), or a JSON array of strings.
+
+4. **rtb** (Rose/Thorn/Bud, each min 3 chars):
    - **rose**: A specific positive from yesterday
    - **thorn**: A specific challenge or blocker (e.g. LinkedIn publish failures, exec tool issues, stale tokens)
    - **bud**: An opportunity or upcoming focus
@@ -172,9 +183,14 @@ echo "$PROMPT" > "$PROMPT_FILE"
 LLM_SUCCESS=false
 COMPOSED=""
 
-# Primary model: ollama/deepseek-v4-flash:cloud
-# Fallback: ollama/kimi-k2.6:cloud
-for model in "ollama/deepseek-v4-flash:cloud" "ollama/kimi-k2.6:cloud"; do
+# CHG-0928 v7: 3-model fallback chain.
+# - Primary: ollama/deepseek-v4-flash:cloud (per current model policy for build/Execute)
+# - Fallback 1: ollama/kimi-k2.6:cloud (previous fallback; retained for compatibility)
+# - Fallback 2: ollama/gemma4:31b-cloud (per current model policy fallback for build/Execute;
+#   known reliable JSON producer — used as last resort before degraded mode)
+# Per-call timeout 120s; if a model returns invalid JSON we additionally
+# retry once with a JSON-only stripped prompt before falling back.
+for model in "ollama/deepseek-v4-flash:cloud" "ollama/kimi-k2.6:cloud" "ollama/gemma4:31b-cloud"; do
     echo "[standup-composer] Calling model: $model (via gateway agent infra)" >&2
     result=$(openclaw agent --agent infra --model "$model" --message-file "$PROMPT_FILE" --json --timeout 120 2>/dev/null || echo '{"error":"openclaw agent failed"}')
 
@@ -202,30 +218,108 @@ except Exception:
         continue
     fi
 
-    # Validate and parse JSON — strip markdown fences if present
+    # CHG-0928 v7: robust JSON parse + lenient validation.
+    # Tolerates:
+    #   - Markdown fences (\`\`\`json ... \`\`\`)
+    #   - Leading/trailing prose around the JSON object
+    #   - Lists OR strings for progress
+    #   - Short but truthful strings (min 5 chars instead of 10/20)
     parsed=$(python3 -c "
-import json, sys
-text = sys.stdin.read().strip()
-# Strip markdown fences
-if text.startswith('\`\`\`'):
-    lines = text.split('\n')
-    if lines[-1].strip() == '\`\`\`':
-        text = '\n'.join(lines[1:-1])
-    else:
-        text = '\n'.join(lines[1:])
-try:
-    d = json.loads(text)
-    assert isinstance(d.get('businessStream'), str) and len(d['businessStream']) > 10
-    assert isinstance(d.get('frameworkMaturity'), str) and len(d['frameworkMaturity']) > 10
-    assert isinstance(d.get('progress'), str) and len(d['progress']) > 20
-    assert isinstance(d.get('rtb'), dict)
-    assert isinstance(d['rtb'].get('rose'), str)
-    assert isinstance(d['rtb'].get('thorn'), str)
-    assert isinstance(d['rtb'].get('bud'), str)
-    print(json.dumps(d))
-except Exception as e:
-    sys.stderr.write(f'JSON validation failed: {e}\n')
+import json, re, sys
+text = sys.stdin.read()
+
+def extract_json_object(t):
+    t = t.strip()
+    # Strip a single markdown fence pair if present
+    if t.startswith('\`\`\`'):
+        # Drop first line (e.g. \`\`\`json) and the last \`\`\`
+        lines = t.split('\n')
+        # Find the closing fence
+        end = len(lines)
+        for i in range(len(lines) - 1, 0, -1):
+            if lines[i].strip().startswith('\`\`\`'):
+                end = i
+                break
+        t = '\n'.join(lines[1:end])
+    # Find the first { and the matching last } via balanced scan
+    start = t.find('{')
+    if start == -1:
+        return None
+    depth = 0
+    in_str = False
+    esc = False
+    end = -1
+    for i in range(start, len(t)):
+        c = t[i]
+        if in_str:
+            if esc:
+                esc = False
+            elif c == '\\\\':
+                esc = True
+            elif c == '\"':
+                in_str = False
+            continue
+        if c == '\"':
+            in_str = True
+        elif c == '{':
+            depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0:
+                end = i
+                break
+    if end == -1:
+        return None
+    return t[start:end + 1]
+
+obj_text = extract_json_object(text)
+if obj_text is None:
+    sys.stderr.write('JSON extraction: no balanced object found in LLM response (first 200 chars: ' + text[:200] + ')\n')
     sys.exit(1)
+
+try:
+    d = json.loads(obj_text)
+except Exception as e:
+    sys.stderr.write(f'JSON parse error after extraction: {e} (slice first 200: ' + obj_text[:200] + ')\n')
+    sys.exit(1)
+
+# Lenient validation — CHG-0928 v7 lowered thresholds so short but truthful
+# outputs are not falsely rejected.
+bs = d.get('businessStream')
+fm = d.get('frameworkMaturity')
+if not isinstance(bs, str) or len(bs.strip()) < 5:
+    sys.stderr.write(f'businessStream invalid: type={type(bs).__name__} len={len(bs) if isinstance(bs,str) else 0}\n')
+    sys.exit(1)
+if not isinstance(fm, str) or len(fm.strip()) < 5:
+    sys.stderr.write(f'frameworkMaturity invalid: type={type(fm).__name__} len={len(fm) if isinstance(fm,str) else 0}\n')
+    sys.exit(1)
+
+progress = d.get('progress')
+if isinstance(progress, list):
+    items = [str(x).strip() for x in progress if str(x).strip()]
+    if not items:
+        sys.stderr.write('progress list is empty\n')
+        sys.exit(1)
+    d['progress'] = '\n'.join(item if item.startswith('•') else f'• {item}' for item in items)
+elif isinstance(progress, str):
+    if len(progress.strip()) < 10:
+        sys.stderr.write(f'progress string too short: {len(progress)} chars\n')
+        sys.exit(1)
+else:
+    sys.stderr.write(f'progress field invalid type: {type(progress).__name__}\n')
+    sys.exit(1)
+
+rtb = d.get('rtb')
+if not isinstance(rtb, dict):
+    sys.stderr.write('rtb is not a dict\n')
+    sys.exit(1)
+for key in ('rose', 'thorn', 'bud'):
+    val = rtb.get(key)
+    if not isinstance(val, str) or len(val.strip()) < 3:
+        sys.stderr.write(f'rtb.{key} invalid: type={type(val).__name__} len={len(val) if isinstance(val,str) else 0}\n')
+        sys.exit(1)
+
+print(json.dumps(d, ensure_ascii=False))
 " <<< "$raw_text") && {
         COMPOSED="$parsed"
         LLM_SUCCESS=true

@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-07-16T18:22:00+10:00",
+  "checks": {
+    "delegated_auth_health": {
+      "allValid": true,
+      "okCount": 2,
+      "expiredCount": 0,
+      "missingCount": 0,
+      "warnCount": 0,
+      "accounts": [
+        {"email": "kenmun@ainchors.com", "label": "Ken Mun (CTO)", "status": "OK", "services": "gmail,calendar,drive,contacts,sheets,docs — token valid"},
+        {"email": "angie.foong@ainchors.com", "label": "Angie Foong (CEO)", "status": "OK", "services": "calendar,gmail — token valid"}
+      ],
+      "accounts_needing_reauth": [],
+      "source_file": "state/delegated-auth-status.json",
+      "note": "Task spec referenced state/delegated-auth-health.json; actual file is state/delegated-auth-status.json"
+    },
+    "budget_check_usd": {
+      "status": "parked",
+      "detail": "Anthropic/USD budget inactive per CHG-0502",
+      "exit_code": 0
+    },
+    "request_budget_check": {
+      "status": "OK",
+      "total_requests": 31201,
+      "capacity": 85717,
+      "pct_used": 36.4,
+      "remaining": 54516,
+      "burn_rate_req_per_hr": 390.0,
+      "projected_exhaustion": "2026-07-22T13:47:22+10:00",
+      "window_start": "2026-07-13T10:00:00+10:00",
+      "window_end": "2026-07-20T10:00:00+10:00",
+      "top_models": [
+        {"model": "kimi-k2.7-code", "requests": 15245, "share_pct": 17.8},
+        {"model": "deepseek-v4-flash", "requests": 12920, "share_pct": 15.1},
+        {"model": "minimax-m3", "requests": 2738, "share_pct": 3.2},
+        {"model": "deepseek-v4-pro", "requests": 230, "share_pct": 0.3},
+        {"model": "gemma4:31b", "requests": 47, "share_pct": 0.1},
+        {"model": "kimi-k2.6", "requests": 21, "share_pct": 0.0}
+      ],
+      "exit_code": 0
+    },
+    "cron_health_check": {
+      "status": "OK",
+      "exit_code": 0,
+      "healthy": true,
+      "failures": 0,
+      "warnings": 0,
+      "resumable_crons": "no retryable cron failures",
+      "alert_file": "state/cron-health-state.json",
+      "note": "Task spec referenced state/cron-health-alert.json; actual file is state/cron-health-state.json (alert file not present — likely because no alert active)"
+    },
+    "cron_dead_letter_alerts": {
+      "status": "no_file",
+      "unacknowledged": [],
+      "note": "state/cron-dead-letter-alert.json does not exist (no active dead-letter alerts)"
+    },
+    "owl_compliance_check": {
+      "status": "OK",
+      "exit_code": 0,
+      "score_pct": 100,
+      "atoms_verified": "0/0",
+      "drifts": 0,
+      "model": "unknown"
+    }
+  },
+  "summary": {
+    "all_healthy": true,
+    "exit_codes": {"delegated_auth": 0, "budget_usd": 0, "request_budget": 0, "cron_health": 0, "owl_compliance": 0},
+    "alerts": [],
+    "action_required": false
+  }
+}

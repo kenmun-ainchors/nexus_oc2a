@@ -1,0 +1,42 @@
+[2026-07-18T22:40:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN
+  Sweep result: 13 files processed, 46 tilde refs replaced, 0 failures
+  Post-sweep audit: R01 still FAIL — 64 violations (new tilde refs written by gateway since sweep)
+  Affected files: d7b82941-467c-44a0-bd1f-09d703fb4210.jsonl (51), 9e982474-9d63-477d-9b3b-21524b6e4bdf.trajectory.jsonl (4), bbd61a6f-0531-419a-b465-cbc4fbaf8da0.trajectory.jsonl (4), 32dc4e41-626d-445f-8a85-77055872f0ad.trajectory.jsonl (4), a5548193-2ef1-4277-b84d-67c711dbf883.jsonl (1)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
+
+[2026-07-19T01:00:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN
+  Sweep result: 13 files processed, 46 tilde refs replaced, 0 failures
+  Post-sweep audit: R01 still FAIL — 64 violations (new tilde refs written by gateway since sweep)
+  Affected files: d7b82941-467c-44a0-bd1f-09d703fb4210.jsonl (51), 9e982474-9d63-477d-9b3b-21524b6e4bdf.trajectory.jsonl (4), bbd61a6f-0531-419a-b465-cbc4fbaf8da0.trajectory.jsonl (4), 32dc4e41-626d-445f-8a85-77055872f0ad.trajectory.jsonl (4), a5548193-2ef1-4277-b84d-67c711dbf883.jsonl (1)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
+
+[2026-07-19T03:30:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN
+  Sweep result: 12 files processed (10+2), 44 tilde refs replaced (36+8), 0 failures
+  Post-sweep audit: R01 still FAIL — 59 violations (51 structural skip + 8 fresh/active)
+  Structural skip: d7b82941-467c-44a0-bd1f-09d703fb4210.jsonl (51)
+  Fresh/active: d7be5446-60b5-4cb1-ab9a-266c81058830.jsonl (8)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
+
+[2026-07-19T05:10:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN
+  Sweep result: 10 files processed, 36 tilde refs replaced, 0 failures
+  Post-sweep audit: R01 still FAIL — 4 remaining (structural skip + freshness gate + glob bug)
+  Remaining: d7b82941-...jsonl (structural skip, active session), 1fb473bf-...jsonl (freshness gate, current cron session), 2x *.trajectory.jsonl (glob bug, CHG-0924)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
+
+[2026-07-19T10:00:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN
+  Sweep result: 12 files processed, 48 tilde refs replaced, 0 failures
+  Post-sweep audit: R01 still FAIL — 3 remaining (structural skip + freshness gate + glob bug)
+  Remaining: d7b82941-...jsonl (structural skip, active gateway session), 1 current cron session (freshness gate), 3x *.trajectory.jsonl (glob bug, CHG-0924 — 1d56a604, 5bda0d9e, 83e4741f)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
+
+[2026-07-19T15:00:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN (R01)
+  Sweep result: 12 files processed, 48 tilde refs replaced, 0 failures
+  Post-sweep audit: R01 still FAIL — 3 remaining (structural skip + freshness gate + glob bug)
+  Remaining: d7b82941-...jsonl (structural skip, active gateway session), 1 current cron session (freshness gate), 3x *.trajectory.jsonl (glob bug, CHG-0924 — 1d56a604, 5bda0d9e, 83e4741f)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
