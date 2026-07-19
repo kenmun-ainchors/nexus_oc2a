@@ -1,3 +1,9 @@
+## 2026-07-19 17:03 MYT — [CHG-0938] EmbeddedAttemptSessionTakeoverError fix ACTIVE ✅
+**Status:** FULLY ACTIVE
+**Evidence:** Gateway PID 16312, runtime 2026.7.1-2, file-modifying infra subagent smoke test PASS (3 files created/read, no session errors). Patch in dist/selection-JInn13lc.js active after restart.
+---
+
+
 ## 2026-07-19 16:22 MYT — [CHG-0937] CLOSED ✅
 **Status:** COMPLETE
 **Evidence:** Added semicolons to one-liner zsh functions in projects/imessage-bridge/legacy/imessage-bridge.sh and scripts/imessage-bridge.sh so bash-3.2  passes. Backups at .chg-0937-backup/. Self-test and dry-run OK.
