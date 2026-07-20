@@ -54,11 +54,12 @@ def mm_to_pt(v):
 
 
 # Page layout (mm) — used for both overall & detail pages.
-MARGIN_MM = 10
+MARGIN_MM = 12
 HEADER_MM = 18
 RIBBON_MM = 7
 LEGEND_MM = 50
 TITLE_MM = 46
+FRAME_PAD_MM = 4   # inner padding so nothing touches the frame line
 
 # Common drawing helpers --------------------------------------------------------
 class _D:
@@ -205,6 +206,10 @@ def label_pt(c, txt, x_pt, y_pt, size=8, color=TEXT_DARK, anchor="left",
 # ---------------------------------------------------------------------------
 def sym_ahu(c, cx_pt, cy_pt, code="AHU-1", cfm="15,000 CFM",
             w_pt=80, h_pt=48, name_size=12, cfm_size=9):
+    # If the symbol is drawn outside the frame, skip it (detail pages)
+    if DRAW and (cx_pt < DRAW.frame_left or cx_pt > DRAW.frame_right
+                 or cy_pt < DRAW.frame_bottom or cy_pt > DRAW.frame_top):
+        return
     c.setStrokeColor(AHU_EDGE)
     c.setFillColor(AHU_FILL)
     c.setLineWidth(1.4)
@@ -217,6 +222,9 @@ def sym_ahu(c, cx_pt, cy_pt, code="AHU-1", cfm="15,000 CFM",
 
 
 def sym_fcu(c, cx_pt, cy_pt, code="FCU", w_pt=44, h_pt=26, label_size=10):
+    if DRAW and (cx_pt < DRAW.frame_left or cx_pt > DRAW.frame_right
+                 or cy_pt < DRAW.frame_bottom or cy_pt > DRAW.frame_top):
+        return
     c.setStrokeColor(FCU_EDGE)
     c.setFillColor(FCU_FILL)
     c.setLineWidth(1.4)
@@ -227,6 +235,9 @@ def sym_fcu(c, cx_pt, cy_pt, code="FCU", w_pt=44, h_pt=26, label_size=10):
 
 
 def sym_chiller(c, cx_pt, cy_pt, r_pt=22, code="CH-1", name_size=11, sub_size=7.5):
+    if DRAW and (cx_pt < DRAW.frame_left or cx_pt > DRAW.frame_right
+                 or cy_pt < DRAW.frame_bottom or cy_pt > DRAW.frame_top):
+        return
     c.setStrokeColor(CHILLER_EDGE)
     c.setFillColor(CHILLER_FILL)
     c.setLineWidth(1.3)
@@ -240,6 +251,9 @@ def sym_chiller(c, cx_pt, cy_pt, r_pt=22, code="CH-1", name_size=11, sub_size=7.
 
 
 def sym_ct(c, cx_pt, cy_pt, r_pt=22, code="CT-1", name_size=11, sub_size=7.5):
+    if DRAW and (cx_pt < DRAW.frame_left or cx_pt > DRAW.frame_right
+                 or cy_pt < DRAW.frame_bottom or cy_pt > DRAW.frame_top):
+        return
     c.setStrokeColor(CT_EDGE)
     c.setFillColor(CT_FILL)
     c.setLineWidth(1.3)
@@ -256,6 +270,9 @@ def sym_ct(c, cx_pt, cy_pt, r_pt=22, code="CT-1", name_size=11, sub_size=7.5):
 
 
 def sym_pump(c, cx_pt, cy_pt, r_pt=11, code="P-1", name_size=10):
+    if DRAW and (cx_pt < DRAW.frame_left or cx_pt > DRAW.frame_right
+                 or cy_pt < DRAW.frame_bottom or cy_pt > DRAW.frame_top):
+        return
     c.setStrokeColor(PUMP_EDGE)
     c.setFillColor(PUMP_FILL)
     c.setLineWidth(1.1)
@@ -329,13 +346,13 @@ ROOMS = [
 # Detail-page crop windows in plan-mm (x0, y0, x1, y1)
 DETAIL_REGIONS = {
     "OVERALL":  (-6500, -5800, 36500, 18200),
-    "Z-A":      (-200,  10000, 10000, 18200),
-    "Z-B":      (8000,  10000, 17000, 18200),
-    "Z-C":      (16000, 10000, 25000, 18200),
-    "Z-D":      (24000, 10000, 36500, 18200),
-    "MEET":     (-200,  4500,  26500, 10800),
-    "PLANT":    (-200,  -5800, 36500, 5000),
-    "SERVER":   (25500, 4500,  36500, 10800),
+    "Z-A":      (500,   10200, 9000,  17800),
+    "Z-B":      (8700,  10200, 17200, 17800),
+    "Z-C":      (16700, 10200, 25200, 17800),
+    "Z-D":      (24700, 10200, 35500, 17800),
+    "MEET":     (500,   4300,  26200, 11000),
+    "PLANT":    (500,   -4000, 35500, 4700),
+    "SERVER":   (25700, 4300,  35500, 11000),
 }
 
 
@@ -364,6 +381,18 @@ def room_rect(c, x, y, w, h, fill, code, name, subtitle=None, lw_pt=None):
                  anchor="center", color=ACCENT_NAVY)
     label_pt(c, code, X(x) + 4, Y(y + h) - 9, size=code_size,
              color=TEXT_MUTED, bold=True, anchor="left")
+
+
+def push_clip_to_frame(c):
+    """Restrict all subsequent plan drawing to the current plan frame.
+    Must be balanced by a c.restoreState() after plan geometry is drawn."""
+    c.saveState()
+    p = c.beginPath()
+    p.rect(DRAW.frame_left + mm_to_pt(FRAME_PAD_MM),
+           DRAW.frame_bottom + mm_to_pt(FRAME_PAD_MM),
+           DRAW.frame_right - DRAW.frame_left - 2 * mm_to_pt(FRAME_PAD_MM),
+           DRAW.frame_top - DRAW.frame_bottom - 2 * mm_to_pt(FRAME_PAD_MM))
+    c.clipPath(p, stroke=0, fill=0)
 
 
 def draw_outer_shell(c):
@@ -1277,7 +1306,7 @@ def build_overall_page(c, sheet_no, total_sheets):
     PLAN_H_PT = PLAN_TOP_PT - PLAN_BOT_PT
 
     YARD_H_PT = mm_to_pt(48)
-    avail_h_pt = PLAN_H_PT - mm_to_pt(12) - YARD_H_PT
+    avail_h_pt = PLAN_H_PT - 2 * mm_to_pt(FRAME_PAD_MM) - YARD_H_PT
     avail_w_pt = PLAN_W_PT * 0.94
     scale_h = avail_h_pt / BUILD_H
     scale_w = avail_w_pt / BUILD_W
@@ -1301,9 +1330,9 @@ def build_overall_page(c, sheet_no, total_sheets):
 
     draw_page_chrome(c, page_title="OVERALL  FLOOR  PLAN",
                      sheet_no=sheet_no, total_sheets=total_sheets)
-    draw_equipment_schedule(c)
 
-    # Geometry
+    # Geometry clipped to frame
+    push_clip_to_frame(c)
     draw_outer_shell(c)
     draw_yard(c)
     draw_rooms(c)
@@ -1315,7 +1344,10 @@ def build_overall_page(c, sheet_no, total_sheets):
     draw_thermostats(c)
     draw_chw_pipes(c)
     draw_yard_equipment(c)
+    c.restoreState()
+
     draw_dimensions_overall(c)
+    draw_equipment_schedule(c)
 
 
 # Zones where room codes belong to a given page
@@ -1346,24 +1378,22 @@ def build_detail_page(c, key, page_title, sheet_no, total_sheets):
     PLAN_W_PT = PLAN_RIGHT_PT - PLAN_LEFT_PT
     PLAN_H_PT = PLAN_TOP_PT - PLAN_BOT_PT
 
-    # Available drawing area inside the frame, leaving margin for the key
-    # plan inset (110 mm wide, top-right) and equipment schedule on plant page.
-    margin_x = mm_to_pt(4)
-    margin_y = mm_to_pt(4)
-    avail_w = PLAN_W_PT - 2 * margin_x
-    avail_h = PLAN_H_PT - 2 * margin_y
+    # Available drawing area inside the frame after safe padding
+    pad = mm_to_pt(FRAME_PAD_MM)
+    avail_w = PLAN_W_PT - 2 * pad
+    avail_h = PLAN_H_PT - 2 * pad
+
+    # Reserve space for key-plan inset (top-right) and schedule on plant page.
     if key == "PLANT":
-        # Leave space for equipment schedule top-left
-        avail_w -= mm_to_pt(64)
-        avail_h -= mm_to_pt(50)
-        avail_origin_x = PLAN_LEFT_PT + margin_x + mm_to_pt(64)
-        avail_origin_y = PLAN_BOT_PT + margin_y
+        avail_w -= mm_to_pt(62)
+        avail_h -= mm_to_pt(44)
+        avail_origin_x = PLAN_LEFT_PT + pad
+        avail_origin_y = PLAN_BOT_PT + pad
     else:
-        # Leave space for key plan top-right
-        avail_w -= mm_to_pt(118)
-        avail_h -= mm_to_pt(40)
-        avail_origin_x = PLAN_LEFT_PT + margin_x
-        avail_origin_y = PLAN_BOT_PT + margin_y
+        avail_w -= mm_to_pt(116)
+        avail_h -= mm_to_pt(36)
+        avail_origin_x = PLAN_LEFT_PT + pad
+        avail_origin_y = PLAN_BOT_PT + pad
 
     region_w = rx1 - rx0
     region_h = ry1 - ry0
@@ -1391,13 +1421,8 @@ def build_detail_page(c, key, page_title, sheet_no, total_sheets):
                      total_sheets=total_sheets, region_label=key,
                      region_rect=region, overall_rect=overall)
 
-    # Plant page equipment schedule
-    if key == "PLANT":
-        draw_equipment_schedule(c)
-
-    # Geometry — always draw the full building/yard, the region rect clips
-    # what is visible by the page frame.  Rooms are filtered to the page's
-    # zones plus shared rooms that the crop overlaps.
+    # Geometry — clip to plan frame so nothing spills outside
+    push_clip_to_frame(c)
     only = PAGE_ZONES.get(key)
     draw_outer_shell(c)
     draw_yard(c)
@@ -1405,7 +1430,7 @@ def build_detail_page(c, key, page_title, sheet_no, total_sheets):
     # Corridor stays only for pages that include the corridor band
     if key in ("MEET", "SERVER", "Z-A", "Z-B", "Z-C", "Z-D"):
         draw_corridor(c)
-    # Equipment — always draw; clip is automatic via frame
+    # Equipment — symbols now self-skip if outside frame
     draw_equipment(c)
     if key in ("Z-A", "Z-B", "Z-C", "Z-D", "MEET"):
         draw_ahu_supply(c)
@@ -1428,6 +1453,11 @@ def build_detail_page(c, key, page_title, sheet_no, total_sheets):
     draw_chw_pipes(c)
     if key == "PLANT":
         draw_yard_equipment(c)
+    c.restoreState()
+
+    # Plant page equipment schedule (drawn after clipping so it stays crisp)
+    if key == "PLANT":
+        draw_equipment_schedule(c)
 
 
 # ---------------------------------------------------------------------------

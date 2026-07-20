@@ -1,6 +1,15 @@
 {
-  "checkedAt": "2026-07-19T16:50:17.832412+00:00",
-  "failures": [],
+  "checkedAt": "2026-07-20T10:31:28.621697+00:00",
+  "failures": [
+    {
+      "cronId": "58e95c77",
+      "fullCronId": "58e95c77-599b-4e43-a334-4403e3786a87",
+      "name": "OC1 Reachability Probe (CHG-0944 / TRIGGER-18)",
+      "consecutiveErrors": 5,
+      "lastError": "error",
+      "source": "live-cron-state"
+    }
+  ],
   "warnings": [],
-  "healthy": true
+  "healthy": false
 }
