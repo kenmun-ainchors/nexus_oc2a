@@ -55,11 +55,14 @@ def mm_to_pt(v):
 
 # Page layout (mm) — used for both overall & detail pages.
 MARGIN_MM = 12
-HEADER_MM = 18
+HEADER_MM = 22      # increased to fit plan title above frame
 RIBBON_MM = 7
 LEGEND_MM = 50
 TITLE_MM = 46
 FRAME_PAD_MM = 4   # inner padding so nothing touches the frame line
+TITLE_BLOCK_W_MM = 160
+TITLE_BLOCK_H_MM = 38
+TITLE_BLOCK_BOTTOM_CLEARANCE_MM = 4
 
 # Common drawing helpers --------------------------------------------------------
 class _D:
@@ -916,15 +919,15 @@ def draw_page_chrome(c, *, page_title, sheet_no, total_sheets,
            (DRAW.frame_right - DRAW.frame_left) - 3,
            (DRAW.frame_top - DRAW.frame_bottom) - 3, stroke=1, fill=0)
 
-    # Plan-area title (top-right of plan frame)
-    pt_x = DRAW.frame_right - 6
-    pt_y = DRAW.frame_top - 8
-    label_pt(c, f"FLOOR  PLAN  —  {page_title}", pt_x, pt_y, size=11,
-             bold=True, color=ACCENT_NAVY, anchor="right")
+    # Page plan title — moved ABOVE the plan frame so it never overlaps
+    title_x = (DRAW.frame_left + DRAW.frame_right) / 2
+    title_y = DRAW.frame_top + mm_to_pt(5)
+    label_pt(c, f"FLOOR  PLAN  —  {page_title}", title_x, title_y, size=12,
+             bold=True, color=ACCENT_NAVY, anchor="center")
     label_pt(c, "Engineering scale 1 : 100  •  Drawing units: millimetres",
-             pt_x, pt_y - 11, size=8, color=TEXT_MUTED, anchor="right")
+             title_x, title_y - 10, size=8, color=TEXT_MUTED, anchor="center")
 
-    # North + scale bar (top-left of plan)
+    # North + scale bar (top-left inside plan, clear of the title strip)
     north_arrow(c, DRAW.frame_left + 18, DRAW.frame_top - 18)
     scale_bar(c, DRAW.frame_left + 60, DRAW.frame_top - 18)
 
@@ -1193,10 +1196,11 @@ def draw_legend(c):
 # Title block
 # ---------------------------------------------------------------------------
 def draw_title_block(c, sheet_no, total_sheets, page_title):
-    TB_W_MM = 240
+    TB_W_MM = 160
     TB_H_MM = 42
+    # Place in the bottom-right corner, outside the plan frame, above the legend
     TB_X_PT = PW - mm_to_pt(MARGIN_MM) - mm_to_pt(TB_W_MM)
-    TB_Y_PT = mm_to_pt(LEGEND_MM) + mm_to_pt(4)
+    TB_Y_PT = mm_to_pt(MARGIN_MM + LEGEND_MM) + mm_to_pt(4)
     TB_W_PT = mm_to_pt(TB_W_MM)
     TB_H_PT = mm_to_pt(TB_H_MM)
 
@@ -1297,9 +1301,9 @@ def draw_equipment_schedule(c):
 # ---------------------------------------------------------------------------
 def build_overall_page(c, sheet_no, total_sheets):
     """A3 overall floor plan."""
-    # Plan area
+    # Plan area — leave extra room at right for title block
     PLAN_LEFT_PT = mm_to_pt(MARGIN_MM)
-    PLAN_RIGHT_PT = PW - mm_to_pt(MARGIN_MM)
+    PLAN_RIGHT_PT = PW - mm_to_pt(MARGIN_MM) - mm_to_pt(TITLE_BLOCK_W_MM + 4)
     PLAN_TOP_PT = PH - mm_to_pt(MARGIN_MM + HEADER_MM + RIBBON_MM) - mm_to_pt(2)
     PLAN_BOT_PT = mm_to_pt(MARGIN_MM + LEGEND_MM + TITLE_MM + 6)
     PLAN_W_PT = PLAN_RIGHT_PT - PLAN_LEFT_PT
@@ -1370,9 +1374,9 @@ def build_detail_page(c, key, page_title, sheet_no, total_sheets):
     rx0, ry0, rx1, ry1 = region
     ox0, oy0, ox1, oy1 = overall
 
-    # Plan area
+    # Plan area — narrower on right to keep title block clear of frame
     PLAN_LEFT_PT = mm_to_pt(MARGIN_MM)
-    PLAN_RIGHT_PT = PW - mm_to_pt(MARGIN_MM)
+    PLAN_RIGHT_PT = PW - mm_to_pt(MARGIN_MM) - mm_to_pt(TITLE_BLOCK_W_MM + 4)
     PLAN_TOP_PT = PH - mm_to_pt(MARGIN_MM + HEADER_MM + RIBBON_MM) - mm_to_pt(2)
     PLAN_BOT_PT = mm_to_pt(MARGIN_MM + LEGEND_MM + TITLE_MM + 6)
     PLAN_W_PT = PLAN_RIGHT_PT - PLAN_LEFT_PT

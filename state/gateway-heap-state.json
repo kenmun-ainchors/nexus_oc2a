@@ -1,22 +1,22 @@
 {
-  "timestamp": "2026-07-20T10:29:08Z",
-  "localTimestamp": "2026-07-20T18:29:08+0800",
+  "timestamp": "2026-07-20T16:59:29Z",
+  "localTimestamp": "2026-07-21T00:59:29+0800",
   "gateway": {
     "pid": "47841",
     "port": 18789,
-    "uptime": "02:46:54",
-    "cpuPct": "0.4",
-    "rssKB": 1200032,
-    "rssMB": 1171,
+    "uptime": "09:17:15",
+    "cpuPct": "26.2",
+    "rssKB": 1222944,
+    "rssMB": 1194,
     "heapUsedMB": null,
     "heapTotalMB": null,
     "heapUsedPct": null,
     "heapMeasurement": "rss-only (v8-inspector not attached; CHG-0901)"
   },
-  "selfNodeHeap": {"heapUsedMB":3.62,"heapTotalMB":4.39,"rssMB":47.14,"note":"this is the scripts own short-lived node -e process, NOT the gateway"},
+  "selfNodeHeap": {"heapUsedMB":3.62,"heapTotalMB":4.39,"rssMB":47.16,"note":"this is the scripts own short-lived node -e process, NOT the gateway"},
   "system": {
     "diskUsedPct": 4,
-    "dfOutput": "/dev/disk3s1s1   460Gi    12Gi   372Gi     4%    459k  3.9G    0%   /"
+    "dfOutput": "/dev/disk3s1s1   460Gi    12Gi   371Gi     4%    459k  3.9G    0%   /"
   },
   "thresholds": {
     "warnRssMB": 2048,
@@ -24,6 +24,6 @@
   },
   "status": "ok",
   "alerted": false,
-  "reason": "rss 1171MB within thresholds (warn=2048MB, crit=4096MB)",
+  "reason": "rss 1194MB within thresholds (warn=2048MB, crit=4096MB)",
   "chgRef": "CHG-0901"
 }

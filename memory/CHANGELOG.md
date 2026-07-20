@@ -1,3 +1,15 @@
+## 2026-07-21 00:35 MYT — [CHG-0947] R01 Session Trajectory Tilde Sweep (CHG-0924)
+**Type:** cron
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** cron: 00:35 MYT daily sweep
+**What changed:** 16 session .jsonl files had tilde refs replaced with absolute paths
+**Why:** R01 Path Discipline: prevent tilde expansion drift in session trajectories
+**Verification:** 55 tilde refs replaced; 0 locked, 0 failed, 2 fresh-skip, 1 structural-skip
+**Rollback:** Backups in state/chg-0923-backups/
+**Linked:** none
+---
+
 ## 2026-07-20 18:51 MYT — [CHG-0948] Daily zombie/runaway process cleanup cron
 **Type:** infra
 **Change Type:** Normal
