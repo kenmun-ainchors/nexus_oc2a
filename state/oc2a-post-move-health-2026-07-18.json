@@ -151,7 +151,7 @@
       "status": "UP — last run on schedule",
       "evidence": {
         "crontab_entries": 1,
-        "job": "0 3 * * * — /Users/ainchorsoc2a/.openclaw/workspace/scripts/session-store-cleanup.sh --all-agents, lock-protected, logs to ~/.openclaw/logs/session-store-cleanup.cron.log",
+        "job": "0 3 * * * — /Users/ainchorsoc2a/.openclaw/workspace/scripts/session-store-cleanup.sh --all-agents, lock-protected, logs to /Users/ainchorsoc2a/.openclaw/logs/session-store-cleanup.cron.log",
         "last_run": "2026-07-16T18:31:02 AEST (DONE moved=0 warned-big=0 skipped=753 failed_agents=none)",
         "note": "Subsequent 03:00 AEST runs (2026-07-17, 2026-07-18) are pending their next scheduled window — not missed. cron daemon is alive and well."
       },
@@ -195,7 +195,7 @@
       "severity": "info",
       "status": "UNREACHABLE — but expected",
       "evidence": {
-        "ssh_attempt": "ssh -i ~/.ssh/id_oc2a_oc1 ainchorsangiefpl@ainchorss-mac-mini.tailfc3ed1.ts.net → 'Operation timed out'",
+        "ssh_attempt": "ssh -i /Users/ainchorsoc2a/.ssh/id_oc2a_oc1 ainchorsangiefpl@ainchorss-mac-mini.tailfc3ed1.ts.net → 'Operation timed out'",
         "tailscale_status_peer": "100.75.171.40 ainchorss-mac-mini — offline, last seen 1d ago",
         "context": "TOOLS.md says OC1 was LOCKED 2026-07-15 and repurposed to dev/test passive standby. This is the expected state."
       },

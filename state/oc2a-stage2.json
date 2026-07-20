@@ -15,7 +15,7 @@
   "blockers": {
     "blocker_1_ssh_known_hosts": {
       "status": "CLEARED",
-      "description": "OC1 ~/.ssh/known_hosts had stale OC2A host keys. Removed old entries and re-scanned current keys.",
+      "description": "OC1 /Users/ainchorsoc2a/.ssh/known_hosts had stale OC2A host keys. Removed old entries and re-scanned current keys.",
       "evidence": "SSH via LAN (192.168.1.126) works. Tailscale SSH blocked by tailnet ACL policy — requires admin console.",
       "workaround": "LAN SSH (192.168.1.126) used for all OC1→OC2A operations."
     },
@@ -24,7 +24,7 @@
       "cleared_at": "2026-07-13T13:36:00+10:00",
       "description": "Ken enabled Tailscale serve in admin console. Gateway config updated: tailscale.mode=serve, bind=loopback, auth.allowTailscale=true, controlUi.allowedOrigins set.",
       "evidence": "curl from OC1 to https://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net/health returns 200. Gateway log: 'serve enabled: https://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net/ (WS via wss://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net)'. tailscale serve status shows HTTPS proxy to 127.0.0.1:18789.",
-      "config_snapshot": "~/.openclaw/openclaw.json.bak-20260713-133547"
+      "config_snapshot": "/Users/ainchorsoc2a/.openclaw/openclaw.json.bak-20260713-133547"
     },
     "blocker_3_qr_tailscale_ip": {
       "status": "CLEARED",
@@ -34,7 +34,7 @@
     },
     "blocker_4_path_linking": {
       "status": "CLEARED",
-      "description": "OpenClaw at ~/local/bin/node + ~/local/lib/node_modules/openclaw/dist/index.js. PostgreSQL at ~/homebrew/Cellar/postgresql@16/16.14/bin/. Updated ~/.zshrc and ~/.zprofile with full PATH.",
+      "description": "OpenClaw at /Users/ainchorsoc2a/local/bin/node + /Users/ainchorsoc2a/local/lib/node_modules/openclaw/dist/index.js. PostgreSQL at /Users/ainchorsoc2a/homebrew/Cellar/postgresql@16/16.14/bin/. Updated /Users/ainchorsoc2a/.zshrc and /Users/ainchorsoc2a/.zprofile with full PATH.",
       "evidence": "zsh -lc 'which psql pg_isready node tailscale' all resolve correctly."
     }
   },

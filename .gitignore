@@ -33,6 +33,12 @@ openclaw.json
 # Exception: the canonical template
 !openclaw.json.example
 
+# ── Runtime state, transient backups, and nested test repos ──────────────────
+foodie/
+state/chg-0923-backups/
+state/chg-0945-backups/
+state/*.bak-pre-*
+
 # ── Runtime state (contains transient data, PII, session logs) ───────────────
 # Agent session logs (may contain client data)
 agents/*/sessions/

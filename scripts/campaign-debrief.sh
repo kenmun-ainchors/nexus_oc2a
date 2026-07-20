@@ -6,8 +6,10 @@
 
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
-CAMPAIGNS="$HOME/.openclaw/workspace-business/state/campaigns.json"
-FUNNEL="$HOME/.openclaw/workspace-business/state/funnel-metrics.json"
+# Canonical business agent state — migrated from legacy workspace-business/state/ per CHG-0945.
+ARIA_AGENT_STATE="/Users/ainchorsoc2a/.openclaw/agents/business/agent/state"
+CAMPAIGNS="$ARIA_AGENT_STATE/campaigns.json"
+FUNNEL="$ARIA_AGENT_STATE/funnel-metrics.json"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 DATE=$(date +"%Y-%m-%d")
 CAMP_ID="${1:-}"

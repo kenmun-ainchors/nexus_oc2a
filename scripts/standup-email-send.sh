@@ -11,7 +11,23 @@ WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 CANVAS_HTML="/Users/ainchorsoc2a/.openclaw/canvas/documents/standup-daily/index.html"
 STATE_FILE="${WORKSPACE}/state/standup-state.json"
 LOG_FILE="${WORKSPACE}/state/standup-email-log.json"
-GOG="$(command -v gog 2>/dev/null || brew --prefix 2>/dev/null)/bin/gog"
+# CHG-FORGE-2026-07-20: Fix GOG path resolution.
+# Previous: GOG="$(command -v gog 2>/dev/null || brew --prefix 2>/dev/null)/bin/gog"
+# Bug: `command -v gog` returns the full binary path
+# (e.g. /Users/ainchorsoc2a/homebrew/bin/gog). Appending "/bin/gog" yielded
+# /Users/ainchorsoc2a/homebrew/bin/gog/bin/gog — a "Not a directory" error.
+# Fix: prefer the GOG env var if set, then `command -v gog` (no path
+# concatenation), then a hardcoded homebrew path as last resort.
+if [[ -n "${GOG:-}" && -x "${GOG}" ]]; then
+    : # honour caller-supplied GOG path
+elif command -v gog >/dev/null 2>&1; then
+    GOG="$(command -v gog)"
+elif [[ -x "/Users/ainchorsoc2a/homebrew/bin/gog" ]]; then
+    GOG="/Users/ainchorsoc2a/homebrew/bin/gog"
+else
+    echo "ERROR: gog binary not found. Set GOG env var or install gogcli." >&2
+    exit 1
+fi
 export GOG_ACCOUNT="kenmun@ainchors.com"
 
 # --- Check canvas exists ---
@@ -102,13 +118,42 @@ print('State updated: emailSentConfirmed = ${TODAY_LOCAL}')
 " 2>/dev/null || true
     fi
 
-    # PG primary write: update email operational columns
-    PSQL="${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ${PGUSER:-$(whoami)} -d ainchors_nexus"
-    PG_SQL="UPDATE state_standups SET email_sent_at = '${NOW_ISO}'::timestamptz, email_sent_confirmed = '${TODAY_LOCAL}'::date WHERE standup_date = '${TODAY_LOCAL}'::date;"
-    if $PSQL -c "$PG_SQL" 2>/dev/null; then
-        echo "PG primary write: state_standups email fields updated for ${TODAY_LOCAL}"
+    # PG primary write: update email operational columns.
+    # CHG-0942 follow-up (Ken approved 2026-07-20): hardened PSQL_BIN
+    # resolution to match the GOG pattern above. Previous form
+    #   PSQL="${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ..."
+    # silently swallowed the real psql path when `brew --prefix` was
+    # unavailable, so PG writes could quietly no-op. Resolution order:
+    #   1. explicit ${PSQL_BIN} env var (if set and executable)
+    #   2. /Users/ainchorsoc2a/homebrew/opt/postgresql@16/bin/psql (OC2A homebrew prefix)
+    #   3. /opt/homebrew/opt/postgresql@16/bin/psql (Apple Silicon default)
+    #   4. command -v psql
+    # If none resolve, PSQL_RESOLVED is empty and the write is skipped
+    # with a clear warning; email send is still preserved (2>/dev/null
+    # fallback on the whole pipeline), so the user always receives the
+    # brief even if PG is unavailable.
+    PSQL_BIN_RESOLVED=""
+    if [[ -n "${PSQL_BIN:-}" && -x "${PSQL_BIN}" ]]; then
+        PSQL_BIN_RESOLVED="${PSQL_BIN}"
+    elif [[ -x "/Users/ainchorsoc2a/homebrew/opt/postgresql@16/bin/psql" ]]; then
+        PSQL_BIN_RESOLVED="/Users/ainchorsoc2a/homebrew/opt/postgresql@16/bin/psql"
+    elif [[ -x "/opt/homebrew/opt/postgresql@16/bin/psql" ]]; then
+        PSQL_BIN_RESOLVED="/opt/homebrew/opt/postgresql@16/bin/psql"
+    elif command -v psql >/dev/null 2>&1; then
+        PSQL_BIN_RESOLVED="$(command -v psql)"
+    fi
+    if [[ -z "${PSQL_BIN_RESOLVED}" ]]; then
+        echo "PG write SKIP: psql not found (checked PSQL_BIN env, OC2A homebrew, /opt/homebrew, PATH). Email send still succeeded above."
+        PSQL_WRITE_OK=0
     else
-        echo "PG write WARNING: could not update state_standups email fields"
+        PG_SQL="UPDATE state_standups SET email_sent_at = '${NOW_ISO}'::timestamptz, email_sent_confirmed = '${TODAY_LOCAL}'::date WHERE standup_date = '${TODAY_LOCAL}'::date;"
+        if "${PSQL_BIN_RESOLVED}" -U "${PGUSER:-$(whoami)}" -d ainchors_nexus -c "$PG_SQL" 2>/dev/null; then
+            echo "PG primary write: state_standups email fields updated for ${TODAY_LOCAL} (psql: ${PSQL_BIN_RESOLVED})"
+            PSQL_WRITE_OK=1
+        else
+            echo "PG write WARNING: could not update state_standups email fields (psql: ${PSQL_BIN_RESOLVED})"
+            PSQL_WRITE_OK=0
+        fi
     fi
 
     # Write success log

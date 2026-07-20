@@ -4,8 +4,8 @@
   "description": "Angie Foong personal LinkedIn campaign state. Per-account separation (CHG-0860).",
   "createdAt": "2026-07-10T12:29:00+10:00",
   "createdBy": "Forge (CHG-0860 per-account separation)",
-  "lastUpdated": "2026-07-14T21:23:00+10:00",
-  "lastUpdatedBy": "Yoda (live verification)",
+  "lastUpdated": "2026-07-20T14:11:54.945970+08:00",
+  "lastUpdatedBy": "Aria subagent (image-only generation attempt)",
   "handoffStatus": "aria-owner-active",
   "handoffNote": "2026-07-14 21:28 AEST: Ken/Yoda handed Angie personal LinkedIn posting to Aria/Angie. Aria to decide AW6-P1 missed-slot handling and schedule AW6-P2/P3 image generation + posting. Business account remains locked.",
   "agent": "Spark",
@@ -92,7 +92,11 @@
       "draftedAt": "2026-07-11T12:05:00+10:00",
       "approvedBy": "Aria",
       "approvedAt": "2026-07-13T08:50:19+10:00",
-      "imageReady": false
+      "imageReady": false,
+      "imageGenerationAttemptedAt": "2026-07-20T14:11:54.945970+08:00",
+      "imageGenerationBlocker": "Missing Hugging Face API token in keychain (service: ainchors-hf-api-token, account: kenmun@ainchors.com)",
+      "publishHold": true,
+      "publishHoldReason": "Awaiting Angie approval of generated image and corrected publish time."
     },
     "AW6-P2": {
       "id": "AW6-P2",

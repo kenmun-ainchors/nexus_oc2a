@@ -224,7 +224,9 @@ print(json.dumps(d, indent=2))
 " > "$RESULT_FILE"
 
 # ── Check Aria ARIA_RULES.md for explicit accountId enforcement ──────────────
-ARIA_RULES="/Users/ainchorsoc2a/.openclaw/workspace-business/ARIA_RULES.md"
+# CHG-0945: migrated from legacy workspace-business/ARIA_RULES.md to canonical
+# agents/business/agent/ARIA_RULES.md (byte-identical per CHG-0945 audit).
+ARIA_RULES="/Users/ainchorsoc2a/.openclaw/agents/business/agent/ARIA_RULES.md"
 if [[ -f "$ARIA_RULES" ]]; then
   if grep -q "accountId: aria\|--account aria" "$ARIA_RULES" 2>/dev/null; then
     log "${GREEN}✅ Aria in-session rules${RESET}  ARIA_RULES.md enforces accountId:aria for proactive sends"

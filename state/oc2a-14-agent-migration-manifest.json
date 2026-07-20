@@ -16,7 +16,11 @@
       "role": "Lead Orchestrator (user-facing)",
       "tier": "userFacing",
       "primary_model": "ollama/kimi-k2.7-code:cloud",
-      "fallback_models": ["ollama/deepseek-v4-pro:cloud", "ollama/deepseek-v4-flash:cloud", "ollama/kimi-k2.6:cloud"],
+      "fallback_models": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -32,7 +36,11 @@
       "role": "Business Stream Lead",
       "tier": "userFacing",
       "primary_model": "ollama/kimi-k2.7-code:cloud",
-      "fallback_models": ["ollama/deepseek-v4-pro:cloud", "ollama/deepseek-v4-flash:cloud", "ollama/kimi-k2.6:cloud"],
+      "fallback_models": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/deepseek-v4-flash:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -48,7 +56,11 @@
       "role": "Enterprise Architect",
       "tier": "t2Backend",
       "primary_model": "ollama/deepseek-v4-pro:cloud",
-      "fallback_models": ["ollama/gemma4:31b-cloud", "ollama/kimi-k2.6:cloud", "ollama/deepseek-v4-flash:cloud"],
+      "fallback_models": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -64,7 +76,11 @@
       "role": "AI Platform Architect",
       "tier": "t2Backend",
       "primary_model": "ollama/deepseek-v4-pro:cloud",
-      "fallback_models": ["ollama/gemma4:31b-cloud", "ollama/kimi-k2.6:cloud", "ollama/deepseek-v4-flash:cloud"],
+      "fallback_models": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -80,7 +96,11 @@
       "role": "Infra & SRE Agent",
       "tier": "t3Technical",
       "primary_model": "ollama/minimax-m3:cloud",
-      "fallback_models": ["ollama/gemma4:31b-cloud", "ollama/kimi-k2.6:cloud", "ollama/deepseek-v4-flash:cloud"],
+      "fallback_models": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -96,7 +116,11 @@
       "role": "AI Transformation Consultant",
       "tier": "t3Business",
       "primary_model": "ollama/deepseek-v4-pro:cloud",
-      "fallback_models": ["ollama/gemma4:31b-cloud", "ollama/kimi-k2.6:cloud", "ollama/deepseek-v4-flash:cloud"],
+      "fallback_models": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -112,7 +136,11 @@
       "role": "Social & Content Marketing",
       "tier": "t3Business",
       "primary_model": "ollama/kimi-k2.6:cloud",
-      "fallback_models": ["ollama/gemma4:31b-cloud", "ollama/deepseek-v4-pro:cloud", "ollama/kimi-k2.6:cloud"],
+      "fallback_models": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -128,7 +156,11 @@
       "role": "Business Process Specialist",
       "tier": "t2Backend",
       "primary_model": "ollama/deepseek-v4-pro:cloud",
-      "fallback_models": ["ollama/gemma4:31b-cloud", "ollama/kimi-k2.6:cloud", "ollama/deepseek-v4-flash:cloud"],
+      "fallback_models": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -144,7 +176,11 @@
       "role": "Digital Transformation CM Specialist",
       "tier": "t2Backend",
       "primary_model": "ollama/deepseek-v4-pro:cloud",
-      "fallback_models": ["ollama/gemma4:31b-cloud", "ollama/kimi-k2.6:cloud", "ollama/deepseek-v4-flash:cloud"],
+      "fallback_models": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -160,7 +196,10 @@
       "role": "Security Governance Agent",
       "tier": "t2Governance",
       "primary_model": "ollama/gemma4:31b-cloud",
-      "fallback_models": ["ollama/deepseek-v4-pro:cloud", "ollama/kimi-k2.6:cloud"],
+      "fallback_models": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -176,7 +215,10 @@
       "role": "Legal Governance Agent",
       "tier": "t2Governance",
       "primary_model": "ollama/gemma4:31b-cloud",
-      "fallback_models": ["ollama/deepseek-v4-pro:cloud", "ollama/kimi-k2.6:cloud"],
+      "fallback_models": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -192,7 +234,10 @@
       "role": "QA Governance Agent",
       "tier": "t2Governance",
       "primary_model": "ollama/gemma4:31b-cloud",
-      "fallback_models": ["ollama/deepseek-v4-pro:cloud", "ollama/kimi-k2.6:cloud"],
+      "fallback_models": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -208,7 +253,10 @@
       "role": "Model Compliance Officer",
       "tier": "t2Governance",
       "primary_model": "ollama/gemma4:31b-cloud",
-      "fallback_models": ["ollama/deepseek-v4-pro:cloud", "ollama/kimi-k2.6:cloud"],
+      "fallback_models": [
+        "ollama/deepseek-v4-pro:cloud",
+        "ollama/kimi-k2.6:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -224,7 +272,11 @@
       "role": "Marketing Intelligence",
       "tier": "t3Business",
       "primary_model": "ollama/deepseek-v4-pro:cloud",
-      "fallback_models": ["ollama/gemma4:31b-cloud", "ollama/kimi-k2.6:cloud", "ollama/deepseek-v4-flash:cloud"],
+      "fallback_models": [
+        "ollama/gemma4:31b-cloud",
+        "ollama/kimi-k2.6:cloud",
+        "ollama/deepseek-v4-flash:cloud"
+      ],
       "cheap_model": "ollama/deepseek-v4-flash:cloud",
       "soul_file": "SOUL.md",
       "agents_file": "AGENTS.md",
@@ -242,7 +294,7 @@
     "7. Demote OC1 to standby; keep warm for emergency fallback."
   ],
   "source_files": [
-    "~/.openclaw/openclaw.json",
+    "/Users/ainchorsoc2a/.openclaw/openclaw.json",
     "state/model-policy.json",
     "state/pg-first-write-registry.json",
     "memory/CHANGELOG.md",

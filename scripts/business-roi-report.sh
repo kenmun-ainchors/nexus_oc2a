@@ -5,15 +5,17 @@
 
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
-ROI_FILE="$HOME/.openclaw/workspace-business/state/business-roi.json"
-COST_FILE="$HOME/.openclaw/workspace/state/cost-state.json"
+# Canonical business agent state — migrated from legacy workspace-business/state/ per CHG-0945.
+ARIA_AGENT_STATE="/Users/ainchorsoc2a/.openclaw/agents/business/agent/state"
+ROI_FILE="$ARIA_AGENT_STATE/business-roi.json"
+COST_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/cost-state.json"
 
 python3 << 'PYEOF'
 import json, os
 from datetime import datetime
 
-roi  = json.load(open(os.path.expanduser("~/.openclaw/workspace-business/state/business-roi.json")))
-cost = json.load(open(os.path.expanduser("~/.openclaw/workspace/state/cost-state.json")))
+roi  = json.load(open(os.path.expanduser(os.environ.get("ROI_FILE", "~/.openclaw/agents/business/agent/state/business-roi.json"))))
+cost = json.load(open(os.path.expanduser(os.environ.get("COST_FILE", "~/.openclaw/workspace/state/cost-state.json"))))
 
 AUD = 1.53
 tech_usd = cost.get("allTimeTotalCost", 0)

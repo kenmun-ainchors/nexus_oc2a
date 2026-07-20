@@ -118,6 +118,29 @@ ssh -i ~/.ssh/id_oc2a_oc1 ainchorsangiefpl@ainchorss-mac-mini.tailfc3ed1.ts.net 
 
 **Rule:** Production = 1xxxx series. Sandbox = 2xxxx series. Shadow = 3xxxx series. Never cross.
 
+## OpenClaw Gateway Service
+
+- **Label:** `ai.openclaw.gateway`
+- **Domain:** `gui/$(id -u)` (user LaunchAgent)
+- **Plist:** `~/Library/LaunchAgents/ai.openclaw.gateway.plist`
+- **Ports:** 18789 (production gateway), 18791 (browser sidecar, lazy-spawn)
+- **Logs:**
+  - `~/Library/Logs/openclaw/gateway.log` (stdout)
+  - `~/Library/Logs/openclaw/gateway.err.log` (stderr)
+- **Health:** `openclaw gateway health --json`
+- **Watchdog:** `~/.openclaw/workspace/scripts/gateway-watchdog.sh`
+  - Cron: `*/2 * * * *`
+  - Probes `127.0.0.1:18789/health`; restarts via `launchctl kickstart` → `launchctl bootstrap` fallback
+- **Log rotation:** `~/.openclaw/workspace/config/newsyslog-openclaw.conf` + `~/.openclaw/workspace/scripts/gateway-logrotate.sh`
+- **Decision memo:** `~/.openclaw/workspace/docs/decisions/gateway-launchagent-vs-launchdaemon.md`
+- **Backup:** `~/.openclaw/backups/ai.openclaw.gateway.plist.20260720-110134`
+- **Rollback:**
+  1. `cp ~/.openclaw/backups/ai.openclaw.gateway.plist.YYYYMMDD-HHMMSS ~/Library/LaunchAgents/ai.openclaw.gateway.plist`
+  2. `launchctl unload ~/Library/LaunchAgents/ai.openclaw.gateway.plist`
+  3. `launchctl load ~/Library/LaunchAgents/ai.openclaw.gateway.plist`
+  4. Remove cron entry: `crontab -l | grep -v gateway-watchdog.sh | crontab -`
+  5. Optionally remove `~/.openclaw/workspace/scripts/gateway-watchdog.sh`
+
 ## Notion DB IDs (CHG-0401 3-DB architecture)
 Canonical API patterns and usage: `agent-skills/notion/SKILL.md`.
 

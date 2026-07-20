@@ -1,0 +1,33 @@
+===== 2026-07-20T16:19:23+0800 CHG-0943 de-hardlink start =====
+source=/Users/ainchorsoc2a/.openclaw/workspace/MEMORY.md
+source links before: 13
+source inode before: 1054876
+processing /Users/ainchorsoc2a/.openclaw/workspace/MEMORY.md (links=13, inode=1054876)
+  -> replaced, links=1, inode=2433272
+processing /Users/ainchorsoc2a/.openclaw/workspace-business/MEMORY.md (links=12, inode=1054876)
+  -> replaced, links=1, inode=2433273
+processing /Users/ainchorsoc2a/.openclaw/workspace-architect/MEMORY.md (links=11, inode=1054876)
+  -> replaced, links=1, inode=2433274
+processing /Users/ainchorsoc2a/.openclaw/workspace-platform-arch/MEMORY.md (links=10, inode=1054876)
+  -> replaced, links=1, inode=2433275
+processing /Users/ainchorsoc2a/.openclaw/workspace-ahsoka/MEMORY.md (links=9, inode=1054876)
+  -> replaced, links=1, inode=2433276
+processing /Users/ainchorsoc2a/.openclaw/workspace-social/MEMORY.md (links=8, inode=1054876)
+  -> replaced, links=1, inode=2433277
+processing /Users/ainchorsoc2a/.openclaw/workspace-bpm/MEMORY.md (links=7, inode=1054876)
+  -> replaced, links=1, inode=2433278
+processing /Users/ainchorsoc2a/.openclaw/workspace-dtcm/MEMORY.md (links=6, inode=1054876)
+  -> replaced, links=1, inode=2433279
+processing /Users/ainchorsoc2a/.openclaw/workspace-security/MEMORY.md (links=5, inode=1054876)
+  -> replaced, links=1, inode=2433280
+processing /Users/ainchorsoc2a/.openclaw/workspace-legal/MEMORY.md (links=4, inode=1054876)
+  -> replaced, links=1, inode=2433281
+processing /Users/ainchorsoc2a/.openclaw/workspace-qa/MEMORY.md (links=3, inode=1054876)
+  -> replaced, links=1, inode=2433282
+processing /Users/ainchorsoc2a/.openclaw/workspace-governance/MEMORY.md (links=2, inode=1054876)
+  -> replaced, links=1, inode=2433283
+processing /Users/ainchorsoc2a/.openclaw/workspace-luthen/MEMORY.md (links=1, inode=1054876)
+  -> replaced, links=1, inode=2433284
+source links after: 1
+source inode after: 2433272
+===== CHG-0943 de-hardlink complete =====

@@ -59,9 +59,9 @@
   ],
   "caveats": [
     "Tailscale serve needs admin console approval",
-    "Homebrew installed to user prefix (~/homebrew)",
+    "Homebrew installed to user prefix (/Users/ainchorsoc2a/homebrew)",
     "PostgreSQL via Postgres.app (not brew)",
-    "OpenClaw installed to ~/.local/bin (not /opt/homebrew/bin)"
+    "OpenClaw installed to /Users/ainchorsoc2a/.local/bin (not /opt/homebrew/bin)"
   ],
   "linked_chg": "CHG-0872",
   "linked_plan": "CHG-0873"

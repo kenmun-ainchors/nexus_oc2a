@@ -6,8 +6,11 @@
 
 export PATH="$PATH:/usr/local/bin:/opt/homebrew/bin"
 
-ROI_FILE="$HOME/.openclaw/workspace-business/state/business-roi.json"
-RUBRIC="$HOME/.openclaw/workspace-business/state/business-value-rubric.json"
+# Canonical business agent state — migrated from legacy workspace-business/state/ per CHG-0945.
+# Path is hardcoded (not $HOME-derived) so it resolves the same under cron and ad-hoc invocations.
+ARIA_AGENT_STATE="/Users/ainchorsoc2a/.openclaw/agents/business/agent/state"
+ROI_FILE="$ARIA_AGENT_STATE/business-roi.json"
+RUBRIC="$ARIA_AGENT_STATE/business-value-rubric.json"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S+08:00")
 DATE=$(date +"%Y-%m-%d")
 
