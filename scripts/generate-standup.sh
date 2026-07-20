@@ -877,6 +877,15 @@ if state_path.exists():
         pass
 state["lastStandupDate"] = today_str
 state["dayNumber"] = day_n
+# TKT-1011: On successful regeneration, clear any stale email/telegram
+# 'sent confirmed' flags. The idempotency short-circuit above (line 184)
+# sys.exit(0)s on no-op days, so this block ONLY runs when the canvas
+# was actually regenerated. A fresh generation must always allow a fresh
+# send — otherwise an out-of-order email/telegram cron could falsely
+# skip on a pre-baked 'emailSentConfirmed: today' value.
+for stale_key in ("emailSentConfirmed", "emailSentAt", "telegramSentConfirmed", "telegramSentAt"):
+    state.pop(stale_key, None)
+print(f"[standup] TKT-1011: cleared stale send flags for fresh generation of {today_str}", file=sys.stderr)
 with open(state_path, "w") as f:
     json.dump(state, f, indent=2)
 

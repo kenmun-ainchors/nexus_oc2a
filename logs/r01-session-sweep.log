@@ -81,3 +81,24 @@
   Remaining: d7b82941-...jsonl (51, structural skip, active gateway session), 6x *.trajectory.jsonl (4 each, glob bug CHG-0924), 1x *.trajectory.jsonl (2), 1x current cron session (freshness gate)
   R09: PASS (crons recovered)
   Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
+
+[2026-07-21T01:50:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN (R01)
+  Sweep result: script completed silently (no output produced)
+  Post-sweep audit: R01 still FAIL — 9 files with tilde refs remaining (unchanged from 00:00 run)
+  Remaining: d7b82941-...jsonl (51, structural skip, active gateway session), 6x *.trajectory.jsonl (4 each, glob bug CHG-0924), 1x *.trajectory.jsonl (2), 1x current cron session (freshness gate)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
+
+[2026-07-21T05:45:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN (R01)
+  Sweep result: script completed silently (no output produced)
+  Post-sweep audit: R01 still FAIL — 9 files with tilde refs remaining (unchanged from 01:50 run)
+  Remaining: d7b82941-...jsonl (51, structural skip, active gateway session), 6x *.trajectory.jsonl (4 each, glob bug CHG-0924), 1x *.trajectory.jsonl (2), 1x current cron session (freshness gate)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive
+
+[2026-07-21T06:05:00+08:00] R01 Session Trajectory Tilde Sweep (CHG-0924) — CRON RUN (R01)
+  Sweep result: script completed silently (no output produced)
+  Post-sweep audit: R01 still FAIL — 9 files with tilde refs remaining (unchanged from 05:45 run)
+  Remaining: d7b82941-...jsonl (51, structural skip, active gateway session), 6x *.trajectory.jsonl (4 each, glob bug CHG-0924), 1x *.trajectory.jsonl (2), 1x current cron session (freshness gate)
+  R09: PASS (crons recovered)
+  Verdict: R01 still FAIL — gateway continuously writes tilde refs; sweep is reactive, not preventive

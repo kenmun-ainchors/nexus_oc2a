@@ -5,6 +5,15 @@
 # CHG-0765 / TKT-0742: Fix messageId extraction (gog returns 'messageId', not 'id')
 #   and ensure idempotency skip updates state/standup-email-log.json
 # CHG-0799: Send to both Ken (kenmun@gmail.com) and Angie (angie.foong@ainchors.com)
+# TKT-1011: Canvas mtime freshness guard — verify canvas HTML mtime is for today
+#   in Asia/Kuala_Lumpur before sending. Stops the email cron from sending
+#   yesterday's stale canvas when the morning standup generator hasn't run yet
+#   (root cause: 2026-07-21 06:15 MYT misfire — state.emailSentConfirmed was
+#   set in advance, so the idempotency check passed on a stale canvas).
+#   Behaviour:
+#     * canvas mtime date == today in MYT → proceed to idempotency check / send
+#     * canvas mtime date != today        → ABORT (exit non-zero), do NOT update
+#                                           emailSentConfirmed
 set -euo pipefail
 
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
@@ -46,6 +55,27 @@ fi
 TODAY_LOCAL=$(TZ=Asia/Kuala_Lumpur date '+%Y-%m-%d')
 DAY_N=$(python3 -c "from datetime import date; d=(date.today() - date(2026,4,25)).days + 1; print(d)")
 SUBJECT="☀️ AInchors Stand-up — Day ${DAY_N} | $(TZ=Asia/Kuala_Lumpur date '+%A %d %B %Y')"
+
+# --- TKT-1011: Canvas mtime freshness guard ---
+# Compare the canvas HTML's mtime (in Asia/Kuala_Lumpur) to TODAY_LOCAL.
+# If the canvas is stale (mtime date != today), the morning standup
+# generator has not yet produced today's brief — DO NOT send yesterday's
+# stale canvas. Abort non-zero and leave emailSentConfirmed untouched so
+# the next cron tick (after the generator runs) can send the fresh brief.
+CANVAS_MTIME_MYT=$(TZ=Asia/Kuala_Lumpur stat -f '%Sm' -t '%Y-%m-%d' "${CANVAS_HTML}" 2>/dev/null \
+    || TZ=Asia/Kuala_Lumpur stat -c '%y' "${CANVAS_HTML}" 2>/dev/null | cut -d' ' -f1)
+if [[ -z "${CANVAS_MTIME_MYT}" ]]; then
+    echo "ERROR [TKT-1011]: could not read canvas mtime at ${CANVAS_HTML}" >&2
+    exit 1
+fi
+if [[ "${CANVAS_MTIME_MYT}" != "${TODAY_LOCAL}" ]]; then
+    echo "ERROR [TKT-1011]: canvas is STALE — mtime ${CANVAS_MTIME_MYT} (MYT) != today ${TODAY_LOCAL}" >&2
+    echo "  → morning standup generator has not yet produced today's brief" >&2
+    echo "  → refusing to send; will retry after the 08:00 MYT generator completes" >&2
+    echo "  → emailSentConfirmed left UNCHANGED (was: $(python3 -c "import json; d=json.load(open('${STATE_FILE}')); print(d.get('emailSentConfirmed','unset'))" 2>/dev/null || echo unset))" >&2
+    exit 2
+fi
+echo "[TKT-1011] canvas freshness OK — mtime ${CANVAS_MTIME_MYT} (MYT) matches today"
 
 # --- Idempotency: check if already sent ---
 if [[ -f "${STATE_FILE}" ]]; then

@@ -10242,10 +10242,40 @@
       "status": "fail",
       "latencyMs": 0,
       "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-21T02:07:10+08:00",
+      "date": "2026-07-21",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-21T04:07:12+08:00",
+      "date": "2026-07-21",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-21T06:07:10+08:00",
+      "date": "2026-07-21",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
     }
   ],
   "summary": {
-    "total": 1024,
+    "total": 1027,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -10254,7 +10284,7 @@
       },
       "T2": {
         "pass": 700,
-        "fail": 324,
+        "fail": 327,
         "timeout": 0
       },
       "T3": {
@@ -10266,7 +10296,7 @@
     "byTaskType": {
       "warden-check": {
         "pass": 682,
-        "fail": 324,
+        "fail": 327,
         "timeout": 0,
         "tier": "T2"
       },

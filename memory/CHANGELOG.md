@@ -1,3 +1,27 @@
+## 2026-07-21 03:05 MYT — [CHG-0949] R01 Session Trajectory Tilde Sweep (CHG-0924)
+**Type:** cron
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** cron
+**What changed:** 13 session .jsonl files swept; 45 tilde refs replaced with absolute paths
+**Why:** R01 Path Discipline auto-heal: replace literal ~/.openclaw with /Users/ainchorsoc2a/.openclaw
+**Verification:** 0 failed, 0 locked, 1 fresh-skipped, 1 structural-skipped (gateway session)
+**Rollback:** N/A
+**Linked:** none
+---
+
+## 2026-07-21 01:10 MYT — [CHG-0948] R01 Session Trajectory Tilde Sweep (CHG-0924)
+**Type:** cron
+**Change Type:** Normal
+**Source:** scheduled
+**Trigger:** cron:ad213be3
+**What changed:** Ran r01-session-sweep.sh: 9 files processed, 32 tilde refs replaced
+**Why:** Periodic auto-heal to keep R01 (Path Discipline) PASS
+**Verification:** Summary written to state/r01-session-sweep-last-run.json; 0 failures
+**Rollback:** N/A
+**Linked:** none
+---
+
 ## 2026-07-21 00:35 MYT — [CHG-0947] R01 Session Trajectory Tilde Sweep (CHG-0924)
 **Type:** cron
 **Change Type:** Normal

@@ -1,0 +1,915 @@
+{
+  "agents": {
+    "defaults": {
+      "workspace": "/Users/ainchorsoc2a/.openclaw/workspace",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000,
+      "contextInjection": "always",
+      "heartbeat": {
+        "isolatedSession": true,
+        "lightContext": true,
+        "model": "ollama/deepseek-v4-flash:cloud"
+      },
+      "memorySearch": {
+        "provider": "ollama",
+        "remote": {
+          "apiKey": "ollama-local",
+          "baseUrl": "http://localhost:11434"
+        },
+        "extraPaths": [
+          "/Users/ainchorsoc2a/.openclaw/workspace/state/memory-flush"
+        ]
+      },
+      "model": {
+        "primary": "ollama/deepseek-v4-flash:cloud",
+        "fallbacks": [
+          "ollama/deepseek-v4-pro:cloud"
+        ]
+      },
+      "sandbox": {
+        "mode": "off"
+      },
+      "subagents": {
+        "archiveAfterMinutes": 10080
+      },
+      "contextLimits": {}
+    },
+    "list": [
+      {
+        "id": "main",
+        "name": "Yoda",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/main/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace",
+        "model": {
+          "primary": "ollama/kimi-k2.7-code:cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/deepseek-v4-flash:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "subagents": {
+          "allowAgents": [
+            "*"
+          ]
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "apply_patch",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch",
+            "cron",
+            "sessions_list",
+            "sessions_history",
+            "sessions_send",
+            "sessions_spawn",
+            "sessions_yield",
+            "message",
+            "session_status",
+            "subagents",
+            "memory_get",
+            "memory_search",
+            "create_goal",
+            "get_goal",
+            "update_goal",
+            "update_plan",
+            "skill_workshop"
+          ]
+        },
+        "contextTokens": 131072
+      },
+      {
+        "id": "business",
+        "name": "Aria",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/business/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-business",
+        "model": {
+          "primary": "ollama/kimi-k2.7-code:cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/deepseek-v4-flash:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "apply_patch",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch",
+            "cron",
+            "sessions_list",
+            "sessions_history",
+            "sessions_send",
+            "sessions_spawn"
+          ]
+        }
+      },
+      {
+        "id": "architect",
+        "name": "Atlas",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/architect/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-architect",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "platform-arch",
+        "name": "Thrawn",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/platform-arch/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-platform-arch",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "infra",
+        "name": "Forge",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/infra/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace",
+        "model": {
+          "primary": "ollama/minimax-m3:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "subagents": {
+          "allowAgents": [
+            "*"
+          ]
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "apply_patch",
+            "exec",
+            "process",
+            "web_search",
+            "web_fetch",
+            "cron",
+            "sessions_list",
+            "sessions_history",
+            "sessions_send",
+            "sessions_spawn",
+            "sessions_yield"
+          ]
+        }
+      },
+      {
+        "id": "ahsoka",
+        "name": "Ahsoka",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/ahsoka/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-ahsoka",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "social",
+        "name": "Spark",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/social/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-social",
+        "model": {
+          "primary": "ollama/kimi-k2.6:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "biz-process",
+        "name": "Lando",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/biz-process/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-bpm",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "change-mgt",
+        "name": "Mon Mothma",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/change-mgt/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-dtcm",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "security",
+        "name": "Shield",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/security/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-security",
+        "model": {
+          "primary": "ollama/gemma4:31b-cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "legal",
+        "name": "Lex",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/legal/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-legal",
+        "model": {
+          "primary": "ollama/gemma4:31b-cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "qa",
+        "name": "Sage",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/qa/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-qa",
+        "model": {
+          "primary": "ollama/gemma4:31b-cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "governance",
+        "name": "Warden",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/governance/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-governance",
+        "model": {
+          "primary": "ollama/gemma4:31b-cloud",
+          "fallbacks": [
+            "ollama/deepseek-v4-pro:cloud",
+            "ollama/kimi-k2.6:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      },
+      {
+        "id": "luthen",
+        "name": "Luthen",
+        "agentDir": "/Users/ainchorsoc2a/.openclaw/agents/luthen/agent",
+        "workspace": "/Users/ainchorsoc2a/.openclaw/workspace-luthen",
+        "model": {
+          "primary": "ollama/deepseek-v4-pro:cloud",
+          "fallbacks": [
+            "ollama/gemma4:31b-cloud",
+            "ollama/kimi-k2.6:cloud",
+            "ollama/deepseek-v4-flash:cloud"
+          ]
+        },
+        "heartbeat": {
+          "target": "none",
+          "isolatedSession": true,
+          "lightContext": true,
+          "model": "ollama/deepseek-v4-flash:cloud",
+          "every": "30m"
+        },
+        "tools": {
+          "allow": [
+            "read",
+            "write",
+            "edit",
+            "web_search",
+            "web_fetch",
+            "sessions_list",
+            "sessions_history"
+          ]
+        }
+      }
+    ]
+  },
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "52f41991e15e67a1f66d2479bc277f355457c23150329fb4",
+      "allowTailscale": true,
+      "rateLimit": {
+        "maxAttempts": 10,
+        "windowMs": 60000,
+        "lockoutMs": 300000
+      }
+    },
+    "port": 18789,
+    "bind": "custom",
+    "tailscale": {
+      "mode": "serve",
+      "resetOnExit": false
+    },
+    "controlUi": {
+      "allowInsecureAuth": false,
+      "allowedOrigins": [
+        "https://ainchorsoc2as-mac-mini-1.tailfc3ed1.ts.net"
+      ]
+    },
+    "customBindHost": "127.0.0.1"
+  },
+  "session": {
+    "dmScope": "per-channel-peer",
+    "resetByType": {
+      "direct": {
+        "mode": "idle",
+        "idleMinutes": 120
+      }
+    }
+  },
+  "tools": {
+    "profile": "coding"
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    },
+    "entries": {
+      "1password": {
+        "enabled": false
+      },
+      "apple-notes": {
+        "enabled": false
+      },
+      "apple-reminders": {
+        "enabled": false
+      },
+      "bear-notes": {
+        "enabled": false
+      },
+      "blogwatcher": {
+        "enabled": false
+      },
+      "blucli": {
+        "enabled": false
+      },
+      "camsnap": {
+        "enabled": false
+      },
+      "coding-agent": {
+        "enabled": false
+      },
+      "eightctl": {
+        "enabled": false
+      },
+      "gemini": {
+        "enabled": false
+      },
+      "gh-issues": {
+        "enabled": false
+      },
+      "gifgrep": {
+        "enabled": false
+      },
+      "github": {
+        "enabled": false
+      },
+      "gog": {
+        "enabled": false
+      },
+      "goplaces": {
+        "enabled": false
+      },
+      "himalaya": {
+        "enabled": false
+      },
+      "imsg": {
+        "enabled": false
+      },
+      "mcporter": {
+        "enabled": false
+      },
+      "model-usage": {
+        "enabled": false
+      },
+      "nano-pdf": {
+        "enabled": false
+      },
+      "obsidian": {
+        "enabled": false
+      },
+      "openai-whisper": {
+        "enabled": false
+      },
+      "openai-whisper-api": {
+        "enabled": false
+      },
+      "openhue": {
+        "enabled": false
+      },
+      "ordercli": {
+        "enabled": false
+      },
+      "peekaboo": {
+        "enabled": false
+      },
+      "sag": {
+        "enabled": false
+      },
+      "session-logs": {
+        "enabled": false
+      },
+      "sherpa-onnx-tts": {
+        "enabled": false
+      },
+      "songsee": {
+        "enabled": false
+      },
+      "sonoscli": {
+        "enabled": false
+      },
+      "spotify-player": {
+        "enabled": false
+      },
+      "summarize": {
+        "enabled": false
+      },
+      "things-mac": {
+        "enabled": false
+      },
+      "tmux": {
+        "enabled": false
+      },
+      "trello": {
+        "enabled": false
+      },
+      "video-frames": {
+        "enabled": false
+      }
+    }
+  },
+  "wizard": {
+    "lastRunAt": "2026-07-15T10:30:24.967Z",
+    "lastRunVersion": "2026.7.1",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "meta": {
+    "lastTouchedVersion": "2026.7.1-2",
+    "lastTouchedAt": "2026-07-20T07:17:02.000Z"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "api": "ollama",
+        "apiKey": "ollama-local",
+        "baseUrl": "http://127.0.0.1:11434",
+        "models": [
+          {
+            "id": "deepseek-v4-flash:cloud",
+            "name": "deepseek-v4-flash:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 262144
+            }
+          },
+          {
+            "id": "deepseek-v4-pro:cloud",
+            "name": "deepseek-v4-pro:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 1048576,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 1048576
+            }
+          },
+          {
+            "id": "kimi-k2.7-code:cloud",
+            "name": "kimi-k2.7-code:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 262144
+            }
+          },
+          {
+            "id": "kimi-k2.6:cloud",
+            "name": "kimi-k2.6:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 262144
+            }
+          },
+          {
+            "id": "gemma4:31b-cloud",
+            "name": "gemma4:31b-cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 262144,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 262144
+            }
+          },
+          {
+            "id": "minimax-m3:cloud",
+            "name": "minimax-m3:cloud",
+            "input": [
+              "text"
+            ],
+            "contextWindow": 524288,
+            "reasoning": false,
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "params": {
+              "num_ctx": 524288
+            }
+          }
+        ]
+      }
+    }
+  },
+  "auth": {
+    "profiles": {
+      "ollama:default": {
+        "mode": "api_key",
+        "provider": "ollama"
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "defaultAccount": "yoda",
+      "groups": {
+        "-1004427329250": {
+          "requireMention": false,
+          "groupPolicy": "allowlist",
+          "allowFrom": [
+            8574109706,
+            8141152780
+          ]
+        }
+      },
+      "accounts": {
+        "default": {
+          "enabled": false
+        },
+        "yoda": {
+          "dmPolicy": "allowlist",
+          "allowFrom": [
+            8574109706,
+            8141152780
+          ],
+          "groupAllowFrom": [
+            8574109706,
+            8141152780
+          ],
+          "botToken": {
+            "source": "env",
+            "provider": "env",
+            "id": "YODA_BOT_TOKEN"
+          }
+        },
+        "aria": {
+          "dmPolicy": "allowlist",
+          "allowFrom": [
+            8141152780
+          ],
+          "groupAllowFrom": [
+            8141152780
+          ],
+          "botToken": {
+            "source": "env",
+            "provider": "env",
+            "id": "ARIA_BOT_TOKEN"
+          }
+        }
+      }
+    }
+  },
+  "secrets": {
+    "providers": {
+      "env": {
+        "source": "env",
+        "allowlist": [
+          "YODA_BOT_TOKEN",
+          "ARIA_BOT_TOKEN"
+        ]
+      }
+    }
+  },
+  "commands": {
+    "ownerAllowFrom": [
+      "telegram:8574109706"
+    ]
+  },
+  "plugins": {
+    "entries": {
+      "ollama": {
+        "enabled": true
+      }
+    }
+  },
+  "diagnostics": {
+    "stuckSessionWarnMs": 60000,
+    "stuckSessionAbortMs": 180000
+  },
+  "bindings": [
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "telegram",
+        "accountId": "yoda"
+      },
+      "type": "route"
+    },
+    {
+      "agentId": "business",
+      "match": {
+        "channel": "telegram",
+        "accountId": "aria"
+      },
+      "type": "route"
+    }
+  ]
+}
