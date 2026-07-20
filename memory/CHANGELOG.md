@@ -1,3 +1,15 @@
+## 2026-07-20 18:51 MYT — [CHG-0948] Daily zombie/runaway process cleanup cron
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Runaway Python process (PID 80369) consumed 100% CPU for ~2h54m on OC2A, doing zlib PDF text extraction on multi_zone_ac_floorplan.pdf; orphaned (parent=launchd) but inherited OpenClaw gateway's process group (47841)
+**What changed:** 1) New scripts/zombie-process-cleanup.sh: scans for Python/Node/Shell one-off -c one-liners (or transient scripts) running >30min AND >80% CPU, whitelists OpenClaw gateway (by PID + openclaw/* path), Ollama, Tailscale, RustDesk, Safari/WebKit, Apple system binaries (parent=launchd), shells with tty. Supports --dry-run (default) and --no-dry-run. On real run: SIGTERM, wait 5s, SIGKILL if still alive. Logs to logs/zombie-cleanup.log and state/zombie-cleanup-last-run.json. 2) Daily cron at 02:00 Australia/Melbourne (id 43e7ccca-fb99-4140-9f1e-d941b2845062) invoking the script with --no-dry-run, output captured to logs/zombie-cleanup-cron.log
+**Why:** Periodic housekeeping to clear runaway/transient processes that consume resources indefinitely. Critical pgid-based whitelist: orphan children of OpenClaw gateway inherit its pgid, so the script must NOT skip by pgid of self OR gateway — only by exact PID and by process path/comm match. Without this, the very zombie we want to kill would be whitelisted.
+**Verification:** bash -n syntax PASS; dry-run identified PID 80369 (cpu=99.5%, elapsed=174m); --no-dry-run terminated PID 80369 cleanly on SIGTERM; ps -p 80369 returns nothing; top %idle improved 69.94%->90.4% (+20.5%); OpenClaw gateway PID 47841 still healthy (0.4% CPU, 1.2GB RSS); cron appears in openclaw cron list, enabled=true, next run in 5h; manual cron run executed end-to-end (dry-run=0, 744 scanned, 0 killed because 80369 already dead)
+**Rollback:** Disable/delete cron: openclaw cron disable 43e7ccca-fb99-4140-9f1e-d941b2845062 (or rm). Remove script: rm scripts/zombie-process-cleanup.sh. No data loss risk — script only kills processes matching the strict 3-rule + whitelist check, and the cron invocation runs at 02:00 AEST when load is low.
+**Linked:** CHG-0948
+---
+
 ## 2026-07-20 16:41 MYT — [CHG-0947] Fix Telegram routing: bind aria account to Aria (business) agent
 **Type:** config
 **Change Type:** Normal
