@@ -4,7 +4,7 @@
 # CHG-0799: Multi-recipient via --recipients flag (comma-separated chat IDs)
 # TKT-1004 (CHG-0898): platform/cron/infra/business alerts MUST use
 #   --recipients "8574109706,8141152780" (Ken + Angie). The --chat-id
-#   single-recipient path is for tests / Foodie group / one-off pings only.
+#   single-recipient path is for tests / one-off pings only.
 #
 # Usage:
 #   telegram-alert.sh --message "text" --recipients '8574109706,8141152780' [--silent]

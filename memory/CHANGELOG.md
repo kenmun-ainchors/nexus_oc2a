@@ -1,3 +1,310 @@
+## 2026-07-20 15:18 MYT — [CHG-0942] Foodie test agent removed from registry + canonical runtime state cleaned
+**Type:** agent
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0945 follow-up: identity drift confirmed (foodie agent in openclaw.json but no SOUL.md/RULES.md/AGENTS.md at canonical path). Per Ken approval Option B (2026-07-20 15:14 MYT): remove test agent + clean Telegram configs.
+**What changed:** 1) ~/.openclaw/openclaw.json: removed foodie entry from agents.list (15→14 agents), removed foodie→Foodie route binding (2→1), removed Foodie telegram account (already enabled:false), removed FOODIE_BOT_TOKEN from secrets.env.allowlist, updated meta.lastTouchedVersion marker. 2) ~/.openclaw/agents/foodie/: moved 162MB tree (sqlite DB + 350+ test session JSONLs) to ~/.openclaw/backups/foodie-quarantine/foodie.20260720-151644/. 3) scripts/foodie-enable.sh: removed (installer that ADDS foodie — would resurrect the agent if rerun). 4) scripts/agent-identity-audit.sh + scripts/agent-rules-audit.sh: removed foodie from fallback AGENT_IDS list + display-name lookup. 5) scripts/telegram-alert.sh: updated comment (dropped 'Foodie group' example). All 5 files: bash -n PASS, schemas preserved.
+**Why:** Identity drift: foodie existed in openclaw.json agents.list but its canonical agentDir ~/.openclaw/agents/foodie/agent/ had only a sqlite DB (memory_index of main agent's content — stale mirror) and no SOUL.md/RULES.md/AGENTS.md/etc. 350+ test session JSONLs in ~/.openclaw/agents/foodie/sessions/ were test traffic from 2026-07-15 onboarding, not production data. The Foodie telegram account was already enabled:false (botToken env FOODIE_BOT_TOKEN never set), so no live traffic to interrupt. Per Ken's Option B, this is safer than commissioning a placeholder.
+**Verification:** 1) bash scripts/agent-identity-audit.sh → 'All agents: commissioned identity verified' (14/14). 2) bash scripts/agent-rules-audit.sh → 'RESULT: PASS — 14/14 agents have RULES.md'. 3) python3 -c 'json.load(open(...))' on openclaw.json → valid, foodie absent from agents/bindings/accounts. 4) bash -n on 3 modified scripts → PASS. 5) grep -i foodie in scripts/ → 0 hits. 6) Crontab → 0 foodie refs. 7) ~/.openclaw/agents/foodie/ → not found. 8) Backups: ~/.openclaw/backups/openclaw.json.20260720-151644.pre-foodie-removal (23K) + ~/.openclaw/backups/foodie-agent.20260720-151644.tar.gz (52M) + ~/.openclaw/backups/foodie-quarantine/foodie.20260720-151644/ (full tree, 162M) + ~/.openclaw/backups/foodie-enable.sh.20260720-151644.sh.
+**Rollback:** 1) Restore openclaw.json: cp ~/.openclaw/backups/openclaw.json.20260720-151644.pre-foodie-removal ~/.openclaw/openclaw.json 2) Restore foodie tree: mv ~/.openclaw/backups/foodie-quarantine/foodie.20260720-151644 ~/.openclaw/agents/foodie 3) Restore installer: cp ~/.openclaw/backups/foodie-enable.sh.20260720-151644.sh scripts/foodie-enable.sh 4) Restore audit-script fallback lists: re-add 'foodie' to AGENT_IDS array in both audit scripts + 'foodie) echo Foodie ;;' to rules-audit display-name case. 5) Revert telegram-alert.sh comment. 6) Restart gateway. Note: SQLite DB and test session JSONLs in the quarantine tree are from 2026-07-15 onboarding test traffic; restoring brings back stale data.
+**Linked:** CHG-0945, CHG-0909, TKT-0336
+---
+
+## 2026-07-20 15:08 MYT — [CHG-0945 follow-up] Audit script path logic fixed + 4 tilde-state files swept + 3 empty placeholders cleaned (items #2 + #3 + #4 closed; 1 real drift flagged for Ken)
+**Type:** scripts + state-data
+**Change Type:** Normal
+**Source:** ken-prompt (Option A approved 2026-07-20 15:02 MYT)
+**Trigger:** CHG-0945 items #2 (agent-identity-audit.sh false-positives) and #3 (agent-rules-audit.sh false-positive) were paused as script bugs producing NEEDS_KEN noise. Forge task to fix audit script path resolution + sweep 4 new tilde-path state files that appeared after 2026-07-19 audit.
+**Linked:** CHG-0945 (parent), CHG-0857 (auth-profiles spec / canonical runtime layout), TKT-0336 (tilde-paths), TKT-0307 (RULES.md audit), TKT-0296 (journal discipline)
+
+**What changed:**
+
+1. **`scripts/agent-identity-audit.sh` — rewrote path resolution to canonical runtime layout**
+   - Source of truth: `~/.openclaw/openclaw.json` `agents.list[*].agentDir` (e.g. `/Users/ainchorsoc2a/.openclaw/agents/<id>/agent`).
+   - Active agent IDs now pulled from openclaw.json via embedded `python3 -c "json.load..."`, with bash/zsh-compatible array assembly (no `${(@f)}` parameter flag, works under both shells).
+   - Dropped hardcoded `AGENT_IDS` static list (had stale `spark`/`atlas`/`thrawn` display names and missing `luthen`/`foodie`).
+   - Dropped `RUNTIME_ONLY_AGENTS` skip-list — no longer needed; every agent now resolves via canonical path.
+   - Dropped `main` special-case — main has SOUL.md at `~/.openclaw/agents/main/agent/SOUL.md` (3332B) like every other agent.
+   - Vanilla-signature check (`# SOUL.md - Who You Are`) and JSON output schema preserved.
+   - **Result:** script reads correct paths for all 15 active agents; 14 pass, 1 real failure (foodie — see below).
+
+2. **`scripts/agent-rules-audit.sh` — rewrote path resolution to canonical runtime layout**
+   - Replaced `check` table of 14 hardcoded `${WORKSPACE_BASE}/workspace-<id>` paths with loop over openclaw.json agent IDs.
+   - Replaced zsh-only `typeset -A DISPLAY_NAME` associative array with bash-compatible `_display_name()` case function (cron invokes via `bash scripts/...`).
+   - Fixed bash `set -euo pipefail` silent-fail bug: added `|| true` after `check` call (function returns 1 on missing, aborts script under set -e).
+   - Display-name hints preserved (Yoda/Aria/Atlas/Thrawn/Forge/Ahsoka/Spark/Lando/Mon Mothma/Shield/Lex/Sage/Warden/Luthen/Foodie).
+   - **Result:** script reads correct paths for all 15 active agents; 14 pass, 1 real failure (foodie — see below).
+
+3. **4 new tilde-path state files swept (TKT-0336 follow-up)**
+   - `state/tkt-0780-execute-report.json` — 1 hit: `~/.config/ainchors/secrets.env` → `/Users/ainchorsoc2a/.config/ainchors/secrets.env`
+   - `state/pg-notion-sync-dlq.json` — 1 hit: `~/.config/notion/api_key` → `/Users/ainchorsoc2a/.config/notion/api_key`
+   - `state/chg-0923-execute-report.json` — 1 hit: `~/.openclaw` (in `whyR01NotPass` prose) → `/Users/ainchorsoc2a/.openclaw`. The `~3 tildes` approximation in the same prose was correctly NOT touched (no slash after `~`).
+   - `state/oc2a-14-agent-migration-manifest.json` — 1 hit: `source_files[0] = "~/.openclaw/openclaw.json"` → `/Users/ainchorsoc2a/.openclaw/openclaw.json`
+   - All 4 files: JSON-valid pre/post, detector re-scan returns 0 hits. Backups at `/tmp/{tkt-0780,pg-notion-sync-dlq,chg-0923,oc2a-14}.bak`.
+
+4. **Empty placeholder cleanup**
+   - **Removed 2 truly empty directories** at `~/.openclaw/workspace/`: `security/` and `biz-process/` (0 files, 0 subdirs, 0 bytes each).
+   - **Kept `~/.openclaw/workspace/infra/`** — appeared empty at top level but contains a 108K MinIO server data tree (`infra/minio/{data,secrets,minio.out.log,minio.err.log}`). This is live infrastructure data, not a placeholder. **Forge caught this before deletion via secondary check** (`find -mindepth 1 -type d` + `du -sh`).
+   - **NOT removed (need Ken approval):** 12 legacy `~/.openclaw/workspace-<id>/` directories (`workspace-ahsoka`, `workspace-architect`, `workspace-platform-arch`, `workspace-business`, `workspace-security`, `workspace-legal`, `workspace-qa`, `workspace-governance`, `workspace-bpm`, `workspace-dtcm`, `workspace-luthen`, `workspace-social`) — each contains 10-11 real legacy files (AGENTS.md, RULES.md, SOUL.md, MEMORY.md, etc., 56K-104K). Per constraint "Do not delete non-empty directories without Ken approval" these are flagged only.
+
+**What remains (NEEDS_KEN):**
+
+5. **`foodie` agent — real identity drift at canonical path (genuine, not script bug)**
+   - Both audits flag `foodie` legitimately: `~/.openclaw/agents/foodie/agent/` exists but contains only `openclaw-agent.sqlite*` (sqlite DB) — no SOUL.md, no RULES.md, no AGENTS.md, no MEMORY.md, no IDENTITY.md.
+   - This is the ONLY remaining failure across both audits. The script path fix is correct; foodie is genuinely uncommissioned.
+   - **Per task rule:** "If any agent genuinely has a missing or vanilla SOUL.md/RULES.md at the canonical path, stop and report as NEEDS_KEN. Do not create placeholder content." — Forge did NOT create a placeholder.
+   - **Options for Ken:**
+     - (A) Commission foodie: create proper SOUL.md, RULES.md, IDENTITY.md, AGENTS.md, MEMORY.md, TOOLS.md, HEARTBEAT.md at the canonical path (Yoda writes content; needs Angie's voice for the persona).
+     - (B) Remove `foodie` from `openclaw.json` agents.list if the agent is being deprecated.
+     - (C) Move/rename to an already-commissioned canonical layout (e.g. merge into existing agent if foodie is a sub-role of another).
+   - Forge recommends Option A or C; Option B loses the agent entirely.
+
+6. **12 legacy `workspace-<id>/` directories at `~/.openclaw/` top level — pending Ken approval to remove**
+   - All 12 contain real legacy files (AGENTS.md, RULES.md, SOUL.md, MEMORY.md, IDENTITY.md, TOOLS.md, USER.md, HEARTBEAT.md, openclaw-workspace-state.json, plus 1-2 deliverable .md files). Sizes 56K–104K. They appear to be the pre-CHG-0857 agent sandboxes.
+   - Before deleting, Ken should confirm these are not referenced by anything outside `~/.openclaw/agents/<id>/` (e.g. cron payloads, scripts).
+   - Forge will NOT delete without explicit per-directory approval. Recommend a TKT to track and roll the cleanup into the CHG-0857 archival plan.
+
+**Verification:**
+- `bash -n scripts/agent-identity-audit.sh` → PASS (no syntax errors).
+- `bash -n scripts/agent-rules-audit.sh` → PASS.
+- `zsh scripts/agent-identity-audit.sh` / `zsh scripts/agent-rules-audit.sh` → both exit 1 (foodie, expected NEEDS_KEN).
+- `bash scripts/agent-identity-audit.sh` → 14/15 PASS, 1 FAIL (foodie).
+- `bash scripts/agent-rules-audit.sh` → 14/15 PASS, 1 FAIL (foodie).
+- `python3 -c "import json; json.load(open('state/<each>.json'))"` for all 4 swept files → all valid.
+- `grep -oE '~(/[A-Za-z0-9._-]+|/[A-Za-z0-9._/-]+)' state/<each>.json` for all 4 swept files → 0 hits.
+- `ls ~/.openclaw/workspace/{security,biz-process}` → both "No such file or directory" (removed OK).
+- `ls -d ~/.openclaw/workspace/infra` → still present (kept — contains MinIO data).
+- `ls -d ~/.openclaw/workspace-{ahsoka,...,social}` → all 12 still present (intentional, Ken approval pending).
+- `chmod +x scripts/agent-identity-audit.sh scripts/agent-rules-audit.sh` applied (preserved executable bit).
+
+**Rollback (if Ken rejects any change):**
+- `git checkout HEAD -- scripts/agent-identity-audit.sh scripts/agent-rules-audit.sh` (script changes reversible).
+- 4 swept state files: `cp /tmp/{tkt-0780,pg-notion-sync-dlq,chg-0923,oc2a-14}.bak state/<orig>` (1:1 restore).
+- 2 empty dirs removed: `mkdir ~/.openclaw/workspace/{security,biz-process}` (zero-content, no data loss). `workspace/infra` was NOT deleted — it contains live MinIO data.
+
+**Status:** 3 of the 3 Forge scope items completed (audit scripts fixed, 4 tildes swept, 3 empty placeholders cleaned). 2 needs-Ken items surfaced: foodie commissioning decision, and 12 legacy dir removal batch approval. CHG-0945 items #2 and #3 (the false-positive block) are now closed.
+
+---
+
+## 2026-07-20 14:54 MYT — [CHG-0945] Identity/auth drift bundle — first 3 of 5 items executed (auth-profiles.json, TKT-0336 tilde-paths, TKT-0526 cron timeout)
+**Type:** config + state-data
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved starting CHG-0945 identity/auth drift bundle at 2026-07-20 14:47 MYT. Bundle scoped to 5 items per stand-up Day 87 (auto-heal run 2026-07-19 01:00 MYT). Forge-execute gate invoked.
+**Linked:** CHG-0945 (parent), CHG-0857 (auth-profiles spec), TKT-0336 (tilde-paths), TKT-0526 (cron timeout), TKT-0307 (RULES.md audit), TKT-0296 (journal discipline)
+**Backup of all mutated state:** `/Users/ainchorsoc2a/.openclaw/workspace/state/chg-0945-backups/` (auth-profiles template + 5 tilde-state-file originals `.pre-rewrite.bak`).
+
+**What changed (executed):**
+
+1. **auth-profiles.json — recreated for 5 agents (CHG-0857 follow-up, item #1)**
+   - Recreated `auth-profiles.json` for: `main`, `business`, `security`, `legal`, `qa` at `~/.openclaw/agents/<agent>/agent/auth-profiles.json`.
+   - Source of truth: existing `.sqlite-import.17844363*.bak` files at each agent's `agent/` dir. All 5 backups identical canonical template: `{"version":1,"profiles":{"ollama:default":{"type":"api_key","provider":"ollama","key":"ollama-local"}}}`. Verified by parsing + asserting version/provider/key. Both backup epochs (17841114... and 17844363...) match.
+   - Mode set to 0600. No non-default values existed in the older backup epoch, so canonical template is the safe authoritative source.
+   - Result: `auth:file-missing:main|business|security|legal|qa` should clear on next auto-heal run.
+
+2. **TKT-0336 tilde-path enforcement — 5 of 5 violations fixed**
+   - Files rewritten (sed, JSON-validated post-write):
+     - `state/oc2a-post-move-health-2026-07-18.json`
+     - `state/oc2a-stage2.json`
+     - `state/oc2a-stage1.json`
+     - `state/tkt-0769-execute-report.json`
+     - `state/tkt-0770-execute-report.json`
+   - Replacements (literal, no regex foot-guns): `~/.openclaw`→`/Users/ainchorsoc2a/.openclaw`, `~/.ssh`→`/Users/ainchorsoc2a/.ssh`, `~/.local/bin[/node]`→`/Users/ainchorsoc2a/.local/bin[/node]`, `~/local/...`→`/Users/ainchorsoc2a/local/...`, `~/homebrew`→`/Users/ainchorsoc2a/homebrew`, `~/.zshrc`/`~/.zprofile`→abs, `~/.config/telegram`→abs, `~/Backups/ainchors`→abs. No conversational `~`-approximations were touched.
+   - All 5 files: `grep -cE '~(/[A-Za-z0-9._/-]+|/[A-Za-z0-9._-]+)'` returns 0. All 5 pass `python3 -m json.tool` and `bash scripts/safe-path.sh --enforce <file>` (clean).
+   - No cron payload tilde-paths exist in the current `openclaw cron list --json` snapshot.
+   - Note (out of scope, future work): 4 additional state files now carry tilde paths that were not in the 2026-07-19 audit but have appeared since: `tkt-0780-execute-report.json`, `pg-notion-sync-dlq.json`, `chg-0923-execute-report.json`, `oc2a-14-agent-migration-manifest.json`. Recommend bundling into a TKT-0336 follow-up.
+
+3. **TKT-0526 cron timeout — ad213be3 set to 300s**
+   - `openclaw cron edit ad213be3-35d4-427c-a58f-2cfaf033a66f --timeout-seconds 300` applied.
+   - `openclaw cron get ad213be3-...` now reports `payload.timeoutSeconds: 300`, model `ollama/deepseek-v4-flash:cloud`, `updatedAtMs: 1784530370119`.
+   - Cron is the R01 Session Trajectory Tilde Sweep (CHG-0924); 300s matches the suggested value in `state/auto-heal-cron-timeout-audit.json`.
+
+**What remains (paused, NEEDS_KEN — items #2 and #3 of the bundle):**
+
+4. **Agent identity drift (item #2) — script false-positives, NOT actual drift**
+   - `bash scripts/agent-identity-audit.sh` reports 3 failures: `security`, `biz-process` (Lando), `platform-arch` (Thrawn).
+   - **Root cause:** the audit script looks for SOUL.md at `~/.openclaw/workspace/<agent>/` (empty placeholder directories) instead of the canonical runtime location `~/.openclaw/agents/<agent>/agent/`. The script's `RUNTIME_ONLY_AGENTS` exclusion list (business, qa, infra, spark, atlas, ahsoka, platform-arch, forge) is incomplete — it includes `platform-arch` (which is what fails as `thrawn`) but NOT `security` or `biz-process`.
+   - **Verified manually:** all 3 reported agents have proper commissioned, non-vanilla SOUL.md at `~/.openclaw/agents/{security,biz-process,platform-arch}/agent/SOUL.md` (sizes 3.3KB–41KB, headers like `# SOUL.md — Shield 🔐`, `# SOUL.md - Lando 🟡 (v1.0)`, `# Thrawn 🟦 — SOUL`).
+   - **Decision needed from Ken:** route to Forge (`agentId=infra`) to fix `agent-identity-audit.sh` path logic (replace `${WORKSPACE}/${agent_id}` with `${HOME}/.openclaw/agents/${agent_id}/agent/` for runtime-only agents, OR add `security` and `biz-process` to the `RUNTIME_ONLY_AGENTS` exclusion list). Yoda deliberately did NOT edit the audit script (per CREST-Forge separation rule). DO NOT create SOUL.md at the empty placeholder paths — they would be false trails.
+
+5. **RULES.md missing (item #3, TKT-0307) — script false-positive, NOT actually missing**
+   - `bash scripts/agent-rules-audit.sh` reports 1 missing: `infra (Forge)` at `/Users/ainchorsoc2a/.openclaw/workspace-infra`.
+   - **Root cause:** that path does not exist on this system. Infra lives at `~/.openclaw/agents/infra/agent/`. Same script-path mismatch as item #4.
+   - **Verified manually:** infra has RULES.md at `~/.openclaw/agents/infra/agent/RULES.md` (26518 bytes — well above the 100-byte threshold). All 14 agents actually have RULES.md at their canonical locations.
+   - **Decision needed from Ken:** route to Forge (`agentId=infra`) to fix `agent-rules-audit.sh` path table (the `check` calls use stale `~/.openclaw/workspace-<x>` paths that no longer exist; canonical locations are `~/.openclaw/agents/<x>/agent/`). Same CREST-Forge separation reasoning as item #4.
+
+**Why:** Items 1, 3 (bundle list numbering), and 5 (TKT-0526) are mechanical fixes with safe backups or canonical templates. Items 2 and 4 are not real defects — they are script bugs producing false-positive NEEDS_KEN alerts. Auto-heal will keep flagging them every cycle until the audit scripts are repaired by Forge. Inventing new SOUL.md or RULES.md content (Yoda's standing NO FABRICATION rule) is the wrong action; getting Forge to fix the path logic is the right one.
+
+**Verification:**
+- `for f in ~/.openclaw/agents/{main,business,security,legal,qa}/agent/auth-profiles.json; do python3 -c "import json; d=json.load(open('$f')); assert d['version']==1 and 'ollama:default' in d['profiles'] and d['profiles']['ollama:default']['key']=='ollama-local'"; done` → all 5 PASS.
+- `openclaw cron get ad213be3-...` → `payload.timeoutSeconds: 300`.
+- `grep -cE '~(/[A-Za-z0-9._/-]+|/[A-Za-z0-9._-]+)' state/{oc2a-post-move-health-2026-07-18,oc2a-stage2,oc2a-stage1,tkt-0769-execute-report,tkt-0770-execute-report}.json` → all 0.
+- `python3 -c "import json; json.load(open('state/<each>.json'))"` → all valid JSON.
+- `bash scripts/safe-path.sh --enforce state/<each>.json` → all clean (exit 0).
+- `openclaw cron list --json | python3 -c "..." ` (payload tilde scan) → 0 hits.
+- `bash -n scripts/agent-identity-audit.sh` / `bash -n scripts/agent-rules-audit.sh` / `python3 -m py_compile scripts/r01-path-field-scan.py` → all OK (no scripts mutated).
+- `bash scripts/agent-identity-audit.sh` re-run → still 3 failures (security, biz-process, thrawn) because the audit script is buggy and Forge has not fixed it. These are the same false-positives, not regressions.
+- `bash scripts/agent-rules-audit.sh` re-run → still 1 failure (infra at non-existent `workspace-infra`) for the same reason.
+
+**Rollback (if Ken rejects any of the 3 executed items):**
+- auth-profiles: `rm ~/.openclaw/agents/{main,business,security,legal,qa}/agent/auth-profiles.json`; the pre-existing `.sqlite-import.17844363*.bak` files remain as the canonical template source.
+- tilde-paths: `cp state/chg-0945-backups/tilde-state-files/<name>.pre-rewrite.bak state/<name>` for each of the 5 files.
+- cron timeout: `openclaw cron edit ad213be3-... --timeout-seconds 0` (reverts to current audit baseline; will re-flag in next auto-heal run).
+- No state files (auto-heal-current.json, standup-state.json) were touched per task constraint.
+
+**Status:** 3 of 5 bundle items completed. 2 items blocked on Forge (audit script path fixes); Yoda flagged with clear technical detail for Ken's routing decision.
+
+---
+
+## 2026-07-20 14:15 MYT — [CHG-0945] Package 2026-07-20 stand-up Auto-Heal issues and NEEDS_KEN items into single tracking CHG
+**Type:** governance
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken requested that all items listed under "Issues Found" and "Needs Ken" in today's 2026-07-20 stand-up be packaged into one CHG for visibility and triage.
+**What changed:** Created this single CHG-0945 entry in memory/CHANGELOG.md that consolidates the 14 Auto-Heal issues and 10 NEEDS_KEN items surfaced in the Day 87 stand-up (Section 4 · Auto-Heal, source state/auto-heal-current.json, run 2026-07-19 01:00 MYT). No code or config was changed; this is a governance container to track decisions and routing.
+
+**Issues Found (14):**
+1. `auth:file-missing:main`
+2. `auth:file-missing:business`
+3. `auth:file-missing:security`
+4. `auth:file-missing:legal`
+5. `auth:file-missing:qa`
+6. `backup:stale:44h`
+7. `config-baseline:hash-drift`
+8. `agent-identity:vanilla-soul-detected`
+9. `tilde-path:state-file:oc2a-post-move-health-2026-07-18.json`
+10. `tilde-path:state-file:oc2a-stage2.json`
+11. `tilde-path:state-file:oc2a-stage1.json`
+12. `tilde-path:state-file:tkt-0769-execute-report.json`
+13. `tilde-path:state-file:tkt-0770-execute-report.json`
+14. `file-size-guard:untracked-files`
+
+**Needs Ken (10):**
+1. **CHG-0857 follow-up:** `auth-profiles.json` missing for one or more agents — recreate per CHG-0857.
+2. **Backup stale:** Latest incremental backup is 44h old (>30h threshold). Path: `/Users/ainchorsoc2a/Backups/ainchors/workspace-incremental/workspace-2026-07-18-1433`.
+3. **Gateway config drift:** Gateway config hash changed — possible unlogged config mutation. Run `gateway-config-snapshot.sh` to refresh and review diff.
+4. **Agent identity drift (CRITICAL):** One or more agents have vanilla `SOUL.md`. Run `agent-identity-audit.sh` for details.
+5. **RULES.md missing:** RULES.md missing for agent(s). Run `agent-rules-audit.sh` for details. See TKT-0307.
+6. **TKT-0336:** 5 tilde-path violations detected in cron payloads or state files. Run with `--enforce` to block.
+7. **TKT-0341:** Untracked `.md` files in workspace root: `CHG-0875.md`, `CHG-0876.md`, `CHG-0877.md`, `CHG-0898.md`, `CHG-0928.md` — move to `docs/archive/` or register contract.
+8. **Migration advisor:** 25 cron(s) recommended for multi-vendor migration — review tier 1 candidates.
+9. **TKT-0526:** 1 cron with `:cloud` model has `timeoutSeconds < 120`. Cron `ad213be3` (R01 Session Trajectory Tilde Sweep, CHG-0924) current=0s, model=ollama/deepseek-v4-flash:cloud, suggested=300s. See `state/auto-heal-cron-timeout-audit.json`.
+10. **TKT-0332:** Sandbox boundary audit stale (243h), needs re-run.
+
+**Triage notes / proposed routing:**
+- Auth + identity drift + RULES.md missing → likely one root cause (auth-profiles.json drift / identity-audit fallout). Route to Forge (`agentId=infra`) as one identity-hygiene bundle once approved.
+- Backup stale → check backup cron / disk / retention. Route to Forge or Atlas depending on whether it is a script bug or capacity issue.
+- Gateway config hash drift → run `gateway-config-snapshot.sh`, review diff, then raise CHG if mutation confirmed. Route to Thrawn/Forge.
+- Tilde-path violations (TKT-0336) and R01 timeout (TKT-0526) → Forge has active context on both (CHG-0924 / R01 work). Can be batched with identity-hygiene or handled separately.
+- Untracked CHG*.md files (TKT-0341) → governance cleanup; route to Mon Mothma or Yoda. Most are likely safe to move to `docs/archive/` or merge into CHANGELOG.md.
+- Multi-vendor migration advisor (25 crons) → strategic/platform decision. Route to Thrawn + Ken.
+- Sandbox boundary audit stale (TKT-0332) → route to Shield (`agentId=security`) for re-run and report.
+
+**Why:** The stand-up listed these in one block but they were not yet tied to a single CHG for tracking, approval, and routing. CHG-0945 becomes the parent record Ken can reference when deciding order/priority.
+**Verification:** This CHANGELOG entry exists and accurately reflects the 14 issues and 10 NEEDS_KEN items shown in the Day 87 stand-up HTML (`canvas/documents/standup-daily/index.html`, generated 2026-07-20 08:00 MYT).
+**Rollback:** Remove this CHANGELOG entry; no other state changed.
+**Linked:** TKT-0857, TKT-0336, TKT-0341, TKT-0526, TKT-0332, TKT-0307, CHG-0924, auto-heal run 2026-07-19 01:00 MYT.
+
+---
+
+## 2026-07-20 12:46 MYT — [CHG-0944] Standup delivery hardening (CHG-0942 follow-ups, both approved by Ken)
+**Type:** script
+**Change Type:** Hardening (defensive, no behaviour change for happy path)
+**Source:** ken-prompt
+**Linked:** CHG-0942 (original delivery fix, superseded by CHG-0943), CHG-0943 (current Telegram flash), TKT-1005
+**Trigger:** Two optional hardening items were left from CHG-0942 standup delivery fix. Ken approved both 2026-07-20 ~12:45 MYT.
+
+**Changes:**
+
+1. `scripts/standup-email-send.sh` — Hardened PSQL_BIN resolution to match the GOG path-resolution pattern from CHG-0942.
+   - Previous (single line, fragile):
+     `PSQL="${PSQL_BIN:-$(brew --prefix postgresql@16 2>/dev/null)/bin/psql} -U ..."`
+   - Problem: when `brew --prefix postgresql@16` failed, the variable became literally ` -U ...` and the command silently no-op'd.
+   - New resolution order: explicit `${PSQL_BIN}` env var (if executable) → `/Users/ainchorsoc2a/homebrew/opt/postgresql@16/bin/psql` → `/opt/homebrew/opt/postgresql@16/bin/psql` → `command -v psql`. If none resolve, emit clear `PG write SKIP` warning and continue (email send still succeeds because the whole PG block is `2>/dev/null`-guarded).
+   - 2>/dev/null fallback preserved — email always sends even if PG is down.
+
+2. `scripts/standup-telegram-send.sh` — Added pre-send self-test that aborts BEFORE any Telegram dispatch if the composed flash is suspiciously short or missing body lines.
+   - `FLASH_MIN=200` chars minimum (well below 600 cap, well above header+footer+prompt ~85 chars).
+   - `BODY_LINES_MIN=2` of the 4 expected body line prefixes (`🟢` `💼` `📈` `🌹`) must be present.
+   - On failure: writes `state/standup-telegram-log.json` with `status: 'self_test_failed'` and reason (`flash_too_short` or `body_lines_missing`), then `exit 1`. Telegram message is NEVER sent.
+   - Degraded-mode warning path (composer_status == "degraded" → prepend banner) is preserved and not collapsed into the self-test; degraded still sends a banner, but near-empty does not send at all.
+   - Defends against recurrence of the heredoc-stdin / partial-pipe bug class that sent only header+footer (~129 chars) in the pre-CHG-0943 chunker.
+
+**Verification:**
+- `bash -n scripts/standup-email-send.sh` → PASS
+- `bash -n scripts/standup-telegram-send.sh` → PASS
+- PSQL resolution test (env-var override + default path) → both paths resolve correctly in test harness
+- Self-test test harness (4 cases: healthy 4/4, bug-class header-only, degraded 1 line, boundary 2 lines) → correct pass/abort behaviour
+- No live resend performed; self-test will be naturally exercised by tomorrow's 08:20 MYT cron cycle.
+
+**Why not under CHG-0942:** CHG-0942 is already [SUPERSEDED] by CHG-0943 (the chunked Telegram architecture was replaced by the flash). These hardening items are layered on top of the CHG-0943 architecture, so a new CHG-0944 keeps the audit trail clean.
+
+**Rollback:** Revert the two scripts to their pre-CHG-0944 versions. Idempotency flags `emailSentConfirmed` / `telegramSentConfirmed` are untouched, so re-running tomorrow's cron after a revert is safe.
+
+---
+
+## 2026-07-20 12:05 MYT — [CHG-0943] Standup Telegram delivery: rewrite as MORNING_STANDUP_V2 flash (≤600 chars)
+**Type:** script
+**Change Type:** Hotfix (architectural)
+**Source:** ken-prompt
+**Trigger:** Ken clarification via inter-session message 2026-07-20 ~12:00 MYT: Telegram and email standup are intentionally TWO DIFFERENT content sets per CHG-0794 (MORNING_STANDUP_V2). Telegram is Layer 2 = ONE flash, max 600 chars, highlights only. Email is Layer 1 = full HTML canvas attached. CHG-0942 had wrongly tried to chunk the full canvas into Telegram — the canvas content never belonged in Telegram in the first place.
+**What changed:**
+1. scripts/standup-telegram-send.sh: full rewrite. Was 12,122 bytes (chunked-html-send); now 8,578 bytes (flash-from-composer). Pre-flight check switched from canvas HTML existence to composer JSON at .openclaw/tmp/standup-composer-input.json. Reads composer sections frameworkMaturity / businessStream / progress (first bullet) / rtb.{rose,thorn,bud}, composes a flash ≤600 chars with title, day number, date, 4 emoji-prefixed highlight lines (🟢 System / 💼 Business / 📈 Progress / 🌹 RTB), and ends with the engagement prompt "What's your focus for today, Ken?". Degraded mode prepends ⚠️ banner. Single Telegram send (no chunking). Idempotency + state/log schema preserved (chunks → flashLength, mode=flash).
+2. scripts/standup-email-send.sh: GOG path fix retained from CHG-0942. No further change needed; email already sends full HTML canvas.
+3. Both crons re-enabled earlier today: fea4300b (email 08:15 AEST) and dc82912a (Telegram 08:20 MYT). Both next run 2026-07-21.
+**Why:** MORNING_STANDUP_V2 (CHG-0794) explicitly designed Telegram as a flash to reduce noise. The chunked approach in CHG-0899/CHG-0942 was a scope error — even when it worked, it would have sent the full 19KB body to Telegram, which is what Ken was trying to avoid. The correct architecture is flash-for-Telegram + full-HTML-for-email, both driven from the same composer JSON / canvas HTML pair.
+**Verification:**
+- bash -n clean on both scripts.
+- Isolated flash builder test: produced 578-char flash with all 4 sections + engagement prompt (well under 600 cap). Date rendered as plain text (no quote artifacts).
+- Manual Telegram resend 2026-07-20 12:01:50+08:00: 578-char flash delivered to 8574109706. State: telegramSentConfirmed=2026-07-20, telegramSentAt=2026-07-20T12:01:50+08:00. Log: status=ok, flashLength=578, recipient=8574109706, mode=flash.
+- Manual email resend 2026-07-20 11:58:28+08:00: messageId 19f7dacdba03d14a to kenmun@gmail.com + cc angie.foong@ainchors.com.
+- Idempotency: both scripts return IDEMPOTENT skip on re-run.
+- PG state_standups email fields updated for 2026-07-20.
+**Rollback:**
+1. Revert scripts/standup-telegram-send.sh to the CHG-0942 chunked version (or any pre-CHG-0943 commit). Note: the chunked version had a different bug class (it sent the full canvas to Telegram, which Ken does not want) — reverting only makes sense as a last resort.
+2. Revert scripts/standup-email-send.sh to pre-CHG-0942 (GOG path fix retained; revert only the GOG env-var fallback).
+3. Disable email cron: `openclaw cron disable fea4300b-c045-4939-b829-d06c325eeda8`.
+4. Disable Telegram cron: `openclaw cron disable dc82912a-8b6d-49ff-9f4a-a26cd4710cfc`.
+**Linked:** TKT-1005, CHG-0794 (MORNING_STANDUP_V2), CHG-0899 (original chunked Telegram cron), CHG-0942 (intermediate chunked fix, superseded), dc82912a-8b6d-49ff-9f4a-a26cd4710cfc, fea4300b-c045-4939-b829-d06c325eeda8
+---
+
+## 2026-07-20 12:00 MYT — [CHG-0942] Fix standup delivery: Telegram chunker stdin + email GOG path [SUPERSEDED — see CHG-0943]
+**Type:** script
+**Change Type:** Hotfix (SUPERSEDED)
+**Source:** ken-prompt
+**Trigger:** Ken reported no standup on 2026-07-20. Telegram cron dc82912a-8b6d-49ff-9f4a-a26cd4710cfc ran at 08:20 MYT but sent only 129 chars (header+footer, no body) instead of the full ~7,800-char standup. Email cron fea4300b-c045-4939-b829-d06c325eeda8 was disabled; manual resend failed because scripts/standup-email-send.sh resolved GOG to /Users/ainchorsoc2a/homebrew/bin/gog/bin/gog (Not a directory).
+**Root cause:** scripts/standup-telegram-send.sh called `python3 <<'PYEOF' ... PYEOF` to embed the html2text and chunker scripts, but `body = sys.stdin.read()` expected the canvas content on stdin. Heredoc supplies the python *source* to stdin, not the data — so sys.stdin was empty and PLAIN_TEXT was always 0 chars. Result: only header+footer were sent in 1 chunk. Email script's `GOG="$(command -v gog ...)/bin/gog"` appended /bin/gog to the resolved binary path, producing a non-existent path.
+**What changed:**
+1. scripts/standup-telegram-send.sh: html2text and chunker python sources now written to mktemp .py files; canvas content (then FULL_BODY) piped via stdin so `sys.stdin.read()` actually receives data. Two temp files cleaned via expanded trap.
+2. scripts/standup-email-send.sh: GOG resolution now honours `${GOG:-}` env var, then `command -v gog` (no path concatenation), then hardcoded `/Users/ainchorsoc2a/homebrew/bin/gog` fallback. Errors clearly if no GOG found.
+3. Cron fea4300b-c045-4939-b829-d06c325eeda8 (email) re-enabled via `openclaw cron enable`. Next run 2026-07-21 08:15 AEST.
+4. Telegram cron dc82912a already enabled; verified next run 2026-07-21 08:20 MYT.
+**Verification:**
+- `bash -n` clean on both scripts.
+- Isolated test pipeline: PLAIN_TEXT=8037 chars (was 0), 3 chunks produced at 3,747/3,748/615 chars — all under 3,800 safe body budget.
+- Manual resend 2026-07-20: 3 chunks delivered to 8574109706 at 11:58:07+08:00; email messageId 19f7dacdba03d14a delivered to kenmun@gmail.com + cc angie.foong@ainchors.com at 11:58:28+08:00.
+- Idempotency: re-running both scripts immediately after success returns IDEMPOTENT skip.
+- PG primary write: state_standups email_sent_at + email_sent_confirmed updated for 2026-07-20.
+- state/standup-state.json now has telegramSentConfirmed=2026-07-20 and emailSentConfirmed=2026-07-20.
+**Rollback:**
+1. Revert scripts/standup-telegram-send.sh and scripts/standup-email-send.sh from git.
+2. Disable email cron: `openclaw cron disable fea4300b-c045-4939-b829-d06c325eeda8`.
+3. Telegram cron has no change to revert; if needed, `openclaw cron disable dc82912a-8b6d-49ff-9f4a-a26cd4710cfc`.
+**Linked:** TKT-1005, CHG-0899, dc82912a-8b6d-49ff-9f4a-a26cd4710cfc, fea4300b-c045-4939-b829-d06c325eeda8, state/standup-telegram-log.json, state/standup-email-log.json, state/standup-state.json
+---
+
+## 2026-07-20 11:00 MYT — [CHG-0941] OpenClaw gateway LaunchAgent lifecycle hardening
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Gateway down 9h49m after clean SIGTERM at 2026-07-20 01:00 MYT; LaunchAgent did not auto-restart despite KeepAlive=true
+**What changed:** Update ai.openclaw.gateway.plist to capture stderr to a rotated log file; add cron health watchdog to detect/restart dead gateway; evaluate LaunchDaemon vs LaunchAgent for 24/7 uptime; tune KeepAlive conditions if staying with LaunchAgent
+**Why:** LaunchAgent-bound service died cleanly overnight and was not resurrected until user GUI session became active again, causing 9h49m outage. Need resilience independent of Aqua session state.
+**Verification:** Root-cause investigation verified via gateway.log (clean SIGTERM 01:00, fresh start 10:50), launchctl print (runs=3, last signal=Terminated:15), pmset (display off overnight), health check (gateway currently running pid 41794).
+**Rollback:** Restore previous ai.openclaw.gateway.plist from Time Machine or backup; remove watchdog cron entry; revert LaunchAgent/LaunchDaemon decision.
+**Linked:** gateway.log, launchctl print gui/501/ai.openclaw.gateway, pmset -g log
+---
+
 ## 2026-07-19 19:09 MYT — [CHG-0940] request-budget-check.sh false-exit fix ACTIVE ✅
 **Status:** FULLY ACTIVE
 **Evidence:** Warning thresholds (≥50%) now exit 0 while still printing the warning; fatal errors still exit non-zero. bash -n clean. Tested with current 52.7% usage (exit 0) and with missing cost-state.json (exit 1). Commit 5f430ba0 pushed to main.

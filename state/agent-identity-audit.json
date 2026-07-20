@@ -1,80 +1,75 @@
 {
-    "auditedAt": "2026-07-20T02:52:38Z",
-    "failures": 3,
+    "auditedAt": "2026-07-20T07:19:21Z",
+    "failures": 0,
     "results": [
         {
+            "agent": "main",
+            "status": "ok",
+            "issue": null
+        },
+        {
             "agent": "business",
-            "status": "runtime_only_skip",
-            "issue": null
-        },
-        {
-            "agent": "security",
-            "status": "missing_soul",
-            "issue": "No SOUL.md in workspace/security/"
-        },
-        {
-            "agent": "legal",
-            "status": "ok_no_rules",
-            "issue": null
-        },
-        {
-            "agent": "qa",
-            "status": "runtime_only_skip",
-            "issue": null
-        },
-        {
-            "agent": "governance",
-            "status": "ok_no_rules",
-            "issue": null
-        },
-        {
-            "agent": "infra",
-            "status": "runtime_only_skip",
+            "status": "ok",
             "issue": null
         },
         {
             "agent": "architect",
-            "status": "ok_no_rules",
+            "status": "ok",
             "issue": null
         },
         {
             "agent": "platform-arch",
-            "status": "runtime_only_skip",
+            "status": "ok",
             "issue": null
         },
         {
-            "agent": "biz-process",
-            "status": "missing_soul",
-            "issue": "No SOUL.md in workspace/biz-process/"
-        },
-        {
-            "agent": "change-mgt",
-            "status": "ok_no_rules",
+            "agent": "infra",
+            "status": "ok",
             "issue": null
         },
         {
             "agent": "ahsoka",
-            "status": "runtime_only_skip",
+            "status": "ok",
             "issue": null
         },
         {
-            "agent": "spark",
-            "status": "runtime_only_skip",
+            "agent": "social",
+            "status": "ok",
             "issue": null
         },
         {
-            "agent": "atlas",
-            "status": "runtime_only_skip",
+            "agent": "biz-process",
+            "status": "ok",
             "issue": null
         },
         {
-            "agent": "thrawn",
-            "status": "missing_soul",
-            "issue": "No SOUL.md in workspace/thrawn/"
+            "agent": "change-mgt",
+            "status": "ok",
+            "issue": null
         },
         {
-            "agent": "forge",
-            "status": "runtime_only_skip",
+            "agent": "security",
+            "status": "ok",
+            "issue": null
+        },
+        {
+            "agent": "legal",
+            "status": "ok",
+            "issue": null
+        },
+        {
+            "agent": "qa",
+            "status": "ok",
+            "issue": null
+        },
+        {
+            "agent": "governance",
+            "status": "ok",
+            "issue": null
+        },
+        {
+            "agent": "luthen",
+            "status": "ok",
             "issue": null
         }
     ]

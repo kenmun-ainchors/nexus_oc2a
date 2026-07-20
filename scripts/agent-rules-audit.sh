@@ -1,21 +1,78 @@
 #!/bin/zsh
-# agent-rules-audit.sh — Verify every commissioned agent has RULES.md
+# agent-rules-audit.sh — Verify every commissioned agent has RULES.md at the canonical runtime path
+# Canonical layout: ~/.openclaw/agents/<agent_id>/agent/RULES.md
+# (per openclaw.json agents.list[*].agentDir — see CHG-0857, CHG-0945)
 # TKT-0307 AC4: Permanent prevention
 # Exit: 0 = all OK, 1 = missing agents
 
+set -euo pipefail
+
 WORKSPACE_BASE="/Users/ainchorsoc2a/.openclaw"
-REPORT_FILE="/Users/ainchorsoc2a/.openclaw/workspace/state/agent-rules-audit.json"
+AGENTS_BASE="${WORKSPACE_BASE}/agents"
+OPENCLAW_JSON="${WORKSPACE_BASE}/openclaw.json"
+REPORT_FILE="${WORKSPACE_BASE}/workspace/state/agent-rules-audit.json"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 missing=0
 found=0
 missing_list=""
 
+# Pull active agent IDs from runtime registry.
+AGENT_IDS=()
+if [[ -r "$OPENCLAW_JSON" ]] && command -v python3 >/dev/null 2>&1; then
+  _ids_raw=$(python3 -c "
+import json, sys
+try:
+    with open('$OPENCLAW_JSON') as f:
+        cfg = json.load(f)
+    for a in cfg.get('agents', {}).get('list', []):
+        i = a.get('id')
+        if i:
+            print(i)
+except Exception as e:
+    sys.stderr.write(f'rules-audit: registry parse failed: {e}\n')
+    sys.exit(1)
+" 2>/dev/null) || _ids_raw=""
+  if [[ -n "$_ids_raw" ]]; then
+    while IFS= read -r line; do
+      AGENT_IDS+=("$line")
+    done <<< "$_ids_raw"
+  fi
+fi
+if [[ ${#AGENT_IDS[@]} -eq 0 ]]; then
+  AGENT_IDS=(
+    "main" "business" "architect" "platform-arch" "infra" "ahsoka"
+    "social" "biz-process" "change-mgt" "security" "legal" "qa"
+    "governance" "luthen"
+  )
+fi
+
+# Display-name hint per registry id (cosmetic only — does not change path).
+# Using simple lookup function so script runs under both bash and zsh.
+_display_name() {
+  case "$1" in
+    main) echo "Yoda" ;;
+    business) echo "Aria" ;;
+    architect) echo "Atlas" ;;
+    platform-arch) echo "Thrawn" ;;
+    infra) echo "Forge" ;;
+    ahsoka) echo "Ahsoka" ;;
+    social) echo "Spark" ;;
+    biz-process) echo "Lando" ;;
+    change-mgt) echo "Mon Mothma" ;;
+    security) echo "Shield" ;;
+    legal) echo "Lex" ;;
+    qa) echo "Sage" ;;
+    governance) echo "Warden" ;;
+    luthen) echo "Luthen" ;;
+    *) echo "$1" ;;
+  esac
+}
+
 check() {
   local label="$1"
-  local ws="$2"
-  local rules="${ws}/RULES.md"
-  
+  local rules="$2"
+
   if [[ -f "$rules" ]]; then
     local sz=$(wc -c < "$rules" 2>/dev/null | tr -d ' ')
     if [[ "$sz" -gt 100 ]]; then
@@ -24,27 +81,18 @@ check() {
     fi
   fi
   ((missing++))
-  missing_list="${missing_list}  ❌ ${label}: no RULES.md at ${ws}\n"
+  missing_list="${missing_list}  ❌ ${label}: no RULES.md at ${rules}\n"
   return 1
 }
 
 echo "AGENT_RULES_AUDIT: $(date)"
+echo "Source: $AGENTS_BASE/<agent>/agent/RULES.md  (CHG-0857, CHG-0945)"
 echo ""
 
-check "business (Aria)"       "${WORKSPACE_BASE}/workspace-business"
-check "security (Shield)"     "${WORKSPACE_BASE}/workspace-security"
-check "legal (Lex)"           "${WORKSPACE_BASE}/workspace-legal"
-check "qa (Sage)"             "${WORKSPACE_BASE}/workspace-qa"
-check "governance (Warden)"   "${WORKSPACE_BASE}/workspace-governance"
-check "architect (Atlas)"     "${WORKSPACE_BASE}/workspace-architect"
-check "platform-arch (Thrawn)" "${WORKSPACE_BASE}/workspace-platform-arch"
-check "biz-process (Lando)"   "${WORKSPACE_BASE}/workspace-bpm"
-check "change-mgt (Mon Mothma)" "${WORKSPACE_BASE}/workspace-dtcm"
-check "social (Spark)"        "${WORKSPACE_BASE}/workspace-social"
-check "infra (Forge)"         "${WORKSPACE_BASE}/workspace-infra"
-check "ahsoka (Ahsoka)"       "${WORKSPACE_BASE}/workspace-ahsoka"
-check "luthen (Luthen)"       "${WORKSPACE_BASE}/workspace-luthen"
-check "main (Yoda+Krennic)"   "${WORKSPACE_BASE}/workspace"
+for agent_id in "${AGENT_IDS[@]}"; do
+  display=$(_display_name "$agent_id")
+  check "${agent_id} (${display})" "${AGENTS_BASE}/${agent_id}/agent/RULES.md" || true
+done
 
 total=$((found + missing))
 
@@ -58,7 +106,7 @@ else
   python3 -c "
 import json
 with open('$REPORT_FILE', 'w') as f:
-    json.dump({'audit':'agent-rules-audit','version':'1.0.0','ticket':'TKT-0307','timestamp':'$TIMESTAMP','summary':{'total':$total,'found':$found,'missing':0,'status':'OK'}}, f, indent=2)
+    json.dump({'audit':'agent-rules-audit','version':'1.1.0','ticket':'TKT-0307','timestamp':'$TIMESTAMP','summary':{'total':$total,'found':$found,'missing':0,'status':'OK'}}, f, indent=2)
 "
   exit 0
 fi
