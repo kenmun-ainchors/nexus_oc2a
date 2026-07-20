@@ -4,8 +4,8 @@
   "runMode": "heartbeat",
   "consecutiveFailures": 0,
   "alerted": false,
-  "lastCheck": "2026-07-19T15:51:37+0800",
-  "lastOk": "2026-07-19T15:51:37+0800",
+  "lastCheck": "2026-07-20T10:52:34+0800",
+  "lastOk": "2026-07-20T10:52:34+0800",
   "exitCode": 0,
   "issues": [],
   "ollamaReachable": true,
@@ -15,7 +15,7 @@
     "disk": "ok",
     "healthStateAge": "ok",
     "costStateAge": "ok",
-    "staleLockFilesCleared": 0,
+    "staleLockFilesCleared": 1,
     "ollamaApi": "ok"
   }
 }

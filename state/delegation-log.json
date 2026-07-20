@@ -10142,10 +10142,70 @@
       "status": "fail",
       "latencyMs": 0,
       "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T16:07:09+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T18:07:18+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T20:07:16+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-19T22:07:14+08:00",
+      "date": "2026-07-19",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-20T00:07:15+08:00",
+      "date": "2026-07-20",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
+    },
+    {
+      "ts": "2026-07-20T10:53:04+08:00",
+      "date": "2026-07-20",
+      "tier": "T2",
+      "taskType": "warden-check",
+      "model": "ollama/gemma4:31b-cloud",
+      "status": "fail",
+      "latencyMs": 0,
+      "notes": "warden check: violations detected (exit 2)"
     }
   ],
   "summary": {
-    "total": 1014,
+    "total": 1020,
     "byTier": {
       "T1": {
         "pass": 0,
@@ -10154,7 +10214,7 @@
       },
       "T2": {
         "pass": 700,
-        "fail": 314,
+        "fail": 320,
         "timeout": 0
       },
       "T3": {
@@ -10166,7 +10226,7 @@
     "byTaskType": {
       "warden-check": {
         "pass": 682,
-        "fail": 314,
+        "fail": 320,
         "timeout": 0,
         "tier": "T2"
       },

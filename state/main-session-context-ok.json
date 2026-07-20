@@ -1,1 +1,12 @@
-{"timestamp":"2026-07-19T07:51:45Z","status":"no_session","message":"No dashboard/webchat session found"}
+{
+  "timestamp": "2026-07-20T02:52:55Z",
+  "localTimestamp": "2026-07-20T10:52:55+0800",
+  "sessionKey": "agent:main:dashboard:be3c4040-84e1-4939-8c9c-ec3bea41002a",
+  "sessionId": "f7474eb3-46d7-4f22-9353-980b5dc72a09",
+  "totalTokens": 15263,
+  "contextTokens": 262144,
+  "contextRatio": 5,
+  "estimatedMessages": 21,
+  "model": "kimi-k2.7-code:cloud",
+  "status": "ok"
+}
