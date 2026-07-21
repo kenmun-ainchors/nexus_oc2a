@@ -1,0 +1,207 @@
+{
+  "ticket": "TKT-1022",
+  "change": "CHG-0961",
+  "model": "qwen3:30b",
+  "model_ollama_id": "ad815644918f",
+  "test_date_utc": "2026-07-21T07:28:26Z",
+  "test_date_local_my": "2026-07-21 15:28 MYT",
+  "tester": "Forge subagent (via Yoda dispatch)",
+  "host": "OC2A (Mac Mini M4 Pro 48GB)",
+  "ollama_version": "0.32.1",
+  "ollama_api": "http://127.0.0.1:11434",
+  "ken_approved": true,
+  "ken_approved_at_local": "2026-07-21 15:11 MYT",
+  "step0_qwen3_32b_removal": {
+    "command": "ollama rm qwen3:32b",
+    "result": "success — model deleted from disk",
+    "disk_before_pull_32b": {
+      "available_bytes": 326297948160,
+      "available_gb": 311,
+      "models_dir_size": "63G"
+    },
+    "disk_after_pull_32b": {
+      "available_bytes": 347379163136,
+      "available_gb": 330,
+      "models_dir_size": "44G",
+      "freed_gb": 19
+    },
+    "verification": "ollama list no longer showed qwen3:32b after removal"
+  },
+  "step1_pull_and_inspect": {
+    "model": "qwen3:30b",
+    "registry_id": "library/qwen3:30b",
+    "blob_sha256": "58574f2e94b99fb9e4391408b57e5aeaaaec10f6384e9a699fc2cb43a5c8eabf",
+    "blob_size": "17 GB on disk (18 GB reported by ollama list)",
+    "pull_wall_seconds": 1205,
+    "pull_throughput_estimate_mb_s": "24-30 MB/s peak, 25 MB/s average",
+    "pull_errors": "none (one SIGKILL during initial long-running exec, pull resumed cleanly from 90% on retry)",
+    "show_output": {
+      "architecture": "qwen3moe",
+      "parameters": "30.5B (30B MoE; per Qwen3 docs total 30.5B with 3.3B active per token)",
+      "context_length": 262144,
+      "embedding_length": 2048,
+      "quantization": "Q4_K_M",
+      "capabilities": ["completion", "tools", "thinking"],
+      "default_parameters": {
+        "stop": ["<|im_start|>", "<|im_end|>"],
+        "temperature": 0.6,
+        "top_k": 20,
+        "top_p": 0.95
+      }
+    },
+    "system_state_during_pull": {
+      "disk_free_gb": 311,
+      "memory_total_gb": 48,
+      "ollama_process_rss_mb": 75
+    }
+  },
+  "step2_thinking_mode_default_test": {
+    "prompt": "What is 7 + 5?",
+    "request": {
+      "model": "qwen3:30b",
+      "prompt": "What is 7 + 5?",
+      "stream": false
+    },
+    "response": {
+      "model": "",
+      "created_at": "0001-01-01T00:00:00Z",
+      "response": "",
+      "done": false
+    },
+    "verdict": "Empty response with done:false — server returns immediately without generating tokens. Underlying cause (from Ollama server log) is GPU OOM during model warmup. With 262144 default context the model allocates a 24 GB KV cache plus the 30B MoE weights, exceeding the 37.4 GiB VRAM on the M4 Pro."
+  },
+  "step3_thinking_disabled": {
+    "config_a": {
+      "request": {
+        "model": "qwen3:30b",
+        "prompt": "What is 7 + 5?",
+        "stream": false,
+        "think": false,
+        "options": {"num_predict": 50, "temperature": 0.2}
+      },
+      "result": "Empty response, HTTP 200, done:false. GPU OOM on warmup due to default 262144 context."
+    },
+    "config_b": {
+      "request": {
+        "model": "qwen3:30b",
+        "prompt": "What is 7 + 5?",
+        "stream": false,
+        "think": false,
+        "options": {"num_ctx": 4096, "num_batch": 512, "num_predict": 30, "temperature": 0.1}
+      },
+      "result": "WORKS. eval_count=30, eval_duration=411817000 ns → 72.8 t/s. Response: 'We are to compute 7 + 5.\\n 7 + 5 = 12.\\n We are to answer with just the number.\\n</think>' — correct answer (12), but model emits a thinking-style preamble and </think> token in the response field even with think:false. The model is technically trained to leak some reasoning text into the visible response unless you also suppress </think> or stream-detect-and-trim."
+    },
+    "required_workaround": "Per-request num_ctx must be set to ≤ 8192 (4096 used) to fit within 37.4 GiB VRAM. Default 262144 context is incompatible with 48 GB M4 Pro.",
+    "server_log_evidence": "Multiple 'error: Insufficient Memory (00000008:kIOGPUCommandBufferCallbackErrorOutOfMemory)' and 'ggml_metal_synchronize: error: command buffer 0 failed with status 5' lines during warmup with default context. KV cache buffer = 24576.00 MiB (24 GB) for 262144 context, 48 layers."
+  },
+  "step4_benchmarks_thinking_disabled": {
+    "config": {
+      "num_ctx": 4096,
+      "num_batch": 512,
+      "think": false,
+      "temperature": 0.2,
+      "note": "All benchmarks use forced num_ctx=4096 because the model's default 262144 OOMs on 48 GB M4 Pro."
+    },
+    "short_prompt": {
+      "prompt": "Write a haiku about a robot learning to paint.",
+      "num_predict": 120,
+      "runs": [
+        {"run": 1, "wall_s": 1.96, "load_duration_s": 0.115, "prompt_eval_count": 21, "prompt_eval_ms": 147, "eval_count": 120, "eval_duration_s": 1.677, "tokens_per_sec": 71.57},
+        {"run": 2, "wall_s": 1.84, "load_duration_s": 0.100, "prompt_eval_count": 21, "prompt_eval_ms": 31, "eval_count": 120, "eval_duration_s": 1.689, "tokens_per_sec": 71.04},
+        {"run": 3, "wall_s": 1.84, "load_duration_s": 0.102, "prompt_eval_count": 21, "prompt_eval_ms": 25, "eval_count": 120, "eval_duration_s": 1.688, "tokens_per_sec": 71.08}
+      ],
+      "avg_tokens_per_sec": 71.23,
+      "min_tokens_per_sec": 71.04,
+      "max_tokens_per_sec": 71.57,
+      "cold_load_s": 1.45
+    },
+    "verify_prompt": {
+      "prompt_length_tokens": 522,
+      "num_predict": 200,
+      "runs": [
+        {"run": 1, "wall_s": 4.15, "prompt_eval_count": 522, "prompt_eval_ms": 1073, "eval_count": 200, "eval_duration_s": 2.953, "tokens_per_sec": 67.74},
+        {"run": 2, "wall_s": 3.10, "prompt_eval_count": 522, "prompt_eval_ms": 27, "eval_count": 200, "eval_duration_s": 2.949, "tokens_per_sec": 67.82}
+      ],
+      "avg_tokens_per_sec": 67.78
+    },
+    "long_prompt": {
+      "prompt_length_tokens": 1583,
+      "num_predict": 250,
+      "runs": [
+        {"run": 1, "wall_s": 6.68, "prompt_eval_count": 1583, "prompt_eval_ms": 2629, "eval_count": 250, "eval_duration_s": 3.915, "tokens_per_sec": 63.86}
+      ],
+      "tokens_per_sec": 63.86,
+      "note": "Prompt uses ~39% of the 4096 context window — true 'long' context is constrained by the forced num_ctx."
+    },
+    "concurrent_load": {
+      "description": "Two overlapping /api/generate requests, both with think:false, same num_ctx=4096.",
+      "wall_s": 3.68,
+      "request_a": {"eval_count": 120, "eval_duration_s": 1.685, "tokens_per_sec": 71.20, "total_duration_s": 1.951},
+      "request_b": {"eval_count": 120, "eval_duration_s": 1.689, "tokens_per_sec": 71.03, "total_duration_s": 3.139},
+      "note": "Ollama serialized the two requests (NUM_PARALLEL default = 1) but per-request throughput is preserved at ~71 t/s. Concurrent aggregate throughput = 240 tokens in 3.68 s wall = 65 t/s combined."
+    }
+  },
+  "step5_unload_and_recovery": {
+    "unload_command": "POST /api/generate {model: qwen3:30b, keep_alive: 0}",
+    "ollama_ps_after_unload": "empty (model fully unloaded)",
+    "memory_pressure_after_unload": "Pages free 1,672,060 (down from low of ~4,800 mid-run); reclaim clean",
+    "disk_after_unload_gb_free": 314,
+    "unload_reclaim_works": true
+  },
+  "comparison_to_tkt_1014_gemma4_26b": {
+    "tkt_1014_source_report": "state/gemma4-26b-capacity-test-2026-07-21.json",
+    "metrics": {
+      "disk_size_gb": {"gemma4:26b": 17, "qwen3:30b": 18},
+      "ram_resident_gb": {"gemma4:26b": 17, "qwen3:30b": "~50 (30B MoE)"},
+      "context_length": {"gemma4:26b": 32768, "qwen3:30b": 262144},
+      "short_tps": {"gemma4:26b": 57.4, "qwen3:30b": 71.2},
+      "verify_tps": {"gemma4:26b": 56.4, "qwen3:30b": 67.8},
+      "long_tps": {"gemma4:26b": 51.8, "qwen3:30b": 63.9},
+      "concurrent_tps": {"gemma4:26b": "N/A (serialized)", "qwen3:30b": "71 per req (serialized via NUM_PARALLEL=1)"},
+      "cold_load_s": {"gemma4:26b": 5.4, "qwen3:30b": 1.45},
+      "fits_48gb_m4_pro": {"gemma4:26b": true, "qwen3:30b": "false at default context, true only with num_ctx<=4096"},
+      "thinking_mode_default": {"gemma4:26b": "N/A (no thinking)", "qwen3:30b": "ON by default — must set think:false to avoid <think>...</think> blocks"},
+      "thinking_mode_leak": {"gemma4:26b": "N/A", "qwen3:30b": "Even with think:false the model still emits thinking-style preambles in the visible response (e.g. 'Let me think... 7 plus 3 is 10'). </think> token appears at end of short answers."}
+    },
+    "verdict": "qwen3:30b is 1.24x faster than gemma4:26b on short prompts, 1.20x on verify, 1.23x on long. BUT it requires forced num_ctx=4096 (vs gemma4:26b's natural 32k), produces verbose thinking-leak text in the response, and is borderline on VRAM (50 GB mapped even at small context). gemma4:26b remains the recommended primary because it just-works at full context with no parameter gymnastics."
+  },
+  "comparison_to_tkt_1021_qwen3_32b_removed": {
+    "tkt_1021_verdict": "NO-GO (11.66 t/s, 31 GB GPU memory, 40960 context)",
+    "qwen3_32b": {
+      "size_gb": 20,
+      "short_tps": 11.66,
+      "context_length": 40960,
+      "status": "REMOVED FROM DISK per Ken's decision (TKT-1021 follow-up)"
+    },
+    "qwen3_30b": {
+      "size_gb": 18,
+      "short_tps": 71.2,
+      "context_length": 262144,
+      "status": "Pulled but NO-GO on default; usable only with num_ctx<=4096"
+    },
+    "delta": "qwen3:30b is ~6x faster than qwen3:32b (MoE 3.3B active vs 32B dense), smaller on disk (18 GB vs 20 GB), and supports longer context. But both qwen3 models have the thinking-leak problem. qwen3:30b is a significant raw-throughput improvement over qwen3:32b, though it remains operationally awkward (forced small context) compared to gemma4:26b."
+  },
+  "system_capacity_assessment": {
+    "host": "Mac Mini M4 Pro 48GB (OC2A)",
+    "gpu_vram_available": "37.4 GiB unified (per Ollama 'inference compute' line at startup)",
+    "qwen3_30b_loaded_memory": "50 GB mapped (per ollama ps), 18 GB model + 24 GB KV cache + 8 GB overhead",
+    "memory_fit_48gb_total": "Marginal — model needs GPU offload and even with small context, the 18 GB weights plus OS pressure leaves the system tight",
+    "memory_pressure_during_test": "Reached Pages free ~4,800 (down from ~1.6M idle) during warmup, recovered to 1.67M after unload. No swap thrash observed.",
+    "concurrent_safety": "OK at small context with OLLAMA_NUM_PARALLEL=1 default — no OOM. If OLLAMA_NUM_PARALLEL were raised to 2+, would likely OOM."
+  },
+  "verdict": "GO-WITH-CAVEATS (operational) / NO-GO (default config)",
+  "verdict_rationale": "qwen3:30b is the fastest local 30B-class model we've tested on OC2A at 71 t/s short / 67.8 t/s verify / 63.9 t/s long — all 1.2-1.25x faster than gemma4:26b. But it is NOT a drop-in replacement for gemma4:26b because: (1) Default 262144 context OOMs the 48 GB M4 Pro and forces num_ctx≤4096. (2) Thinking mode is on by default and the model leaks reasoning text (e.g. 'Let me think...') into the response even with think:false. (3) Loaded memory is 50 GB — the largest of any local model, which constrains concurrency and headroom for other workloads. Net: faster than gemma4:26b but operationally fragile on this hardware.",
+  "recommendation": "Do NOT switch gemma4:26b → qwen3:30b as primary local model. Keep gemma4:26b as primary (TKT-1014 GO verdict, just-works). LEAVE qwen3:30b pulled on disk (18 GB cost; user may want to explore long-context tasks with num_ctx=4096 manually, or delete later). If you want faster local throughput, the right next step is testing qwen3:30b on OC1 (which has more RAM/VRAM if upgraded) or pulling a smaller model like qwen3:14b/qwen3:8b that fits comfortably on 48 GB at full context.",
+  "disposition_options_for_ken": [
+    {"option": "A — Keep pulled on OC2A (default)", "rationale": "18 GB is affordable; user can experiment with num_ctx=4096 manually.", "disk_impact_gb": 18},
+    {"option": "B — Remove qwen3:30b", "rationale": "Tidy disk; no real local use case given gemma4:26b is the primary.", "disk_impact_gb": -18}
+  ],
+  "safety_compliance": {
+    "memory_pressure_above_85_pct": false,
+    "disk_above_50gb_free": true,
+    "no_openclaw_config_modified": true,
+    "no_cron_modified": true,
+    "no_other_models_touched": true,
+    "qwen3_32b_removed_per_ken": true
+  }
+}

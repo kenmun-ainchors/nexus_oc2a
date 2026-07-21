@@ -124,6 +124,35 @@ CRITICAL_FILES=(
   "$WORKSPACE/yoda-daily-brief.md"
 )
 
+# TKT-1013-NEEDS-1: Load file-contracts.json so registered contracts are
+# not flagged as untracked, and non-injected contracts (e.g. CHG live
+# contracts) are exempt from the 60K injectable cap.
+# CONTRACT_REGISTRY is set near the top of the script. Files listed under
+# `files.<basename>` are considered registered. Audience field decides
+# whether the file counts toward the 60K injectable cap.
+REGISTERED_FILES=()      # basenames of files in file-contracts.json
+REGISTERED_AUDIENCES=()  # parallel array: audience string for each file
+if [[ -f "$CONTRACT_REGISTRY" ]] && command -v jq >/dev/null 2>&1; then
+  while IFS=$'\t' read -r fcbname fcaudience; do
+    [[ -n "$fcbname" ]] || continue
+    REGISTERED_FILES+=("$fcbname")
+    REGISTERED_AUDIENCES+=("${fcaudience:-}")
+  done < <(jq -r '.files | to_entries[] | [.key, (.value.audience // "")] | @tsv' "$CONTRACT_REGISTRY" 2>/dev/null)
+fi
+
+# Return 0 (true) if the audience string indicates the file is injected
+# into agent session context (and therefore counts toward the 60K cap).
+# Any other audience (on-demand read, Forge/Code-review reference, scratch
+# file, dreaming output, etc.) is treated as non-injected and exempt.
+is_injected_audience() {
+  local aud="${1:-}"
+  case "$aud" in
+    "Agent session context (injected)"|"Yoda main session only (injected)"|"Heartbeat runs only (lightContext=true)")
+      return 0 ;;
+  esac
+  return 1
+}
+
 if [[ "$MODE" == "check" ]]; then
   if [[ -z "$TARGET" ]]; then
     echo "Usage: file-size-guard.sh <target> | --check <path> | --all | --json" >&2
@@ -168,6 +197,10 @@ elif [[ "$MODE" == "all" ]]; then
   exit $worst
 elif [[ "$MODE" == "root" ]]; then
   # TKT-0341: workspace-root total cap check
+  # TKT-1013-NEEDS-1: also consult state/file-contracts.json so registered
+  # files are not flagged as untracked. Non-injected contracts (Forge
+  # execution references, code-review references, on-demand reads,
+  # scratchpads) are exempt from the 60K cap.
   echo "=== Workspace Root .md Total Cap Check ==="
   echo ""
   total=0
@@ -179,19 +212,41 @@ elif [[ "$MODE" == "root" ]]; then
     size=$(/usr/bin/wc -c < "$f" 2>/dev/null)
     size=${size// /}
     total=$((total + size))
-    # Check if file has a contract
+    # tracked codes:
+    #   0 = untracked (reported in UNTRACKED FILES, counts toward cap)
+    #   1 = tracked, counts toward injectable cap
+    #   2 = tracked, exempt from cap (non-injected)
     tracked=0
+    # 1. Hardcoded critical files (legacy path — still authoritative for
+    #    per-file size limit enforcement in --all/--json modes).
     for t in "${CRITICAL_FILES[@]}"; do
       [[ "$f" == "$t" ]] && tracked=1 && break
     done
+    # 2. Explicit non-injected exemptions (also in registry, but kept here
+    #    so the script still behaves correctly if file-contracts.json is
+    #    missing or malformed).
     [[ "$bname" == "RULES.md" ]] && tracked=2  # explicitly exempted — not injected, doesn't count toward cap
     [[ "$bname" == "DREAMS.md" ]] && tracked=2  # exempt — non-injected dreaming scratchpad
     [[ "$bname" == "yoda-daily-brief.md" ]] && tracked=2  # exempt — non-injected daily brief
+    # 3. Contract registry lookup. If a file is registered in
+    #    state/file-contracts.json it is considered tracked; its audience
+    #    decides whether it counts toward the cap.
+    if [[ $tracked -eq 0 ]]; then
+      for i in $(seq 1 ${#REGISTERED_FILES[@]}); do
+        if [[ "${REGISTERED_FILES[$i]}" == "$bname" ]]; then
+          if is_injected_audience "${REGISTERED_AUDIENCES[$i]}"; then
+            tracked=1
+          else
+            tracked=2
+          fi
+          break
+        fi
+      done
+    fi
     if [[ $tracked -eq 0 ]]; then
       [[ -n "$untracked" ]] && untracked+=", "
       untracked+="$bname"
     fi
-    [[ "$bname" == "DREAMS.md" ]] && tracked=2  # exempt — non-injected dreaming scratchpad
     # RULES.md is exempt from cap (not injected, on-demand reference)
     if [[ $tracked -ne 2 ]]; then
       total_root_md=$((total_root_md + size))

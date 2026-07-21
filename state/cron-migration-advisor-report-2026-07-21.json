@@ -1,0 +1,75 @@
+{
+  "generatedAt": "2026-07-21T09:08+08:00",
+  "analyzedBy": "Forge subagent (TKT-1013 / CHG-0951, item 4)",
+  "dataSource": "state/cron-migration-suggestions.json",
+  "scoreFormula": "0.4*cliff_risk + 0.3*model_load + 0.2*(1-criticality) + 0.1*rate_limited_streak",
+  "tierThresholds": {
+    "1": 0.5,
+    "2": 0.3,
+    "3": 0.0
+  },
+  "totals": {
+    "evaluated": 31,
+    "tier_1_migrate_now": 26,
+    "tier_2_monitor": 2,
+    "tier_3_keep": 3
+  },
+  "commonPattern": {
+    "currentModel": "ollama/deepseek-v4-flash:cloud",
+    "targetModel": "ollama/kimi-k2.6:cloud",
+    "modelLoadDriver": "deepseek-v4-flash is rate-limited / saturated; migration spreads load to kimi-k2.6",
+    "count": 28
+  },
+  "recommendations": {
+    "policy": "Migrate the highest-scoring, non-critical, low-error tier-1 crons first. Defer critical or high-error crons until current run is stable.",
+    "first_batch": [
+      {
+        "rank": 1,
+        "cronId": "9b190d3e-c320-43f4-a05f-59a8709af451",
+        "name": "AInchors Weekly Compliance Report (Mon 09:00)",
+        "currentModel": "ollama/deepseek-v4-flash:cloud",
+        "targetModel": "ollama/kimi-k2.6:cloud",
+        "migrationScore": 0.624,
+        "rationale": "Highest migration score (0.624); non-critical; has 2 consecutive errors — likely the most rate-limited cron"
+      },
+      {
+        "rank": 2,
+        "cronId": "e8d960b4-556d-49af-b182-7e009b44e554",
+        "name": "AInchors Weekly Asset Review",
+        "currentModel": "ollama/deepseek-v4-flash:cloud",
+        "targetModel": "ollama/kimi-k2.6:cloud",
+        "migrationScore": 0.508,
+        "rationale": "Weekly cadence — easy to monitor post-migration"
+      },
+      {
+        "rank": 3,
+        "cronId": "6bd53c89-c208-45a9-b77a-47157443c1ef",
+        "name": "TRIGGER-04/06: OpenClaw Release Monitor",
+        "currentModel": "ollama/deepseek-v4-flash:cloud",
+        "targetModel": "ollama/kimi-k2.6:cloud",
+        "migrationScore": 0.504,
+        "rationale": "OpenClaw Release Monitor — moves off cliff-risk model before it breaks"
+      },
+      {
+        "rank": 4,
+        "cronId": "bb3575e0-2d6b-4cf6-87c7-8e00cf856652",
+        "name": "ollama-usage-scraper-refresh",
+        "currentModel": "ollama/deepseek-v4-flash:cloud",
+        "targetModel": "ollama/kimi-k2.6:cloud",
+        "migrationScore": 0.502,
+        "rationale": "Internal scraper — easy to validate"
+      },
+      {
+        "rank": 5,
+        "cronId": "80c9226b-eb86-4c40-a291-8ff3a505e775",
+        "name": "AInchors Daily Backup (shell-direct, systemEvent)",
+        "currentModel": "ollama/deepseek-v4-flash:cloud",
+        "targetModel": "ollama/kimi-k2.6:cloud",
+        "migrationScore": 0.502,
+        "rationale": "Daily backup — well-isolated workload, easy rollback"
+      }
+    ],
+    "defer": "Do not migrate crons with consecutiveErrors >= 3 OR isCritical=true in this batch — fix root cause first. TKT-1013 to track."
+  },
+  "safetyNote": "Per TKT-1013 / CHG-0951, NO model changes have been applied. This is recommendation only — Ken approves execution."
+}

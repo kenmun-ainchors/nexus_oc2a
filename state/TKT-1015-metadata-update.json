@@ -1,0 +1,47 @@
+{
+  "ticket": "TKT-1015",
+  "change": "CHG-0954",
+  "metadata_update": {
+    "test_completed_at": "2026-07-21T03:24:19Z",
+    "report_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-31b-capacity-test-2026-07-21.json",
+    "recommendation": "GO-WITH-CAVEATS (effectively NO-GO for production use)",
+    "recommendation_short": "Keep gemma4:26b as primary local model. Do NOT route any production traffic to gemma4:31b until the empty-response bug is root-caused and fixed.",
+    "key_metrics": {
+      "model_size_gb": 19,
+      "pull_time_seconds": 833,
+      "pull_bandwidth_mbps": 22.8,
+      "cold_load_seconds": 16.1,
+      "warm_load_ms": 272,
+      "resident_size_gb": 22,
+      "short_prompt_tps": 11.5,
+      "medium_prompt_tps": 10.75,
+      "long_context_tps": 9.95,
+      "concurrent_tps_per_request": 11.5,
+      "long_context_pages_free_pct": 0.13,
+      "swapouts_during_test": 111016,
+      "unload_reclaim_gb": 22,
+      "unload_pages_free_pct": 87,
+      "empty_response_bug": "YES — fatal defect, all responses empty"
+    },
+    "comparison_to_tkt1014": {
+      "winner_for_local_production": "gemma4:26b",
+      "26b_throughput_tps": 57.4,
+      "31b_throughput_tps": 11.5,
+      "throughput_ratio_31b_vs_26b": 0.20,
+      "26b_resident_gb": 12,
+      "31b_resident_gb": 22,
+      "memory_ratio_31b_vs_26b": 1.83,
+      "26b_cold_load_s": 5.4,
+      "31b_cold_load_s": 16.1,
+      "26b_verdict": "GO",
+      "31b_verdict": "GO-WITH-CAVEATS (NO-GO for production due to empty response bug + memory pressure)"
+    },
+    "status_proposed": "in_progress → pending_review",
+    "next_actions": [
+      "Yoda: Create TKT-1015 page in Notion DB A with this metadata",
+      "Yoda: Update CHG-0954 with the test results",
+      "File follow-up TKT to investigate gemma4:31b empty-response bug (re-pull, test gemma3:31b, try Q8_0 quant)",
+      "Keep gemma4:26b as primary local model for governance/Verify"
+    ]
+  }
+}

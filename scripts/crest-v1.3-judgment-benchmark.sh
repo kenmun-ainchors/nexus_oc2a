@@ -6,9 +6,20 @@
 
 set -euo pipefail
 
-MODEL="gemma4:31b-cloud"
+# CHG-0965 / TKT-1025 (2026-07-21): default model swapped to gemma4:26b. Ad-hoc
+# comparison on 2026-07-19 showed gemma4:26b matches gemma4:31b-cloud 20/20 on
+# this benchmark and is ~5x faster wall-clock with substantially lower jitter
+# (1.98s vs 31.23s). See state/gemma4-26b-vs-31b-crest-benchmark-2026-07-21.json.
+# Ken approved the swap (NEEDS-KEN-CREST-BENCHMARK-26B resolved 2026-07-21).
+# think:false injection remains in place (TKT-1017 / CHG-0956). The MODEL and
+# RESULT_FILE env vars still work — override MODEL=gemma4:31b-cloud to retest
+# against the cloud baseline, e.g. for regression checks after gateway/think
+# changes. Note: CHG-0963 / TKT-1024 (ad-hoc 2026-07-21) is the policy
+# change that made gemma4:26b the approved direct-call model on OC2A; this
+# benchmark default follows that policy.
+MODEL="${MODEL:-gemma4:26b}"
+RESULT_FILE="${RESULT_FILE:-state/crest-v1.3-judgment-benchmark.json}"
 OLLAMA="http://localhost:11434"
-RESULT_FILE="state/crest-v1.3-judgment-benchmark.json"
 
 echo "=== CREST v1.3 Judgment Benchmark ==="
 echo "Model: $MODEL"
@@ -63,7 +74,11 @@ Does the evidence prove the post-conditions were met, given the pre-conditions?
 
 Respond with EXACTLY one word: PASS or FAIL. Then on the next line, a one-sentence reason."
 
-  local resp=$(curl -s "$OLLAMA/api/generate" -d "$(jq -n --arg model "$MODEL" --arg prompt "$prompt" --argjson num_predict 100 '{model:$model, prompt:$prompt, stream:false, options:{num_predict:$num_predict}}')")
+  # TKT-1017 / CHG-0956: gemma4 family (Ollama 0.32.1) defaults thinking=true; chain-of-thought
+  # tokens consume the num_predict budget, leaving response="" with done_reason="length".
+  # think:false at the top level of the request body (not inside options) disables it.
+  # See state/gemma4-31b-empty-response-investigation-2026-07-21.json for full root cause.
+  local resp=$(curl -s "$OLLAMA/api/generate" -d "$(jq -n --arg model "$MODEL" --arg prompt "$prompt" --argjson num_predict 100 --argjson think false '{model:$model, prompt:$prompt, stream:false, think:$think, options:{num_predict:$num_predict}}')")
   local verdict_raw=$(echo "$resp" | jq -r '.response // "ERROR"')
   local error=$(echo "$resp" | jq -r '.error // ""')
 

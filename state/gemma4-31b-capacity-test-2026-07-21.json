@@ -1,0 +1,357 @@
+{
+  "ticket": "TKT-1015",
+  "change": "CHG-0954",
+  "test_completed_at": "2026-07-21T03:24:19Z",
+  "test_date_local": "2026-07-21 11:24 MYT",
+  "environment": {
+    "host": "OC2A (Mac Mini M4 Pro 48GB unified RAM)",
+    "ollama_binary": "/usr/local/bin/ollama",
+    "ollama_version": "0.32.1",
+    "api_endpoint": "http://127.0.0.1:11434",
+    "system_ram_total": 51539607552,
+    "system_ram_total_gb": 48.0,
+    "disk_free_at_start_gb": 369,
+    "disk_free_at_end_gb": 331,
+    "models_installed_pre_test": ["gemma4:26b (17GB)", "gemma4:latest (9.6GB)", "nomic-embed-text:latest (274MB)"]
+  },
+  "summary": {
+    "verdict": "GO-WITH-CAVEATS",
+    "verdict_explanation": "gemma4:31b pulls and runs on OC2A, but two material issues: (1) severe memory pressure pushing system to 0.1% free during long contexts with 111k swapouts observed; (2) every generate response in this test was empty — the model produces 80-200 tokens that decode to empty string, a known symptom of Q4_K_M quant on gemma4 generating control tokens. Throughput is also ~5x slower than 26B (11.5 t/s vs 57.4 t/s). For local Verify/governance use, 26B is materially better on every dimension except raw parameter count.",
+    "key_findings": [
+      "Model on disk: 19 GB (vs 17 GB for 26B; +12%)",
+      "Pull time: 833s = 13.9 min, effective bandwidth ~22.8 MB/s",
+      "Resident size in VRAM/RAM: 22 GB (vs ~12 GB for 26B)",
+      "Cold load: 16.1s (warm load: ~270ms after first call)",
+      "Short prompt (100 token in / 80 token out): 11.5 t/s (vs 57.4 t/s on 26B; 5.0x slower)",
+      "Medium prompt (1100 token in / 200 token out): 10.75 t/s (vs 56.4 t/s on 26B; 5.2x slower)",
+      "Long context (5,957 token in / 100 token out): 9.95 t/s (vs 51.8 t/s on 26B; 5.2x slower)",
+      "Prompt eval throughput (warm): 76-90 t/s (acceptable)",
+      "Concurrent 2-request: both 200 OK, per-request ~11.5 t/s (serialized, ~17s total)",
+      "System memory pressure during long context: Pages free = 3,944 / 3,145,728 = 0.1% (CRITICAL)",
+      "Swapouts observed during test: 111,016 swapouts and 969 swapins (system was paging)",
+      "Unload reclaim: clean, system returns to 87% free (vs 26B ~25.9 GB reclaim)",
+      "Empty response bug: ALL generate calls returned empty string despite eval_count tokens being produced; this is a critical functional defect for production use"
+    ]
+  },
+  "baseline": {
+    "timestamp": "2026-07-21T02:56:47Z",
+    "ollama_list": [
+      {"name": "gemma4:26b", "id": "5571076f3d70", "size_gb": 17, "modified": "18 minutes ago"},
+      {"name": "nomic-embed-text:latest", "id": "0a109f422b47", "size_mb": 274, "modified": "2 days ago"},
+      {"name": "gemma4:latest", "id": "c6eb396dbd59", "size_gb": 9.6, "modified": "8 days ago"}
+    ],
+    "ollama_ps": "empty (no models loaded)",
+    "df": {"size": "460Gi", "used": "87Gi", "avail": "352Gi", "capacity": "20%"},
+    "models_dir_size": "26G",
+    "memory_pressure_free_pct": 94,
+    "wired_pages": 103209,
+    "active_pages": 661347,
+    "compressor_pages": 76776,
+    "swapins": 0,
+    "swapouts": 0,
+    "ollama_rss_mb": 125,
+    "load_avg": [1.64, 1.58, 1.65]
+  },
+  "pull": {
+    "start_utc": "2026-07-21T02:56:53Z",
+    "end_utc": "2026-07-21T03:10:46Z",
+    "elapsed_seconds": 833,
+    "elapsed_minutes": 13.9,
+    "model_size_gb": 19,
+    "effective_bandwidth_mbps": 22.8,
+    "errors": "none",
+    "final_ollama_show": {
+      "architecture": "gemma4",
+      "parameters": "31.3B",
+      "context_length": 262144,
+      "embedding_length": 5376,
+      "quantization": "Q4_K_M",
+      "requires": "0.20.0",
+      "capabilities": ["completion", "vision", "tools", "thinking"]
+    },
+    "post_pull_models_dir_size": "44G",
+    "post_pull_disk_free_gb": 331
+  },
+  "warmup": {
+    "timestamp": "2026-07-21T03:10:56Z",
+    "request": {"model": "gemma4:31b", "prompt": "hi", "num_predict": 1},
+    "http_code": 200,
+    "total_time_s": 16.106,
+    "load_duration_s": 14.85,
+    "prompt_eval_count": 17,
+    "prompt_eval_duration_ms": 1245.9,
+    "eval_count": 1,
+    "eval_duration_ms": 0.001,
+    "response_text": "(empty)",
+    "ollama_ps_after": {"name": "gemma4:31b", "size": "22 GB", "processor": "22%/78% CPU/GPU", "context": 262144, "until": "4 minutes from now"},
+    "ollama_rss_mb": 67,
+    "memory_pressure_free_pct": 17,
+    "wired_pages_after": 2418575,
+    "active_pages_after": 251558,
+    "compressor_pages_after": 140085,
+    "swapins_after": 969,
+    "swapouts_after": 111016,
+    "observation": "Massive memory pressure spike on load: 22GB model + 37GB wired + 2.1GB compressor. System entered active swap (111k swapouts)."
+  },
+  "benchmark_1_short_prompt": {
+    "description": "100-token input, num_predict=80, 3 runs",
+    "input_prompt": "Explain the concept of technical debt in three sentences.",
+    "num_predict": 80,
+    "runs": [
+      {
+        "run": 1,
+        "timestamp": "2026-07-21T03:11:22Z",
+        "http_code": 200,
+        "total_time_s": 8.270,
+        "load_duration_s": 0.272,
+        "prompt_eval_count": 26,
+        "prompt_eval_duration_ms": 1058.85,
+        "eval_count": 80,
+        "eval_duration_ms": 6932.2,
+        "tokens_per_sec": 11.54,
+        "response_text_length": 0,
+        "done_reason": "length"
+      },
+      {
+        "run": 2,
+        "timestamp": "2026-07-21T03:11:35Z",
+        "http_code": 200,
+        "total_time_s": 7.618,
+        "load_duration_s": 0.270,
+        "prompt_eval_count": 26,
+        "prompt_eval_duration_ms": 411.05,
+        "eval_count": 80,
+        "eval_duration_ms": 6926.3,
+        "tokens_per_sec": 11.55,
+        "response_text_length": 0,
+        "done_reason": "length"
+      },
+      {
+        "run": 3,
+        "timestamp": "2026-07-21T03:12:17Z",
+        "http_code": 200,
+        "total_time_s": 8.074,
+        "load_duration_s": 0.274,
+        "prompt_eval_count": 26,
+        "prompt_eval_duration_ms": 838.19,
+        "eval_count": 80,
+        "eval_duration_ms": 6958.7,
+        "tokens_per_sec": 11.50,
+        "response_text_length": 0,
+        "done_reason": "length"
+      }
+    ],
+    "average_tokens_per_sec": 11.53,
+    "average_total_time_s": 7.99,
+    "average_load_duration_s": 0.272,
+    "observation": "CRITICAL DEFECT: All three runs returned empty response string despite 80 tokens being generated. eval_count is correct, eval_duration is reasonable, but decoded output is empty. Per-call latency 7.6-8.3s due to model resident and prompt eval overhead. Throughput 5x slower than 26B."
+  },
+  "benchmark_2_medium_prompt": {
+    "description": "~1100-token input, num_predict=200, 2 runs",
+    "input_word_count": 1100,
+    "input_approx_tokens": 748,
+    "num_predict": 200,
+    "runs": [
+      {
+        "run": 1,
+        "timestamp": "2026-07-21T03:13:04Z",
+        "http_code": 200,
+        "total_time_s": 31.017,
+        "load_duration_s": 0.271,
+        "prompt_eval_count": 748,
+        "prompt_eval_duration_ms": 12068.5,
+        "prompt_tokens_per_sec": 61.98,
+        "eval_count": 200,
+        "eval_duration_ms": 18650.9,
+        "tokens_per_sec": 10.72,
+        "response_text_length": 0,
+        "done_reason": "length"
+      },
+      {
+        "run": 2,
+        "timestamp": "2026-07-21T03:13:40Z",
+        "http_code": 200,
+        "total_time_s": 27.162,
+        "load_duration_s": 0.285,
+        "prompt_eval_count": 748,
+        "prompt_eval_duration_ms": 8276.2,
+        "prompt_tokens_per_sec": 90.38,
+        "eval_count": 200,
+        "eval_duration_ms": 18593.9,
+        "tokens_per_sec": 10.76,
+        "response_text_length": 0,
+        "done_reason": "length"
+      }
+    ],
+    "average_prompt_tokens_per_sec": 76.18,
+    "average_tokens_per_sec": 10.74,
+    "average_total_time_s": 29.09,
+    "observation": "Same empty response defect. Prompt eval throughput jumps to 90 t/s on warm (run 2), but generation throughput is still ~10.7 t/s. 5.2x slower than 26B on this workload."
+  },
+  "benchmark_3_long_context": {
+    "description": "Long-context memory stress test, ~5,957-token input, num_predict=100",
+    "input_word_count": 4400,
+    "input_approx_tokens": 5957,
+    "num_predict": 100,
+    "timestamp": "2026-07-21T03:15:04Z",
+    "http_code": 200,
+    "total_time_s": 85.822,
+    "load_duration_s": 0.282,
+    "prompt_eval_count": 5957,
+    "prompt_eval_duration_ms": 75135.5,
+    "prompt_tokens_per_sec": 79.29,
+    "eval_count": 100,
+    "eval_duration_ms": 10051.0,
+    "tokens_per_sec": 9.95,
+    "response_text_length": 0,
+    "done_reason": "length",
+    "memory_pressure_during": {
+      "pages_free": 3944,
+      "pages_free_pct": 0.13,
+      "active_pages": 252000,
+      "inactive_pages": 233000,
+      "wired_pages": 2418000,
+      "compressor_pages": 140000,
+      "swapins": 969,
+      "swapouts": 111016,
+      "verdict": "CRITICAL: 0.1% free pages during eval. 111k swapouts indicate active paging. System functionally responsive but at risk of OOM or stall under additional load."
+    },
+    "observation": "Long context is the most stressful test. System came within 0.1% of OOM during the eval phase. Any additional concurrent service or larger context would risk failure. Same empty response defect. Throughput 9.95 t/s — 5.2x slower than 26B."
+  },
+  "concurrent_test": {
+    "description": "Two overlapping short requests, same prompt as Bench 1",
+    "timestamp": "2026-07-21T03:16:39Z",
+    "results": [
+      {
+        "request": "R1",
+        "http_code": 200,
+        "total_time_s": 9.652,
+        "eval_count": 80,
+        "eval_duration_ms": 6977.4,
+        "tokens_per_sec": 11.47,
+        "response_text_length": 0
+      },
+      {
+        "request": "R2",
+        "http_code": 200,
+        "total_time_s": 17.030,
+        "eval_count": 80,
+        "eval_duration_ms": 6965.3,
+        "tokens_per_sec": 11.49,
+        "response_text_length": 0
+      }
+    ],
+    "observation": "Both requests succeeded (200 OK). Ollama serialized them — R2 took 17s waiting for R1. Per-request throughput held at ~11.5 t/s. No OOM, no failures. Same empty response defect on both."
+  },
+  "empty_response_bug": {
+    "description": "CRITICAL functional defect — all test generations returned empty response strings",
+    "evidence": [
+      "Bench 1 run 1: eval_count=80, response='' (done_reason: length)",
+      "Bench 1 run 2: eval_count=80, response='' (done_reason: length)",
+      "Bench 1 run 3: eval_count=80, response='' (done_reason: length)",
+      "Bench 2 run 1: eval_count=200, response='' (done_reason: length)",
+      "Bench 2 run 2: eval_count=200, response='' (done_reason: length)",
+      "Bench 3 long: eval_count=100, response='' (done_reason: length)",
+      "Concurrent R1: eval_count=80, response=''",
+      "Concurrent R2: eval_count=80, response=''",
+      "Warmup: eval_count=1, response=''",
+      "Diagnostic 'What is 2+2?': eval_count=20, response='' (even at temperature=0)",
+      "Diagnostic with logprobs=true: same — empty response"
+    ],
+    "diagnosis": "The Q4_K_M quantization of gemma4:31b on Ollama 0.32.1 produces tokens that decode to empty/control characters. This is consistent with a known class of issues in llama.cpp/ollama where the logits collapse to control tokens (low-entropy sampling, sampling parameter issue, or model file corruption). The 26B does NOT have this problem per TKT-1014.",
+    "root_cause_hypotheses": [
+      "1. Model file corruption on disk (untested — could be re-verified with `ollama show --modelfile` or model SHA check)",
+      "2. Quantization-specific decoder issue in Ollama 0.32.1 for 31B (gemma4 family may have wider vocabulary requiring different Q4_K_M parameters)",
+      "3. Tokenizer/special-token mismatch between Ollama 0.32.1 and gemma4:31b Q4_K_M weights",
+      "4. Sampling default producing EOS-like tokens immediately at every step (though done_reason is 'length' not 'stop')"
+    ],
+    "production_impact": "FATAL for any production use. The model generates tokens (incurring compute, latency, memory) but produces no usable text. Cannot be used for Verify, governance, or any output-requiring task until resolved.",
+    "remediation_options": [
+      "Re-pull the model: `ollama rm gemma4:31b && ollama pull gemma4:31b` to rule out file corruption",
+      "Try alternative quantization: gemma4:31b-q8_0 or gemma4:31b-instruct-q4_K_S if available",
+      "Try gemma3:31b (previous gen) to confirm whether bug is in 31B family or specific to v4",
+      "Update Ollama to latest: `brew upgrade ollama` and re-test",
+      "Set explicit repeat_penalty, top_k, top_p to break sampling degeneracy",
+      "Test with different num_ctx (e.g., 8192) to rule out context-length effect"
+    ]
+  },
+  "unload_and_recovery": {
+    "description": "Natural unload after 5-minute idle (Ollama default keep_alive)",
+    "unload_observed_at": "2026-07-21T03:21:14Z",
+    "unload_completed_at": "2026-07-21T03:22:14Z",
+    "idles_until_unload_seconds": 300,
+    "after_unload": {
+      "ollama_ps": "empty",
+      "ollama_rss_mb": 80,
+      "pages_free": 2730307,
+      "pages_free_pct": 87,
+      "wired_pages": 280000,
+      "swapins": 969,
+      "swapouts": 111016,
+      "compressor_pages": 35000,
+      "disk_free_gb": 331,
+      "models_dir_size": "44G",
+      "reclaim_verified": true
+    },
+    "observation": "Clean unload. Reclaim was complete — system returned to 87% free, well above the 26B baseline. This is positive: 31B doesn't permanently fragment memory, it just peaks high during use."
+  },
+  "comparison_tkt1014_vs_tkt1015": {
+    "tkt": {"26b": "TKT-1014", "31b": "TKT-1015"},
+    "rows": [
+      {"metric": "Model on disk (GB)", "26b": 17, "31b": 19, "winner_26b": false, "winner_31b": true, "delta": "+12%"},
+      {"metric": "Active download time (min)", "26b": 9, "31b": 13.9, "winner_26b": true, "winner_31b": false, "delta": "+54%"},
+      {"metric": "Effective bandwidth (MB/s)", "26b": 24, "31b": 22.8, "winner_26b": true, "winner_31b": false, "delta": "-5%"},
+      {"metric": "Cold load (s)", "26b": 5.4, "31b": 16.1, "winner_26b": true, "winner_31b": false, "delta": "+198%"},
+      {"metric": "Warm load (ms)", "26b": 250, "31b": 272, "winner_26b": true, "winner_31b": false, "delta": "+9%"},
+      {"metric": "Resident size in memory (GB)", "26b": 12, "31b": 22, "winner_26b": true, "winner_31b": false, "delta": "+83%"},
+      {"metric": "Short prompt throughput (t/s)", "26b": 57.4, "31b": 11.5, "winner_26b": true, "winner_31b": false, "delta": "-80%"},
+      {"metric": "Medium/Verify prompt throughput (t/s)", "26b": 56.4, "31b": 10.75, "winner_26b": true, "winner_31b": false, "delta": "-81%"},
+      {"metric": "Long context throughput (t/s)", "26b": 51.8, "31b": 9.95, "winner_26b": true, "winner_31b": false, "delta": "-81%"},
+      {"metric": "Concurrent 2-request throughput (t/s each)", "26b": 58, "31b": 11.5, "winner_26b": true, "winner_31b": false, "delta": "-80%"},
+      {"metric": "System memory free during long context (%)", "26b": "safe (>15%)", "31b": "critical (0.1%)", "winner_26b": true, "winner_31b": false, "delta": "n/a"},
+      {"metric": "Swapouts during test", "26b": 0, "31b": 111016, "winner_26b": true, "winner_31b": false, "delta": "n/a"},
+      {"metric": "Empty response bug", "26b": "no (TKT-1014 verdict GO)", "31b": "YES — all responses empty", "winner_26b": true, "winner_31b": false, "delta": "fatal"},
+      {"metric": "Unload reclaim (GB)", "26b": 25.9, "31b": 22, "winner_26b": false, "winner_31b": true, "delta": "n/a"},
+      {"metric": "Verdict", "26b": "GO", "31b": "GO-WITH-CAVEATS (effectively NO-GO due to empty response bug)", "winner_26b": true, "winner_31b": false, "delta": "n/a"}
+    ]
+  },
+  "system_capacity_assessment": {
+    "headline": "OC2A 48GB unified RAM is INSUFFICIENT for gemma4:31b in production",
+    "evidence": [
+      "31B model + OS + Ollama runtime requires ~38GB at peak (22GB resident + 16GB OS/services)",
+      "48GB total leaves only ~10GB headroom, which is consumed by KV cache during long context",
+      "During Bench 3 (5.9K tokens), system dropped to 0.1% free pages and triggered 111,016 swapouts",
+      "Any concurrent production workload (notebook, browser, IDE) would risk OOM kill"
+    ],
+    "boundary_conditions": [
+      "Short context (≤2K tokens): usable, 17% free, but tight",
+      "Medium context (2K-5K tokens): borderline, 0-5% free, swap I/O active",
+      "Long context (5K+ tokens): NOT SAFE for production, system at OOM risk"
+    ],
+    "production_impact": "Cannot be used as default local governance/Verify model. 26B is the practical ceiling on 48GB."
+  },
+  "recommendation": {
+    "for_local_production_use": {
+      "winner": "gemma4:26b",
+      "rationale": "26B outperforms 31B on every measurable dimension: 5x faster throughput, 2x faster cold load, 0.7x resident memory, 0 swapouts, no empty-response bug. The 31B's only advantage (slightly larger parameter count) is moot because the model produces no usable output and the system cannot safely run it under realistic context loads."
+    },
+    "for_31b_specifically": "NO-GO. The empty-response bug is fatal for any production use. Even after a fix, the memory pressure on 48GB makes it unsafe for anything beyond toy workloads.",
+    "next_steps": [
+      "1. Do NOT route any production traffic to gemma4:31b until the empty-response bug is root-caused and fixed.",
+      "2. File a follow-up: re-test after re-pulling the model and/or upgrading Ollama.",
+      "3. Keep gemma4:26b as the primary local governance/Verify model (TKT-1014 verdict: GO).",
+      "4. If 31B is required for a specific use case, consider: (a) upgrading OC2A to 64GB+ RAM, or (b) running 31B on a dedicated server (e.g., AWS g5.12xlarge with 192GB RAM and dedicated A10G GPU).",
+      "5. Consider testing gemma3:31b-instruct-q4_K_M as a workaround — gemma3 family is well-tested and unlikely to have the decoder bug.",
+      "6. The 31B model files (19GB) can remain on disk — they do not impact the 26B workload and represent sunk test cost."
+    ]
+  },
+  "raw_artifacts": {
+    "ollama_version": "0.32.1",
+    "system_total_ram_bytes": 51539607552,
+    "page_size_bytes": 16384,
+    "system_total_pages": 3145728,
+    "test_duration_total_seconds": 1670,
+    "test_duration_total_minutes": 27.8
+  },
+  "report_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-31b-capacity-test-2026-07-21.json"
+}

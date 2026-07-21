@@ -1,0 +1,56 @@
+{
+  "ticket": "TKT-1021",
+  "change": "CHG-0960",
+  "metadata_update": {
+    "test_completed_at": "2026-07-21T07:02:36Z",
+    "report_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/qwen3-32b-capacity-test-2026-07-21.json",
+    "thinking_parameter_used": "top-level body['think'] = false (NOT options.enable_thinking, NOT body['thinking'])",
+    "recommendation": "GO-WITH-CAVEATS (for quality-differentiated workloads) / NO-GO (as gemma4:26b replacement)",
+    "recommendation_short": "qwen3:32b is NOT a viable replacement for gemma4:26b. 5x slower (11.7 vs 57.4 t/s), 80% more GPU memory (31 vs 17 GB), 6.4x less context (40960 vs 262144), and requires think:false workaround. Keep gemma4:26b as primary local model. Only consider qwen3:32b for non-latency-sensitive quality-differentiated tasks.",
+    "key_metrics": {
+      "model_size_gb_disk": 20,
+      "model_size_gb_gpu": 31,
+      "pull_time_seconds": 773,
+      "pull_bandwidth_mbps_sustained": 27,
+      "cold_load_seconds": 2.18,
+      "reload_seconds": 2.21,
+      "short_prompt_tps": 11.66,
+      "verify_prompt_tps": 11.53,
+      "long_context_5724_tokens_tps": 10.40,
+      "concurrent_tps_per_request": 13.5,
+      "context_window_max": 40960,
+      "quantization": "Q4_K_M",
+      "thinking_bug_present": true,
+      "thinking_bug_disabled_via": "top-level body['think'] = false",
+      "swap_io_during_test": 0,
+      "unload_reclaim_gb": 12.4
+    },
+    "comparison_to_tkt1014": {
+      "winner_for_local_production": "gemma4:26b",
+      "26b_throughput_tps_short": 57.4,
+      "32b_throughput_tps_short": 11.66,
+      "throughput_ratio_32b_vs_26b": 0.20,
+      "26b_resident_gb": 17,
+      "32b_resident_gb": 31,
+      "memory_ratio_32b_vs_26b": 1.82,
+      "26b_context_max": 262144,
+      "32b_context_max": 40960,
+      "context_ratio_32b_vs_26b": 0.16,
+      "26b_cold_load_s": 5.4,
+      "32b_cold_load_s": 2.18,
+      "26b_thinking_bug": false,
+      "32b_thinking_bug": true,
+      "26b_verdict": "GO",
+      "32b_verdict": "GO-WITH-CAVEATS (as qwen3 quality-differentiated option) / NO-GO (as 26b replacement)"
+    },
+    "status_proposed": "in_progress → pending_review",
+    "next_actions": [
+      "Yoda: Create TKT-1021 page in Notion DB A with this metadata",
+      "Yoda: Update CHG-0960 with the test results",
+      "Update OpenClaw model-routing skill: add qwen3:32b to registry with think:false requirement, throughput/memory caveats, no-routing-from-production recommendation",
+      "Do NOT route any production traffic to qwen3:32b. gemma4:26b remains primary local model.",
+      "Optional: file future TKTs to test qwen3:30b (MoE) and qwen3:14b for better throughput at same quality tier",
+      "Keep qwen3:32b pulled (20 GB on disk) for potential quality-differentiated work; remove via 'ollama rm qwen3:32b' if not needed"
+    ]
+  }
+}

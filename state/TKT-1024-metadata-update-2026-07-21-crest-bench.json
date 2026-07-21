@@ -1,0 +1,82 @@
+{
+  "ticket": "TKT-1024",
+  "change": "CHG-0963 (ad-hoc follow-up)",
+  "status": "done",
+  "metadata_update": {
+    "completed_at": "2026-07-21T19:42:00+08:00",
+    "completed_by": "Forge (subagent, dispatched by Yoda per CREST Execute routing)",
+    "approval_context": "Ken approved ad-hoc CREST v1.3 judgment benchmark comparison (26b vs 31b-cloud) via NEEDS-KEN-CREST-BENCHMARK-26B (raised in prior TKT-1024 metadata update at 2026-07-21 18:22 MYT)",
+    "verdict": "SWAP — gemma4:26b matches gemma4:31b-cloud score (20/20 vs 20/20) on CREST v1.3 judgment benchmark. Recommend updating scripts/crest-v1.3-judgment-benchmark.sh default to gemma4:26b. PENDING KEN APPROVAL before any committed-default change.",
+    "linked_ticket_change": "TKT-1024 / CHG-0963 (original) and TKT-1023 / CHG-0962 (precedent verification — 25/25 tests, 58.6 t/s, 0 empty responses)",
+    "scope_summary": "Ran the existing CREST v1.3 judgment benchmark twice (baseline default + 26b candidate via MODEL/RESULT_FILE env var overrides that were already added to the script per the prior TKT-1024 update). Captured full metrics for each run. Did NOT change the committed default in scripts/crest-v1.3-judgment-benchmark.sh. Did NOT touch openclaw.json, vendor code, or remove any models. OLLAMA_NUM_PARALLEL unchanged at 1.",
+    "actions_taken": [
+      "Ran baseline: bash scripts/crest-v1.3-judgment-benchmark.sh — used default MODEL=gemma4:31b-cloud, RESULT_FILE=state/crest-v1.3-judgment-benchmark.json. Score: 20/20. Wall-clock: 122.53s.",
+      "Ran candidate: MODEL=gemma4:26b RESULT_FILE=state/crest-v1.3-judgment-benchmark-26b-2026-07-21.json bash scripts/crest-v1.3-judgment-benchmark.sh — Score: 20/20. Wall-clock: 24.64s.",
+      "Wrote state/gemma4-26b-vs-31b-crest-benchmark-2026-07-21.json with full per-run metrics, comparison summary, and verdict.",
+      "scripts/crest-v1.3-judgment-benchmark.sh: NOT TOUCHED (default still gemma4:31b-cloud per task's explicit safety rule).",
+      "openclaw.json: NOT TOUCHED.",
+      "scripts/vendor: NOT TOUCHED.",
+      "gemma4:31b and gemma4:latest: NOT REMOVED."
+    ],
+    "verification_results": {
+      "baseline_run": {
+        "model": "gemma4:31b-cloud",
+        "score": "20/20 (1.00)",
+        "passed_threshold_0_90": true,
+        "http_200_count": 20,
+        "total_count": 20,
+        "empty_response_count": 0,
+        "error_count": 0,
+        "any_oom_or_error": false,
+        "total_duration_ms": 122531,
+        "per_call_mean_sec": 6.127,
+        "per_call_min_sec": 0.672,
+        "per_call_max_sec": 31.901,
+        "result_file": "state/crest-v1.3-judgment-benchmark.json",
+        "mean_eval_tokens_per_sec": "not measured by current script (would require script instrumentation; outside scope of this ad-hoc comparison)"
+      },
+      "candidate_run": {
+        "model": "gemma4:26b",
+        "score": "20/20 (1.00)",
+        "passed_threshold_0_90": true,
+        "http_200_count": 20,
+        "total_count": 20,
+        "empty_response_count": 0,
+        "error_count": 0,
+        "any_oom_or_error": false,
+        "total_duration_ms": 24637,
+        "per_call_mean_sec": 1.232,
+        "per_call_min_sec": 1.012,
+        "per_call_max_sec": 2.997,
+        "result_file": "state/crest-v1.3-judgment-benchmark-26b-2026-07-21.json",
+        "mean_eval_tokens_per_sec": "not measured by current script (would require script instrumentation; outside scope of this ad-hoc comparison)"
+      },
+      "comparison": {
+        "score_delta": 0,
+        "both_pass_90_threshold": true,
+        "duration_speedup_26b_vs_31b_cloud": 4.97,
+        "jitter_31b_max_minus_min_sec": 31.23,
+        "jitter_26b_max_minus_min_sec": 1.98,
+        "interpretation": "26b is ~5x faster wall-clock and substantially more consistent. 31b-cloud shows wide variance (up to 31.9s single-call) likely from cloud-routing jitter. Both models pass 20/20 with think:false injection."
+      },
+      "safety_compliance": {
+        "script_default_changed": false,
+        "openclaw_json_changed": false,
+        "vendor_code_changed": false,
+        "models_removed": false,
+        "ollama_num_parallel_changed": false,
+        "ollama_num_parallel_value": 1,
+        "gemma4_26b_pulled_from_registry": false,
+        "gemma4_26b_was_already_local": true,
+        "think_false_injection_in_place": true
+      }
+    },
+    "verdict_for_ken": "SWAP — 26b matches 31b benchmark score (20/20 vs 20/20); update script default to gemma4:26b",
+    "actions_pending_ken_approval": [
+      "scripts/crest-v1.3-judgment-benchmark.sh: change default MODEL line from 'gemma4:31b-cloud' to 'gemma4:26b' (NEEDS KEN APPROVAL before execution)",
+      "scripts/crest-v1.3-judgment-benchmark.sh: update header comment to reflect new default + reference 2026-07-21 ad-hoc comparison"
+    ],
+    "rollout_status": "comparison complete; default swap is PENDING KEN APPROVAL",
+    "rollback_plan": "If Ken declines the swap: no action needed (default still gemma4:31b-cloud). If Ken approves the swap and it causes regressions later, revert scripts/crest-v1.3-judgment-benchmark.sh MODEL default to gemma4:31b-cloud via git/backup."
+  }
+}

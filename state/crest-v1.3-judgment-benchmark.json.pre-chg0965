@@ -1,0 +1,152 @@
+{
+  "benchmark": "crest-v1.3-judgment",
+  "model": "gemma4:31b-cloud",
+  "timestamp": "2026-07-21T19:38:51+08:00",
+  "threshold": 0.9,
+  "atoms": [
+    {
+      "id": "P01",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the file exists at the specified path with the correct content and verified hash."
+    },
+    {
+      "id": "P02",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the column exists in the table and the migration log reports no errors."
+    },
+    {
+      "id": "P03",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the specific value required by the post-condition is set for the specified cron job."
+    },
+    {
+      "id": "P04",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence explicitly states that the `bash -n` output was empty, confirming a successful exit code of 0."
+    },
+    {
+      "id": "P05",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence explicitly confirms a clean working tree and the successful creation of the commit."
+    },
+    {
+      "id": "P06",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the page exists, the title matches, the status is correct, and the ID is persisted."
+    },
+    {
+      "id": "P07",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence explicitly confirms the script exit code and the required status in health-state.json."
+    },
+    {
+      "id": "P08",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the ticket is absent from the source items array, satisfying the post-condition."
+    },
+    {
+      "id": "P09",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence explicitly states that `jq empty state/model-policy.json` exited with 0."
+    },
+    {
+      "id": "P10",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the report file for Sprint 8 exists and is non-empty with 4598 bytes."
+    },
+    {
+      "id": "F01",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence explicitly states the file was not found and the creation script failed."
+    },
+    {
+      "id": "F02",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence explicitly states that the ALTER TABLE operation failed due to a duplicate column error."
+    },
+    {
+      "id": "F03",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows a phone number with a plus sign and country code, which is not the numeric value required by the post-condition."
+    },
+    {
+      "id": "F04",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence explicitly states a syntax error occurred, meaning bash -n did not exit with 0."
+    },
+    {
+      "id": "F05",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows modified files that are not staged, meaning the git status is not clean."
+    },
+    {
+      "id": "F06",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The API request failed with a 401 Unauthorized error and no page was created."
+    },
+    {
+      "id": "F07",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The pre-condition failed (exit 1) and the post-condition was not met due to a degraded status and a failed check."
+    },
+    {
+      "id": "F08",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows the ticket remains in the source sprint items array, contradicting the required post-condition."
+    },
+    {
+      "id": "F09",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows a parse error and truncated file, meaning the JSON was invalid and the post-condition was not met."
+    },
+    {
+      "id": "F10",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The script crashed due to an unbound variable error and failed to generate the required report file."
+    }
+  ],
+  "correct": 20,
+  "total": 20,
+  "pct": 1.00,
+  "passed": true
+}

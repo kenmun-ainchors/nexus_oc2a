@@ -1,0 +1,90 @@
+{
+  "ticket": "TKT-1024",
+  "change": "CHG-0963",
+  "status": "done",
+  "metadata_update": {
+    "completed_at": "2026-07-21T18:22:00+08:00",
+    "completed_by": "Forge (subagent, dispatched by Yoda per CREST Execute routing)",
+    "approval_context": "Ken approved CHG-0963 implementation plan at 2026-07-21 18:22 MYT",
+    "verdict": "GO — gemma4:26b adopted as OC2A local default for direct Ollama call sites only",
+    "linked_ticket_change": "TKT-1023 / CHG-0962 (precedent verification — 25/25 tests, 58.6 t/s, 0 empty responses)",
+    "scope_summary": "state/model-policy.json updated with directCallLocalModels section; direct-call scripts audited (2 priority scripts already had think:false from TKT-1017/CHG-0956); openclaw.json and agent tier assignments UNCHANGED.",
+    "actions_taken": [
+      "state/model-policy.json: removed 'ollama/gemma4:26b' from globalProhibitedInInteractive",
+      "state/model-policy.json: added directCallLocalModels section with approvedModels[0]=ollama/gemma4:26b, mandatory think:false, TKT-1023/CHG-0963 references",
+      "state/model-policy.json: updated lastUpdated to 2026-07-21T18:22:00+08:00, lastApprovedBy to Ken Mun (CHG-0963, 2026-07-21 18:22 MYT)",
+      "scripts/crest-v1.3-judgment-benchmark.sh: added comment documenting why model kept at gemma4:31b-cloud (quality-gate benchmark, not a hot path) — NEEDS_KEN for any swap",
+      "scripts/context-summarize.sh: added comment noting gemma4:26b is now approved direct-call model and think:false auto-injection remains in place",
+      "openclaw.json: NOT TOUCHED (gateway-mediated agent assignments unchanged per CHG-0963 scope)",
+      "scripts/vendor: NOT TOUCHED",
+      "gemma4:31b and gemma4:latest: NOT REMOVED (still available for ad-hoc/fallback use)"
+    ],
+    "verification_results": {
+      "model_policy_json_valid": true,
+      "no_agent_tier_changes": true,
+      "no_openclaw_json_changes": true,
+      "no_vendor_plugin_changes": true,
+      "ollama_num_parallel_unchanged": 1,
+      "gemma4_26b_pulled_and_loadable": true,
+      "gemma4_26b_loaded_after_run": "yes (18 GB on 100% GPU)",
+      "crest_v1_3_benchmark": {
+        "script": "scripts/crest-v1.3-judgment-benchmark.sh",
+        "model_used": "gemma4:31b-cloud (kept intentionally — quality-gate benchmark)",
+        "score": "20/20 (1.00)",
+        "passed_threshold_0_90": true,
+        "non_empty_responses": 20,
+        "http_200_responses": 20,
+        "errors": 0,
+        "result_file": "state/crest-v1.3-judgment-benchmark.json"
+      },
+      "context_summarize_e2e": {
+        "script": "scripts/context-summarize.sh",
+        "model_used": "gemma4:26b (new direct-call default)",
+        "test_input": "lorem-ipsum paragraph (above trigger threshold via --trigger 10)",
+        "output": "[SUMMARY] No key decisions, facts, action items, dates, names, or TODOs were identified in the provided text.",
+        "non_empty_response": true,
+        "exit_code": 0,
+        "think_false_injected": true
+      },
+      "ollama_api_smoke": {
+        "api_generate_think_false": {"response": "PONG", "done_reason": "stop", "error": ""},
+        "api_chat_think_false": {"content": "PONG", "error": ""}
+      },
+      "model_drift_check": {
+        "script": "scripts/model-drift-check.sh",
+        "exit_code": 2,
+        "new_violations_introduced": 0,
+        "pre_existing_violations": 4,
+        "pre_existing_violation_details": "CREST_V13_DRIFT on architect/platform-arch/infra/social — pre-existing baseline, unrelated to CHG-0963. Caused by check heuristics that don't perfectly match openclaw.json operational settings + documented agentTiers exceptions.",
+        "any_gemma4_26b_violation": false
+      },
+      "check_model_policy_drift": {
+        "script": "scripts/check-model-policy-drift.sh",
+        "pre_existing_test_failures": 2,
+        "pre_existing_failure_details": "test-consumer-consistency.sh and test-policy-consistency.sh fail due to hardcoded /opt/homebrew/bin/jq path that doesn't exist on this host. Pre-existing infrastructure issue, unrelated to CHG-0963."
+      }
+    },
+    "ollama_state_after_run": {
+      "models_on_disk": [
+        {"name": "gemma4:31b", "size_gb": 19.87, "kept": true, "rationale": "CHG-0963 does not remove. Still used by t2Governance agents and as quality-gate benchmark model."},
+        {"name": "gemma4:26b", "size_gb": 17.99, "kept": true, "rationale": "New direct-call default per CHG-0963."},
+        {"name": "nomic-embed-text:latest", "size_mb": 274, "kept": true, "rationale": "Unrelated embedding model."},
+        {"name": "gemma4:latest", "size_gb": 9.61, "kept": true, "rationale": "CHG-0963 does not remove. Kept for ad-hoc use."}
+      ],
+      "ollama_num_parallel": 1,
+      "no_removals": true
+    },
+    "needs_ken": [
+      {
+        "id": "NEEDS-KEN-CREST-BENCHMARK-26B",
+        "script": "scripts/crest-v1.3-judgment-benchmark.sh",
+        "question": "Should the CREST v1.3 judgment benchmark (current model gemma4:31b-cloud) be re-tested on gemma4:26b as a quality regression check before adoption?",
+        "context": "The benchmark currently scores 20/20 on gemma4:31b-cloud. gemma4:26b is faster (58.6 vs ~40 t/s for 31b) but a smaller MoE (25.8B total, 8 of 128 experts). Whether 26b clears the >=90% threshold for this Verify-judge task is untested.",
+        "decision_left": "Script kept at gemma4:31b-cloud for CHG-0963. Forge did NOT change the model in this round.",
+        "recommendation": "Run scripts/crest-v1.3-judgment-benchmark.sh with MODEL=gemma4:26b as a one-off ad-hoc test and compare to current 20/20 baseline. If 26b also clears >=90%, swap the script default. Otherwise keep 31b."
+      }
+    ],
+    "rollout_status": "complete",
+    "rollback_plan": "1. Restore state/model-policy.json from git/backup (re-add 'ollama/gemma4:26b' to globalProhibitedInInteractive; remove directCallLocalModels section). 2. Revert scripts/crest-v1.3-judgment-benchmark.sh and scripts/context-summarize.sh comment additions (no model changes were made, so script behavior is unchanged). 3. openclaw.json was not touched — no rollback needed."
+  }
+}

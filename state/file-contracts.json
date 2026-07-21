@@ -18,10 +18,10 @@
       "hard_limit": 12000,
       "soft_limit": 8000,
       "review_cadence": "per sprint",
-      "rule": "Rules belong in RULES.md. AGENTS.md = summary + conventions + workspace structure. Details \u2192 RULES.md."
+      "rule": "Rules belong in RULES.md. AGENTS.md = summary + conventions + workspace structure. Details → RULES.md."
     },
     "MEMORY.md": {
-      "purpose": "Long-term memory \u2014 durable user preferences, decisions, platform facts, behavior guidance",
+      "purpose": "Long-term memory — durable user preferences, decisions, platform facts, behavior guidance",
       "audience": "Yoda main session only (injected)",
       "hard_limit": 15000,
       "soft_limit": 10000,
@@ -29,7 +29,7 @@
       "rule": "Trim EOD sections to archive at 12K. Archive overflow: memory/MEMORY-archive-YYYY-MM-DD.md."
     },
     "HEARTBEAT.md": {
-      "purpose": "Periodic check checklist \u2014 state keys + conditions + actions only",
+      "purpose": "Periodic check checklist — state keys + conditions + actions only",
       "audience": "Heartbeat runs only (lightContext=true)",
       "hard_limit": 15000,
       "soft_limit": 5000,
@@ -37,7 +37,7 @@
       "rule": "NO procedural prose, alert templates, or execution logs. One line per check: name, key, condition, action. Procedures live in referenced scripts."
     },
     "USER.md": {
-      "purpose": "Human identity \u2014 name, contact, timezone, primary channel",
+      "purpose": "Human identity — name, contact, timezone, primary channel",
       "audience": "Agent session context (injected)",
       "hard_limit": 2000,
       "soft_limit": 1000,
@@ -78,12 +78,44 @@
       "rule": "Unstructured dreaming output from memory promotion. NOT injected into sessions."
     },
     "RULES.md": {
-      "purpose": "Platform rules reference \u2014 full rule text, CHG references, rollback procedures",
+      "purpose": "Platform rules reference — full rule text, CHG references, rollback procedures",
       "audience": "On-demand read (NOT injected)",
       "hard_limit": "unlimited",
       "soft_limit": "none",
       "review_cadence": "per sprint + per CHG",
       "rule": "NOT injected into sessions. Read via memory_search or read on-demand. Reference only."
+    },
+    "CHG-0876.md": {
+      "purpose": "Live contract: PG-Notion Integrity Audit cron repair + skill-gate sourcing bug",
+      "audience": "Forge execution reference (TKT-0406)",
+      "hard_limit": 20000,
+      "soft_limit": 12000,
+      "review_cadence": "on change",
+      "rule": "Pending Forge execution. Not for context injection. Keep in workspace root until closed."
+    },
+    "CHG-0877.md": {
+      "purpose": "Live contract: iMessage Bridge POC (AppleScript → Messages.app) for OC2A",
+      "audience": "Forge execution reference",
+      "hard_limit": 20000,
+      "soft_limit": 12000,
+      "review_cadence": "on change",
+      "rule": "Pending Ken approval before any real send. Not for context injection."
+    },
+    "CHG-0898.md": {
+      "purpose": "Live contract: TKT-1004 — Route platform Telegram alerts to both Ken + Angie",
+      "audience": "Code-review reference (applied, pending review)",
+      "hard_limit": 20000,
+      "soft_limit": 12000,
+      "review_cadence": "weekly",
+      "rule": "Applied 2026-07-16. Pending Ken review closure. Not for context injection."
+    },
+    "CHG-0928.md": {
+      "purpose": "Live contract: R01 tilde-path emitter fix (OpenClaw runtime patch v3)",
+      "audience": "Code-review reference (patched, restart deferred)",
+      "hard_limit": 20000,
+      "soft_limit": 12000,
+      "review_cadence": "on change",
+      "rule": "Patched 2026-07-19. Restart deferred. Awaiting restart window to verify R01 PASS over 24h. Not for context injection."
     }
   },
   "workspace_root_policy": {
@@ -98,10 +130,14 @@
       "SOUL.md",
       "TOOLS.md",
       "USER.md",
-      "yoda-daily-brief.md"
+      "yoda-daily-brief.md",
+      "CHG-0876.md",
+      "CHG-0877.md",
+      "CHG-0898.md",
+      "CHG-0928.md"
     ],
     "new_file_rule": "Any new .md file in workspace root requires: (1) purpose contract registered here, (2) Ken approval, (3) file-size-guard updated. No auto-create without contract.",
-    "subdirectory_rule": "Reference docs \u2192 docs/, Agent-specific \u2192 agents/<id>/, Completed/stale \u2192 archive/, State \u2192 state/, Scripts \u2192 scripts/"
+    "subdirectory_rule": "Reference docs → docs/, Agent-specific → agents/<id>/, Completed/stale → archive/, State → state/, Scripts → scripts/"
   },
   "audit_check": "CHECK 21 (auto-heal)",
   "contracts": [
@@ -119,19 +155,19 @@
     },
     {
       "file": "MEMORY.md",
-      "purpose": "Long-term memory \u2014 durable user preferences, decisions, platform facts",
+      "purpose": "Long-term memory — durable user preferences, decisions, platform facts",
       "injected": true,
       "hard_limit": 15000
     },
     {
       "file": "HEARTBEAT.md",
-      "purpose": "Periodic check checklist \u2014 state keys + conditions + actions",
+      "purpose": "Periodic check checklist — state keys + conditions + actions",
       "injected": true,
       "hard_limit": 15000
     },
     {
       "file": "USER.md",
-      "purpose": "Human identity \u2014 name, contact, timezone, primary channel",
+      "purpose": "Human identity — name, contact, timezone, primary channel",
       "injected": true,
       "hard_limit": 2000
     },
@@ -149,7 +185,7 @@
     },
     {
       "file": "RULES.md",
-      "purpose": "Platform rules reference \u2014 full rule text, CHG references, rollback procedures",
+      "purpose": "Platform rules reference — full rule text, CHG references, rollback procedures",
       "injected": false,
       "hard_limit": 999999
     },

@@ -1,0 +1,40 @@
+{
+  "ticket": "TKT-1016",
+  "change": "CHG-0955",
+  "metadata_update": {
+    "investigation_completed_at": "2026-07-21T03:56:30Z",
+    "report_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-31b-empty-response-investigation-2026-07-21.json",
+    "root_cause": "NOT a 31B model defect. Ollama 0.32.1 sets thinking=true as default for the gemma4 parser. The model generates 'thinking' tokens (chain-of-thought) before producing the visible answer. These thinking tokens are hidden from the /api/generate `response` field by default. With small num_predict (e.g., 20), the entire budget is consumed by thinking, yielding response='' with done_reason='length'. The same bug exists identically on gemma4:8B, gemma4:26b, and gemma4:31b. Confirmed via Ollama issue #16562 (gemma4:12b same symptom) and PR #16850 (proposed server-side default-think=false fix, still draft).",
+    "recommended_fix": "Apply caller-side fix: add `\"think\": false` to all /api/generate and /api/chat request bodies when using gemma4 family models. Alternative for CLI: `ollama run --think=false`. Do NOT re-pull, re-quantize, or upgrade/downgrade Ollama — the model is functional. The 19GB gemma4:31b model file is preserved; no need to delete.",
+    "confidence": "HIGH (95%)",
+    "fix_verified_yes": true,
+    "fix_method": "think: false in request body",
+    "fix_verification_summary": {
+      "models_tested": ["gemma4:8B", "gemma4:26b", "gemma4:31b"],
+      "prompts_tested": ["single-token Q", "single-sentence Q", "multi-sentence Q", "Verify VERDICT task", "long-context multi-paragraph Q"],
+      "all_combinations_pass_with_think_false": true,
+      "all_combinations_fail_with_default_think_true_on_short_budget": true
+    },
+    "production_readiness_post_fix": {
+      "gemma4_8b": "GO",
+      "gemma4_26b": "GO (primary local model)",
+      "gemma4_31b": "GO-WITH-CAVEATS (memory pressure on 48GB; suitable for short/medium context only)"
+    },
+    "next_actions": [
+      "Yoda: Update TKT-1016 status from in_progress to pending_review with the investigation report",
+      "Yoda: Add 'use think: false for gemma4 family' guidance to model-routing skill",
+      "Yoda: Search OpenClaw codebase for any /api/generate calls against gemma4:* and ensure they include think: false (or document why thinking is wanted)",
+      "Optional: Re-run TKT-1015 capacity test with think=false to get true 31B throughput numbers (expected: similar or higher TPS due to fewer tokens generated)"
+    ],
+    "key_metrics": {
+      "ollama_version": "0.32.1",
+      "llama_cpp_build": "1 (cb295bf59)",
+      "system_ram_gb": 48,
+      "models_on_disk_gb": 44,
+      "disk_free_gb": 330,
+      "test_count": 30,
+      "reproductions": "20+ empty-response cases confirmed across 3 model sizes and 5 prompt types",
+      "fix_demonstrations": "10+ fix verifications across same matrix"
+    }
+  }
+}

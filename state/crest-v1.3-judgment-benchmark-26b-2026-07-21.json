@@ -1,0 +1,152 @@
+{
+  "benchmark": "crest-v1.3-judgment",
+  "model": "gemma4:26b",
+  "timestamp": "2026-07-21T19:41:37+08:00",
+  "threshold": 0.9,
+  "atoms": [
+    {
+      "id": "P01",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms that file X was created at path Y with content matching Z and verified via SHA256."
+    },
+    {
+      "id": "P02",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the column was added successfully and the migration completed without errors."
+    },
+    {
+      "id": "P03",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence explicitly confirms that the delivery.to value for the specified cron job matches the required post-condition."
+    },
+    {
+      "id": "P04",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The absence of error output from bash -n and ShellCheck confirms the script is syntactically valid and exits with code 0."
+    },
+    {
+      "id": "P05",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence explicitly confirms that the working tree is clean, satisfying the post-condition."
+    },
+    {
+      "id": "P06",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the page exists via a 200 OK response and verifies that both the title and status match the required post-conditions."
+    },
+    {
+      "id": "P07",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms that the pre-condition was met and all post-condition requirements were satisfied."
+    },
+    {
+      "id": "P08",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms that the deferred ticket is absent from the source items array and only exists in the target sprint."
+    },
+    {
+      "id": "P09",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence explicitly states that jq returned exit 0 for the specified file."
+    },
+    {
+      "id": "P10",
+      "expected": "pass",
+      "verdict": "pass",
+      "match": "true",
+      "reason": "The evidence confirms the specific report file exists, is non-empty, and was generated successfully as required."
+    },
+    {
+      "id": "F01",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows that the file was not created due to a permission error, meaning the post-condition was not met."
+    },
+    {
+      "id": "F02",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows the ALTER TABLE operation failed due to a duplicate column error, meaning the post-condition of success was not met."
+    },
+    {
+      "id": "F03",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows the value contains non-numeric characters and failed to reach the required target value."
+    },
+    {
+      "id": "F04",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows that the script failed to pass `bash -n` due to a syntax error, meaning the post-condition was not met."
+    },
+    {
+      "id": "F05",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence explicitly shows modified files that are not staged, which violates the requirement for a clean git status."
+    },
+    {
+      "id": "F06",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows that no page was created and the API request failed due to an unauthorized error."
+    },
+    {
+      "id": "F07",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows that the pre-condition was not met and a check failed, indicating the post-conditions were not satisfied."
+    },
+    {
+      "id": "F08",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows that the ticket remained in the source sprint despite the defer command being executed."
+    },
+    {
+      "id": "F09",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The evidence shows that jq encountered a parse error due to invalid JSON, meaning it did not exit successfully (0)."
+    },
+    {
+      "id": "F10",
+      "expected": "fail",
+      "verdict": "fail",
+      "match": "true",
+      "reason": "The execution failed due to an error, preventing the report file from being generated as required by the post-conditions."
+    }
+  ],
+  "correct": 20,
+  "total": 20,
+  "pct": 1.00,
+  "passed": true
+}

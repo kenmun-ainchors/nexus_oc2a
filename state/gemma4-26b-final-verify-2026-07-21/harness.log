@@ -1,0 +1,61 @@
+== TKT-1023 / CHG-0962 final verification of gemma4:26b on OC2A ==
+Start: 2026-07-21T09:20:59Z
+
+--- Phase 0: persistence + cold load ---
+[p0_warmup_first_request] http=200 nonempty=True eval=2 tps=88.578 wall=9.73s load=9491.9ms done=stop
+[p0_warm_load_short] http=200 nonempty=True eval=3 tps=78.598 wall=0.48s load=265.0ms done=stop
+
+--- Phase 1: prompt type matrix ---
+[p1_short_factual] http=200 nonempty=True eval=8 tps=62.012 wall=0.61s load=257.1ms done=stop
+[p1_medium_reasoning] http=200 nonempty=True eval=136 tps=55.79 wall=3.00s load=260.0ms done=stop
+[p1_complex_multistep] http=200 nonempty=True eval=171 tps=55.475 wall=3.72s load=255.2ms done=stop
+[p1_code_gen] http=200 nonempty=True eval=399 tps=55.208 wall=7.83s load=260.7ms done=stop
+
+--- Phase 2: long context scaling (target ~1k/2k/4k/8k/16k prompt tokens) ---
+[p2_longctx_1000] http=200 nonempty=True eval=80 tps=53.446 wall=3.26s load=262.4ms done=stop
+[p2_longctx_2000] http=200 nonempty=True eval=80 tps=52.487 wall=4.68s load=262.0ms done=stop
+[p2_longctx_4000] http=200 nonempty=True eval=71 tps=51.946 wall=4.88s load=267.4ms done=stop
+[p2_longctx_8000] http=200 nonempty=True eval=75 tps=50.459 wall=8.20s load=270.2ms done=stop
+[p2_longctx_16000] http=200 nonempty=True eval=76 tps=47.899 wall=16.40s load=276.3ms done=stop
+
+--- Phase 3: explicit num_ctx (4096 / 8192 / 16384 / 32768) ---
+[p3_numctx_4096] http=200 nonempty=True eval=120 tps=55.922 wall=4.70s load=2245.0ms done=length
+[p3_numctx_8192] http=200 nonempty=True eval=120 tps=55.78 wall=4.67s load=2221.4ms done=length
+[p3_numctx_16384] http=200 nonempty=True eval=120 tps=55.661 wall=4.67s load=2209.5ms done=length
+[p3_numctx_32768] http=200 nonempty=True eval=120 tps=55.898 wall=4.66s load=2212.5ms done=length
+
+--- Phase 4: temperature + num_predict variations ---
+[p4_t0.0_np20] http=200 nonempty=True eval=20 tps=59.791 wall=4.60s load=3959.7ms done=length
+[p4_t0.0_np80] http=200 nonempty=True eval=80 tps=57.46 wall=1.76s load=282.9ms done=length
+[p4_t0.0_np200] http=200 nonempty=True eval=134 tps=57.135 wall=2.71s load=276.6ms done=stop
+[p4_t0.0_np500] http=200 nonempty=True eval=134 tps=57.23 wall=2.70s load=272.4ms done=stop
+[p4_t0.7_np20] http=200 nonempty=True eval=20 tps=59.563 wall=0.68s load=258.1ms done=length
+[p4_t0.7_np80] http=200 nonempty=True eval=80 tps=57.531 wall=1.75s load=274.0ms done=length
+[p4_t0.7_np200] http=200 nonempty=True eval=138 tps=57.358 wall=2.76s load=272.5ms done=stop
+[p4_t0.7_np500] http=200 nonempty=True eval=144 tps=57.125 wall=2.89s load=277.6ms done=stop
+
+--- Phase 5: concurrent 2 overlapping requests ---
+[p5_concurrent_A] http=200 nonempty=True eval=120 tps=56.996 wall=2.62s load=281.8ms done=length
+[p5_concurrent_B] http=200 nonempty=True eval=70 tps=57.84 wall=3.83s load=258.7ms done=stop
+  concurrent wall: 4.11s
+
+--- Phase 6: regression vs TKT-1014 (short factual at temp=0) ---
+[p6_reg_short_temp0] http=200 nonempty=True eval=9 tps=63.435 wall=0.61s load=269.7ms done=stop
+[p6_reg_short_temp0_np80] http=200 nonempty=True eval=9 tps=63.194 wall=0.51s load=278.6ms done=stop
+
+Wrote final report: state/gemma4-26b-final-verification-2026-07-21.json
+Raw log: state/gemma4-26b-final-verify-2026-07-21/raw_runs.jsonl
+Summary:
+{
+  "n_tests": 25,
+  "n_http_200": 25,
+  "n_nonempty": 25,
+  "n_empty_with_200": 0,
+  "empty_response_bug_present_with_think_false": false,
+  "tps_eval_min": 47.899,
+  "tps_eval_max": 88.578,
+  "tps_eval_mean": 58.6,
+  "tps_prompt_eval_min": 96.798,
+  "tps_prompt_eval_max": 1039.788,
+  "tps_prompt_eval_mean": 466.36
+}

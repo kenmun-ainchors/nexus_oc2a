@@ -134,3 +134,26 @@ Gemma4 (Ollama) = $0.00 always (local). Cloud costs = Anthropic API.
 - **kimi-k2.7-code:cloud**: 219 turns | 7,470,693 in / 64,559 out | $0.0000
 - **delivery-mirror**: 4 turns | 0 in / 0 out | $0.0000
 - **gateway-injected**: 1 turns | 0 in / 0 out | $0.0000
+
+## 2026-07-21
+
+| Metric | Value |
+|--------|-------|
+| Total Cost | $0.4730 |
+| Turns | 1995 |
+| Input Tokens | 57,284,618 |
+| Output Tokens | 364,079 |
+| Cache Read | 0 |
+| Calculated Cost (ephemeral) | $0.4730 |
+| Calculated Turns | 412 |
+
+### By Stream
+- **technical**: 1909 turns | $0.4730
+- **business**: 86 turns | $0.0000
+
+### By Model
+- **minimax-m3:cloud**: 401 turns | 28,786,004 in / 108,418 out | $0.4571 (calc: 401 turns @ $0.4571)
+- **deepseek-v4-pro:cloud**: 11 turns | 174,276 in / 2,381 out | $0.0158 (calc: 11 turns @ $0.0158)
+- **deepseek-v4-flash:cloud**: 776 turns | 10,795,978 in / 103,788 out | $0.0000
+- **kimi-k2.7-code:cloud**: 776 turns | 17,528,360 in / 149,492 out | $0.0000
+- **delivery-mirror**: 31 turns | 0 in / 0 out | $0.0000

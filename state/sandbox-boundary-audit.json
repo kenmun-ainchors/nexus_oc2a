@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-07-10T09:02:30+10:00",
+  "checkedAt": "2026-07-21T09:12:11+08:00",
   "incident": "INC-20260608-001",
   "vectors": [
     {
@@ -7,9 +7,9 @@
       "vector": "direct-config-write",
       "source": "sandbox (workspace-infra)",
       "target": "prod config ($HOME/.openclaw/openclaw.json)",
-      "current_prevention": "OPENCLAW_SANDBOX=1 env var in sandbox plist + tools.fs.workspaceOnly=true on infra agent. Sandbox config OPENCLAW_CONFIG points to $HOME/.openclaw/nexus-sandbox/openclaw.json \u2014 NOT prod config. Direct write from sandbox agent to prod config path is blocked by workspaceOnly guard.",
+      "current_prevention": "OPENCLAW_SANDBOX=1 env var in sandbox plist + tools.fs.workspaceOnly=true on infra agent. Sandbox config OPENCLAW_CONFIG points to $HOME/.openclaw/nexus-sandbox/openclaw.json — NOT prod config. Direct write from sandbox agent to prod config path is blocked by workspaceOnly guard.",
       "gap_status": "covered",
-      "fix_recommendation": "None needed \u2014 workspaceOnly guard prevents direct write. Keep."
+      "fix_recommendation": "None needed — workspaceOnly guard prevents direct write. Keep."
     },
     {
       "id": "A1.2",
@@ -18,7 +18,7 @@
       "target": "prod gateway config/token via openclaw doctor --fix",
       "current_prevention": "sandbox.env now explicitly unsets OPENCLAW_GATEWAY_TOKEN (added 2026-06-15 per TKT-0332-A2). This prevents openclaw doctor --fix from discovering or regenerating the production gateway token. sandbox-guard.sh also blocks sandbox-context scripts from running production operations.",
       "gap_status": "covered",
-      "fix_recommendation": "None needed \u2014 both env var unset and sandbox-guard.sh guard in place."
+      "fix_recommendation": "None needed — both env var unset and sandbox-guard.sh guard in place."
     },
     {
       "id": "A1.3",
@@ -27,7 +27,7 @@
       "target": "production gateway token",
       "current_prevention": "sandbox.env explicitly unsets OPENCLAW_GATEWAY_TOKEN. Verified present in nexus-sandbox/sandbox.env. This closes the exact side-effect chain from INC-20260608-001.",
       "gap_status": "covered",
-      "fix_recommendation": "None needed \u2014 fix applied and verified."
+      "fix_recommendation": "None needed — fix applied and verified."
     },
     {
       "id": "A1.4",
@@ -43,9 +43,9 @@
       "vector": "launchagent-plist",
       "source": "sandbox LaunchAgent plist",
       "target": "production config/env",
-      "current_prevention": "Sandbox plist properly isolated: OPENCLAW_CONFIG \u2192 nexus-sandbox/openclaw.json, OPENCLAW_SANDBOX=1, WorkingDirectory \u2192 nexus-sandbox, StandardOutPath/StandardErrorPath \u2192 sandbox-specific logs. Port 28789 (sandbox convention per CHG-0471). sandbox.env also unsets OPENCLAW_GATEWAY_TOKEN for belt-and-suspenders.",
+      "current_prevention": "Sandbox plist properly isolated: OPENCLAW_CONFIG → nexus-sandbox/openclaw.json, OPENCLAW_SANDBOX=1, WorkingDirectory → nexus-sandbox, StandardOutPath/StandardErrorPath → sandbox-specific logs. Port 28789 (sandbox convention per CHG-0471). sandbox.env also unsets OPENCLAW_GATEWAY_TOKEN for belt-and-suspenders.",
       "gap_status": "covered",
-      "fix_recommendation": "None needed \u2014 all hardening applied."
+      "fix_recommendation": "None needed — all hardening applied."
     },
     {
       "id": "A1.6",
@@ -61,7 +61,7 @@
       "vector": "db-dsn",
       "source": "sandbox env (DB connection)",
       "target": "production state_tickets table",
-      "current_prevention": "No OPENCLAW_DB, PGHOST, PGPASSWORD, or postgres connection params found in nexus-sandbox/ env. The sandbox has no DB access path. Prod auto-heal writes to state_autoheal_log via db-raw.sh on port 18789 \u2014 sandbox has no equivalent.",
+      "current_prevention": "No OPENCLAW_DB, PGHOST, PGPASSWORD, or postgres connection params found in nexus-sandbox/ env. The sandbox has no DB access path. Prod auto-heal writes to state_autoheal_log via db-raw.sh on port 18789 — sandbox has no equivalent.",
       "gap_status": "covered",
       "fix_recommendation": "None needed. If sandbox ever needs DB access, use a read-only mirror or dedicated sandbox schema per TKT-0396."
     },
@@ -72,7 +72,7 @@
       "target": "Production gateway SIGTERM via token mismatch",
       "current_prevention": "sandbox.env explicitly unsets OPENCLAW_GATEWAY_TOKEN (verified present). sandbox-guard.sh also blocks sandbox-context scripts. Belt-and-suspenders: env var unset prevents doctor from discovering prod token; sandbox-guard.sh prevents scripts from running doctor in sandbox context.",
       "gap_status": "covered",
-      "fix_recommendation": "None needed \u2014 both layers of protection in place."
+      "fix_recommendation": "None needed — both layers of protection in place."
     }
   ],
   "summary": {
@@ -80,5 +80,12 @@
     "covered": 8,
     "partial": 0,
     "gap": 0
-  }
+  },
+  "lastBoundaryTestAt": "2026-07-21T09:12:11+08:00",
+  "lastBoundaryTestResult": "PASS",
+  "lastBoundaryTestMethod": "CHECK 37 inline dry-run (sandbox-guard.sh + OPENCLAW_SANDBOX=1)",
+  "lastReRunBy": "Forge subagent (TKT-1013 / CHG-0951, item 5)",
+  "previousCheckedAt": "2026-07-10T09:02:30+10:00",
+  "staleBeforeReRun_hours": 263,
+  "reValidationNote": "No code changes to scripts/sandbox-guard.sh, openclaw.json, or sandbox config since last audit (2026-07-10). Vectors A1.1, A1.2, A2.1, A3.1, A3.2, B1.1, B1.2, C1.1 still covered. Boundary dry-run test passed at 2026-07-21T09:12:11+08:00."
 }

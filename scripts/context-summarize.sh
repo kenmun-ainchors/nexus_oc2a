@@ -19,6 +19,12 @@ MODEL="${SUMMARIZE_MODEL:-deepseek-v4-flash:cloud}"
 # deepseek-v4-flash:cloud → 128K token window (conservative)
 TRIGGER_THRESHOLD="${SUMMARIZE_TRIGGER:-102000}"
 
+# CHG-0963 / TKT-1024 (2026-07-21): When --model gemma4* is passed, this is
+# now an approved direct-call site per model-policy.json directCallLocalModels.
+# Think:false is auto-injected for any gemma4* model below (THINK_FIELD case).
+# Recommended direct-call gemma4 model: ollama/gemma4:26b (faster, persistent).
+# Gateway-mediated use via OpenClaw plugin remains blocked.
+
 # ── Help ─────────────────────────────────────────────────────────────
 usage() {
     cat <<EOF
@@ -145,11 +151,21 @@ HTTP_CODE=""
 SUMMARY=""
 SUCCESS=false
 
+# TKT-1017 / CHG-0956: gemma4 family (Ollama 0.32.1) defaults thinking=true; chain-of-thought
+# tokens consume the num_predict budget, leaving response="" with done_reason="length".
+# Add think:false at the top level of the request body (not inside options) for gemma4.
+# Generic gemma4-family check covers: gemma4, gemma4:latest, gemma4:8b/12b/26b/31b, etc.
+# See state/gemma4-31b-empty-response-investigation-2026-07-21.json for full root cause.
+THINK_FIELD=""
+case "$MODEL" in
+    gemma4*) THINK_FIELD=',"think":false' ;;
+esac
+
 # Use -w to append HTTP code on a new line at end of stdout; capture all stdout
 FULL_OUTPUT="$(curl -s --connect-timeout 5 --max-time 60 \
     -w "\n__HTTP_CODE__%{http_code}" \
     "${OLLAMA_URL}/api/generate" \
-    -d "{\"model\":\"$MODEL\",\"prompt\":$ESCAPED_PROMPT,\"stream\":false}" \
+    -d "{\"model\":\"$MODEL\",\"prompt\":$ESCAPED_PROMPT,\"stream\":false${THINK_FIELD}}" \
     2>/dev/null || echo "__HTTP_CODE__000")"
 
 # Extract HTTP code (last line marker)

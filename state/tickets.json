@@ -5012,5 +5012,113 @@
     "metadata": {
       "resolution": "scripts/pg-safe-start.sh wrapper added; homebrew.mxcl.postgresql@16.plist ProgramArguments updated to invoke /bin/bash scripts/pg-safe-start.sh <postgres-bin> -D <data-dir>. Recovery log at /Users/ainchorsoc2a/homebrew/var/log/postgresql@16.safe-start.log. Wrapper validates referenced PID via ps -p (basename match for comm), aborts if live postmaster detected (exit 13, never clobbers a running cluster), removes stale lock otherwise, then execs real postgres. Verified 5 test cases: dead PID, live non-postgres, live postmaster, empty pidfile, clean start; plus end-to-end launchd self-heal after SIGKILL."
     }
+  },
+  {
+    "id": "TKT-1023",
+    "title": "Final verification of gemma4:26b local model before operationalization",
+    "status": "done",
+    "priority": "P1",
+    "type": "task",
+    "created_at": "2026-07-21T09:17:50+08:00",
+    "ticket_number": 1023,
+    "metadata": {
+      "verification_summary": "gemma4:26b expanded verification passed 25/25 tests with think:false. Zero empty responses, zero OOMs, mean 58.6 t/s, cold load 9.5s, warm load 0.27s. GO verdict.",
+      "report_path": "state/gemma4-26b-final-verification-2026-07-21.json",
+      "completed_by": "forge",
+      "completed_at": "2026-07-21T09:22:50Z",
+      "needs_ken": [
+        {
+          "id": "adopt-gemma4-26b",
+          "question": "Approve CHG-0963 to adopt gemma4:26b as OC2A local default for direct-call roles?",
+          "recommendation": "Yes for direct-call roles only; keep out of gateway-mediated use until OpenClaw plugin fixes thinking default."
+        }
+      ]
+    }
+  },
+  {
+    "id": "TKT-1024",
+    "title": "Adopt gemma4:26b as OC2A local default for direct Ollama call sites",
+    "status": "done",
+    "priority": "P1",
+    "type": "chg",
+    "created_at": "2026-07-21T09:52:36+08:00",
+    "ticket_number": 1024,
+    "metadata": {
+      "needs_ken_resolution": {
+        "id": "NEEDS-KEN-CREST-BENCHMARK-26B",
+        "approved_by": "Ken Mun",
+        "approved_at": "2026-07-21T11:32:51Z",
+        "swap_approved_by": "Ken Mun",
+        "swap_approved_at": "2026-07-21T11:46:38Z",
+        "decision": "Approved to swap scripts/crest-v1.3-judgment-benchmark.sh default to gemma4:26b",
+        "linked_followup": "TKT-1025 / CHG-0965"
+      }
+    }
+  },
+  {
+    "id": "TKT-1025",
+    "title": "Swap CREST v1.3 judgment benchmark default to gemma4:26b",
+    "status": "done",
+    "priority": "P1",
+    "type": "chg",
+    "created_at": "2026-07-21T11:49:14+08:00",
+    "ticket_number": 1025,
+    "metadata": {
+      "completed_at": "2026-07-21T19:51:00+08:00",
+      "completed_by": "Forge (subagent, dispatched by Yoda per CREST Execute routing)",
+      "changeref": "CHG-0965",
+      "brief": "Follow-up to CHG-0963 / TKT-1024. Ad-hoc benchmark comparison shows gemma4:26b matches gemma4:31b-cloud 20/20 and is ~5x faster. Swap scripts/crest-v1.3-judgment-benchmark.sh default model and update header comment.",
+      "change": "CHG-0965",
+      "evidence_file": "state/gemma4-26b-vs-31b-crest-benchmark-2026-07-21.json",
+      "linked_tickets": [
+        "TKT-1024",
+        "TKT-1023"
+      ],
+      "ken_approved_swap_at": "2026-07-21T11:46:38Z",
+      "implementation": {
+        "script": "scripts/crest-v1.3-judgment-benchmark.sh",
+        "model_before": "gemma4:31b-cloud",
+        "model_after": "gemma4:26b",
+        "header_comment_updated": true,
+        "think_false_injection_preserved": true,
+        "env_var_override_preserved": true
+      },
+      "verification": {
+        "syntax_check": "bash -n scripts/crest-v1.3-judgment-benchmark.sh: SYNTAX_OK",
+        "benchmark_run": {
+          "tool": "bash scripts/crest-v1.3-judgment-benchmark.sh",
+          "model": "gemma4:26b",
+          "score": "20/20 (1.00)",
+          "passed_threshold_0_90": true,
+          "atoms_count": 20,
+          "non_empty_responses": 20,
+          "empty_response_count": 0,
+          "error_count": 0,
+          "oom_or_error": false,
+          "wall_clock_sec": 37,
+          "result_file": "state/crest-v1.3-judgment-benchmark.json",
+          "timestamp": "2026-07-21T19:50:47+08:00",
+          "per_atom_match": "20/20 (P01-P10 all pass; F01-F10 all fail)"
+        },
+        "result_file_model_field": "gemma4:26b (verified via jq .model)"
+      },
+      "safety_constraints": {
+        "openclaw_json_modified": false,
+        "vendor_plugin_code_modified": false,
+        "gemma4_31b_removed": false,
+        "gemma4_latest_removed": false,
+        "ollama_num_parallel_changed": false,
+        "ollama_num_parallel_value": 1,
+        "think_false_injection_preserved": true
+      },
+      "comparison_summary": {
+        "baseline_31b_cloud": "20/20 in 122.53s, jitter 31.23s",
+        "new_default_26b": "20/20 in 37s wall-clock, jitter 1.98s",
+        "score_delta": 0,
+        "speedup": "~3.3x wall-clock observed (5x in ad-hoc data); both pass >=90% threshold"
+      },
+      "rollout_status": "complete",
+      "rollback_plan": "Edit scripts/crest-v1.3-judgment-benchmark.sh line MODEL line back to gemma4:31b-cloud; rerun to confirm 20/20 baseline restored. Backup of pre-swap result file at state/crest-v1.3-judgment-benchmark.json.pre-chg0965."
+    }
   }
 ]

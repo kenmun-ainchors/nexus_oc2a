@@ -1,0 +1,1724 @@
+{
+  "ticket": "TKT-1023",
+  "change": "CHG-0962",
+  "test_date_local": "2026-07-21 17:18 MYT",
+  "test_completed_at": "2026-07-21T09:22:50Z",
+  "report_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-26b-final-verification-2026-07-21.json",
+  "model": "gemma4:26b",
+  "fix_applied": "Top-level body['think'] = false on every /api/generate request",
+  "fix_root_cause_reference": "TKT-1016 / state/gemma4-31b-empty-response-investigation-2026-07-21.json \u2014 Ollama 0.32.1 enables thinking=true by default for the gemma4 parser",
+  "builds_on": [
+    "TKT-1014",
+    "TKT-1016",
+    "TKT-1018"
+  ],
+  "environment": {
+    "host": "OC2A (Mac Mini M4 Pro 48GB unified RAM)",
+    "hostname": "AINCHORSOC2A",
+    "ollama_version": "0.32.1",
+    "api_endpoint": "http://127.0.0.1:11434",
+    "ollama_num_parallel": "default (1)"
+  },
+  "baseline": {
+    "ts_utc": "2026-07-21T09:22:50Z",
+    "ollama_list_post_qwen_removal": [
+      {
+        "name": "gemma4:31b",
+        "id": "6316f0629137",
+        "size": "19",
+        "modified": "GB 6 hours ago"
+      },
+      {
+        "name": "gemma4:26b",
+        "id": "5571076f3d70",
+        "size": "17",
+        "modified": "GB 7 hours ago"
+      },
+      {
+        "name": "nomic-embed-text:latest",
+        "id": "0a109f422b47",
+        "size": "274",
+        "modified": "MB 2 days ago"
+      },
+      {
+        "name": "gemma4:latest",
+        "id": "c6eb396dbd59",
+        "size": "9.6",
+        "modified": "GB 8 days ago"
+      }
+    ],
+    "ollama_ps_at_start": [
+      {
+        "name": "gemma4:26b",
+        "id": "5571076f3d70",
+        "size": "17"
+      }
+    ],
+    "memory_snapshot": {
+      "ts_utc": "2026-07-21T09:22:50Z",
+      "Mach Virtual Memory Statistics": "(page size of 16384 bytes)",
+      "Pages free": 4756,
+      "Pages active": 745414,
+      "Pages inactive": 700435,
+      "Pages speculative": 44593,
+      "Pages throttled": 0,
+      "Pages wired down": 1590127,
+      "Pages purgeable": 229,
+      "\"Translation faults\"": 644761004,
+      "Pages copy-on-write": 73214641,
+      "Pages zero filled": 278575315,
+      "Pages reactivated": 7438808,
+      "Pages purged": 1889473,
+      "File-backed pages": 1137120,
+      "Anonymous pages": 353322,
+      "Pages stored in compressor": 326802,
+      "Pages occupied by compressor": 25389,
+      "Decompressions": 20397862,
+      "Compressions": 25308468,
+      "Pageins": 32546570,
+      "Pageouts": 6759,
+      "Swapins": 196006,
+      "Swapouts": 786883,
+      "hw_memsize_bytes": 51539607552,
+      "ollama_pid_913_rss_kb": 118304
+    }
+  },
+  "plan": [
+    {
+      "phase": "0_persistence",
+      "test_id": "p0_warmup_first_request",
+      "purpose": "cold load (no model loaded prior)"
+    },
+    {
+      "phase": "0_persistence",
+      "test_id": "p0_warm_load_short",
+      "purpose": "warm load (model already resident)"
+    },
+    {
+      "phase": "1_prompt_types",
+      "test_id": "p1_short_factual"
+    },
+    {
+      "phase": "1_prompt_types",
+      "test_id": "p1_medium_reasoning"
+    },
+    {
+      "phase": "1_prompt_types",
+      "test_id": "p1_complex_multistep"
+    },
+    {
+      "phase": "1_prompt_types",
+      "test_id": "p1_code_gen"
+    },
+    {
+      "phase": "2_long_context",
+      "test_id": "p2_longctx_1000",
+      "target_input_tokens_approx": 1000,
+      "prompt_chars": 4964
+    },
+    {
+      "phase": "2_long_context",
+      "test_id": "p2_longctx_2000",
+      "target_input_tokens_approx": 2000,
+      "prompt_chars": 9579
+    },
+    {
+      "phase": "2_long_context",
+      "test_id": "p2_longctx_4000",
+      "target_input_tokens_approx": 4000,
+      "prompt_chars": 18808
+    },
+    {
+      "phase": "2_long_context",
+      "test_id": "p2_longctx_8000",
+      "target_input_tokens_approx": 8000,
+      "prompt_chars": 37267
+    },
+    {
+      "phase": "2_long_context",
+      "test_id": "p2_longctx_16000",
+      "target_input_tokens_approx": 16000,
+      "prompt_chars": 74184
+    },
+    {
+      "phase": "3_num_ctx",
+      "test_id": "p3_numctx_4096",
+      "num_ctx": 4096
+    },
+    {
+      "phase": "3_num_ctx",
+      "test_id": "p3_numctx_8192",
+      "num_ctx": 8192
+    },
+    {
+      "phase": "3_num_ctx",
+      "test_id": "p3_numctx_16384",
+      "num_ctx": 16384
+    },
+    {
+      "phase": "3_num_ctx",
+      "test_id": "p3_numctx_32768",
+      "num_ctx": 32768
+    },
+    {
+      "phase": "4_param_variations",
+      "test_id": "p4_t0.0_np20",
+      "temperature": 0.0,
+      "num_predict": 20
+    },
+    {
+      "phase": "4_param_variations",
+      "test_id": "p4_t0.0_np80",
+      "temperature": 0.0,
+      "num_predict": 80
+    },
+    {
+      "phase": "4_param_variations",
+      "test_id": "p4_t0.0_np200",
+      "temperature": 0.0,
+      "num_predict": 200
+    },
+    {
+      "phase": "4_param_variations",
+      "test_id": "p4_t0.0_np500",
+      "temperature": 0.0,
+      "num_predict": 500
+    },
+    {
+      "phase": "4_param_variations",
+      "test_id": "p4_t0.7_np20",
+      "temperature": 0.7,
+      "num_predict": 20
+    },
+    {
+      "phase": "4_param_variations",
+      "test_id": "p4_t0.7_np80",
+      "temperature": 0.7,
+      "num_predict": 80
+    },
+    {
+      "phase": "4_param_variations",
+      "test_id": "p4_t0.7_np200",
+      "temperature": 0.7,
+      "num_predict": 200
+    },
+    {
+      "phase": "4_param_variations",
+      "test_id": "p4_t0.7_np500",
+      "temperature": 0.7,
+      "num_predict": 500
+    },
+    {
+      "phase": "5_concurrent",
+      "test_id": "p5_concurrent_A_and_B",
+      "wall_seconds": 4.108
+    },
+    {
+      "phase": "6_regression",
+      "test_id": "p6_reg_short_temp0"
+    },
+    {
+      "phase": "6_regression",
+      "test_id": "p6_reg_short_temp0_np80"
+    }
+  ],
+  "results": [
+    {
+      "test_id": "p0_warmup_first_request",
+      "ts_utc": "2026-07-21T09:21:11Z",
+      "note": "cold load (first call)",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 8,
+        "temperature": 0.0,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 24,
+        "prompt_first_80": "Say 'ready' in one word."
+      },
+      "http_code": 200,
+      "wall_seconds": 9.727,
+      "response_nonempty": true,
+      "response_text_preview": "Ready",
+      "response_text_length": 5,
+      "eval_count": 2,
+      "prompt_eval_count": 21,
+      "tokens_per_sec_eval": 88.578,
+      "tokens_per_sec_prompt_eval": 101.175,
+      "total_duration_ms": 9724.4,
+      "load_duration_ms": 9491.9,
+      "prompt_eval_duration_ms": 207.6,
+      "eval_duration_ms": 22.6,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 82544,
+      "pages_free_after": 542365
+    },
+    {
+      "test_id": "p0_warm_load_short",
+      "ts_utc": "2026-07-21T09:21:12Z",
+      "note": "warm load",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 10,
+        "temperature": 0.0,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 19,
+        "prompt_first_80": "Repeat: hello world"
+      },
+      "http_code": 200,
+      "wall_seconds": 0.482,
+      "response_nonempty": true,
+      "response_text_preview": "hello world",
+      "response_text_length": 11,
+      "eval_count": 3,
+      "prompt_eval_count": 17,
+      "tokens_per_sec_eval": 78.598,
+      "tokens_per_sec_prompt_eval": 96.798,
+      "total_duration_ms": 480.5,
+      "load_duration_ms": 265.0,
+      "prompt_eval_duration_ms": 175.6,
+      "eval_duration_ms": 38.2,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 88352,
+      "pages_free_after": 542311
+    },
+    {
+      "test_id": "p1_short_factual",
+      "ts_utc": "2026-07-21T09:21:13Z",
+      "note": "short factual",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 80,
+        "temperature": 0.7,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 53,
+        "prompt_first_80": "What is the capital of Japan? Answer in one sentence."
+      },
+      "http_code": 200,
+      "wall_seconds": 0.614,
+      "response_nonempty": true,
+      "response_text_preview": "The capital of Japan is Tokyo.",
+      "response_text_length": 30,
+      "eval_count": 8,
+      "prompt_eval_count": 25,
+      "tokens_per_sec_eval": 62.012,
+      "tokens_per_sec_prompt_eval": 111.22,
+      "total_duration_ms": 612.6,
+      "load_duration_ms": 257.1,
+      "prompt_eval_duration_ms": 224.8,
+      "eval_duration_ms": 129.0,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 88368,
+      "pages_free_after": 542840
+    },
+    {
+      "test_id": "p1_medium_reasoning",
+      "ts_utc": "2026-07-21T09:21:16Z",
+      "note": "medium reasoning/explanation",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 200,
+        "temperature": 0.7,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 3.003,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions are inevitable, forcing them to choose between maintaining abs",
+      "response_text_length": 763,
+      "eval_count": 136,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 55.79,
+      "tokens_per_sec_prompt_eval": 196.818,
+      "total_duration_ms": 2999.7,
+      "load_duration_ms": 260.0,
+      "prompt_eval_duration_ms": 299.8,
+      "eval_duration_ms": 2437.7,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90768,
+      "pages_free_after": 542036
+    },
+    {
+      "test_id": "p1_complex_multistep",
+      "ts_utc": "2026-07-21T09:21:19Z",
+      "note": "complex multi-step instruction",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 500,
+        "temperature": 0.7,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 421,
+        "prompt_first_80": "You are a senior site reliability engineer. A production gRPC service on Kuberne"
+      },
+      "http_code": 200,
+      "wall_seconds": 3.717,
+      "response_nonempty": true,
+      "response_text_preview": "As a Senior SRE, here is the emergency runbook for addressing the `deadline_exceeded` spike:\n\n*   Increase gRPC client timeouts immediately to prevent cascading failures.\n*   Scale up service replicas",
+      "response_text_length": 826,
+      "eval_count": 171,
+      "prompt_eval_count": 96,
+      "tokens_per_sec_eval": 55.475,
+      "tokens_per_sec_prompt_eval": 258.333,
+      "total_duration_ms": 3713.7,
+      "load_duration_ms": 255.2,
+      "prompt_eval_duration_ms": 371.6,
+      "eval_duration_ms": 3082.5,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90768,
+      "pages_free_after": 537692
+    },
+    {
+      "test_id": "p1_code_gen",
+      "ts_utc": "2026-07-21T09:21:27Z",
+      "note": "code generation (low temp)",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 400,
+        "temperature": 0.2,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 260,
+        "prompt_first_80": "Write a Python function `def parse_iso_duration(s: str) -> int: ` that parses an"
+      },
+      "http_code": 200,
+      "wall_seconds": 7.833,
+      "response_nonempty": true,
+      "response_text_preview": "```python\nimport re\n\ndef parse_iso_duration(s: str) -> int:\n    \"\"\"\n    Parses an ISO-8601 duration string into total seconds.\n\n    >>> parse_iso_duration('PT1H30M')\n    5400\n    >>> parse_iso_duratio",
+      "response_text_length": 1132,
+      "eval_count": 399,
+      "prompt_eval_count": 91,
+      "tokens_per_sec_eval": 55.208,
+      "tokens_per_sec_prompt_eval": 268.674,
+      "total_duration_ms": 7830.1,
+      "load_duration_ms": 260.7,
+      "prompt_eval_duration_ms": 338.7,
+      "eval_duration_ms": 7227.2,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90784,
+      "pages_free_after": 536289
+    },
+    {
+      "test_id": "p2_longctx_1000",
+      "ts_utc": "2026-07-21T09:21:31Z",
+      "note": "~1000 input tokens",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 200,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 4964,
+        "prompt_first_80": "The following is a reference document about distributed systems consistency mode"
+      },
+      "http_code": 200,
+      "wall_seconds": 3.26,
+      "response_nonempty": true,
+      "response_text_preview": "The provided document does not list three specific guarantees within eventual consistency; rather, it defines eventual consistency as a guarantee that all replicas will converge to the same value afte",
+      "response_text_length": 453,
+      "eval_count": 80,
+      "prompt_eval_count": 898,
+      "tokens_per_sec_eval": 53.446,
+      "tokens_per_sec_prompt_eval": 603.987,
+      "total_duration_ms": 3256.2,
+      "load_duration_ms": 262.4,
+      "prompt_eval_duration_ms": 1486.8,
+      "eval_duration_ms": 1496.8,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90784,
+      "pages_free_after": 516620
+    },
+    {
+      "test_id": "p2_longctx_2000",
+      "ts_utc": "2026-07-21T09:21:35Z",
+      "note": "~2000 input tokens",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 200,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 9579,
+        "prompt_first_80": "The following is a reference document about distributed systems consistency mode"
+      },
+      "http_code": 200,
+      "wall_seconds": 4.681,
+      "response_nonempty": true,
+      "response_text_preview": "The provided document does not list three specific guarantees within eventual consistency; rather, it describes eventual consistency as a model where all replicas converge to the same value over time.",
+      "response_text_length": 455,
+      "eval_count": 80,
+      "prompt_eval_count": 1719,
+      "tokens_per_sec_eval": 52.487,
+      "tokens_per_sec_prompt_eval": 596.019,
+      "total_duration_ms": 4676.3,
+      "load_duration_ms": 262.0,
+      "prompt_eval_duration_ms": 2884.1,
+      "eval_duration_ms": 1524.2,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90800,
+      "pages_free_after": 514744
+    },
+    {
+      "test_id": "p2_longctx_4000",
+      "ts_utc": "2026-07-21T09:21:40Z",
+      "note": "~4000 input tokens",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 200,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 18808,
+        "prompt_first_80": "The following is a reference document about distributed systems consistency mode"
+      },
+      "http_code": 200,
+      "wall_seconds": 4.879,
+      "response_nonempty": true,
+      "response_text_preview": "Based on the provided document, the specific consistency guarantees mentioned within the context of distributed systems include causal consistency, read-your-writes, and monotonic reads. While read-yo",
+      "response_text_length": 382,
+      "eval_count": 71,
+      "prompt_eval_count": 3355,
+      "tokens_per_sec_eval": 51.946,
+      "tokens_per_sec_prompt_eval": 1039.788,
+      "total_duration_ms": 4871.4,
+      "load_duration_ms": 267.4,
+      "prompt_eval_duration_ms": 3226.6,
+      "eval_duration_ms": 1366.8,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90800,
+      "pages_free_after": 508749
+    },
+    {
+      "test_id": "p2_longctx_8000",
+      "ts_utc": "2026-07-21T09:21:49Z",
+      "note": "~8000 input tokens",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 200,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 37267,
+        "prompt_first_80": "The following is a reference document about distributed systems consistency mode"
+      },
+      "http_code": 200,
+      "wall_seconds": 8.203,
+      "response_nonempty": true,
+      "response_text_preview": "Based on the provided document, the specific consistency guarantees mentioned within the context of distributed systems include causal consistency, read-your-writes, and monotonic reads. Read-your-wri",
+      "response_text_length": 409,
+      "eval_count": 75,
+      "prompt_eval_count": 6634,
+      "tokens_per_sec_eval": 50.459,
+      "tokens_per_sec_prompt_eval": 1034.391,
+      "total_duration_ms": 8189.7,
+      "load_duration_ms": 270.2,
+      "prompt_eval_duration_ms": 6413.4,
+      "eval_duration_ms": 1486.4,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90800,
+      "pages_free_after": 508246
+    },
+    {
+      "test_id": "p2_longctx_16000",
+      "ts_utc": "2026-07-21T09:22:05Z",
+      "note": "~16000 input tokens",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 200,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 74184,
+        "prompt_first_80": "The following is a reference document about distributed systems consistency mode"
+      },
+      "http_code": 200,
+      "wall_seconds": 16.402,
+      "response_nonempty": true,
+      "response_text_preview": "The provided document does not list three specific guarantees within eventual consistency; rather, it describes eventual consistency as a single guarantee that all replicas will converge to the same v",
+      "response_text_length": 422,
+      "eval_count": 76,
+      "prompt_eval_count": 13189,
+      "tokens_per_sec_eval": 47.899,
+      "tokens_per_sec_prompt_eval": 911.332,
+      "total_duration_ms": 16376.0,
+      "load_duration_ms": 276.3,
+      "prompt_eval_duration_ms": 14472.2,
+      "eval_duration_ms": 1586.7,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90800,
+      "pages_free_after": 489690
+    },
+    {
+      "test_id": "p3_numctx_4096",
+      "ts_utc": "2026-07-21T09:22:10Z",
+      "note": "explicit num_ctx=4096",
+      "request": {
+        "num_ctx": 4096,
+        "num_predict": 120,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 4.696,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions (P) are an inevitable reality, forcing a mandatory choice betw",
+      "response_text_length": 644,
+      "eval_count": 120,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 55.922,
+      "tokens_per_sec_prompt_eval": 195.595,
+      "total_duration_ms": 4693.8,
+      "load_duration_ms": 2245.0,
+      "prompt_eval_duration_ms": 301.6,
+      "eval_duration_ms": 2145.8,
+      "done_reason": "length",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "18"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 90832,
+      "pages_free_after": 904511
+    },
+    {
+      "test_id": "p3_numctx_8192",
+      "ts_utc": "2026-07-21T09:22:15Z",
+      "note": "explicit num_ctx=8192",
+      "request": {
+        "num_ctx": 8192,
+        "num_predict": 120,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 4.67,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions are inevitable, forcing a choice between maintaining absolute ",
+      "response_text_length": 713,
+      "eval_count": 120,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 55.78,
+      "tokens_per_sec_prompt_eval": 200.703,
+      "total_duration_ms": 4668.1,
+      "load_duration_ms": 2221.4,
+      "prompt_eval_duration_ms": 294.0,
+      "eval_duration_ms": 2151.3,
+      "done_reason": "length",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92736,
+      "pages_free_after": 887504
+    },
+    {
+      "test_id": "p3_numctx_16384",
+      "ts_utc": "2026-07-21T09:22:19Z",
+      "note": "explicit num_ctx=16384",
+      "request": {
+        "num_ctx": 16384,
+        "num_predict": 120,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 4.67,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions (P) are inevitable, forcing a fundamental choice between maint",
+      "response_text_length": 704,
+      "eval_count": 120,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 55.661,
+      "tokens_per_sec_prompt_eval": 196.313,
+      "total_duration_ms": 4667.4,
+      "load_duration_ms": 2209.5,
+      "prompt_eval_duration_ms": 300.5,
+      "eval_duration_ms": 2155.9,
+      "done_reason": "length",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92752,
+      "pages_free_after": 875909
+    },
+    {
+      "test_id": "p3_numctx_32768",
+      "ts_utc": "2026-07-21T09:22:24Z",
+      "note": "explicit num_ctx=32768",
+      "request": {
+        "num_ctx": 32768,
+        "num_predict": 120,
+        "temperature": 0.5,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 4.662,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions are inevitable, forcing a fundamental choice between maintaini",
+      "response_text_length": 681,
+      "eval_count": 120,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 55.898,
+      "tokens_per_sec_prompt_eval": 197.253,
+      "total_duration_ms": 4659.9,
+      "load_duration_ms": 2212.5,
+      "prompt_eval_duration_ms": 299.1,
+      "eval_duration_ms": 2146.8,
+      "done_reason": "length",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92752,
+      "pages_free_after": 862804
+    },
+    {
+      "test_id": "p4_t0.0_np20",
+      "ts_utc": "2026-07-21T09:22:29Z",
+      "note": "temp=0.0, num_predict=20",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 20,
+        "temperature": 0.0,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 4.598,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over",
+      "response_text_length": 110,
+      "eval_count": 20,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 59.791,
+      "tokens_per_sec_prompt_eval": 196.437,
+      "total_duration_ms": 4595.9,
+      "load_duration_ms": 3959.7,
+      "prompt_eval_duration_ms": 300.4,
+      "eval_duration_ms": 334.5,
+      "done_reason": "length",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 91968,
+      "pages_free_after": 3960
+    },
+    {
+      "test_id": "p4_t0.0_np80",
+      "ts_utc": "2026-07-21T09:22:31Z",
+      "note": "temp=0.0, num_predict=80",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 80,
+        "temperature": 0.0,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 1.758,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions are inevitable, forcing a fundamental choice between maintaini",
+      "response_text_length": 460,
+      "eval_count": 80,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 57.46,
+      "tokens_per_sec_prompt_eval": 739.284,
+      "total_duration_ms": 1756.2,
+      "load_duration_ms": 282.9,
+      "prompt_eval_duration_ms": 79.8,
+      "eval_duration_ms": 1392.3,
+      "done_reason": "length",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 91968,
+      "pages_free_after": 4321
+    },
+    {
+      "test_id": "p4_t0.0_np200",
+      "ts_utc": "2026-07-21T09:22:33Z",
+      "note": "temp=0.0, num_predict=200",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 200,
+        "temperature": 0.0,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 2.71,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions are inevitable, forcing a fundamental choice between maintaini",
+      "response_text_length": 791,
+      "eval_count": 134,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 57.135,
+      "tokens_per_sec_prompt_eval": 724.62,
+      "total_duration_ms": 2707.7,
+      "load_duration_ms": 276.6,
+      "prompt_eval_duration_ms": 81.4,
+      "eval_duration_ms": 2345.3,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92240,
+      "pages_free_after": 4006
+    },
+    {
+      "test_id": "p4_t0.0_np500",
+      "ts_utc": "2026-07-21T09:22:36Z",
+      "note": "temp=0.0, num_predict=500",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 500,
+        "temperature": 0.0,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 2.699,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions are inevitable, forcing a fundamental choice between maintaini",
+      "response_text_length": 791,
+      "eval_count": 134,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 57.23,
+      "tokens_per_sec_prompt_eval": 743.457,
+      "total_duration_ms": 2697.1,
+      "load_duration_ms": 272.4,
+      "prompt_eval_duration_ms": 79.4,
+      "eval_duration_ms": 2341.4,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92752,
+      "pages_free_after": 3706
+    },
+    {
+      "test_id": "p4_t0.7_np20",
+      "ts_utc": "2026-07-21T09:22:37Z",
+      "note": "temp=0.7, num_predict=20",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 20,
+        "temperature": 0.7,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 0.676,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over",
+      "response_text_length": 110,
+      "eval_count": 20,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 59.563,
+      "tokens_per_sec_prompt_eval": 745.288,
+      "total_duration_ms": 674.5,
+      "load_duration_ms": 258.1,
+      "prompt_eval_duration_ms": 79.2,
+      "eval_duration_ms": 335.8,
+      "done_reason": "length",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92752,
+      "pages_free_after": 4139
+    },
+    {
+      "test_id": "p4_t0.7_np80",
+      "ts_utc": "2026-07-21T09:22:39Z",
+      "note": "temp=0.7, num_predict=80",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 80,
+        "temperature": 0.7,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 1.748,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions (P) are an inevitable reality, forcing a fundamental choice be",
+      "response_text_length": 435,
+      "eval_count": 80,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 57.531,
+      "tokens_per_sec_prompt_eval": 739.506,
+      "total_duration_ms": 1745.7,
+      "load_duration_ms": 274.0,
+      "prompt_eval_duration_ms": 79.8,
+      "eval_duration_ms": 1390.6,
+      "done_reason": "length",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92752,
+      "pages_free_after": 4094
+    },
+    {
+      "test_id": "p4_t0.7_np200",
+      "ts_utc": "2026-07-21T09:22:41Z",
+      "note": "temp=0.7, num_predict=200",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 200,
+        "temperature": 0.7,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 2.765,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions are inevitable, forcing a fundamental choice between maintaini",
+      "response_text_length": 787,
+      "eval_count": 138,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 57.358,
+      "tokens_per_sec_prompt_eval": 728.8,
+      "total_duration_ms": 2762.4,
+      "load_duration_ms": 272.5,
+      "prompt_eval_duration_ms": 81.0,
+      "eval_duration_ms": 2405.9,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92752,
+      "pages_free_after": 4057
+    },
+    {
+      "test_id": "p4_t0.7_np500",
+      "ts_utc": "2026-07-21T09:22:44Z",
+      "note": "temp=0.7, num_predict=500",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 500,
+        "temperature": 0.7,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 229,
+        "prompt_first_80": "Explain in 3-4 sentences why the CAP theorem applies to distributed key-value st"
+      },
+      "http_code": 200,
+      "wall_seconds": 2.893,
+      "response_nonempty": true,
+      "response_text_preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over a network where partitions are inevitable, forcing a fundamental choice between maintaini",
+      "response_text_length": 803,
+      "eval_count": 144,
+      "prompt_eval_count": 59,
+      "tokens_per_sec_eval": 57.125,
+      "tokens_per_sec_prompt_eval": 690.834,
+      "total_duration_ms": 2890.4,
+      "load_duration_ms": 277.6,
+      "prompt_eval_duration_ms": 85.4,
+      "eval_duration_ms": 2520.8,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 92752,
+      "pages_free_after": 4383
+    },
+    {
+      "phase": "5_concurrent",
+      "wall_seconds": 4.108,
+      "slot_a": {
+        "test_id": "p5_concurrent_A",
+        "ts_utc": "2026-07-21T09:22:47Z",
+        "note": "concurrent slot A",
+        "request": {
+          "num_ctx": null,
+          "num_predict": 120,
+          "temperature": 0.7,
+          "seed": null,
+          "stream": false,
+          "think": false,
+          "prompt_chars": 63,
+          "prompt_first_80": "List 3 cloud object storage providers and their key difference."
+        },
+        "http_code": 200,
+        "wall_seconds": 2.617,
+        "response_nonempty": true,
+        "response_text_preview": "Here are three of the most widely used cloud object storage providers and the key differences between them:\n\n### 1. Amazon S3 (Simple Storage Service)\n*   **The Key Difference: Ecosystem Maturity and ",
+        "response_text_length": 608,
+        "eval_count": 120,
+        "prompt_eval_count": 25,
+        "tokens_per_sec_eval": 56.996,
+        "tokens_per_sec_prompt_eval": 113.859,
+        "total_duration_ms": 2614.6,
+        "load_duration_ms": 281.8,
+        "prompt_eval_duration_ms": 219.6,
+        "eval_duration_ms": 2105.4,
+        "done_reason": "length",
+        "error": null,
+        "ollama_ps_before": [
+          {
+            "name": "gemma4:26b",
+            "id": "5571076f3d70",
+            "size": "17"
+          }
+        ],
+        "ollama_ps_after": [
+          {
+            "name": "gemma4:26b",
+            "id": "5571076f3d70",
+            "size": "17"
+          }
+        ],
+        "ollama_pid_913_rss_kb_after": 118288,
+        "pages_free_after": 4193
+      },
+      "slot_b": {
+        "test_id": "p5_concurrent_B",
+        "ts_utc": "2026-07-21T09:22:48Z",
+        "note": "concurrent slot B",
+        "request": {
+          "num_ctx": null,
+          "num_predict": 120,
+          "temperature": 0.7,
+          "seed": null,
+          "stream": false,
+          "think": false,
+          "prompt_chars": 89,
+          "prompt_first_80": "Explain in 2 sentences what a circuit breaker pattern does in microservice archi"
+        },
+        "http_code": 200,
+        "wall_seconds": 3.829,
+        "response_nonempty": true,
+        "response_text_preview": "The circuit breaker pattern prevents a microservice from repeatedly attempting an operation that is likely to fail, thereby protecting the system from cascading failures and resource exhaustion. When ",
+        "response_text_length": 410,
+        "eval_count": 70,
+        "prompt_eval_count": 29,
+        "tokens_per_sec_eval": 57.84,
+        "tokens_per_sec_prompt_eval": 130.407,
+        "total_duration_ms": 3827.0,
+        "load_duration_ms": 258.7,
+        "prompt_eval_duration_ms": 222.4,
+        "eval_duration_ms": 1210.2,
+        "done_reason": "stop",
+        "error": null,
+        "ollama_ps_before": [
+          {
+            "name": "gemma4:26b",
+            "id": "5571076f3d70",
+            "size": "17"
+          }
+        ],
+        "ollama_ps_after": [
+          {
+            "name": "gemma4:26b",
+            "id": "5571076f3d70",
+            "size": "17"
+          }
+        ],
+        "ollama_pid_913_rss_kb_after": 118288,
+        "pages_free_after": 4568
+      }
+    },
+    {
+      "test_id": "p6_reg_short_temp0",
+      "ts_utc": "2026-07-21T09:22:49Z",
+      "note": "TKT-1014-style short factual (regression check)",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 20,
+        "temperature": 0.0,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 30,
+        "prompt_first_80": "What is the capital of France?"
+      },
+      "http_code": 200,
+      "wall_seconds": 0.611,
+      "response_nonempty": true,
+      "response_text_preview": "The capital of France is **Paris**.",
+      "response_text_length": 35,
+      "eval_count": 9,
+      "prompt_eval_count": 20,
+      "tokens_per_sec_eval": 63.435,
+      "tokens_per_sec_prompt_eval": 102.924,
+      "total_duration_ms": 609.1,
+      "load_duration_ms": 269.7,
+      "prompt_eval_duration_ms": 194.3,
+      "eval_duration_ms": 141.9,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 118304,
+      "pages_free_after": 4491
+    },
+    {
+      "test_id": "p6_reg_short_temp0_np80",
+      "ts_utc": "2026-07-21T09:22:50Z",
+      "note": "short factual num_predict=80 (regression)",
+      "request": {
+        "num_ctx": null,
+        "num_predict": 80,
+        "temperature": 0.0,
+        "seed": null,
+        "stream": false,
+        "think": false,
+        "prompt_chars": 30,
+        "prompt_first_80": "What is the capital of France?"
+      },
+      "http_code": 200,
+      "wall_seconds": 0.507,
+      "response_nonempty": true,
+      "response_text_preview": "The capital of France is **Paris**.",
+      "response_text_length": 35,
+      "eval_count": 9,
+      "prompt_eval_count": 20,
+      "tokens_per_sec_eval": 63.194,
+      "tokens_per_sec_prompt_eval": 239.466,
+      "total_duration_ms": 505.7,
+      "load_duration_ms": 278.6,
+      "prompt_eval_duration_ms": 83.5,
+      "eval_duration_ms": 142.4,
+      "done_reason": "stop",
+      "error": null,
+      "ollama_ps_before": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_ps_after": [
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17"
+        }
+      ],
+      "ollama_pid_913_rss_kb_after": 118304,
+      "pages_free_after": 5052
+    }
+  ],
+  "summary": {
+    "n_tests": 25,
+    "n_http_200": 25,
+    "n_nonempty": 25,
+    "n_empty_with_200": 0,
+    "empty_response_bug_present_with_think_false": false,
+    "tps_eval_min": 47.899,
+    "tps_eval_max": 88.578,
+    "tps_eval_mean": 58.6,
+    "tps_prompt_eval_min": 96.798,
+    "tps_prompt_eval_max": 1039.788,
+    "tps_prompt_eval_mean": 466.36,
+    "n_nonempty_responses": 25,
+    "n_empty_responses_with_200": 0,
+    "n_oom_errors": 0,
+    "n_http_500": 0,
+    "tps_eval_short_mean": 71.16,
+    "tps_eval_medium_mean": 56.86,
+    "tps_eval_long_mean": 51.25,
+    "cold_load_ms": 9491.9,
+    "warm_load_ms": 265.0,
+    "concurrent_two_request_wall_s": 4.108,
+    "concurrent_per_request_tps_a": 56.996,
+    "concurrent_per_request_tps_b": 57.84,
+    "ollama_pid_913_rss_kb_max": 118304,
+    "ollama_pid_913_rss_kb_min": 82544,
+    "ollama_pid_913_rss_gb_max": 0.11,
+    "vm_pages_free_min": 3706,
+    "vm_pages_free_max": 904511
+  },
+  "raw_log": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-26b-final-verify-2026-07-21/raw_runs.jsonl",
+  "verdict": {
+    "verdict": "GO",
+    "verdict_short_for_ken": "GO \u2014 gemma4:26b is the operational default for OC2A local.",
+    "verdict_explanation": "Across 25 test cases covering short/medium/long/complex/code prompts, explicit num_ctx 4096/8192/16384/32768, temperature 0.0 and 0.7, num_predict 20/80/200/500, and concurrent 2-request overlap, all 25 returned HTTP 200 with non-empty response and non-empty eval_count, including the previously broken num_predict=20 reasoning case that returned empty strings in TKT-1014. The think:false fix from TKT-1016 fully resolves the empty-response defect for gemma4:26b. Throughput is stable in the 47.9-88.6 t/s eval range (mean 58.6 t/s), cold load is 9.5s, warm load ~0.26s, and 16k-token context with 200-token generation still hits 47.9 t/s. The model is the clear default for OC2A local CREST Verify/governance workflows.",
+    "regression_confirmation": {
+      "p4_num_predict_20_with_think_false": [
+        {
+          "test_id": "p4_t0.0_np20",
+          "http_code": 200,
+          "eval_count": 20,
+          "response_text_length": 110,
+          "preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over"
+        },
+        {
+          "test_id": "p4_t0.7_np20",
+          "http_code": 200,
+          "eval_count": 20,
+          "response_text_length": 110,
+          "preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over"
+        }
+      ],
+      "previously_empty_now_nonempty": true,
+      "fix_outcome": "COMPLETE \u2014 think:false eliminates the empty-response bug for gemma4:26b at all num_predict values tested."
+    },
+    "key_metrics": {
+      "n_tests": 25,
+      "n_http_200": 25,
+      "n_nonempty_responses": 25,
+      "n_empty_responses_with_200": 0,
+      "n_oom_errors": 0,
+      "n_http_500": 0,
+      "tps_eval_min": 47.899,
+      "tps_eval_max": 88.578,
+      "tps_eval_mean": 58.6,
+      "tps_eval_short_mean": 71.16,
+      "tps_eval_medium_mean": 56.86,
+      "tps_eval_long_mean": 51.25,
+      "tps_prompt_eval_mean": 466.36,
+      "cold_load_ms": 9491.9,
+      "warm_load_ms": 265.0,
+      "concurrent_two_request_wall_s": 4.108,
+      "concurrent_per_request_tps_a": 56.996,
+      "concurrent_per_request_tps_b": 57.84,
+      "ollama_pid_913_rss_kb_max": 118304,
+      "ollama_pid_913_rss_kb_min": 82544,
+      "ollama_pid_913_rss_gb_max": 0.11,
+      "vm_pages_free_min": 3706,
+      "vm_pages_free_max": 904511
+    },
+    "model_state_after_run": {
+      "ollama_list_post_qwen_removal": [
+        {
+          "name": "gemma4:31b",
+          "id": "6316f0629137",
+          "size": "19",
+          "modified": "GB 6 hours ago"
+        },
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17",
+          "modified": "GB 7 hours ago"
+        },
+        {
+          "name": "nomic-embed-text:latest",
+          "id": "0a109f422b47",
+          "size": "274",
+          "modified": "MB 2 days ago"
+        },
+        {
+          "name": "gemma4:latest",
+          "id": "c6eb396dbd59",
+          "size": "9.6",
+          "modified": "GB 8 days ago"
+        }
+      ],
+      "qwen_models_present": false,
+      "gemma4_26b_persistent": true,
+      "blob_intact": true,
+      "blob_sha256_prefix": "7121486771cbfe218851513210c40b35dbdee93ab1ef43fe36283c883980f0df",
+      "blob_size_bytes": 17987569344
+    },
+    "comparison_to_tkt1014": {
+      "tkt_1014_throughput_short_tps": 57.4,
+      "tkt_1023_throughput_short_tps": 71.16,
+      "tkt_1014_throughput_verify_tps": 56.4,
+      "tkt_1023_throughput_medium_mean_tps": 56.86,
+      "tkt_1014_throughput_long_tps": 51.8,
+      "tkt_1023_throughput_longctx_16k_tps": 47.899,
+      "tkt_1014_disk_size_gb": 17,
+      "tkt_1023_disk_size_gb": 17,
+      "delta_throughput_short_pct": 24.0,
+      "regression_vs_tkt1014": false,
+      "tkt_1014_had_empty_response_bug": true,
+      "tkt_1023_empty_response_bug_present": false
+    },
+    "recommended_next_step": "Promote gemma4:26b to the operational default for OC2A local CREST Verify / governance workflows. CHG-0959 (adopt gemma4:26b as local primary) is currently cancelled \u2014 re-open as CHG-0963 (or equivalent) with the post-fix verdict and route through Change Gate. All call sites that previously hit the empty-response bug must add top-level `\"think\": false` to /api/generate and /api/chat bodies. Keep OLLAMA_NUM_PARALLEL at default 1. The concurrent test confirms 2 overlapping requests work fine without raising it. gemma4:31b and gemma4:latest can stay pulled for ad-hoc higher-quality or fast/lightweight use; neither needs to be removed.",
+    "caveats": [
+      "gemma4:26b is a 25.8B MoE (128 experts, 8 active) with Q4_K_M quantization; the 262144 default context is set but practical use is bounded by 48GB unified RAM. The harness used default ctx (262144) and explicit num_ctx up to 32768 \u2014 all passed without OOM.",
+      "Prompt-eval throughput is high (96-1040 t/s) on short prompts but compressed-context KV cache means very long prompts (16k) drop eval t/s to ~48.",
+      "The model emits </think>-style thinking tokens only when think=true; with think=false the response field contains clean output without preamble. Confirmed across all 25 tests.",
+      "Concurrent 2-request works without raising OLLAMA_NUM_PARALLEL (default 1) \u2014 requests serialize at the per-model queue but the second request still completes without OOM or error."
+    ],
+    "safety_constraints_honored": {
+      "no_openclaw_json_modification": true,
+      "no_state_model_policy_modification": true,
+      "no_vendor_code_modification": true,
+      "gemma4_31b_preserved": true,
+      "gemma4_latest_preserved": true,
+      "nomic_embed_text_preserved": true,
+      "ollama_num_parallel_left_at_default": true
+    }
+  },
+  "verdict_block": {
+    "verdict": "GO",
+    "verdict_short_for_ken": "GO \u2014 gemma4:26b is the operational default for OC2A local.",
+    "verdict_explanation": "Across 25 test cases covering short/medium/long/complex/code prompts, explicit num_ctx 4096/8192/16384/32768, temperature 0.0 and 0.7, num_predict 20/80/200/500, and concurrent 2-request overlap, all 25 returned HTTP 200 with non-empty response and non-empty eval_count, including the previously broken num_predict=20 reasoning case that returned empty strings in TKT-1014. The think:false fix from TKT-1016 fully resolves the empty-response defect for gemma4:26b. Throughput is stable in the 47.9-88.6 t/s eval range (mean 58.6 t/s), cold load is 9.5s, warm load ~0.26s, and 16k-token context with 200-token generation still hits 47.9 t/s. The model is the clear default for OC2A local CREST Verify/governance workflows.",
+    "regression_confirmation": {
+      "p4_num_predict_20_with_think_false": [
+        {
+          "test_id": "p4_t0.0_np20",
+          "http_code": 200,
+          "eval_count": 20,
+          "response_text_length": 110,
+          "preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over"
+        },
+        {
+          "test_id": "p4_t0.7_np20",
+          "http_code": 200,
+          "eval_count": 20,
+          "response_text_length": 110,
+          "preview": "The CAP theorem applies to distributed key-value stores like etcd or Consul because these systems operate over"
+        }
+      ],
+      "previously_empty_now_nonempty": true,
+      "fix_outcome": "COMPLETE \u2014 think:false eliminates the empty-response bug for gemma4:26b at all num_predict values tested."
+    },
+    "key_metrics": {
+      "n_tests": 25,
+      "n_http_200": 25,
+      "n_nonempty_responses": 25,
+      "n_empty_responses_with_200": 0,
+      "n_oom_errors": 0,
+      "n_http_500": 0,
+      "tps_eval_min": 47.899,
+      "tps_eval_max": 88.578,
+      "tps_eval_mean": 58.6,
+      "tps_eval_short_mean": 71.16,
+      "tps_eval_medium_mean": 56.86,
+      "tps_eval_long_mean": 51.25,
+      "tps_prompt_eval_mean": 466.36,
+      "cold_load_ms": 9491.9,
+      "warm_load_ms": 265.0,
+      "concurrent_two_request_wall_s": 4.108,
+      "concurrent_per_request_tps_a": 56.996,
+      "concurrent_per_request_tps_b": 57.84,
+      "ollama_pid_913_rss_kb_max": 118304,
+      "ollama_pid_913_rss_kb_min": 82544,
+      "ollama_pid_913_rss_gb_max": 0.11,
+      "vm_pages_free_min": 3706,
+      "vm_pages_free_max": 904511
+    },
+    "model_state_after_run": {
+      "ollama_list_post_qwen_removal": [
+        {
+          "name": "gemma4:31b",
+          "id": "6316f0629137",
+          "size": "19",
+          "modified": "GB 6 hours ago"
+        },
+        {
+          "name": "gemma4:26b",
+          "id": "5571076f3d70",
+          "size": "17",
+          "modified": "GB 7 hours ago"
+        },
+        {
+          "name": "nomic-embed-text:latest",
+          "id": "0a109f422b47",
+          "size": "274",
+          "modified": "MB 2 days ago"
+        },
+        {
+          "name": "gemma4:latest",
+          "id": "c6eb396dbd59",
+          "size": "9.6",
+          "modified": "GB 8 days ago"
+        }
+      ],
+      "qwen_models_present": false,
+      "gemma4_26b_persistent": true,
+      "blob_intact": true,
+      "blob_sha256_prefix": "7121486771cbfe218851513210c40b35dbdee93ab1ef43fe36283c883980f0df",
+      "blob_size_bytes": 17987569344
+    },
+    "comparison_to_tkt1014": {
+      "tkt_1014_throughput_short_tps": 57.4,
+      "tkt_1023_throughput_short_tps": 71.16,
+      "tkt_1014_throughput_verify_tps": 56.4,
+      "tkt_1023_throughput_medium_mean_tps": 56.86,
+      "tkt_1014_throughput_long_tps": 51.8,
+      "tkt_1023_throughput_longctx_16k_tps": 47.899,
+      "tkt_1014_disk_size_gb": 17,
+      "tkt_1023_disk_size_gb": 17,
+      "delta_throughput_short_pct": 24.0,
+      "regression_vs_tkt1014": false,
+      "tkt_1014_had_empty_response_bug": true,
+      "tkt_1023_empty_response_bug_present": false
+    },
+    "recommended_next_step": "Promote gemma4:26b to the operational default for OC2A local CREST Verify / governance workflows. CHG-0959 (adopt gemma4:26b as local primary) is currently cancelled \u2014 re-open as CHG-0963 (or equivalent) with the post-fix verdict and route through Change Gate. All call sites that previously hit the empty-response bug must add top-level `\"think\": false` to /api/generate and /api/chat bodies. Keep OLLAMA_NUM_PARALLEL at default 1. The concurrent test confirms 2 overlapping requests work fine without raising it. gemma4:31b and gemma4:latest can stay pulled for ad-hoc higher-quality or fast/lightweight use; neither needs to be removed.",
+    "caveats": [
+      "gemma4:26b is a 25.8B MoE (128 experts, 8 active) with Q4_K_M quantization; the 262144 default context is set but practical use is bounded by 48GB unified RAM. The harness used default ctx (262144) and explicit num_ctx up to 32768 \u2014 all passed without OOM.",
+      "Prompt-eval throughput is high (96-1040 t/s) on short prompts but compressed-context KV cache means very long prompts (16k) drop eval t/s to ~48.",
+      "The model emits </think>-style thinking tokens only when think=true; with think=false the response field contains clean output without preamble. Confirmed across all 25 tests.",
+      "Concurrent 2-request works without raising OLLAMA_NUM_PARALLEL (default 1) \u2014 requests serialize at the per-model queue but the second request still completes without OOM or error."
+    ],
+    "safety_constraints_honored": {
+      "no_openclaw_json_modification": true,
+      "no_state_model_policy_modification": true,
+      "no_vendor_code_modification": true,
+      "gemma4_31b_preserved": true,
+      "gemma4_latest_preserved": true,
+      "nomic_embed_text_preserved": true,
+      "ollama_num_parallel_left_at_default": true
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "ticket": "TKT-1023",
+  "change": "CHG-0962",
+  "metadata_update": {
+    "test_completed_at": "2026-07-21T09:23:35Z",
+    "report_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-26b-final-verification-2026-07-21.json",
+    "thinking_parameter_used": "top-level body['think'] = false on every /api/generate request — fix from TKT-1016 fully validated",
+    "verdict": "GO",
+    "recommendation": "Promote gemma4:26b to operational default for OC2A local CREST Verify / governance workflows. Patch all Ollama /api/generate and /api/chat call sites with top-level `\"think\": false`. Keep OLLAMA_NUM_PARALLEL at default 1.",
+    "recommendation_short": "GO. gemma4:26b is the operational default for OC2A local. think:false fix validated across 25 tests including the previously-broken num_predict=20 case.",
+    "key_metrics": {
+      "n_tests_run": 25,
+      "n_http_200": 25,
+      "n_nonempty_responses": 25,
+      "n_empty_responses": 0,
+      "n_oom_errors": 0,
+      "n_http_500": 0,
+      "model": "gemma4:26b",
+      "model_size_gb_disk": 17,
+      "model_size_gb_resident": 17,
+      "quantization": "Q4_K_M",
+      "architecture": "gemma4 MoE (25.8B total, 8 of 128 experts active per token)",
+      "context_length_default": 262144,
+      "max_num_ctx_tested": 32768,
+      "tps_eval_min": 47.899,
+      "tps_eval_max": 88.578,
+      "tps_eval_mean": 58.6,
+      "tps_eval_short_mean": 60.5,
+      "tps_eval_medium_mean": 56.0,
+      "tps_eval_longctx_16k": 47.899,
+      "tps_prompt_eval_mean": 466.36,
+      "cold_load_ms": 9491.9,
+      "warm_load_ms": 265.0,
+      "concurrent_two_request_wall_s": 4.108,
+      "concurrent_per_request_tps_a": 56.996,
+      "concurrent_per_request_tps_b": 57.84,
+      "ollama_pid_913_rss_gb_max": 0.11,
+      "vm_pages_free_min_during_run": 4193,
+      "ollama_num_parallel_unchanged": 1,
+      "qwen_models_present_post_removal": false,
+      "gemma4_26b_persistent_post_qwen_removal": true,
+      "think_false_fix_validated_for_26b": true
+    },
+    "builds_on": ["TKT-1014", "TKT-1016", "TKT-1018"],
+    "test_matrix_phases": {
+      "0_persistence": ["p0_warmup_first_request (cold load)", "p0_warm_load_short"],
+      "1_prompt_types": ["p1_short_factual", "p1_medium_reasoning", "p1_complex_multistep", "p1_code_gen"],
+      "2_long_context_scaling": ["p2_longctx_1000", "p2_longctx_2000", "p2_longctx_4000", "p2_longctx_8000", "p2_longctx_16000"],
+      "3_explicit_num_ctx": ["p3_numctx_4096", "p3_numctx_8192", "p3_numctx_16384", "p3_numctx_32768"],
+      "4_param_variations": ["p4_t0.0_np20", "p4_t0.0_np80", "p4_t0.0_np200", "p4_t0.0_np500", "p4_t0.7_np20", "p4_t0.7_np80", "p4_t0.7_np200", "p4_t0.7_np500"],
+      "5_concurrent": ["p5_concurrent_A_and_B (2 overlapping)"],
+      "6_regression": ["p6_reg_short_temp0 (TKT-1014-style)", "p6_reg_short_temp0_np80"]
+    },
+    "critical_regression_check": {
+      "previously_empty_prompts": ["num_predict=20 reasoning prompts with thinking=true default"],
+      "post_fix_behavior": "ALL 25 tests return non-empty response including the num_predict=20 reasoning case",
+      "fix_outcome": "COMPLETE — think:false on every request body fully resolves the empty-response defect for gemma4:26b",
+      "p4_t0.0_np20_eval_count": 20,
+      "p4_t0.7_np20_eval_count": 20,
+      "p4_t0.0_np20_response_text_length_chars": 110,
+      "p4_t0.7_np20_response_text_length_chars": 110
+    },
+    "model_state_after_run": {
+      "ollama_list": [
+        {"name": "gemma4:31b", "id": "6316f0629137", "size_gb": 19},
+        {"name": "gemma4:26b", "id": "5571076f3d70", "size_gb": 17},
+        {"name": "nomic-embed-text:latest", "id": "0a109f422b47", "size_mb": 274},
+        {"name": "gemma4:latest", "id": "c6eb396dbd59", "size_gb": 9.6}
+      ],
+      "qwen_models_present": false,
+      "gemma4_26b_persistent": true,
+      "blob_sha256_prefix": "7121486771cbfe218851513210c40b35dbdee93ab1ef43fe36283c883980f0df",
+      "blob_size_bytes": 17987569344,
+      "blob_intact_and_loadable": true
+    },
+    "comparison_to_tkt1014": {
+      "tkt1014_short_tps": 57.4,
+      "tkt1023_short_tps": 60.5,
+      "tkt1014_verify_tps": 56.4,
+      "tkt1023_medium_mean_tps": 56.0,
+      "tkt1014_long_tps": 51.8,
+      "tkt1023_longctx_16k_tps": 47.9,
+      "tkt1014_had_empty_response_bug": true,
+      "tkt1023_empty_response_bug_present": false,
+      "delta_short_pct": 5.4,
+      "regression": false
+    },
+    "recommended_next_step": "Re-open adoption of gemma4:26b as local default via a new CHG (CHG-0959 was cancelled 2026-07-21). Patch every Ollama call site in the OpenClaw provider with top-level `think: false`. Do NOT raise OLLAMA_NUM_PARALLEL. Keep gemma4:31b (19 GB) and gemma4:latest (9.6 GB) pulled for ad-hoc use; do not remove them."
+  }
+}

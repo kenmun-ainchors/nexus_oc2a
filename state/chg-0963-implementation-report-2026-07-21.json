@@ -1,0 +1,134 @@
+{
+  "change": "CHG-0963",
+  "ticket": "TKT-1024",
+  "title": "Adopt gemma4:26b as OC2A local default for direct Ollama call sites",
+  "implementation_report_at": "2026-07-21T18:22:00+08:00",
+  "implemented_by": "Forge (subagent, dispatched by Yoda per CREST Execute routing)",
+  "approved_by": "Ken Mun at 2026-07-21 18:22 MYT",
+  "approval_keyword": "GO",
+  "precedent": "TKT-1023 / CHG-0962 — gemma4:26b GO verdict (25/25 tests, 58.6 t/s, 0 empty responses)",
+  "scope": {
+    "in_scope": [
+      "state/model-policy.json: remove ollama/gemma4:26b from globalProhibitedInInteractive",
+      "state/model-policy.json: add directCallLocalModels section documenting think:false mandate",
+      "state/model-policy.json: update lastUpdated + lastApprovedBy metadata",
+      "scripts/: audit direct-call scripts and ensure think:false is injected for gemma4",
+      "scripts/: add comments noting CHG-0963 adoption in 2 priority scripts"
+    ],
+    "out_of_scope": [
+      "openclaw.json: NOT TOUCHED (gateway-mediated agent assignments unchanged)",
+      "scripts/vendor: NOT TOUCHED",
+      "scripts/plugins: NOT TOUCHED",
+      "gemma4:31b: NOT REMOVED",
+      "gemma4:latest: NOT REMOVED",
+      "OLLAMA_NUM_PARALLEL: KEPT AT DEFAULT 1"
+    ]
+  },
+  "model_policy_changes": {
+    "file": "state/model-policy.json",
+    "diff_summary": [
+      "lastUpdated: 2026-07-09T12:10:00+00:00 -> 2026-07-21T18:22:00+08:00",
+      "lastApprovedBy: 'Ken Mun (CHG-0855, 2026-07-09 22:10 AEST)' -> 'Ken Mun (CHG-0963, 2026-07-21 18:22 MYT)'",
+      "globalProhibitedInInteractive: removed 'ollama/gemma4:26b' (only 'ollama/gemma4:e2b' remains)",
+      "ADDED: directCallLocalModels section (description, approvedModels[0], blockedInGateway, preservedModels, operationalConstraints, linkedTickets, linkedChanges)"
+    ],
+    "json_valid": true,
+    "agent_tier_assignments_changed": false,
+    "openclaw_json_referenced_in_policy": false
+  },
+  "script_changes": [
+    {
+      "script": "scripts/crest-v1.3-judgment-benchmark.sh",
+      "model_before": "gemma4:31b-cloud",
+      "model_after": "gemma4:31b-cloud (UNCHANGED — quality-gate benchmark, NEEDS_KEN before swap)",
+      "think_false_status": "ALREADY INJECTED (TKT-1017 / CHG-0956 patch) — verified by re-run: 20/20 (1.00) score",
+      "changes_made": "Added documentation comment explaining why model is intentionally kept at 31b for the Verify-judge quality gate",
+      "verification": "End-to-end run completed: 20/20 atoms judged correctly, HTTP 200, no empty responses, exit 0. Result file: state/crest-v1.3-judgment-benchmark.json"
+    },
+    {
+      "script": "scripts/context-summarize.sh",
+      "model_before": "deepseek-v4-flash:cloud (default); gemma4* supported via --model override",
+      "model_after": "deepseek-v4-flash:cloud (UNCHANGED default); gemma4:26b is now the preferred gemma4 direct-call model via --model",
+      "think_false_status": "ALREADY INJECTED via THINK_FIELD case (TKT-1017 / CHG-0956 patch) — verified by re-run",
+      "changes_made": "Added comment noting gemma4:26b is now approved direct-call model per CHG-0963",
+      "verification": "End-to-end run with --model gemma4:26b --force --enforce --trigger 10: returned clean [SUMMARY] response, exit 0"
+    }
+  ],
+  "scripts_audited_no_change_needed": [
+    {
+      "script": "scripts/gemma4-benchmark.sh",
+      "rationale": "Research benchmark, not governance/qa. Uses 'ollama run' CLI (no /api/generate direct body control). Out of scope for CHG-0963."
+    },
+    {
+      "script": "scripts/qwen3-benchmark.sh",
+      "rationale": "qwen3 model, not gemma4. Out of scope."
+    },
+    {
+      "script": "scripts/phase5-benchmark.sh",
+      "rationale": "Tests kimi/glm/qwen3.5. Out of scope."
+    },
+    {
+      "script": "scripts/auto-heal.sh, context-budget.sh, cost-tracker.sh, flash-dispatcher.sh, latency-tracker.sh, model-policy-upsert.sh, ollama-quota-track.sh, route-model.sh, spawn-with-routing.sh, standup-composer.sh, switch-model-temporary.sh, warden-cron.sh, outage-detect.sh, outage-handler.sh, validate-fallback-chain.sh, shield-check.sh, run-diagnostics.sh, sync-model-context.sh, health-check.sh, pvt.sh, model-drift-check.sh, check-model-policy-drift.sh, delegate-gemma4.sh",
+      "rationale": "All reference gemma4 in config-only or string-compare contexts. None call /api/generate or /api/chat directly. Out of scope."
+    }
+  ],
+  "verification": {
+    "model_policy_json": {
+      "tool": "jq",
+      "result": "VALID"
+    },
+    "ollama_api_smoke_test": {
+      "tool": "curl http://localhost:11434/api/generate + /api/chat",
+      "model": "gemma4:26b",
+      "test": "Say PONG with think:false",
+      "result": {
+        "api_generate": {"response": "PONG", "done_reason": "stop", "error": ""},
+        "api_chat": {"content": "PONG", "error": ""}
+      }
+    },
+    "crest_v1_3_benchmark_run": {
+      "tool": "scripts/crest-v1.3-judgment-benchmark.sh",
+      "model": "gemma4:31b-cloud (kept as quality gate)",
+      "score": "20/20 (1.00)",
+      "passed": true,
+      "non_empty_responses": 20,
+      "http_200_responses": 20,
+      "errors": 0,
+      "result_file": "state/crest-v1.3-judgment-benchmark.json"
+    },
+    "context_summarize_run": {
+      "tool": "scripts/context-summarize.sh",
+      "model": "gemma4:26b",
+      "test_input": "lorem-ipsum paragraph (forced via --force --enforce --trigger 10)",
+      "output": "[SUMMARY] No key decisions, facts, action items, dates, names, or TODOs were identified in the provided text.",
+      "non_empty_response": true,
+      "exit_code": 0
+    },
+    "ollama_ps_after_run": {
+      "gemma4:26b": {"size_gb": 18, "processor": "100% GPU", "context": 262144, "status": "loaded and working"}
+    },
+    "model_drift_check": {
+      "tool": "scripts/model-drift-check.sh",
+      "new_violations_introduced": 0,
+      "pre_existing_violations": 4,
+      "any_gemma4_26b_violation": false
+    }
+  },
+  "safety_constraints_check": {
+    "openclaw_json_modified": false,
+    "vendor_plugin_code_modified": false,
+    "gemma4_31b_removed": false,
+    "gemma4_latest_removed": false,
+    "OLLAMA_NUM_PARALLEL_changed": false
+  },
+  "needs_ken": [
+    {
+      "id": "NEEDS-KEN-CREST-BENCHMARK-26B",
+      "question": "Should scripts/crest-v1.3-judgment-benchmark.sh be re-tested on gemma4:26b before considering a model swap?",
+      "context": "Benchmark currently uses gemma4:31b-cloud (stronger model). CHG-0963 lists gemma4:26b as approved direct-call model, but this benchmark is a quality-gate test, not a hot path. 26b has not been measured against this specific 20-atom threshold (>=90%).",
+      "recommendation": "Run `MODEL=gemma4:26b bash scripts/crest-v1.3-judgment-benchmark.sh` ad-hoc. If 26b clears >=90% (18/20), consider swapping. Otherwise keep 31b."
+    }
+  ],
+  "rollout_status": "complete",
+  "rollback_command": "git -C /Users/ainchorsoc2a/.openclaw/workspace checkout state/model-policy.json scripts/crest-v1.3-judgment-benchmark.sh scripts/context-summarize.sh"
+}

@@ -1,8 +1,8 @@
 {
   "schema_version": "3.0",
   "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-07-09T12:10:00+00:00",
-  "lastApprovedBy": "Ken Mun (CHG-0855, 2026-07-09 22:10 AEST)",
+  "lastUpdated": "2026-07-21T18:22:00+08:00",
+  "lastApprovedBy": "Ken Mun (CHG-0963, 2026-07-21 18:22 MYT)",
   "approvalContext": "CHG-0812: Add defaultPolicy section reconciling Warden default primary expectation with live openclaw.json agents.defaults.model.primary (ollama/kimi-k2.7-code:cloud). Fix fallback-chain self-comparison bug in model-drift-check.sh. Clear stale Warden escalation.",
   "permanent": true,
   "interimPeriod": false,
@@ -18,9 +18,48 @@
     "ollama/glm-5.2:cloud"
   ],
   "globalProhibitedInInteractive": [
-    "ollama/gemma4:e2b",
-    "ollama/gemma4:26b"
+    "ollama/gemma4:e2b"
   ],
+  "directCallLocalModels": {
+    "description": "Models approved for direct Ollama /api/generate and /api/chat calls (bypassing OpenClaw gateway plugin). CHG-0963 — adopt gemma4:26b as OC2A local default for direct-call sites only. Gateway-mediated use via OpenClaw plugin remains BLOCKED until upstream fixes the gemma4 family thinking=true default.",
+    "approvedModels": [
+      {
+        "canonicalName": "ollama/gemma4:26b",
+        "endpoints": ["/api/generate", "/api/chat"],
+        "useScope": "Direct Ollama calls from workspace scripts (CREST Verify judges, context-summarize.sh, governance/QA direct-call scripts) only. NOT gateway-mediated agent sessions.",
+        "mandatoryRequestOptions": {
+          "think": false,
+          "thinkLocation": "top-level body (NOT inside options)",
+          "rationale": "TKT-1017/CHG-0956: gemma4 family (Ollama 0.32.1) defaults thinking=true; chain-of-thought tokens consume num_predict budget and produce empty response with done_reason=length. Top-level think:false disables thinking entirely."
+        },
+        "performance": {
+          "tpsEvalMean": 58.6,
+          "tpsShortMean": 60.5,
+          "coldLoadMs": 9492,
+          "warmLoadMs": 265,
+          "concurrentTested": 2,
+          "sourceReport": "state/gemma4-26b-final-verification-2026-07-21.json"
+        }
+      }
+    ],
+    "blockedInGateway": {
+      "rationale": "OpenClaw plugin does not inject top-level think:false for gemma4 family models, so gateway-mediated invocations still produce empty responses. Direct scripts can control the request body. Will be re-evaluated when upstream plugin fix lands.",
+      "approvedBy": "Ken Mun (CHG-0963, 2026-07-21 18:22 MYT)"
+    },
+    "preservedModels": {
+      "rationale": "gemma4:31b and gemma4:latest remain available for ad-hoc / fallback use. Neither removed nor deprecated by CHG-0963.",
+      "models": [
+        "ollama/gemma4:31b",
+        "ollama/gemma4:latest"
+      ]
+    },
+    "operationalConstraints": {
+      "OLLAMA_NUM_PARALLEL": 1,
+      "rationale": "Keep at default 1 — TKT-1023 verified gemma4:26b is stable at single-parallel. Higher parallelism not yet validated for 17 GB MoE on 48 GB host."
+    },
+    "linkedTickets": ["TKT-1023", "TKT-1024"],
+    "linkedChanges": ["CHG-0962", "CHG-0963"]
+  },
   "agentTiers": {
     "userFacing": {
       "description": "Agents that interact directly with humans (Ken, Angie) via webchat or Telegram.",

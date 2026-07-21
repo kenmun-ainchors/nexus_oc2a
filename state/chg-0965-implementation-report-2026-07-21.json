@@ -1,0 +1,113 @@
+{
+  "change": "CHG-0965",
+  "ticket": "TKT-1025",
+  "title": "Swap CREST v1.3 judgment benchmark default to gemma4:26b",
+  "implementation_report_at": "2026-07-21T19:53:00+08:00",
+  "implemented_by": "Forge (subagent, dispatched by Yoda per CREST Execute routing)",
+  "approved_by": "Ken Mun at 2026-07-21 19:46 MYT (swap_approved_at metadata in TKT-1024)",
+  "approval_keyword": "SWAP",
+  "precedent": "CHG-0963 / TKT-1024 — directCallLocalModels policy, ad-hoc 20/20 vs 20/20 comparison (state/gemma4-26b-vs-31b-crest-benchmark-2026-07-21.json)",
+  "scope": {
+    "in_scope": [
+      "scripts/crest-v1.3-judgment-benchmark.sh: change default MODEL line from gemma4:31b-cloud to gemma4:26b",
+      "scripts/crest-v1.3-judgment-benchmark.sh: update header comment to reflect new default, cite 2026-07-21 ad-hoc comparison evidence, preserve think:false (TKT-1017/CHG-0956) and env var override capability"
+    ],
+    "out_of_scope": [
+      "openclaw.json: NOT TOUCHED (gateway-mediated agent assignments unchanged; mtime is not ours)",
+      "scripts/vendor, scripts/plugins: NOT TOUCHED",
+      "gemma4:31b: NOT REMOVED (still in ollama list)",
+      "gemma4:latest: NOT REMOVED (still in ollama list)",
+      "OLLAMA_NUM_PARALLEL: KEPT AT DEFAULT 1 (env unset, no change)"
+    ]
+  },
+  "script_changes": [
+    {
+      "script": "scripts/crest-v1.3-judgment-benchmark.sh",
+      "model_before": "gemma4:31b-cloud",
+      "model_after": "gemma4:26b",
+      "header_comment_before": "CHG-0963 / TKT-1024: default kept at gemma4:31b-cloud intentionally...NEEDS_KEN: confirm whether to retest on 26b before any swap.",
+      "header_comment_after": "CHG-0965 / TKT-1025: default model swapped to gemma4:26b. Ad-hoc comparison showed gemma4:26b matches gemma4:31b-cloud 20/20 and is ~5x faster with lower jitter. think:false injection remains (TKT-1017/CHG-0956). MODEL and RESULT_FILE env vars still work for ad-hoc comparisons.",
+      "think_false_status": "PRESERVED (TKT-1017 / CHG-0956) — verified by syntax check and re-run; 20/20 score confirms think:false is still effective on gemma4:26b",
+      "env_var_override_preserved": "MODEL and RESULT_FILE still honor env var overrides; override MODEL=gemma4:31b-cloud still works for cloud-baseline regression checks",
+      "diff_summary": [
+        "MODEL default: 'gemma4:31b-cloud' -> 'gemma4:26b'",
+        "header comment block: replaced (added CHG-0965/TKT-1025 context, evidence citation, 20/20 score, speedup/jitter numbers, swap approval note, override example)"
+      ]
+    }
+  ],
+  "verification": {
+    "syntax_check": {
+      "tool": "bash -n scripts/crest-v1.3-judgment-benchmark.sh",
+      "result": "SYNTAX_OK (exit 0)"
+    },
+    "benchmark_run": {
+      "tool": "bash scripts/crest-v1.3-judgment-benchmark.sh",
+      "model": "gemma4:26b",
+      "score": "20/20 (1.00)",
+      "passed_threshold_0_90": true,
+      "atoms_count": 20,
+      "non_empty_responses": 20,
+      "empty_response_count": 0,
+      "error_count": 0,
+      "oom_or_error": false,
+      "wall_clock_sec": 37,
+      "result_file": "state/crest-v1.3-judgment-benchmark.json",
+      "result_file_model_field": "gemma4:26b",
+      "result_file_timestamp": "2026-07-21T19:50:47+08:00",
+      "per_atom_match": "20/20 (P01-P10 all pass; F01-F10 all fail)",
+      "backup_of_pre_swap_result": "state/crest-v1.3-judgment-benchmark.json.pre-chg0965 (4726 bytes, mtime 19:50)"
+    },
+    "ollama_ps_after_run": {
+      "gemma4:26b": "loaded, 18.1 GB VRAM, 262144 context"
+    },
+    "model_presence_check": {
+      "gemma4:26b": "present",
+      "gemma4:31b": "present",
+      "gemma4:latest": "present"
+    },
+    "ollama_num_parallel": {
+      "env_value": "<unset>",
+      "effective_value": 1,
+      "changed": false
+    }
+  },
+  "safety_constraints_check": {
+    "openclaw_json_modified": false,
+    "vendor_plugin_code_modified": false,
+    "gemma4_31b_removed": false,
+    "gemma4_latest_removed": false,
+    "OLLAMA_NUM_PARALLEL_changed": false,
+    "state_model_policy_json_modified": false,
+    "state_model_policy_json_mtime": "2026-07-21 18:24:07 (pre-task; not modified by us)"
+  },
+  "comparison_summary": {
+    "baseline_31b_cloud": "20/20 in 122.53s, jitter 31.23s (state/gemma4-26b-vs-31b-crest-benchmark-2026-07-21.json)",
+    "new_default_26b_re_run": "20/20 in 37s wall-clock, jitter 1.98s (this run, 2026-07-21T19:50:47+08:00)",
+    "score_delta": 0,
+    "speedup_vs_baseline_run": "3.3x wall-clock (37s vs 122.53s); ad-hoc data showed 4.97x (24.64s vs 122.53s) — variance from cold-warm load state and shared ollama server load",
+    "jitter_26b_max_minus_min_sec": 1.98,
+    "jitter_31b_cloud_max_minus_min_sec": 31.23
+  },
+  "ticket_status": {
+    "TKT-1025": "done (updated via scripts/run-pg-ticket.sh db-ticket update; PG-FIRST WRITE GATE compliant)",
+    "metadata_fields_added": [
+      "completed_at",
+      "completed_by",
+      "changeref",
+      "implementation",
+      "verification",
+      "safety_constraints",
+      "comparison_summary",
+      "rollout_status",
+      "rollback_plan"
+    ]
+  },
+  "changelog_record": {
+    "file": "memory/CHANGELOG.md",
+    "chg_id": "CHG-0965",
+    "pre_existing_entry": "Added by Yoda at 2026-07-21 19:47 MYT (placeholder; implementation now complete)",
+    "verification_appendix": "This implementation report supersedes/extends the pre-existing CHG-0965 changelog entry with actual run results."
+  },
+  "rollout_status": "complete",
+  "rollback_command": "git -C /Users/ainchorsoc2a/.openclaw/workspace checkout scripts/crest-v1.3-judgment-benchmark.sh && cp state/crest-v1.3-judgment-benchmark.json.pre-chg0965 state/crest-v1.3-judgment-benchmark.json"
+}

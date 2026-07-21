@@ -1,3 +1,184 @@
+## 2026-07-21 19:47 MYT — [CHG-0965] Swap CREST v1.3 judgment benchmark default to gemma4:26b
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved NEEDS_KEN item from CHG-0963 / TKT-1024 after ad-hoc benchmark comparison showed gemma4:26b matches gemma4:31b-cloud 20/20 and is ~5x faster
+**What changed:** scripts/crest-v1.3-judgment-benchmark.sh default MODEL changed from gemma4:31b-cloud to gemma4:26b; header comment updated to cite 2026-07-21 ad-hoc comparison evidence
+**Why:** gemma4:26b is local-only, faster, more consistent (jitter 1.98s vs 31.23s), and clears the Verify-judge 90% threshold
+**Verification:** state/gemma4-26b-vs-31b-crest-benchmark-2026-07-21.json: baseline gemma4:31b-cloud 20/20, candidate gemma4:26b 20/20, zero empty responses/errors, no OOMs
+**Rollback:** git checkout HEAD -- scripts/crest-v1.3-judgment-benchmark.sh or revert the MODEL line to gemma4:31b-cloud
+**Linked:** CHG-0963,TKT-1024,TKT-1023
+**Implementation verified (2026-07-21 19:53 MYT, Forge via Yoda dispatch):** Re-ran `bash scripts/crest-v1.3-judgment-benchmark.sh` after the swap — gemma4:26b scored 20/20 (1.00), zero empty responses, zero errors, no OOMs, wall-clock 37s. `bash -n` syntax check: OK. Result file state/crest-v1.3-judgment-benchmark.json updated with model=gemma4:26b (jq verified). Pre-swap result preserved at state/crest-v1.3-judgment-benchmark.json.pre-chg0965. TKT-1025 status -> done. Implementation report: state/chg-0965-implementation-report-2026-07-21.json. Safety constraints all clear: openclaw.json untouched, vendor/plugins untouched, gemma4:31b and gemma4:latest both still present, OLLAMA_NUM_PARALLEL unchanged at 1, state/model-policy.json mtime unchanged (Jul 21 18:24, pre-task).
+---
+
+## 2026-07-21 18:29 MYT — [CHG-0964] CHG-0963 implementation — gemma4:26b adopted for OC2A direct Ollama calls
+**Type:** config
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Ken approved CHG-0963 implementation plan at 2026-07-21 18:22 MYT; CREST Execute phase dispatched to Forge (subagent)
+**What changed:** state/model-policy.json: removed ollama/gemma4:26b from globalProhibitedInInteractive; added directCallLocalModels section with mandatory think:false on top-level body; updated lastUpdated/lastApprovedBy. scripts/crest-v1.3-judgment-benchmark.sh: documentation comment (model kept at gemma4:31b-cloud intentionally — quality gate). scripts/context-summarize.sh: documentation comment noting gemma4:26b approved. openclaw.json UNCHANGED. agent tier primary/fallback/exception assignments UNCHANGED.
+**Why:** TKT-1023 proved gemma4:26b is GO locally (25/25 tests, 58.6 t/s, 0 empty responses with think:false). CHG-0963 operationalizes gemma4:26b for direct Ollama call sites only; gateway-mediated use remains blocked until upstream plugin fix.
+**Verification:** TKT-1024 metadata update. End-to-end runs: crest-v1.3-judgment-benchmark.sh 20/20 (1.00) on gemma4:31b-cloud; context-summarize.sh clean [SUMMARY] on gemma4:26b. ollama ps confirms gemma4:26b loaded. model-drift-check.sh shows 0 new violations introduced. openclaw.json mtime unchanged (Jul 20 16:42, pre-task). OLLAMA_NUM_PARALLEL unchanged at 1.
+**Rollback:** git -C /Users/ainchorsoc2a/.openclaw/workspace checkout state/model-policy.json scripts/crest-v1.3-judgment-benchmark.sh scripts/context-summarize.sh
+**Linked:** TKT-1024,TKT-1023,CHG-0962
+---
+
+## 2026-07-21 17:52 MYT — [CHG-0963] Adopt gemma4:26b as OC2A local default for direct Ollama call sites
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved CHG-0963 adoption at 2026-07-21 17:51 MYT after TKT-1023 GO verdict
+**What changed:** state/model-policy.json: remove ollama/gemma4:26b from globalProhibitedInInteractive; add direct-call policy section documenting mandatory think:false. Direct-call scripts to be reviewed/updated by Forge. openclaw.json gateway-mediated agent assignments unchanged.
+**Why:** TKT-1023 proved gemma4:26b is GO locally with think:false. Need policy alignment for controlled operationalization without touching OpenClaw gateway plugin.
+**Verification:** TKT-1023 report: state/gemma4-26b-final-verification-2026-07-21.json — 25/25 tests, 58.6 t/s, no OOM, no empty responses
+**Rollback:** Restore state/model-policy.json from git/backup; revert any script changes via Forge
+**Linked:** TKT-1024,TKT-1023,CHG-0959
+---
+
+## 2026-07-21 17:17 MYT — [CHG-0962] Final verification of gemma4:26b local model before operationalization
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed removal of all Qwen local models and expanded verification testing of gemma4:26b before operationalization planning
+**What changed:** Created TKT-1023; qwen3:30b removed from OC2A; gemma4:26b confirmed persistent; expanded verification test to run
+**Why:** Need reliable evidence that gemma4:26b works across prompt types/contexts with think:false before committing to operational roles
+**Verification:** Ollama list confirms gemma4:26b present; qwen3:30b deleted
+**Rollback:** Re-pull qwen3:30b if needed; no config changes made
+**Linked:** TKT-1023,TKT-1014,TKT-1016,TKT-1018
+---
+
+## 2026-07-21 15:11 MYT — [CHG-0961] OC2A local qwen3:30b capacity and comparison test vs gemma4:26b
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken decided qwen3:32b is not viable and requested removal, then approved qwen3:30b (MoE) capacity/comparison test at 2026-07-21 15:11 MYT.
+**What changed:** Remove qwen3:32b from local Ollama to reclaim disk. Pull qwen3:30b (MoE 30B-A3B) to OC2A and run capacity/performance test using TKT-1014 protocol. Compare short/verify/long/concurrent throughput, memory footprint, load time, and disk usage against gemma4:26b. Apply top-level think:false for Qwen3 family. Report to state/qwen3-30b-capacity-test-2026-07-21.json. Update TKT-1022.
+**Why:** qwen3:32b dense was 5x slower and used 31GB GPU memory. The MoE qwen3:30b may offer better efficiency while retaining quality, making it worth evaluating before abandoning Qwen3 entirely.
+**Verification:** TKT-1022 created and linked. Forge will execute removal + test and report.
+**Rollback:** N/A
+**Linked:** TKT-1022
+---
+
+## 2026-07-21 14:43 MYT — [CHG-0960] OC2A local qwen3:32b capacity and comparison test vs gemma4:26b
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved at 2026-07-21 14:42 MYT to test qwen3:32b as an alternative local model to gemma4:26b after deciding not to patch OpenClaw vendor code.
+**What changed:** Pull qwen3:32b to OC2A and run a capacity/performance test using the same protocol as TKT-1014 (gemma4:26b). Compare short/verify/long/concurrent throughput, memory footprint, load time, and disk usage. Test with thinking disabled if empty responses appear. Report to state/qwen3-32b-capacity-test-2026-07-21.json. Update TKT-1021.
+**Why:** We need a proven local model that can be slotted into production once the gateway-level thinking issue is resolved upstream. qwen3:32b is a dense 32B model and a direct capability match to gemma4:26b.
+**Verification:** TKT-1021 created and linked. Forge subagent will execute the test and report.
+**Rollback:** N/A
+**Linked:** TKT-1021
+---
+
+## 2026-07-21 12:25 MYT — [CHG-0959] Adopt gemma4:26b as local CREST Verify primary model
+**Type:** infra
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** TKT-1018 rerun with think:false confirmed gemma4:26b is ~5x faster than gemma4:31b (57 t/s vs 11.5 t/s) and uses 35% less resident memory (17 GB vs 22 GB). 31B is GO-WITH-CAVEATS as secondary only.
+**What changed:** Update state/model-policy.json: set t2Governance.primary and requiredPrimary for security/legal/warden/qa to ollama/gemma4:26b; add gemma4:31b as fallback; remove gemma4:26b from globalProhibitedInInteractive. Update openclaw.json to match t2Governance agent model assignments. Update Warden baseline and any model-drift checks. Update TKT-1020.
+**Why:** The current primary ollama/gemma4:31b-cloud was chosen before the empty-response bug and performance data were known. With the think:false fix, 31B is viable only as secondary because it is 5x slower and consumes 46% of 48GB RAM when loaded. 26B provides the best balance of capability, speed, and capacity on OC2A.
+**Verification:** TKT-1020 created. Awaiting Ken approval before updating model-policy.json and openclaw.json.
+**Rollback:** N/A
+**Linked:** TKT-1020
+---
+
+## 2026-07-21 12:19 MYT — [CHG-0958] Patch OpenClaw Ollama provider plugin to inject think:false for gemma4 family
+**Type:** infra
+**Change Type:** Normal
+**Source:** manual
+**Trigger:** Forge surfaced during TKT-1017 that the OpenClaw Ollama provider plugin (bundled vendor code) does not inject think:false for gemma4 models, leaving the gateway runtime exposed to the empty-response bug (TKT-1016).
+**What changed:** Modify ~/local/lib/node_modules/openclaw/dist/extensions/ollama/index.js (or non-minified source equivalent) to detect gemma4 family models and add think:false to /api/generate and /api/chat request bodies. Alternatively, escalate upstream to OpenClaw maintainers and pin a patched version. Update TKT-1019.
+**Why:** Without this, any OpenClaw agent or cron invoking gemma4 through the gateway (e.g., CREST Verify with ollama/gemma4:31b-cloud) will receive empty responses, making the local gemma4 models unusable in production.
+**Verification:** TKT-1019 created. Awaiting Ken approval before modifying vendor code or escalating upstream.
+**Rollback:** N/A
+**Linked:** TKT-1019
+---
+
+## 2026-07-21 12:07 MYT — [CHG-0957] Rerun gemma4:31b comparison with think:false fix
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved rerunning the gemma4:31b comparison at 2026-07-21 12:06 MYT to confirm the empty-response fix (think:false) works and to reassess 31B performance under the correct configuration.
+**What changed:** Re-run the TKT-1015 capacity/comparison test protocol with think:false applied to every /api/generate request. Validate empty-response defect is resolved, collect fresh throughput metrics, and produce a side-by-side comparison with TKT-1014 gemma4:26b results. Report to state/gemma4-31b-comparison-rerun-2026-07-21.json. Update TKT-1018.
+**Why:** The original TKT-1015 comparison measured broken responses due to Ollama thinking=true. With think:false, 31B may be viable for production. The rerun provides the real performance/capacity data needed to choose between 26B and 31B.
+**Verification:** TKT-1018 created and linked. Forge subagent will execute the rerun and report.
+**Rollback:** N/A
+**Linked:** TKT-1018
+---
+
+## 2026-07-21 12:07 MYT — [CHG-0956] Patch Ollama callers with think:false for gemma4 family
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved caller-side patching at 2026-07-21 12:06 MYT after the empty-response investigation (TKT-1016 / CHG-0955) found Ollama 0.32.1 enables thinking=true by default for gemma4, causing empty visible responses.
+**What changed:** Identify all scripts and callers in the workspace that invoke Ollama /api/generate or /api/chat for the gemma4 model family, and patch them to add think:false to the request body. Cover gemma4, gemma4:latest, gemma4:8b/12b/26b/31b and any future variants. Run a smoke test after patching. Update TKT-1017. No model policy changes yet.
+**Why:** Without think:false, all gemma4 calls return empty responses, making the models unusable for production. This is a required fix before any gemma4 model can be used as CREST Verify primary or in crons.
+**Verification:** TKT-1017 created and linked. Forge subagent will execute the patch and report.
+**Rollback:** N/A
+**Linked:** TKT-1017
+---
+
+## 2026-07-21 11:40 MYT — [CHG-0955] Investigate gemma4:31b empty-response bug on OC2A Ollama
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved empty-response bug investigation at 2026-07-21 11:39 MYT, following gemma4:31b comparison test (TKT-1015 / CHG-0954) which found every /api/generate call to gemma4:31b returned an empty response despite eval_count > 0.
+**What changed:** Reproduce and root-cause the gemma4:31b empty-response defect on Ollama 0.32.1 / OC2A. Test: stream vs non-stream, num_predict/temperature options, CLI vs API, re-pull, Ollama logs, and comparison with gemma4:26b under identical parameters. Search for known Ollama/gemma4 issues. Recommend fix path (re-pull, different quant, Ollama upgrade, or do not use). Update TKT-1016. No production model policy changes until root cause is confirmed.
+**Why:** gemma4:31b is the current CREST Verify primary model tag; the empty-response defect makes it unusable. Before routing production traffic to 31B, we need a fix or a decision to use 26B instead.
+**Verification:** TKT-1016 created and linked. Forge subagent will execute investigation and report findings.
+**Rollback:** N/A
+**Linked:** TKT-1016
+---
+
+## 2026-07-21 10:56 MYT — [CHG-0954] OC2A local gemma4:31b comparison capacity test
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved gemma4:31b comparison at 2026-07-21 10:55 MYT, following successful gemma4:26b GO result (TKT-1014 / CHG-0953).
+**What changed:** Pull gemma4:31b into local Ollama on OC2A. Re-run the same structured capacity test as TKT-1014: baseline metrics, pull time/disk, model load, short/medium/long-context benchmarks, concurrent load, unload/recovery. Write report to state/gemma4-31b-capacity-test-2026-07-21.json with direct comparison to TKT-1014 results. No OpenClaw policy or routing changes until comparison reviewed.
+**Why:** Need head-to-head data between gemma4:26b and gemma4:31b before selecting the local production model. 31b is the current CREST Verify primary tag; empirical capacity numbers are required.
+**Verification:** TKT-1015 created and linked. Forge subagent will execute test and report metrics.
+**Rollback:** N/A
+**Linked:** TKT-1015
+---
+
+## 2026-07-21 10:24 MYT — [CHG-0953] OC2A local gemma4:26b capacity and performance test
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved testing Option C from local gemma4 options brief (telegram 2026-07-21 10:24 MYT). Goal: measure OC2A ability to host gemma4:26b locally.
+**What changed:** Pull gemma4:26b into local Ollama on OC2A. Run structured capacity test: pull time/disk, model load time, TTFT, tokens/sec, memory footprint, CPU/GPU utilisation, and stability under CREST Verify-like prompts. Update TKT-1014 with results. No OpenClaw model policy or agent routing changes until results reviewed.
+**Why:** Before committing to local gemma4:26b/31b as a production model for Verify/governance, we need empirical data on OC2A capacity. This test does not alter live routing; it only pulls weights and runs synthetic benchmarks.
+**Verification:** TKT-1014 created and linked. Forge subagent will execute test and report metrics.
+**Rollback:** N/A
+**Linked:** TKT-1014
+---
+
+## 2026-07-21 10:05 MYT — [CHG-0952] file-size-guard.sh reads state/file-contracts.json dynamically
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-1013-NEEDS-1: auto-heal kept flagging registered live contracts as untracked and the injectable root .md cap was breached (62,817/60,000)
+**What changed:** scripts/file-size-guard.sh now loads state/file-contracts.json and adds registered workspace-root .md files to the tracked set. Audience field is used to distinguish injected context (counts toward 60K cap) vs non-injected reference files (exempt, like RULES.md/DREAMS.md). CHG-0876/0877/0898/0928 are now tracked and exempt because their audience is Forge/code-review reference, not session injection.
+**Why:** Hardcoded CRITICAL_FILES list was out of sync with the contract registry; registering files had no effect. The cap is meant to limit injected context, so reference-only contracts should not count toward it.
+**Verification:** bash -n scripts/file-size-guard.sh passes. zsh scripts/file-size-guard.sh --root reports no untracked files and injectable total 35638/60000 chars (59%). TKT-1013 status set to done, needs_ken=[].
+**Rollback:** N/A
+**Linked:** TKT-1013,CHG-0951
+---
+
+## 2026-07-21 08:42 MYT — [CHG-0951] Platform hygiene sweep — auto-heal findings 2026-07-21
+**Type:** infra
+**Change Type:** Normal
+**Source:** auto-heal
+**Trigger:** auto-heal nightly sweep 2026-07-21 surfaced 3 issues + 5 needs-Ken items; Ken requested consolidation into one executable CHG
+**What changed:** Consolidated package: (1) gateway config hash drift — run gateway-config-snapshot.sh and review diff; (2) 1 tilde-path violation in state/cron-d1c03b59.pre-chg0945.json — run auto-heal --enforce to block; (3) 5 untracked contract .md files in workspace root (CHG-0875/0876/0877/0898/0928) — move to docs/archive/ or register; (4) migration advisor flagged 26 crons for multi-vendor review — assess tier 1 candidates; (5) sandbox boundary audit stale (263h) — re-run. Captured in TKT-1013.
+**Why:** Auto-heal surfaces low-severity hygiene items nightly; without a consolidated change task they are reviewed ad-hoc and drift. Bundling into CHG-0951 + TKT-1013 gives a single execution thread, acceptance criteria, and closure gate.
+**Verification:** Auto-heal state file reviewed (state/auto-heal-2026-07-21.json). TKT-1013 created in PG with full item list and AC.
+**Rollback:** N/A
+**Linked:** TKT-1013
+---
+
 ## 2026-07-21 07:17 MYT — [CHG-0950] TKT-1012: Remove auto-heal CHECK 25b live gateway restart (self-kill fix)
 **Type:** script
 **Change Type:** Normal
