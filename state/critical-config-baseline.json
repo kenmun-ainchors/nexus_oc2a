@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "lastSnapshot": "2026-07-18T20:00:02Z",
-  "lastSnapshotLocal": "2026-07-19T04:00:02+0800",
+  "lastSnapshot": "2026-07-21T01:08:57Z",
+  "lastSnapshotLocal": "2026-07-21T09:08:57+0800",
   "openclawVersion": "2026.7.1",
-  "configHash": "b54a042e0862e58bcebbebf1cc21b942a96e365ab81cf12f167061e315085784",
-  "agentCount": 15,
+  "configHash": "b552f424216f793fb08dba3c6921416383aa32acbb772dbd4d4a766454c9b2a2",
+  "agentCount": 14,
   "cronCount": "60",
   "pgTables": "49",
   "gatewayStatus": "live",
@@ -29,7 +29,6 @@
     "legal": "ollama/gemma4:31b-cloud",
     "qa": "ollama/gemma4:31b-cloud",
     "governance": "ollama/gemma4:31b-cloud",
-    "luthen": "ollama/deepseek-v4-pro:cloud",
-    "foodie": "ollama/deepseek-v4-flash:cloud"
+    "luthen": "ollama/deepseek-v4-pro:cloud"
   }
 }

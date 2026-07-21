@@ -42,5 +42,49 @@
     "trigger_threshold": 102000,
     "success": "true",
     "truncated": false
+  },
+  {
+    "timestamp": "2026-07-21T04:16:31Z",
+    "model": "gemma4:31b",
+    "content_sha256": "5984191ef1cea955a1ec6a672cc4317f197aee7e066e4083bfd0988190cc7d61",
+    "input_tokens_est": 286,
+    "input_chars": 1147,
+    "output_chars": 102,
+    "trigger_threshold": 10,
+    "success": "true",
+    "truncated": true
+  },
+  {
+    "timestamp": "2026-07-21T04:16:41Z",
+    "model": "deepseek-v4-flash:cloud",
+    "content_sha256": "5984191ef1cea955a1ec6a672cc4317f197aee7e066e4083bfd0988190cc7d61",
+    "input_tokens_est": 286,
+    "input_chars": 1147,
+    "output_chars": 140,
+    "trigger_threshold": 10,
+    "success": "true",
+    "truncated": true
+  },
+  {
+    "timestamp": "2026-07-21T10:27:35Z",
+    "model": "gemma4:26b",
+    "content_sha256": "bfe557cc7f76314ef92a7f7d84ddd4ad9045f76eb22056f078f15a6ce5336ffd",
+    "input_tokens_est": 131,
+    "input_chars": 526,
+    "output_chars": 109,
+    "trigger_threshold": 10,
+    "success": "true",
+    "truncated": true
+  },
+  {
+    "timestamp": "2026-07-21T10:28:02Z",
+    "model": "gemma4:26b",
+    "content_sha256": "c9d04c9565fc665c80681fb1d829938026871f66e14f501e08531df66938a789",
+    "input_tokens_est": 1,
+    "input_chars": 4,
+    "output_chars": 47,
+    "trigger_threshold": 1,
+    "success": "true",
+    "truncated": false
   }
 ]

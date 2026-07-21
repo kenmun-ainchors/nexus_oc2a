@@ -3,7 +3,7 @@
   "description": "CHG Trigger Rules \u2014 Yoda monitors these and raises CHG+Telegram alert when triggered.",
   "lastUpdated": "2026-07-20T16:35:00+08:00",
   "lastUpdatedBy": "Forge (CHG-0944 correction, on behalf of Yoda)",
-  "changeNote": "CHG-0944 correction: TRIGGER-18 restored to its original approved content (Spark: LinkedIn Stability Arc Post, TKT-0177, approved 2026-05-15) — the prior Forge subagent had overwrote it and falsely claimed Ken approved the repurposing. The OC1 reachability trigger is now TRIGGER-19, carrying the content that was wrongly placed in TRIGGER-18, with no approval fields (new triggers do not require approval unless Ken explicitly adds them).",
+  "changeNote": "CHG-0944 correction: TRIGGER-18 restored to its original approved content (Spark: LinkedIn Stability Arc Post, TKT-0177, approved 2026-05-15) \u2014 the prior Forge subagent had overwrote it and falsely claimed Ken approved the repurposing. The OC1 reachability trigger is now TRIGGER-19, carrying the content that was wrongly placed in TRIGGER-18, with no approval fields (new triggers do not require approval unless Ken explicitly adds them).",
   "triggers": {
     "TRIGGER-01": {
       "name": "OC2 Arrival \u2014 Master Gate",
@@ -307,17 +307,17 @@
     "TRIGGER-18": {
       "name": "Spark: LinkedIn Stability Arc Post",
       "condition": "TKT-0177 closed",
-      "action": "Spark writes LinkedIn post on building production agentic AI platform — gateway stability, event loop saturation, diagnostic process.",
+      "action": "Spark writes LinkedIn post on building production agentic AI platform \u2014 gateway stability, event loop saturation, diagnostic process.",
       "status": "pending",
       "linkedTKT": "TKT-0177",
       "approvedBy": "Ken Mun",
       "approvedAt": "2026-05-15"
     },
     "TRIGGER-19": {
-      "name": "OC1 Reachability — Alignment Audit Gate",
+      "name": "OC1 Reachability \u2014 Alignment Audit Gate",
       "condition": "OC1 responds to Tailscale ping and SSH probe from OC2A",
-      "detection": "automated — cron runs scripts/check-oc1-reachable.sh every 30 min",
-      "action": "Yoda raises CHG for full OC1→OC2A alignment audit and alerts Ken",
+      "detection": "automated \u2014 cron runs scripts/check-oc1-reachable.sh every 30 min",
+      "action": "Yoda raises CHG for full OC1\u2192OC2A alignment audit and alerts Ken",
       "status": "pending",
       "firedAt": null,
       "linkedChgs": [

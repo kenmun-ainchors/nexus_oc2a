@@ -1,6 +1,9 @@
 {
-  "generatedAt": "2026-07-09T23:05:54Z",
-  "acknowledged": true,
+  "generatedAt": "2026-07-21T10:25:17Z",
+  "acknowledged": false,
   "source": "check-model-policy-drift.sh",
-  "alerts": []
+  "alerts": [
+    "regression test failed: test-consumer-consistency.sh",
+    "regression test failed: test-policy-consistency.sh"
+  ]
 }

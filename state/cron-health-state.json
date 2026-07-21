@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-07-21T00:01:34.713922+00:00",
+  "checkedAt": "2026-07-21T16:50:04.351373+00:00",
   "failures": [
     {
-      "cronId": "58e95c77",
-      "fullCronId": "58e95c77-599b-4e43-a334-4403e3786a87",
-      "name": "OC1 Reachability Probe (CHG-0944 / TRIGGER-18)",
-      "consecutiveErrors": 16,
+      "cronId": "a8127743",
+      "fullCronId": "a8127743-c05f-40da-9db7-6a37e3399677",
+      "name": "EOD Blog \u2014 ainchors-YYYY-MM-DD HTML (CHG-0927)",
+      "consecutiveErrors": 3,
       "lastError": "error",
       "source": "live-cron-state"
     }
