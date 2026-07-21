@@ -1,3 +1,15 @@
+## 2026-07-21 07:17 MYT — [CHG-0950] TKT-1012: Remove auto-heal CHECK 25b live gateway restart (self-kill fix)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-1012 (P1 bug): auto-heal cron e269d620 crashed 2026-07-21 01:00 MYT; CHECK 25b (CHG-0821 Phase 2) called launchctl bootout/bootstrap which restarted the gateway and killed the running auto-heal
+**What changed:** scripts/auto-heal.sh: removed the CHG-0821 Phase 2 auto-remediation block from CHECK 25b (~67 lines) — env-file rewrite + launchctl bootout + sleep + launchctl bootstrap + PID/NODE_OPTIONS re-read. Detection logic (PID/PPID/NODE_OPTIONS parse), state write to state/gateway-launch-state.json, and the mismatch branch are preserved. When a mismatch is detected, NEEDS_KEN is now appended unconditionally with a clear safe-manual-restart command and a comment explaining why live restart is disabled (TKT-1012 self-kill footgun). _REMEDIATION_OK / _ENV_CHANGED local vars removed (no longer meaningful).
+**Why:** Auto-heal crashed 2nd consecutive day (2026-07-21 01:00 MYT) on check 25b because its own remediation killed the gateway. Restoring the gateway from inside the script that depends on it is a self-kill footgun: the script loses its telegram alert, NEEDS_KEN summary, and state-write context mid-flight. Detection + alerting is the correct boundary for an auto-heal sweep; live restart belongs to a separate maintenance action or human-controlled helper.
+**Verification:** bash -n scripts/auto-heal.sh → SYNTAX_OK. grep for bootout/bootstrap inside CHECK 25b → 0 live calls (all in comments/NEEDS_KEN text). File line count: 3399 → 3360 (net -39 lines, matches ~67 lines removed + ~28 lines added). sandbox gateway bootout in CHECK 28c is untouched. No other checks, trap logic, or cron schedules modified.
+**Rollback:** git checkout HEAD -- scripts/auto-heal.sh (or restore from backup) and re-run auto-heal manually if rollback is needed; or apply the inverse edit. TKT-1012 will return to open.
+**Linked:** TKT-1012, TKT-0505-A5, CHG-0821
+---
+
 ## 2026-07-21 03:05 MYT — [CHG-0949] R01 Session Trajectory Tilde Sweep (CHG-0924)
 **Type:** cron
 **Change Type:** Normal

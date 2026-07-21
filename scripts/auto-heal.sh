@@ -1836,71 +1836,32 @@ PYEOF_INNER
       if [[ "$_GW_HAS_NODE_OPTS" != "yes" ]]; then
         REASON_ENV="env-wrapper expects NODE_OPTIONS=--max-old-space-size=6144 but process env shows: ${_GW_NODE_OPTS:-empty}. "
       fi
-      log "CHECK 25b: gateway env-wrapper MISMATCH - ${REASON_PARENT}${REASON_ENV}action: launchctl bootout + bootstrap (NOT openclaw gateway CLI). See state/gateway-launch-state.json."
+      log "CHECK 25b: gateway env-wrapper MISMATCH - ${REASON_PARENT}${REASON_ENV}action: alert-only (auto-restart disabled, see TKT-1012). State: state/gateway-launch-state.json."
 
-      # --- CHG-0821 Phase 2: auto-remediation block ---
-      EXPECTED_NODE_OPTIONS='--max-old-space-size=6144'
-      GW_ENV_FILE="$HOME/.openclaw/service-env/ai.openclaw.gateway.env"
-      GW_PLIST="/Users/ainchorsoc2a/Library/LaunchAgents/ai.openclaw.gateway.plist"
-      _REMEDIATION_OK="no"
-      _ENV_CHANGED="no"
-
-      if [[ -f "$GW_ENV_FILE" ]]; then
-        _ENV_CONTENT=$(cat "$GW_ENV_FILE")
-        if ! echo "$_ENV_CONTENT" | grep -q "NODE_OPTIONS.*${EXPECTED_NODE_OPTIONS}"; then
-          log "CHECK 25b: remediating env file — adding/updating NODE_OPTIONS=${EXPECTED_NODE_OPTIONS}"
-          # Strip any existing NODE_OPTIONS export line, then append the correct one
-          _ENV_CONTENT=$(echo "$_ENV_CONTENT" | grep -v '^export NODE_OPTIONS=')
-          if [[ -n "$_ENV_CONTENT" ]]; then
-            _ENV_CONTENT="${_ENV_CONTENT}
-"
-          fi
-          _ENV_CONTENT="${_ENV_CONTENT}export NODE_OPTIONS='${EXPECTED_NODE_OPTIONS}'"
-          printf '%s\n' "$_ENV_CONTENT" > "$GW_ENV_FILE"
-          log "CHECK 25b: env file updated at $GW_ENV_FILE"
-          _ENV_CHANGED="yes"
-        else
-          log "CHECK 25b: env file already has correct NODE_OPTIONS — no rewrite needed"
-        fi
-
-        if [[ "$_ENV_CHANGED" == "yes" ]]; then
-          # --- Attempt graceful gateway restart ---
-          log "CHECK 25b: attempting graceful gateway restart via launchctl..."
-          launchctl bootout gui/501/ai.openclaw.gateway 2>/dev/null || true
-          sleep 2
-          launchctl bootstrap gui/501 "$GW_PLIST"
-          sleep 3
-
-          # --- Re-read gateway PID and NODE_OPTIONS ---
-          _GW_PID_NEW=$(lsof -nP -iTCP:${PROD_PORT} -sTCP:LISTEN 2>/dev/null | grep -v COMMAND | head -1 | awk '{print $2}')
-          if [[ -n "$_GW_PID_NEW" ]]; then
-            _GW_NODE_OPTS_NEW=$(ps eww -p "$_GW_PID_NEW" 2>/dev/null | tr '\0' '\n' | python3 -c "
-import sys, re
-text = sys.stdin.read()
-m = re.search(r'NODE_OPTIONS=([^A-Z]*?)(?:[A-Z_][A-Z_0-9]*=|\Z)', text)
-if m:
-    print(m.group(1).strip())
-" 2>/dev/null)
-            if echo "$_GW_NODE_OPTS_NEW" | grep -q "max-old-space-size"; then
-              log "CHECK 25b: auto-remediation succeeded — gateway PID $_GW_PID_NEW has NODE_OPTIONS with max-old-space-size"
-              _REMEDIATION_OK="yes"
-            else
-              log "CHECK 25b: auto-remediation failed — restart completed but gateway PID $_GW_PID_NEW still missing NODE_OPTIONS=--max-old-space-size"
-            fi
-          else
-            log "CHECK 25b: auto-remediation failed — no gateway process listening on port $PROD_PORT after restart"
-          fi
-        else
-          log "CHECK 25b: env file already correct — skipping gateway restart"
-          # No env change and we are inside mismatch branch for other reasons (e.g. PPID); keep _REMEDIATION_OK="no" so NEEDS_KEN fires
-        fi
-      else
-        log "CHECK 25b: auto-remediation failed — env file $GW_ENV_FILE does not exist"
-      fi
-
-      if [[ "$_REMEDIATION_OK" != "yes" ]]; then
-        NEEDS_KEN+=("L-102: Gateway (PID $_GW_PID) env-wrapper INERT. ${REASON_PARENT}${REASON_ENV}Fix: ensure gateway is launchd-spawned. State: state/gateway-launch-state.json. (TKT-0505-A5.)")
-      fi
+      # --- TKT-1012: live gateway restart is DISABLED inside auto-heal ---
+      # Reason: auto-heal CHECK 25b (CHG-0821 Phase 2) used to call
+      #   launchctl bootout gui/501/ai.openclaw.gateway
+      #   launchctl bootstrap gui/501 "$GW_PLIST"
+      # which restarts the gateway and SIGKILLs the running auto-heal process
+      # (cron 01:00 Asia/Kuala_Lumpur 2026-07-21 crashed on check 25b; watchdog
+      # detected gateway down at 01:02:01 and restarted at 01:04:00). Restarting
+      # the gateway from inside the very script that depends on it (telegram
+      # alert, NEEDS_KEN summary, state write) is a self-kill footgun.
+      #
+      # The auto-remediation block (env-file rewrite + launchctl bootout/bootstrap
+      # + re-read) has been removed. Detection + state write + NEEDS_KEN alert
+      # are preserved. Safe manual restart command for Ken is included in the
+      # NEEDS_KEN line below.
+      #
+      # If the env file is missing or stale, Ken (or an out-of-band Forge task
+      # with explicit human approval) can fix it safely:
+      #   EXPECTED='--max-old-space-size=6144'
+      #   ENV_FILE="$HOME/.openclaw/service-env/ai.openclaw.gateway.env"
+      #   grep -q "NODE_OPTIONS.*${EXPECTED}" "$ENV_FILE" || \
+      #     printf "\nexport NODE_OPTIONS='%s'\n" "$EXPECTED" >> "$ENV_FILE"
+      #   launchctl bootout gui/501/ai.openclaw.gateway 2>/dev/null || true
+      #   launchctl bootstrap gui/501 "$HOME/Library/LaunchAgents/ai.openclaw.gateway.plist"
+      NEEDS_KEN+=("L-102: Gateway (PID $_GW_PID) env-wrapper INERT. ${REASON_PARENT}${REASON_ENV}Auto-restart is disabled inside auto-heal (TKT-1012, self-kill footgun). Safe manual fix: (1) ensure $HOME/.openclaw/service-env/ai.openclaw.gateway.env exports NODE_OPTIONS='--max-old-space-size=6144'; (2) launchctl bootout gui/501/ai.openclaw.gateway; (3) launchctl bootstrap gui/501 $HOME/Library/LaunchAgents/ai.openclaw.gateway.plist. Do NOT use 'openclaw gateway restart' for a launchd-spawned gateway. State: state/gateway-launch-state.json. (TKT-0505-A5, TKT-1012.)")
     fi
   fi
 fi
