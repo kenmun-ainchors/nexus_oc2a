@@ -1,3 +1,51 @@
+## 2026-07-22 07:10 MYT — [CHG-0976] Capacity test gemma4:26b-mlx on OC2A
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-1027 / CHG-0975 (capacity test for MLX-optimized local model candidate)
+**What changed:** Pulled gemma4:26b-mlx (17GB, nvfp4, MLX engine) on OC2A. Ran full TKT-1014 protocol: pre-pull baseline, pull, warmup, short/medium/long-context benchmarks, concurrent load, unload/recovery, post-unload re-warmup. Ran CREST v1.3 judgment benchmark with think:false. Wrote state/gemma4-26b-mlx-capacity-test-2026-07-22.json and state/gemma4-26b-mlx-crest-benchmark-2026-07-22.json. Marked TKT-1027 done.
+**Why:** Evaluate gemma4:26b-mlx as a candidate OC2A local model alongside the existing gemma4:26b (GGUF) baseline. MLX variant is Apple-Silicon-optimized and may offer better small/medium-prompt performance on the M4 Pro.
+**Verification:** TKT-1027 status=done in PG. Capacity report: 17GB pulled in 706s at 25 MB/s. Warmup load 3.96s (vs GGUF 5.42s, -27%). Short-prompt eval 59.86 t/s (vs GGUF 57.42, +4.2%). Medium-prompt eval 58.75 t/s (vs GGUF 56.38, +4.2%). Long-context 12k tokens handled cleanly at 47.65 t/s (vs GGUF 51.81 at 6.7k, -8%). Concurrent 2x: 315-475ms wallclock (vs GGUF 1382-2455ms, -77%). Unload clean: 17.7 GB reclaimed, 0 swap I/O, mlx runner subprocess terminated. Re-warmup 1.16s (faster than first load). CREST v1.3: 20/20 (matches GGUF and 31b-cloud; wall ~50s vs GGUF 24.64s, +103% but identical accuracy). Abort threshold never breached (max swap 61.5%, min avail 19.7 GB). Zero errors, zero OOM, zero empty responses.
+**Rollback:** If gemma4:26b-mlx causes issues in production: ollama rm gemma4:26b-mlx; remove from model registry; revert any policy that referenced it. Main weights blob (sha256-71214867) is shared with gemma4:26b GGUF so removing MLX only frees ~1GB of sidecar blobs.
+**Linked:** TKT-1027, CHG-0975, TKT-1014 (baseline), TKT-1024 (CREST 26b vs 31b-cloud precedent), state/gemma4-26b-mlx-capacity-test-2026-07-22.json, state/gemma4-26b-mlx-crest-benchmark-2026-07-22.json
+---
+
+## 2026-07-22 06:38 MYT — [CHG-0975] Capacity test gemma4:26b-mlx (MLX-optimized) with think:false
+**Type:** infra
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved testing gemma4:26b-mlx against existing gemma4:26b baseline
+**What changed:** Created TKT-1027. Pull and capacity-test Ollama tag gemma4:26b-mlx on OC2A with think:false. Report to state/gemma4-26b-mlx-capacity-test-2026-07-22.json. Run CREST v1.3 judgment benchmark if possible without policy changes.
+**Why:** Need head-to-head data between gemma4:26b-mlx (MLX-optimized) and gemma4:26b (GGUF) before selecting local production model.
+**Verification:** TKT-1027 created. Forge subagent will execute test and report metrics.
+**Rollback:** N/A
+**Linked:** TKT-1027
+---
+
+## 2026-07-22 06:14 MYT — [CHG-0968] Fix changelog-append.sh rollback and history-expansion bugs
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Forge hit JSON mangling and PG-insert failures while logging CHG-0967; orphan markdown lines were left because the script prepends CHANGELOG.md before PG insert succeeds.
+**What changed:** Reorder changelog-append.sh so PostgreSQL (SSOT) insert is attempted first, and local markdown prepend only runs after PG success. Add set +H to disable bash history expansion so JSON payloads with exclamation marks are not mangled during parameter parsing.
+**Why:** Prevent duplicate/incorrect CHG records and ensure local markdown stays consistent with PG.
+**Verification:** Forge will run manual tests with exclamation marks in --verified, simulate PG failure, and confirm markdown is not updated on failure.
+**Rollback:** N/A
+**Linked:** TKT-1026, CHG-0967
+---
+
+## 2026-07-22 06:07 MYT — [CHG-0967] Add midnight journal-init cron to prevent TZ-DRIFT false alarms
+**Type:** cron
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** CHG-0913 tz-drift-monitor.sh fires journal_date_mismatch when no conversation happens before 00:30 +08 grace window (e.g. 2026-07-22 04:54 alert). Approved fix: lightweight pre-emptive journal bootstrap at 00:05 +08.
+**What changed:** 1) Created scripts/journal-init.sh (33 lines, set -euo pipefail, idempotent). Derives today's date in Asia/Kuala_Lumpur, writes '# Journal YYYY-MM-DD' header + blank line if memory/journal-YYYY-MM-DD.md does not already exist, exits 0 on no-op. Resolves WORKSPACE from script location (no hard-coded user home). 2) Registered new OpenClaw cron 'Journal Init — midnight' (schedule 5 0 * * * tz=Asia/Kuala_Lumpur, systemEvent payload, sessionTarget main).
+**Why:** Close the false-alarm gap in CHG-0913 by pre-creating the daily journal file at 00:05 +08, well before the 00:30 grace cutoff. Eliminates a low-signal alert that wakes Ken without actionable cause. Keeps tz-drift-monitor.sh untouched (constraint).
+**Verification:** bash -n scripts/journal-init.sh exit=0; bash scripts/journal-init.sh twice on existing file exits 0 with JOURNAL_INIT_NOOP; openclaw cron list --json shows exactly one job with name 'Journal Init — midnight' and the expected schedule; manual dry-run on a removed dated file produces correct header and 22-byte payload.
+**Rollback:** 1) Delete cron via openclaw cron remove <id>. 2) Remove script: rm scripts/journal-init.sh. The cron is a pure creation helper — removing it reverts behavior to pre-CHG-0913 baseline (false alarms on quiet mornings).
+**Linked:** CHG-0913, TKT-0296
+---
+
 ## 2026-07-21 19:47 MYT — [CHG-0965] Swap CREST v1.3 judgment benchmark default to gemma4:26b
 **Type:** script
 **Change Type:** Normal

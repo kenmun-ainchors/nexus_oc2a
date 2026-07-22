@@ -15,7 +15,11 @@ source "${SCRIPT_DIR_CHG}/skill-gate.sh" "changelog" || exit $?
 # TKT-0720: Source entity_links helper for live-write hooks
 source "${SCRIPT_DIR_CHG}/db-link.sh"
 
-set -e
+set -euo pipefail
+# CHG-0968 / TKT-1026: disable history expansion defensively so JSON payloads
+# containing '!' (e.g. in --verified) are not mangled. zsh enables histexpand
+# in some interactive/load contexts; this guarantees a literal '!' round-trips.
+set +H
 
 # Resolve workspace from script location (migration 2026-07-14: no hard-coded user home)
 CHANGELOG="$(cd "$(dirname "$0")/.." && pwd)/memory/CHANGELOG.md"
@@ -127,34 +131,46 @@ ENTRY="## ${TS} — [${CHG_ID}] ${TITLE}
 ${CATEGORY_LINE:+${CATEGORY_LINE}\n}${FRAMEWORK_LINE:+${FRAMEWORK_LINE}\n}---
 "
 
-# Insert BEFORE the first ## heading (prepend to existing entries)
-# Preserve any preamble/comments before the first ## if present.
-# Use a temp file to avoid pipefail issues with head/tail
-INSERT_LINE=$(grep -n "^## " "$CHANGELOG" | cut -d: -f1 | head -1 || true)
-if [[ -z "$INSERT_LINE" ]]; then
-  # No ## heading found — append at end
-  cat "$CHANGELOG" > "${CHANGELOG}.tmp"
-  echo "" >> "${CHANGELOG}.tmp"
-  printf '%s\n' "$ENTRY" >> "${CHANGELOG}.tmp"
-  mv "${CHANGELOG}.tmp" "$CHANGELOG"
-elif [[ "$INSERT_LINE" -eq 1 ]]; then
-  # Insert at the very beginning (before first line)
-  printf '%s\n' "$ENTRY" > "${CHANGELOG}.tmp"
-  cat "$CHANGELOG" >> "${CHANGELOG}.tmp"
-  mv "${CHANGELOG}.tmp" "$CHANGELOG"
-else
-  # Insert immediately before the first ## line
-  head -n $((INSERT_LINE - 1)) "$CHANGELOG" > "${CHANGELOG}.tmp"
-  echo "" >> "${CHANGELOG}.tmp"
-  printf '%s\n' "$ENTRY" >> "${CHANGELOG}.tmp"
-  tail -n +$((INSERT_LINE)) "$CHANGELOG" >> "${CHANGELOG}.tmp"
-  mv "${CHANGELOG}.tmp" "$CHANGELOG"
-fi
-
-echo "$CHG_ID"
+# ── Markdown prepend helper (CHG-0968 / TKT-1026) ─────────────────────────
+# PG is the SSOT (TKT-0330 A4). Markdown is a derived view, written ONLY
+# after a confirmed PG write. prepend_markdown() is idempotent: if the
+# [CHG-NNNN] token is already present in $CHANGELOG, it skips.
+prepend_markdown() {
+  local chg_id="$1"
+  if grep -qF "[${chg_id}]" "$CHANGELOG" 2>/dev/null; then
+    echo "[md] ✅ ${chg_id} already present in CHANGELOG.md, skipping prepend" >&2
+    return 0
+  fi
+  # Insert BEFORE the first ## heading (prepend to existing entries).
+  # Preserve any preamble/comments before the first ## if present.
+  # Use a temp file to avoid pipefail issues with head/tail.
+  local INSERT_LINE
+  INSERT_LINE=$(grep -n "^## " "$CHANGELOG" | cut -d: -f1 | head -1 || true)
+  if [[ -z "$INSERT_LINE" ]]; then
+    # No ## heading found — append at end
+    cat "$CHANGELOG" > "${CHANGELOG}.tmp"
+    echo "" >> "${CHANGELOG}.tmp"
+    printf '%s\n' "$ENTRY" >> "${CHANGELOG}.tmp"
+    mv "${CHANGELOG}.tmp" "$CHANGELOG"
+  elif [[ "$INSERT_LINE" -eq 1 ]]; then
+    # Insert at the very beginning (before first line)
+    printf '%s\n' "$ENTRY" > "${CHANGELOG}.tmp"
+    cat "$CHANGELOG" >> "${CHANGELOG}.tmp"
+    mv "${CHANGELOG}.tmp" "$CHANGELOG"
+  else
+    # Insert immediately before the first ## line
+    head -n $((INSERT_LINE - 1)) "$CHANGELOG" > "${CHANGELOG}.tmp"
+    echo "" >> "${CHANGELOG}.tmp"
+    printf '%s\n' "$ENTRY" >> "${CHANGELOG}.tmp"
+    tail -n +$((INSERT_LINE)) "$CHANGELOG" >> "${CHANGELOG}.tmp"
+    mv "${CHANGELOG}.tmp" "$CHANGELOG"
+  fi
+  echo "[md] ✅ ${chg_id} prepended to CHANGELOG.md" >&2
+}
 
 # ── PG insert into state_changes (TKT-0330 A4) ───────────────────────────────
-# Dual-write: PG + markdown. PG is the SSOT; markdown is kept for backward compat.
+# Dual-write: PG + markdown. PG is the SSOT; markdown is a derived view
+# and is written ONLY after a confirmed PG write (CHG-0968 / TKT-1026).
 # Escape single quotes for PG
 PG_DESC=$(echo "$CHANGED" | sed "s/'/''/g")
 PG_TITLE=$(echo "$TITLE" | sed "s/'/''/g")
@@ -168,15 +184,16 @@ PG_CATEGORY=$(echo "$CATEGORY" | sed "s/'/''/g")
 PG_TRIGGER=$(echo "$TRIGGER" | sed "s/'/''/g")
 PG_CHANGE_TYPE=$(echo "$CHANGE_TYPE" | sed "s/'/''/g")
 
-# ── Idempotency guard: skip INSERT if row already exists ──────────────────
+# ── Idempotency guard: skip INSERT if row already exists (CHG-0968) ─────
 # set +e guard: under set -e, $() capture of a failing command kills the script
 # before $? is reached. We disable -e around the capture, then re-enable.
 set +e
 PG_EXISTS=$(bash "$DB_RAW" -c "SELECT 1 FROM state_changes WHERE change_id = '$CHG_ID';" 2>/dev/null | head -1 || true)
 set -e
-PG_OK=true
+PG_INSERT_DONE=false
 if [[ "$PG_EXISTS" == "1" ]]; then
   echo "[pg] ⚠️  $CHG_ID already exists in state_changes, skipping INSERT" >&2
+  PG_INSERT_DONE=true
 else
   # ── PG insert with retry + backoff ───────────────────────────────────────
   # set +e guards: under set -e, $() capture of a failing command kills the script
@@ -199,6 +216,7 @@ VALUES (
     if [[ $PG_RC -eq 0 ]]; then
       echo "[pg] ✅ $CHG_ID inserted into state_changes" >&2
       PG_ERROR=""
+      PG_INSERT_DONE=true
       break
     fi
     PG_ERROR="$PG_STDERR"
@@ -209,18 +227,21 @@ VALUES (
   done
 
   if [[ -n "$PG_ERROR" ]]; then
-    PG_OK=false
     echo "[pg] ❌ All 3 INSERT attempts failed for $CHG_ID" >&2
     echo "[pg]    Last error: $PG_ERROR" >&2
 
-    # ── Write dead-letter record ────────────────────────────────────────────
+    # ── Write dead-letter record (CHG-0968: markdownOk=false — we did NOT
+    # touch memory/CHANGELOG.md on PG failure, so no rollback is required) ─
     DEAD_LETTER_FILE="$HOME/.openclaw/workspace/state/chg-pg-dead-letter.json"
+    # CHG-0968: wrap in set +e so a missing/broken jq does not abort the script
+    # with set -e before the raw fallback (or exit 7) can run.
+    set +e
     DL_ENTRY=$(/opt/homebrew/bin/jq -n \
       --arg changeId "$CHG_ID" \
       --arg title "$TITLE" \
       --arg ts "$TS" \
       --arg error "$PG_ERROR" \
-      --argjson markdownOk true \
+      --argjson markdownOk false \
       --argjson notionOk false \
       '{
         changeId: $changeId,
@@ -230,6 +251,7 @@ VALUES (
         markdownOk: $markdownOk,
         notionOk: $notionOk
       }' 2>/dev/null)
+    set -e
     if [[ -n "$DL_ENTRY" ]]; then
       echo "$DL_ENTRY" > "$DEAD_LETTER_FILE"
       echo "[dl] ⚠️  Dead-letter record written to $DEAD_LETTER_FILE" >&2
@@ -241,16 +263,26 @@ VALUES (
   "title": "$TITLE",
   "timestamp": "$TS",
   "error": "$PG_ERROR",
-  "markdownOk": true,
+  "markdownOk": false,
   "notionOk": false
 }
 DLRAW
     fi
 
-    # Fail closed — exit non-zero so callers know PG write failed
+    # Fail closed — exit non-zero so callers know PG write failed.
+    # CHANGELOG.md is left untouched (PG is the SSOT, markdown is derived).
     exit 7
   fi
 fi
+
+# ── PG succeeded (or row already existed) — NOW write markdown ─────────
+# CHG-0968: PG SSOT gate. prepend_markdown is idempotent, so re-runs on an
+# existing CHG-ID will skip cleanly without duplicating the entry.
+prepend_markdown "$CHG_ID"
+
+# Emit the CHG-ID to stdout so callers can capture it. Done AFTER PG success
+# so a returned ID always means the change is durably logged.
+echo "$CHG_ID"
 # TKT-0726: Emit created event for CHG (best-effort)
 EVENT_SCRIPT="${SCRIPT_DIR_CHG}/pg-write-event.sh"
 if [[ -x "$EVENT_SCRIPT" ]]; then

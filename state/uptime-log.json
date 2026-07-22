@@ -4,230 +4,6 @@
   "sloTarget": 0.995,
   "events": [
     {
-      "ts": "2026-07-12T05:32:31.909100+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T05:47:31.581159+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T06:02:31.724713+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T06:17:32.028239+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T06:32:31.616056+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T06:47:32.913649+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T07:03:16.415304+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T07:18:17.806785+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T07:33:16.817602+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T07:48:18.719688+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T08:03:17.578617+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T08:18:17.657433+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T08:33:18.220366+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T08:48:17.816152+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T09:03:17.587217+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T09:18:17.194933+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T09:33:17.799005+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T09:48:18.471835+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T10:03:19.026021+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T10:18:17.238775+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T10:33:17.663627+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T10:48:19.148094+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T11:03:17.373176+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T11:18:19.192282+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T11:33:18.922196+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T11:48:19.003789+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T12:03:19.820367+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
-      "ts": "2026-07-12T12:18:19.626286+00:00",
-      "status": "ok",
-      "consecutiveFailures": 0,
-      "issues": [
-        "MinIO: down (http://127.0.0.1:9000/minio/health/live failed)"
-      ]
-    },
-    {
       "ts": "2026-07-12T12:33:18.921144+00:00",
       "status": "ok",
       "consecutiveFailures": 0,
@@ -4595,14 +4371,182 @@
       "status": "ok",
       "consecutiveFailures": 0,
       "issues": []
+    },
+    {
+      "ts": "2026-07-21T17:14:35.762505+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T17:29:37.811357+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T17:44:38.187631+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T17:59:36.438646+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T18:14:35.249527+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T18:29:38.770560+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T18:44:35.972043+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T18:59:37.851780+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T19:14:36.267157+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T19:29:35.801050+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T19:44:36.689029+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T19:59:36.297445+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T20:14:35.790982+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T20:29:36.726277+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T20:44:35.775554+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T20:59:36.159827+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T21:14:36.223640+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T21:29:36.349606+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T21:44:36.421520+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T21:59:58.360754+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T22:14:39.807005+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T22:29:37.039099+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T22:44:37.374910+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T22:59:37.109804+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T23:14:36.458674+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T23:29:36.573738+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T23:44:36.945213+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
+    },
+    {
+      "ts": "2026-07-21T23:59:40.729561+00:00",
+      "status": "ok",
+      "consecutiveFailures": 0,
+      "issues": []
     }
   ],
   "summary": {
-    "totalChecks": 10761,
-    "upChecks": 10553,
+    "totalChecks": 10789,
+    "upChecks": 10581,
     "downtimeMinutes": 1040,
-    "uptimePct": 98.067,
-    "lastCheck": "2026-07-21T16:59:35.891466+00:00",
+    "uptimePct": 98.072,
+    "lastCheck": "2026-07-21T23:59:40.729561+00:00",
     "lastStatus": "ok"
   }
 }

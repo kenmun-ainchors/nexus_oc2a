@@ -5120,5 +5120,79 @@
       "rollout_status": "complete",
       "rollback_plan": "Edit scripts/crest-v1.3-judgment-benchmark.sh line MODEL line back to gemma4:31b-cloud; rerun to confirm 20/20 baseline restored. Backup of pre-swap result file at state/crest-v1.3-judgment-benchmark.json.pre-chg0965."
     }
+  },
+  {
+    "id": "TKT-1026",
+    "title": "Fix changelog-append.sh rollback and history-expansion bugs",
+    "status": "done",
+    "priority": "high",
+    "type": "bug",
+    "created_at": "2026-07-21T22:14:31+08:00",
+    "ticket_number": 1026,
+    "metadata": {
+      "notion_sync": {
+        "status": "pending",
+        "last_synced": null
+      }
+    }
+  },
+  {
+    "id": "TKT-1027",
+    "title": "Capacity test gemma4:26b-mlx (MLX-optimized) with think:false",
+    "status": "done",
+    "priority": "high",
+    "type": "infra",
+    "created_at": "2026-07-21T22:38:26+08:00",
+    "ticket_number": 1027,
+    "metadata_update": {
+      "completed_at": "2026-07-22T07:08:00+08:00",
+      "completed_by": "Forge (subagent, dispatched by Yoda per CREST Execute routing)",
+      "report_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-26b-mlx-capacity-test-2026-07-22.json",
+      "crest_benchmark_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-26b-mlx-crest-benchmark-2026-07-22.json",
+      "verdict": "GO with one caveat — gemma4:26b-mlx matches gemma4:26b (GGUF) on every quality dimension and beats it on most performance dimensions; the only meaningful gap is CREST v1.3 wall-clock (~2x slower despite identical 20/20 score). Recommend adding MLX as a parallel option in the model registry; default stays GGUF unless Ken approves a swap.",
+      "linked_change": "CHG-0976",
+      "linked_baseline": "TKT-1014 / CHG-0953 (gemma4:26b GGUF baseline, 2026-07-21)",
+      "key_metrics": {
+        "pull_seconds": 706,
+        "pull_speed_mbps": 25,
+        "load_seconds_first": 3.96,
+        "load_seconds_warm": 0.05,
+        "short_prompt_tps_eval": 59.86,
+        "medium_prompt_tps_eval": 58.75,
+        "long_context_12088_tps_eval": 47.65,
+        "concurrent_wallclock_ms": "315-475",
+        "crest_v1_3_score": "20/20",
+        "crest_v1_3_wall_sec_est": 50,
+        "post_unload_free_gb": 19.79
+      },
+      "comparison_vs_gguf": {
+        "load_speed_delta_pct": -27,
+        "short_prompt_tps_delta_pct": 4.2,
+        "medium_prompt_tps_delta_pct": 4.2,
+        "long_context_tps_delta_pct": -8,
+        "crest_wall_delta_pct": 103,
+        "disk_delta_gb": 0,
+        "winner": "mlx on small/medium tasks; gguf on CREST wall-clock; tie on accuracy (20/20 both)"
+      },
+      "model_added": "gemma4:26b-mlx (ollama_id=c8656f50f0a6, 17GB on disk, nvfp4 quantization, MLX engine, ctx 262144)",
+      "model_policy_changed": false,
+      "openclaw_json_changed": false,
+      "scripts_changed": false,
+      "default_committed_model_changed": false,
+      "safety_compliance": {
+        "think_false_used": true,
+        "abort_threshold_breached": false,
+        "swap_max_pct_observed": 61.5,
+        "available_ram_min_gb": 19.7
+      },
+      "caveats": [
+        "CREST v1.3 wall-clock ~2x slower than GGUF (50s vs 24.64s) — accuracy identical (20/20).",
+        "Pre-existing swap pressure on OC2A (61.5% baseline) unchanged; not a blocker but a separate relief task recommended."
+      ],
+      "next_steps": [
+        "Ken to decide: keep gemma4:26b (GGUF) as committed default, or swap to gemma4:26b-mlx. MLX wins on small/medium tasks; GGUF wins on CREST wall-clock; both 20/20 on CREST.",
+        "If both are kept: add gemma4:26b-mlx to the model registry as a parallel local-default option."
+      ]
+    }
   }
 ]

@@ -1,18 +1,18 @@
 {
-  "ticket": "TKT-0749",
-  "sprint": "Sprint 12",
+  "ticket": "TKT-0546",
+  "sprint": "Unassigned",
   "sprint_seq": null,
   "status": "open",
-  "priority": "high",
-  "effort": "M",
-  "agent": "forge",
-  "reason": "active-sprint-ready",
+  "priority": "critical",
+  "effort": "XL",
+  "agent": "yoda",
+  "reason": "backlog",
   "current_sprint": {
-    "name": "Sprint 12",
-    "status": "planning",
-    "dates": "2026-07-13 to 2026-07-19",
-    "completion": "14%",
-    "is_active": true
+    "name": null,
+    "status": null,
+    "dates": null,
+    "completion": "0%",
+    "is_active": false
   },
   "next_sprint": {
     "name": null,

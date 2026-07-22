@@ -18,3 +18,12 @@
 - 0 files failed, 0 errors
 
 **Rule audit confirmation:** R01: PASS (0 violations)
+## R01 Session Sweep — 2026-07-22 04:55 MYT (2026-07-21T20:55Z)
+- Status: PASS (no tilde-bearing files found)
+- Processed: 0 | Replaced: 0 | Skipped (locked/fresh/structural): 0/0/0 | Failed: 0
+---
+
+## R01 Session Sweep — 2026-07-22 07:10 MYT (2026-07-21T23:10Z)
+- Status: PASS (no tilde-bearing files found)
+- Processed: 0 | Replaced: 0 | Skipped (locked/fresh/structural): 0/0/0 | Failed: 0
+- Verdict: R01 PASS — all sweepable session files are tilde-free

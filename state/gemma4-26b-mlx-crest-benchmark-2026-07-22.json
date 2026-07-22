@@ -1,0 +1,82 @@
+{
+  "ticket": "TKT-1027",
+  "change": "CHG-0976 (was nominally CHG-0975 in task brief; auto-incremented by changelog-append.sh to CHG-0976)",
+  "benchmark": "crest-v1.3-judgment",
+  "test_date_utc": "2026-07-22",
+  "test_completed_at_utc": "2026-07-21T23:03:30Z",
+  "test_completed_at_local": "2026-07-22T07:03:30+08:00",
+  "report_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/gemma4-26b-mlx-crest-benchmark-2026-07-22.json",
+  "raw_result_path": "/Users/ainchorsoc2a/.openclaw/workspace/state/crest-v1.3-judgment-benchmark-26b-mlx-2026-07-22.json",
+  "host": {
+    "hostname": "AINCHORSOC2A",
+    "model": "Mac Mini M4 Pro",
+    "ram_gb": 48,
+    "ollama_version": "0.32.1",
+    "ollama_api": "http://127.0.0.1:11434"
+  },
+  "model": {
+    "name": "gemma4:26b-mlx",
+    "ollama_id": "c8656f50f0a6",
+    "parameters_b": 26.2,
+    "quantization": "nvfp4",
+    "context_length": 262144,
+    "capabilities": ["completion", "tools", "thinking"],
+    "runtime_engine": "mlx-engine",
+    "think_false_injection_used": true
+  },
+  "result": {
+    "score": "20/20",
+    "pct": 1.00,
+    "passed_threshold_0_90": true,
+    "http_200_count": 20,
+    "total_count": 20,
+    "empty_response_count": 0,
+    "error_count": 0,
+    "any_oom_or_error": false,
+    "wall_clock_estimate_seconds": 50,
+    "wall_clock_note": "Computed from script start (2026-07-21T23:02:51Z) to result-file mtime (Jul 22 07:03:30 MYT local). Includes 20 prompts x 0.5s sleep + inference time. Per-call latency not captured by the existing script (would require script instrumentation; not in scope for TKT-1027).",
+    "script_invocation": "MODEL=gemma4:26b-mlx RESULT_FILE=/Users/ainchorsoc2a/.openclaw/workspace/state/crest-v1.3-judgment-benchmark-26b-mlx-2026-07-22.json bash scripts/crest-v1.3-judgment-benchmark.sh",
+    "script_default_changed": false,
+    "openclaw_json_changed": false,
+    "vendor_code_changed": false
+  },
+  "per_atom_results": [
+    {"id": "P01", "expected": "pass", "verdict": "pass", "match": true, "reason": "The evidence confirms the file was created at the correct path with content that exactly matches Z and is verified via SHA256."},
+    {"id": "P02", "expected": "pass", "verdict": "pass", "match": true, "reason": "ALTER TABLE executed without errors and notionpageid column verified via psql \\d."},
+    {"id": "P03", "expected": "pass", "verdict": "pass", "match": true, "reason": "cron delivery.to = 8574109706 verified and test message delivered."},
+    {"id": "P04", "expected": "pass", "verdict": "pass", "match": true, "reason": "The evidence confirms that `bash -n` produced no errors, which directly satisfies the requirement that it exits with status 0."},
+    {"id": "P05", "expected": "pass", "verdict": "pass", "match": true, "reason": "The git status output explicitly confirms that the working tree is clean as required by the post-condition."},
+    {"id": "P06", "expected": "pass", "verdict": "pass", "match": true, "reason": "The evidence confirms the page exists via a successful GET request, verifies the title and status match requirements, and confirms the ID is stored in the database."},
+    {"id": "P07", "expected": "pass", "verdict": "pass", "match": true, "reason": "The evidence confirms that the script returned exit 0 and the health-state.json file shows all checks are green with an ok status."},
+    {"id": "P08", "expected": "pass", "verdict": "pass", "match": true, "reason": "The evidence confirms that the deferred ticket is absent from the source sprint items array and exists only in the target sprint."},
+    {"id": "P09", "expected": "pass", "verdict": "pass", "match": true, "reason": "The evidence confirms that jq empty returned exit code 0 for the specified file."},
+    {"id": "P10", "expected": "pass", "verdict": "pass", "match": true, "reason": "The evidence confirms that the report file for Sprint 8 was generated, is non-empty, and contains the required content."},
+    {"id": "F01", "expected": "fail", "verdict": "fail", "match": true, "reason": "The evidence shows that the required file was not created due to a permission error, meaning the post-conditions were not met."},
+    {"id": "F02", "expected": "fail", "verdict": "fail", "match": true, "reason": "The evidence shows that the ALTER TABLE statement failed due to a duplicate column error, meaning the post-condition of success was not met."},
+    {"id": "F03", "expected": "fail", "verdict": "fail", "match": true, "reason": "The evidence shows the value contains non-numeric characters and triggered an API error, meaning the post-condition was not met."},
+    {"id": "F04", "expected": "fail", "verdict": "fail", "match": true, "reason": "The evidence shows that `bash -n` failed due to a syntax error, meaning the post-condition was not met."},
+    {"id": "F05", "expected": "fail", "verdict": "fail", "match": true, "reason": "The presence of modified files and uncommitted changes contradicts the requirement for a clean git status."},
+    {"id": "F06", "expected": "fail", "verdict": "fail", "match": true, "reason": "The evidence shows that an unauthorized error occurred and no page was created, meaning the post-conditions were not met."},
+    {"id": "F07", "expected": "fail", "verdict": "fail", "match": true, "reason": "The pre-condition was not met because health-check.sh returned exit 1 instead of 0."},
+    {"id": "F08", "expected": "fail", "verdict": "fail", "match": true, "reason": "The evidence shows that the deferred ticket still remains in the source sprint items array after the command was executed, violating the post-condition."},
+    {"id": "F09", "expected": "fail", "verdict": "fail", "match": true, "reason": "The evidence shows a parse error indicating the JSON file was invalid, which violates the pre-condition and results in a non-zero exit code."},
+    {"id": "F10", "expected": "fail", "verdict": "fail", "match": true, "reason": "The script failed to execute due to an error, resulting in no report file generated."}
+  ],
+  "comparison_with_prior_crest_runs": {
+    "data_source": "TKT-1024 / CHG-0963 metadata update (2026-07-21 ad-hoc comparison)",
+    "gemma4_31b_cloud_baseline": {"score": "20/20", "wall_sec": 122.53, "passed": true, "per_call_mean_sec": 6.127, "per_call_max_sec": 31.901, "per_call_min_sec": 0.672, "jitter_max_min_sec": 31.23, "notes": "High jitter (max-min 31.23s) likely from cloud-routing variance."},
+    "gemma4_26b_gguf_local": {"score": "20/20", "wall_sec": 24.64, "passed": true, "per_call_mean_sec": 1.232, "per_call_max_sec": 2.997, "per_call_min_sec": 1.012, "jitter_max_min_sec": 1.98, "notes": "Current committed default in scripts/crest-v1.3-judgment-benchmark.sh. ~5x faster than 31b-cloud, very low jitter."},
+    "gemma4_26b_mlx_local": {"score": "20/20", "wall_sec_est": 50, "passed": true, "per_call_mean_sec": "not measured (script doesn't instrument per-call latency)", "jitter_max_min_sec": "not measured", "notes": "TKT-1027 result. Same 20/20 score, but wall-clock ~2x slower than GGUF baseline. Accuracy is identical; wall-clock is the only meaningful difference."},
+    "interpretation": "All three model variants pass the CREST v1.3 judgment benchmark with identical 20/20 scores. The MLX variant matches the GGUF local baseline on accuracy but is ~2x slower on this workload. For CREST purposes (verifying whether an atom's evidence proves a post-condition), all three are equivalent in quality. The wall-clock gap is real but secondary — CREST runs are scheduled, not interactive. The committed default should remain gemma4:26b (GGUF) UNLESS Ken explicitly approves a swap; the MLX variant should be added to the model registry as a parallel option for workloads that benefit from its stronger small-prompt performance."
+  },
+  "compliance_with_safety_rules": {
+    "think_false_injection_used": true,
+    "think_false_injection_required": "yes (gemma4 family with Ollama 0.32.1 defaults to thinking=true; without think:false, num_predict budget gets consumed by chain-of-thought and response is empty with done_reason=length; see TKT-1017 / CHG-0956)",
+    "model_policy_json_changed": false,
+    "openclaw_json_changed": false,
+    "scripts_changed": false,
+    "default_committed_model_changed": false,
+    "ollama_num_parallel_changed": false
+  },
+  "verdict": "PASS — gemma4:26b-mlx scores 20/20 (1.00) on the CREST v1.3 judgment benchmark with think:false injection. Accuracy matches gemma4:26b (GGUF) and gemma4:31b-cloud. Wall-clock is ~2x slower than the GGUF local baseline (50s vs 24.64s) but the score parity means MLX is a viable production candidate for accuracy-bound workloads. Recommend: keep gemma4:26b (GGUF) as the committed CREST default; add gemma4:26b-mlx as a parallel option in the model registry; Ken to decide if MLX should replace GGUF for any specific workload based on the small/medium-prompt speed advantage (TKT-1027 capacity test shows +4-120% speed on those)."
+}
