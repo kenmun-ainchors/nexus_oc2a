@@ -8,7 +8,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_ROOT="${WORKSPACE_ROOT:-$(cd "$SCRIPT_DIR/../../.." && pwd)}"
-JQ=/opt/homebrew/bin/jq
+JQ="${JQ:-/usr/bin/jq}"
 DISPATCH="$WORKSPACE_ROOT/scripts/dispatch-validate.sh"
 GATE="$WORKSPACE_ROOT/scripts/crest-execute-gate.sh"
 
@@ -87,7 +87,7 @@ check_dispatch infra verify ollama/deepseek-v4-flash:cloud fail
 
 # crest-execute-gate
 check_gate main execute ollama/kimi-k2.7-code:cloud block
-check_gate infra execute ollama/deepseek-v4-flash:cloud allow
+check_gate infra execute ollama/deepseek-v4-flash:cloud block
 check_gate infra verify ollama/gemma4:31b-cloud allow
 check_gate platform-arch execute ollama/deepseek-v4-flash:cloud allow
 

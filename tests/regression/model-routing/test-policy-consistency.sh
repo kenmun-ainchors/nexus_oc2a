@@ -9,7 +9,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_ROOT="${WORKSPACE_ROOT:-$(cd "$SCRIPT_DIR/../../.." && pwd)}"
 QUERY="$WORKSPACE_ROOT/scripts/model-policy-query.sh"
-JQ=/opt/homebrew/bin/jq
+JQ="${JQ:-/usr/bin/jq}"
 
 # Load pg-sprint-backlog skill so the policy query (which calls db.sh) passes the skill gate
 if ! bash "$WORKSPACE_ROOT/scripts/skill-load.sh" pg-sprint-backlog >/dev/null 2>&1; then
@@ -52,7 +52,7 @@ expect_not_allowed() {
 expect_model architect plan ollama/deepseek-v4-pro:cloud
 expect_model architect execute ollama/deepseek-v4-flash:cloud
 expect_model architect verify ollama/gemma4:31b-cloud
-expect_model architect synthesize ollama/deepseek-v4-flash:cloud
+expect_model architect synthesize ollama/deepseek-v4-pro:cloud
 expect_model platform-arch execute ollama/deepseek-v4-flash:cloud
 
 # T2 Governance: strong default, cheap available
@@ -62,7 +62,7 @@ expect_model qa verify ollama/gemma4:31b-cloud
 
 # T3 Technical: Forge exception
 expect_model infra plan ollama/deepseek-v4-flash:cloud
-expect_model infra execute ollama/deepseek-v4-flash:cloud
+expect_model infra execute ollama/minimax-m3:cloud
 expect_model infra verify ollama/gemma4:31b-cloud
 expect_model infra synthesize ollama/deepseek-v4-flash:cloud
 

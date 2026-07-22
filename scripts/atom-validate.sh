@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+JQ="${JQ:-/usr/bin/jq}"
 VERBOSE=false
 
 usage() {

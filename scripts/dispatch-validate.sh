@@ -22,7 +22,7 @@ source "${SCRIPT_DIR:-$(dirname "$0")}/skill-gate.sh" "pg-sprint-backlog" || exi
 
 set -euo pipefail
 
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+JQ="${JQ:-/usr/bin/jq}"
 VERBOSE=false
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ATOM_VALIDATOR="${SCRIPT_DIR}/atom-validate.sh"
