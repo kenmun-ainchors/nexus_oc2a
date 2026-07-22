@@ -28,6 +28,9 @@ DB_RAW="${SCRIPT_DIR_CHG}/db-raw.sh"
 # Defaults
 TYPE=""; SOURCE=""; TITLE=""; TRIGGER=""; CHANGED=""; WHY=""; VERIFIED=""; ROLLBACK="N/A"; LINKED=""; FRAMEWORK_DOCS=""; CATEGORY=""; CHANGE_TYPE="Normal"
 
+# Resolve jq (CHG-0987 / TKT-1035: portable, honours $JQ env override)
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
+
 while (( $# > 0 )); do
   case "$1" in
     --type)     TYPE="$2"; shift 2 ;;
@@ -236,7 +239,7 @@ VALUES (
     # CHG-0968: wrap in set +e so a missing/broken jq does not abort the script
     # with set -e before the raw fallback (or exit 7) can run.
     set +e
-    DL_ENTRY=$(/opt/homebrew/bin/jq -n \
+    DL_ENTRY=$("$JQ" -n \
       --arg changeId "$CHG_ID" \
       --arg title "$TITLE" \
       --arg ts "$TS" \
@@ -286,7 +289,7 @@ echo "$CHG_ID"
 # TKT-0726: Emit created event for CHG (best-effort)
 EVENT_SCRIPT="${SCRIPT_DIR_CHG}/pg-write-event.sh"
 if [[ -x "$EVENT_SCRIPT" ]]; then
-  CHG_PAYLOAD=$(/opt/homebrew/bin/jq -n --arg chg "$CHG_ID" --arg title "$TITLE" --arg type "$TYPE" --arg source "$SOURCE" '{change_id: $chg, title: $title, type: $type, source: $source}' 2>/dev/null || echo '{"change_id":"'"$CHG_ID"'"}')
+  CHG_PAYLOAD=$("$JQ" -n --arg chg "$CHG_ID" --arg title "$TITLE" --arg type "$TYPE" --arg source "$SOURCE" '{change_id: $chg, title: $title, type: $type, source: $source}' 2>/dev/null || echo '{"change_id":"'"$CHG_ID"'"}')
   bash "$EVENT_SCRIPT" --actor "$SOURCE" --event-type "created" --entity-type "chg" --entity-id "$CHG_ID" --payload "$CHG_PAYLOAD" --prev-state "{}" --new-state "$CHG_PAYLOAD" > /dev/null 2>&1 || echo "WARNING: event write failed for $CHG_ID" >&2
 fi
 

@@ -9,7 +9,7 @@ WORKSPACE_ROOT="${WORKSPACE_ROOT:-/Users/ainchorsoc2a/.openclaw/workspace}"
 POLICY="$WORKSPACE_ROOT/state/model-policy.json"
 QUERY="$WORKSPACE_ROOT/scripts/model-policy-query.sh"
 ALERT="$WORKSPACE_ROOT/state/model-policy-drift-alert.json"
-JQ=$JQ
+JQ="${JQ:-/usr/bin/jq}"
 
 # Load pg-sprint-backlog skill before any DB queries (model-policy-query.sh calls db.sh, which has a skill gate)
 if ! bash "$WORKSPACE_ROOT/scripts/skill-load.sh" pg-sprint-backlog >/dev/null 2>&1; then

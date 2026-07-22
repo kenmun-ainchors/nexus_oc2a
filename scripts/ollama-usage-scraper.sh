@@ -14,7 +14,7 @@ set -euo pipefail
 
 WORKSPACE="${WORKSPACE:-$HOME/.openclaw/workspace}"
 COST_STATE="$WORKSPACE/state/cost-state.json"
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
 NOW="$(date +%Y-%m-%dT%H:%M:%S%z)"
 BROWSER_CMD="openclaw browser"
 

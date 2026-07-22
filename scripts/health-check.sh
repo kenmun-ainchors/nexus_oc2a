@@ -21,6 +21,9 @@ STALE_THRESHOLD_MIN=1440 # Flag state files if older than this (minutes) — 24h
 LOCK_STALE_MIN=5         # Clear lock files older than this (minutes)
 DISK_ALERT_PCT=85        # Alert if disk usage exceeds this percentage
 
+# Resolve jq (CHG-0987 / TKT-1035: portable, honours $JQ env override)
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
+
 # TKT-1010 / CHG-0914: separate freshness check from ad-hoc runner.
 #   heartbeat = scheduled cron run (the 15min "AInchors Gateway Health Check").
 #   ad-hoc    = manual invocation (e.g. an agent running it interactively, or
@@ -404,10 +407,10 @@ else
     FK_RESULT=$(bash "$FK_CHECK_SCRIPT" 2>/dev/null)
     FK_EXIT=$?
     if [[ $FK_EXIT -ne 0 ]]; then
-      FK_CONSISTENT=$(echo "$FK_RESULT" | /opt/homebrew/bin/jq -r '.consistent // "unknown"' 2>/dev/null)
+      FK_CONSISTENT=$(echo "$FK_RESULT" | "$JQ" -r '.consistent // "unknown"' 2>/dev/null)
       if [[ "$FK_CONSISTENT" == "false" ]]; then
-        FK_ITEMS_NOT_PG=$(echo "$FK_RESULT" | /opt/homebrew/bin/jq -r '.in_items_not_in_pg_count // 0' 2>/dev/null)
-        FK_PG_NOT_ITEMS=$(echo "$FK_RESULT" | /opt/homebrew/bin/jq -r '.in_pg_not_in_items_count // 0' 2>/dev/null)
+        FK_ITEMS_NOT_PG=$(echo "$FK_RESULT" | "$JQ" -r '.in_items_not_in_pg_count // 0' 2>/dev/null)
+        FK_PG_NOT_ITEMS=$(echo "$FK_RESULT" | "$JQ" -r '.in_pg_not_in_items_count // 0' 2>/dev/null)
         log "ALERT: Sprint FK divergence detected — items_not_in_pg=$FK_ITEMS_NOT_PG, pg_not_in_items=$FK_PG_NOT_ITEMS (alert-only, no auto-mutation)"
         [[ "$OVERALL_STATUS" == "ok" ]] && OVERALL_STATUS="degraded"
         ISSUES+=("Sprint FK divergence: $FK_ITEMS_NOT_PG items in sprint not in PG, $FK_PG_NOT_ITEMS tickets in PG not in sprint items")

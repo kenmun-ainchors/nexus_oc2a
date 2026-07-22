@@ -33,7 +33,7 @@
 
 set -euo pipefail
 
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 

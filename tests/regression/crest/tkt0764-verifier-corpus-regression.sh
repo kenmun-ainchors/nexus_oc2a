@@ -15,8 +15,9 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 cd "$ROOT"
 
-JQ="/opt/homebrew/bin/jq"
-PYTHON="/opt/homebrew/bin/python3"
+# Resolve jq (CHG-0987 / TKT-1035: portable, honours $JQ env override)
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
+PYTHON="${PYTHON:-$(command -v python3 2>/dev/null || echo /usr/bin/python3)}"
 
 FAIL=0
 PASS=0
@@ -125,7 +126,7 @@ check "sage-verify.sh produces raw results file" \
     RESULT=1
     if [[ -f "$RAW_FILE" ]]; then
       CONTENT=$(cat "$RAW_FILE")
-      if echo "$CONTENT" | /opt/homebrew/bin/jq -e ".exit_code == 0" >/dev/null 2>&1; then
+      if echo "$CONTENT" | "$JQ" -e ".exit_code == 0" >/dev/null 2>&1; then
         RESULT=0
       fi
     fi

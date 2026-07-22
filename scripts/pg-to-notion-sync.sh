@@ -342,6 +342,11 @@ sync_ticket() {
   [[ "$agent" == "null" ]] && agent=""
   chg_ref=$(echo "$meta" | jq -r '.chg_ref // .resolution // ""' 2>/dev/null)
   [[ "$chg_ref" == "null" ]] && chg_ref=""
+  # Notion rich_text content limit: 2000 chars
+  if [[ ${#chg_ref} -gt 2000 ]]; then
+    chg_ref="${chg_ref:0:1997}..."
+    log "WARN: chg_ref truncated to 2000 chars for $tkt_id"
+  fi
   notion_sync_text=$(echo "$meta" | jq -r '.notion_sync.last_synced // ""' 2>/dev/null)
   [[ "$notion_sync_text" == "null" ]] && notion_sync_text=""
   

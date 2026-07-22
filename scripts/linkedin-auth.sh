@@ -284,15 +284,25 @@ from datetime import datetime, timezone
 print(datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
 " 2>/dev/null)
 
-      # Update state file with new expiry and refreshTokenPresent
+      # Update state file with new expiry and refreshTokenPresent.
+      # CHG-0987 / TKT-1035: refreshTokenPresent must reflect whether
+      # LinkedIn actually issued a NEW refresh token in this response, not
+      # the previous state. LinkedIn does not always rotate refresh tokens,
+      # and the previous version of this block hard-coded True, leaving
+      # the state file stale and triggering TKT-1002 follow-up work.
       if [[ -f "$AUTH_STATE_FILE" && -n "$NEW_EXPIRY" ]]; then
+        if [[ -n "$NEW_REFRESH_TOKEN" && "$NEW_REFRESH_TOKEN" != "None" ]]; then
+          REFRESH_PRESENT_PY="True"
+        else
+          REFRESH_PRESENT_PY="False"
+        fi
         python3 -c "
 import json
 with open('$AUTH_STATE_FILE') as f:
     d = json.load(f)
 d['authorizedAt'] = '$NEW_AUTHORIZED_AT'
 d['tokenExpiry'] = '$NEW_EXPIRY'
-d['refreshTokenPresent'] = True
+d['refreshTokenPresent'] = $REFRESH_PRESENT_PY
 with open('$AUTH_STATE_FILE', 'w') as f:
     json.dump(d, f, indent=2)
 " 2>/dev/null || true

@@ -1,9 +1,9 @@
 {
   "schema_version": "3.0",
   "description": "PERMANENT model policy for all AInchors agents. Warden enforces this. Changes require Ken approval + CHG entry + baseline update.",
-  "lastUpdated": "2026-07-21T18:22:00+08:00",
-  "lastApprovedBy": "Ken Mun (CHG-0963, 2026-07-21 18:22 MYT)",
-  "approvalContext": "CHG-0812: Add defaultPolicy section reconciling Warden default primary expectation with live openclaw.json agents.defaults.model.primary (ollama/kimi-k2.7-code:cloud). Fix fallback-chain self-comparison bug in model-drift-check.sh. Clear stale Warden escalation.",
+  "lastUpdated": "2026-07-22T08:32:00+08:00",
+  "lastApprovedBy": "Ken Mun (CHG-0978, 2026-07-22 08:32 MYT)",
+  "approvalContext": "CHG-0978: Fix 8 pre-existing model-drift violations by reconciling crest_v13.phase_rules with operational per-agent models in openclaw.json and per-agent requiredPrimary. Updated phase_rules entries: design_backend/Synthesize -> ollama/deepseek-v4-pro:cloud (Atlas/Thrawn), build/Execute -> ollama/minimax-m3:cloud (Forge), creative/Synthesize -> ollama/kimi-k2.6:cloud (Spark). Removed stale t3Business.exceptions.social (was forced to flash, conflicted with requiredPrimary). Cleared 4 agent-model-tier violations + 4 CREST_V13_DRIFT violations. No openclaw.json changes; runtime agent models unchanged.",
   "permanent": true,
   "interimPeriod": false,
   "globalAllowedModels": [
@@ -14,6 +14,7 @@
     "ollama/deepseek-v4-flash:cloud",
     "ollama/gemma4:e2b",
     "ollama/gemma4:26b",
+    "ollama/gemma4:26b-mlx",
     "ollama/kimi-k2.7-code:cloud",
     "ollama/glm-5.2:cloud"
   ],
@@ -21,7 +22,7 @@
     "ollama/gemma4:e2b"
   ],
   "directCallLocalModels": {
-    "description": "Models approved for direct Ollama /api/generate and /api/chat calls (bypassing OpenClaw gateway plugin). CHG-0963 — adopt gemma4:26b as OC2A local default for direct-call sites only. Gateway-mediated use via OpenClaw plugin remains BLOCKED until upstream fixes the gemma4 family thinking=true default.",
+    "description": "Models approved for direct Ollama /api/generate and /api/chat calls (bypassing OpenClaw gateway plugin). CHG-0963 — adopt gemma4:26b as OC2A local default for direct-call sites only. CHG-0977 — register gemma4:26b-mlx as a parallel option (better small/medium-prompt latency, same CREST accuracy); CREST Verify default remains gemma4:26b (GGUF) because MLX wall-clock is ~2x slower on that workload. Gateway-mediated use via OpenClaw plugin remains BLOCKED until upstream fixes the gemma4 family thinking=true default.",
     "approvedModels": [
       {
         "canonicalName": "ollama/gemma4:26b",
@@ -40,6 +41,24 @@
           "concurrentTested": 2,
           "sourceReport": "state/gemma4-26b-final-verification-2026-07-21.json"
         }
+      },
+      {
+        "canonicalName": "ollama/gemma4:26b-mlx",
+        "endpoints": ["/api/generate", "/api/chat"],
+        "useScope": "Direct Ollama calls from workspace scripts. Good for low-latency/concurrent small-to-medium tasks. CREST Verify default remains gemma4:26b (GGUF) because MLX wall-clock is ~2x slower on that workload despite identical accuracy.",
+        "mandatoryRequestOptions": {
+          "think": false,
+          "thinkLocation": "top-level body (NOT inside options)",
+          "rationale": "TKT-1017/CHG-0956: gemma4 family (Ollama 0.32.1) defaults thinking=true; chain-of-thought tokens consume num_predict budget and produce empty response with done_reason=length. Top-level think:false disables thinking entirely. Applies to MLX variant identically."
+        },
+        "performance": {
+          "tpsEvalMean": 58.75,
+          "tpsShortMean": 59.86,
+          "coldLoadMs": 3960,
+          "warmLoadMs": 50,
+          "concurrentTested": 2,
+          "sourceReport": "state/gemma4-26b-mlx-capacity-test-2026-07-22.json"
+        }
       }
     ],
     "blockedInGateway": {
@@ -57,8 +76,8 @@
       "OLLAMA_NUM_PARALLEL": 1,
       "rationale": "Keep at default 1 — TKT-1023 verified gemma4:26b is stable at single-parallel. Higher parallelism not yet validated for 17 GB MoE on 48 GB host."
     },
-    "linkedTickets": ["TKT-1023", "TKT-1024"],
-    "linkedChanges": ["CHG-0962", "CHG-0963"]
+    "linkedTickets": ["TKT-1023", "TKT-1024", "TKT-1027"],
+    "linkedChanges": ["CHG-0962", "CHG-0963", "CHG-0977"]
   },
   "agentTiers": {
     "userFacing": {
@@ -139,9 +158,8 @@
         "ollama/deepseek-v4-pro:cloud",
         "ollama/kimi-k2.6:cloud"
       ],
-      "rationale": "CHG-0804: T3 business tier primary restored to pre-CHG-0802 baseline ollama/kimi-k2.6:cloud. Ahsoka/Luthen use ollama/deepseek-v4-pro:cloud via per-agent requiredPrimary override. Spark remains on ollama/deepseek-v4-flash:cloud per openclaw.json; per-agent exception below documents this. CREST v1.3 phase_rules control phase-level model selection independently.",
+      "rationale": "CHG-0804: T3 business tier primary restored to pre-CHG-0802 baseline ollama/kimi-k2.6:cloud. Ahsoka/Luthen use ollama/deepseek-v4-pro:cloud via per-agent requiredPrimary override. Spark uses ollama/kimi-k2.6:cloud per openclaw.json and requiredPrimary; CHG-0978 removed stale 'social' exception (was forced to flash) so Spark now matches the tier primary. CREST v1.3 phase_rules control phase-level model selection independently.",
       "exceptions": {
-        "social": "ollama/deepseek-v4-flash:cloud",
         "ahsoka": "ollama/deepseek-v4-pro:cloud",
         "luthen": "ollama/deepseek-v4-pro:cloud"
       }
@@ -411,6 +429,20 @@
     "process": "1. Ken approval in webchat/Telegram. 2. Update this file. 3. Update critical-config-baseline.json. 4. Log CHG entry. 5. Update MEMORY.md.",
     "approvalKeyword": "POLICY CHANGE APPROVED"
   },
+  "modelDriftReconciliation": {
+    "description": "Top-level governance notes tracking model-drift reconciliation work between crest_v13.phase_rules (SSOT for phase-level model selection), per-agent requiredPrimary, and openclaw.json operational per-agent models. Maintained by Yoda on each drift-fix CHG.",
+    "linkedTickets": [
+      "TKT-1028"
+    ],
+    "linkedChanges": [
+      "CHG-0978",
+      "CHG-0804",
+      "CHG-0802",
+      "CHG-0977"
+    ],
+    "lastReconciledAt": "2026-07-22T08:32:00+08:00",
+    "lastReconciledBy": "Yoda (CHG-0978, Forge Execute, TKT-1028)"
+  },
   "baselineTimestamp": "2026-07-03T07:22:00+0000",
   "baselineCHG": "CHG-0812",
   "crestPhaseModelMap": {
@@ -613,10 +645,10 @@
       {
         "role": "build",
         "phase": "Execute",
-        "default_model": "ollama/deepseek-v4-flash:cloud",
+        "default_model": "ollama/minimax-m3:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "TKT-0344 re-import"
+        "rationale": "CHG-0978: align crest_v13.phase_rules with operational per-agent requiredPrimary. Forge (agent:infra) runs on ollama/minimax-m3:cloud per openclaw.json and requiredPrimary. CREST v1.3 phase_rules now match runtime primary instead of legacy flash default."
       },
       {
         "role": "build",
@@ -717,10 +749,10 @@
       {
         "role": "creative",
         "phase": "Synthesize",
-        "default_model": "ollama/deepseek-v4-flash:cloud",
-        "fallback_model": "ollama/kimi-k2.6:cloud",
+        "default_model": "ollama/kimi-k2.6:cloud",
+        "fallback_model": "ollama/deepseek-v4-pro:cloud",
         "override_allowed": false,
-        "rationale": "TKT-0344 re-import"
+        "rationale": "CHG-0978: align crest_v13.phase_rules with operational per-agent requiredPrimary. Spark (agent:social) runs on ollama/kimi-k2.6:cloud per openclaw.json and requiredPrimary. CREST v1.3 phase_rules now match runtime primary instead of legacy flash default."
       },
       {
         "role": "creative",
@@ -757,10 +789,10 @@
       {
         "role": "design_backend",
         "phase": "Synthesize",
-        "default_model": "ollama/deepseek-v4-flash:cloud",
+        "default_model": "ollama/deepseek-v4-pro:cloud",
         "fallback_model": "ollama/gemma4:31b-cloud",
         "override_allowed": false,
-        "rationale": "TKT-0344 re-import"
+        "rationale": "CHG-0978: align crest_v13.phase_rules with operational per-agent requiredPrimary. Architect (agent:architect) and platform-arch (agent:platform-arch) run on ollama/deepseek-v4-pro:cloud per openclaw.json and requiredPrimary. CREST v1.3 phase_rules now match runtime primary instead of legacy flash default."
       },
       {
         "role": "design_backend",

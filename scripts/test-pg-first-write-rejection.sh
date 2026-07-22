@@ -17,7 +17,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKSPACE="$(cd "$SCRIPT_DIR/.." && pwd)"
 CHECK_SCRIPT="${WORKSPACE}/scripts/check-pg-first-write.sh"
 REGISTRY_FILE="${WORKSPACE}/state/pg-first-write-registry.json"
-JQ="/opt/homebrew/bin/jq"
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
 
 PASS_COUNT=0
 FAIL_COUNT=0

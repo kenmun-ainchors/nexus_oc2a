@@ -11,7 +11,7 @@ DB_READ="$WORKSPACE/scripts/db-read.sh"
 COST_STATE="$WORKSPACE/state/cost-state.json"  # fallback cache for db-read output
 BUDGET_STATE="$WORKSPACE/state/agent-budgets.json"  # not yet in PG
 ALERT_STATE="$WORKSPACE/state/budget-alert-state.json"
-JQ="/opt/homebrew/bin/jq"
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
 DATE="$(date +%Y-%m-%d)"
 NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 

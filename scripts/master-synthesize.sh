@@ -15,7 +15,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DB_READ="$SCRIPT_DIR/db-read.sh"
-JQ=$JQ
+JQ="${JQ:-/usr/bin/jq}"
 WORKSPACE="/Users/ainchorsoc2a/.openclaw/workspace"
 
 # ── Parsing ──────────────────────────────────────────────────────────

@@ -18,13 +18,13 @@
 #   1  — Violations found
 #
 # Dependencies:
-#   /opt/homebrew/bin/jq
 #   scripts/db-raw.sh
+#   jq (resolved via PATH or /usr/bin/jq fallback; respects $JQ env override)
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-JQ="/opt/homebrew/bin/jq"
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
 DB_RAW="${SCRIPT_DIR}/db-raw.sh"
 TODAY="$(date +%Y-%m-%d)"
 

@@ -21,7 +21,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DB_SCRIPT="$SCRIPT_DIR/db.sh"
 TENANT_ID="${TENANT_ID:-ainchors}"
-JQ="${JQ:-/opt/homebrew/bin/jq}"
+JQ="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
 
 # --- Skill gate ---
 if ! bash "$SCRIPT_DIR/skill-load.sh" pg-sprint-backlog >/dev/null 2>&1; then

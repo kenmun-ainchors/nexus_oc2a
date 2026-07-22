@@ -1,3 +1,123 @@
+## 2026-07-22 10:45 MYT — [CHG-0987] Workspace-wide JQ path standardization and residual script fixes
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken asked Yoda to package all new bugs/gaps discovered during the model-drift-check fix session into the next CHG
+**What changed:** Audit scripts/ and tests/ for hardcoded /opt/homebrew/bin/jq paths (24 unique files, 29 occurrences found). Replace with robust JQ resolution: use command -v jq falling back to /usr/bin/jq, or honor existing JQ env var override where present. Verify affected scripts still parse JSON correctly and regression suites pass. Also fix the residual NameError in scripts/linkedin-auth.sh (TKT-1002) where lowercase true is used after token storage.
+**Why:** The /opt/homebrew/bin/jq path does not exist on OC2A; scripts/tests silently break or fall back to bare jq when the env var is unset. This systemic fragility was exposed while fixing CHG-0980/0981 JQ bugs. Standardizing removes a class of environmental failures.
+**Verification:** Run grep to confirm no remaining /opt/homebrew/bin/jq hardcoding; run affected scripts with --json or dry-run where supported; run tests/regression/model-routing and tests/regression/pg-foundation suites; confirm linkedin-auth.sh completes without NameError and state/linkedin-auth-business.json is fresh.
+**Rollback:** Revert each modified file via git checkout or restore from backup.
+**Linked:** TKT-1035,TKT-1002,CHG-0986,CHG-0981,CHG-0980
+---
+
+## 2026-07-22 10:12 MYT — [CHG-0986] Implement 3-tier allowed-set model validation in model-drift-check.sh (Option F)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Option F: validate each agent runtime model against its assigned 3-tier allowed set and align the default config check with openclaw.json
+**What changed:** Update scripts/model-drift-check.sh per-agent checks to validate openclaw.json model.primary against the union of requiredPrimary + requiredCheap + requiredFallbacks from state/model-policy.json. Any agent outside its assigned 3-tier set will FAIL. Update the [Default Config] check to derive expected default from openclaw.json agents.defaults.model.primary (or skip it). Verify model-drift-check.sh exits 0 with no agent-model violations. Update TKT-1034.
+**Why:** Preserve the multi-model strategy by allowing agents to run any of their assigned tier models while still catching true drift. Avoid forcing a single default model that would break the current design.
+**Verification:** Run scripts/model-drift-check.sh and confirm exit 0, 0 agent-model violations, and the [Default Config] section no longer flags the default.primary mismatch as a failure.
+**Rollback:** Revert scripts/model-drift-check.sh to its previous version via git checkout.
+**Linked:** TKT-1034,TKT-1032,TKT-1033,CHG-0981,CHG-0984
+---
+
+## 2026-07-22 09:42 MYT — [CHG-0985] Restore warden context drift check (CHG-0984)
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-1033 / CHG-0984
+**What changed:** Created scripts/warden-context-drift.py. Updated scripts/model-drift-check.sh line ~572 to invoke $WORKSPACE/scripts/warden-context-drift.py instead of the removed /tmp/warden-context-drift.py.
+**Why:** model-drift-check.sh [Model Context Drift (CHG-0756)] section was exiting 2 because /tmp/warden-context-drift.py was missing (deleted in CHG-0803, caller not updated).
+**Verification:** Ran scripts/model-drift-check.sh: [Model Context Drift] section completes with 1 PASS (gemma4:31b-cloud, configured 262144 == actual 262144) and 5 SKIP (remote :cloud models not on local Ollama). Zero new agent violations. Pre-existing default.primary drift and ITIL-3/ITIL-4 staleness are unrelated.
+**Rollback:** N/A
+**Linked:** TKT-1033,CHG-0756,CHG-0803
+---
+
+## 2026-07-22 09:38 MYT — [CHG-0984] Restore warden context drift check: replace missing /tmp/warden-context-drift.py with workspace script
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved Yoda's proposal to ticket and fix the missing /tmp/warden-context-drift.py after TKT-1032 completion surfaced model-drift-check.sh exit 2
+**What changed:** Create scripts/warden-context-drift.py implementing minimal context-drift comparison (openclaw.json contextWindow/num_ctx vs Ollama API context lengths). Update scripts/model-drift-check.sh to call the workspace script instead of /tmp/warden-context-drift.py. Script emits PASS|model|detail, FAIL|model|detail, SKIP|model|reason. Verify model-drift-check.sh no longer exits 2 due to missing context-drift script.
+**Why:** Remove fragile /tmp dependency for the Model Context Drift check and restore the check so model-drift-check.sh can run to completion cleanly.
+**Verification:** Run scripts/model-drift-check.sh and confirm it completes the Model Context Drift section without exit 2; check total exit status.
+**Rollback:** Remove scripts/warden-context-drift.py and revert model-drift-check.sh to use /tmp path.
+**Linked:** TKT-1033,TKT-1032,CHG-0981
+---
+
+## 2026-07-22 09:31 MYT — [CHG-0983] Fix 4 model-routing regression-test failures post-CHG-0980
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-1031/CHG-0980 surfaced regression-test failures: test-policy-consistency 20/21 PASS, test-consumer-consistency 5/10 PASS
+**What changed:** scripts/dispatch-validate.sh:25 JQ default /opt/homebrew/bin/jq -> /usr/bin/jq; scripts/atom-validate.sh:17 same JQ default (transitive); tests/regression/model-routing/test-policy-consistency.sh:65 infra execute expectation -> ollama/minimax-m3:cloud; tests/regression/model-routing/test-consumer-consistency.sh:90 infra execute crest-gate expectation allow -> block
+**Why:** OC2A does not have /opt/homebrew/bin/jq; the hard-coded default caused silent jq parse failures in dispatch-validate. Test expectations for infra execute were stale from pre-CHG-0978 (which intentionally moved build/Execute to minimax to match infra.requiredPrimary and openclaw.json). crest-gate correctly returns block for the now-invalid deepseek-v4-flash model on infra.execute.
+**Verification:** test-policy-consistency.sh: 21/21 PASS (was 20/21). test-consumer-consistency.sh: 10/10 PASS (was 5/10; 6/10 with export JQ=/usr/bin/jq). check-model-policy-drift.sh: exit 0, status=ok, drift=false. model-drift-check.sh: 0 target-agent violations; CREST v1.3 14 checks 0 violations; agent:infra -> ollama/minimax-m3:cloud PASS. TKT-1032 status -> done.
+**Rollback:** git checkout HEAD -- scripts/dispatch-validate.sh scripts/atom-validate.sh tests/regression/model-routing/test-policy-consistency.sh tests/regression/model-routing/test-consumer-consistency.sh; then re-run via run-pg-ticket.sh to revert TKT-1032 to in_progress
+**Linked:** TKT-1032, CHG-0981, TKT-1031, CHG-0980, CHG-0978
+---
+
+## 2026-07-22 09:26 MYT — [CHG-0981] Fix model-routing regression test failures after CHG-0980
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed Yoda to fix the new found bugs surfaced by TKT-1031 / CHG-0980: test-policy-consistency.sh infra execute mismatch and test-consumer-consistency.sh dispatch-validate/crest-gate failures
+**What changed:** Update scripts/dispatch-validate.sh and scripts/atom-validate.sh JQ default from /opt/homebrew/bin/jq to /usr/bin/jq. Update tests/regression/model-routing/test-policy-consistency.sh infra execute expectation from flash to minimax to match CHG-0978 phase rule. Update tests/regression/model-routing/test-consumer-consistency.sh crest-gate infra execute flash expectation from allow to block. Verify both regression tests and check-model-policy-drift.sh turn green.
+**Why:** Eliminate false regression-test failures caused by OC2A-specific jq path mismatch and stale expectations left over from before CHG-0978.
+**Verification:** Run tests/regression/model-routing/test-policy-consistency.sh, test-consumer-consistency.sh, and scripts/check-model-policy-drift.sh; confirm zero failures unrelated to intentional policy.
+**Rollback:** Revert the 4 script edits via git checkout.
+**Linked:** TKT-1032,CHG-0978,CHG-0980
+---
+
+## 2026-07-22 09:03 MYT — [CHG-0980] Fix JQ unbound-variable bug in scripts/model-policy-query.sh
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved scope expansion to fix the same-class JQ bug in model-policy-query.sh that was blocking TKT-1030 regression tests
+**What changed:** Update scripts/model-policy-query.sh line 16 from JQ="" to JQ="/usr/bin/jq". Update TKT-1031 status to done after verification.
+**Why:** model-policy-query.sh is called by both regression tests and check-model-policy-drift.sh --all; the unbound JQ variable causes immediate failure under set -u and blocks downstream verification.
+**Verification:** Run scripts/model-policy-query.sh --all and confirm valid JSON effectiveMap; run both regression tests and confirm they no longer fail on JQ line; run scripts/check-model-policy-drift.sh and confirm no model-policy-query --all alert.
+**Rollback:** Revert model-policy-query.sh line 16 to previous form.
+**Linked:** TKT-1031,TKT-1030,CHG-0979
+---
+
+## 2026-07-22 08:40 MYT — [CHG-0979] Fix JQ path/unbound-variable bugs in model-routing drift check and regression tests
+**Type:** script
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed Yoda to fix 2 pre-existing bugs surfaced during CHG-0978 verification: check-model-policy-drift.sh fails on unbound JQ, and two regression tests hardcode wrong jq path
+**What changed:** Update scripts/check-model-policy-drift.sh line 12 JQ= to JQ=/usr/bin/jq. Update scripts/master-synthesize.sh JQ= similarly. Update tests/regression/model-routing/test-consumer-consistency.sh and test-policy-consistency.sh from JQ=/opt/homebrew/bin/jq to JQ=/usr/bin/jq. Update test-policy-consistency.sh expect_model architect synthesize from flash to pro to match CHG-0978. Verify check-model-policy-drift.sh runs and regression tests pass.
+**Why:** Eliminate false alerts and runtime failures caused by OC2A-specific jq path mismatch; /opt/homebrew/bin/jq does not exist on OC2A.
+**Verification:** Run bash scripts/check-model-policy-drift.sh (or equivalent) and both regression tests; confirm no jq-related failures and no false regression alerts.
+**Rollback:** Revert the 4 script edits via git checkout or restore from backups.
+**Linked:** TKT-1030,CHG-0978
+---
+
+## 2026-07-22 08:30 MYT — [CHG-0978] Fix 8 pre-existing model-drift violations in crest_v13.phase_rules
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken directed Yoda to check and fix the 8 pre-existing model-drift violations after CHG-0977 registration surfaced them unchanged
+**What changed:** Update state/model-policy.json crest_v13.phase_rules to align with operational per-agent models in openclaw.json: design_backend/Synthesize -> ollama/deepseek-v4-pro:cloud (Atlas/Thrawn); build/Execute -> ollama/minimax-m3:cloud (Forge); creative/Synthesize -> ollama/kimi-k2.6:cloud (Spark). Correct stale t3Business exception for social to match requiredPrimary/openclaw.json. Update linkedTickets/linkedChanges, lastUpdated, lastApprovedBy. No openclaw.json changes.
+**Why:** Eliminate Warden model-drift violations that have persisted since CHG-0802/0804 by making policy internally consistent with runtime operational models.
+**Verification:** Run scripts/model-drift-check.sh after edit; all 8 violations (4 agent-model-tier + 4 CREST_V13_DRIFT) should clear.
+**Rollback:** Revert state/model-policy.json to pre-edit backup or restore previous phase_rules entries.
+**Linked:** TKT-1028,CHG-0804,CHG-0977
+---
+
+## 2026-07-22 08:21 MYT — [CHG-0977] Register gemma4:26b-mlx as parallel local-default model option
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** Ken approved registering gemma4:26b-mlx as a parallel local option after TKT-1027 capacity test showed identical accuracy and better load/concurrent performance vs gemma4:26b GGUF
+**What changed:** Add gemma4:26b-mlx to state/model-policy.json directCallLocalModels and globalAllowedModels with think:false requirement. Keep gemma4:26b (GGUF) as CREST default. No changes to openclaw.json or committed benchmark defaults.
+**Why:** MLX variant is a strict upgrade for load/concurrent/interactive workloads with identical CREST accuracy; registering it gives agents a workload-specific option while preserving the proven GGUF default.
+**Verification:** TKT-1027 report state/gemma4-26b-mlx-capacity-test-2026-07-22.json + CREST 20/20 in state/gemma4-26b-mlx-crest-benchmark-2026-07-22.json.
+**Rollback:** Remove gemma4:26b-mlx entries from state/model-policy.json or revert to last git commit of state/model-policy.json.
+**Linked:** TKT-1027,CHG-0976
+---
+
 ## 2026-07-22 07:10 MYT — [CHG-0976] Capacity test gemma4:26b-mlx on OC2A
 **Type:** infra
 **Change Type:** Normal

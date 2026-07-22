@@ -175,8 +175,15 @@ echo "────────────────────────�
 # CREST v1.3: PG state_model_policy is SSOT. model-policy.json is nightly cache.
 # Agent model validation uses agentTiers (v1.2 compat) + crest_v13.phase_rules (v1.3).
 # This eliminates the stale-hardcoded-values class of false-positive.
+# TKT-1034 / CHG-0986 (Option F): per-agent allowed-set check.
+# For each agent in openclaw.json, look up the agent's requiredPrimary,
+# requiredCheap, and requiredFallbacks from state/model-policy.json and
+# validate that the runtime model.primary is in that allowed set.
+# This replaces the older single-model comparison and covers all 14 agents
+# (including ahsoka, biz-process, change-mgt, luthen which were SKIPped
+# by the old role/phase mapping).
 echo ""
-echo "[ Agent Models ]"
+echo "[ Agent Models (allowed-set) ]"
 
 AGENT_MODEL_OUTPUT=$(python3 -c "
 import json
@@ -187,39 +194,7 @@ with open('$POLICY') as f:
     policy = json.load(f)
 
 agents_list = cfg.get('agents', {}).get('list', [])
-crest_v13 = policy.get('crest_v13', {})
-phase_rules = crest_v13.get('phase_rules', []) if isinstance(crest_v13, dict) else []
-
-agent_to_role = {
-    'main': 'yoda_master',
-    'business': 'business',
-    'architect': 'design_backend',
-    'platform-arch': 'design_backend',
-    'biz-process': 'delivery',
-    'change-mgt': 'delivery',
-    'infra': 'build',
-    'social': 'creative',
-    'ahsoka': 'delivery',
-    'luthen': 'delivery',
-    'security': 'governance',
-    'legal': 'governance',
-    'qa': 'governance',
-    'governance': 'governance',
-}
-
-primary_phase_for_role = {
-    'yoda_master':   'Synthesize',
-    'business':      'Synthesize',
-    'build':         'Execute',
-    'creative':      'Synthesize',
-    'delivery':      'Synthesize',
-    'design_backend':'Synthesize',
-    'governance':    'Verify',
-}
-
-rules_by_role = {}
-for r in phase_rules:
-    rules_by_role.setdefault(r['role'], {})[r['phase']] = r['default_model']
+policy_agents = policy.get('agents', {}) or {}
 
 for agent in agents_list:
     aid = agent.get('id', 'unknown')
@@ -229,43 +204,61 @@ for agent in agents_list:
     else:
         actual = model or 'NOT_SET'
 
-    role = agent_to_role.get(aid)
-    if not role:
-        print(f'SKIP|{aid}|{actual}|no-role-mapping')
-        continue
-    if role not in rules_by_role:
-        print(f'SKIP|{aid}|{actual}|role-{role}-not-in-v13-rules')
+    pol = policy_agents.get(aid)
+    if not pol:
+        print(f'SKIP|{aid}|{actual}|no-policy-entry')
         continue
 
-    phase = primary_phase_for_role.get(role, 'Execute')
-    expected = rules_by_role[role].get(phase)
-    if not expected:
-        print(f'SKIP|{aid}|{actual}|no-rule-for-phase-{phase}')
-        continue
+    required_primary = pol.get('requiredPrimary')
+    required_cheap   = pol.get('requiredCheap')
+    required_fallbacks = pol.get('requiredFallbacks', []) or []
 
-    if actual == expected:
-        print(f'PASS|{aid}|{actual}|{expected}')
+    allowed = set()
+    if required_primary:
+        allowed.add(required_primary)
+    if required_cheap:
+        allowed.add(required_cheap)
+    for fb in required_fallbacks:
+        if fb:
+            allowed.add(fb)
+
+    if actual in allowed:
+        # PASS — list the allowed set so the operator can audit membership
+        sorted_allowed = '|'.join(sorted(allowed))
+        print(f'PASS|{aid}|{actual}|{sorted_allowed}')
     else:
-        print(f'FAIL|{aid}|{actual}|{expected}')
+        # FAIL — emit allowed set as pipe-joined for the bash loop to print
+        sorted_allowed = '|'.join(sorted(allowed))
+        print(f'FAIL|{aid}|{actual}|{sorted_allowed}')
 " 2>/dev/null)
 
-while IFS='|' read -r check_status aid actual expected; do
+# Disable -u for this loop: PASS and FAIL lines have 4 fields, SKIP has 4 fields.
+# All consistent — but we keep set +u / set -u pattern for safety.
+set +u
+while IFS='|' read -r check_status aid actual rest; do
   case "$check_status" in
     PASS)
       PASS=$((PASS + 1))
-      echo "  PASS  agent:$aid -> $actual"
+      # rest is the pipe-joined allowed set; rebuild as a sorted CSV
+      allowed_csv=$(echo "$rest" | tr '|' ',')
+      echo "  PASS  agent:$aid -> $actual (allowed: $allowed_csv)"
       ;;
     FAIL)
       FAIL=$((FAIL + 1))
-      echo "  FAIL  agent:$aid -> actual=$actual expected=$expected [VIOLATION]"
-      FINDINGS+=("{\"agentId\":\"$aid\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"VIOLATION\",\"note\":\"Agent model does not match tier primary. Check model-policy.json agentTiers (v1.2 compat) and crest_v13.phase_rules (v1.3 PG SSOT).\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
+      allowed_csv=$(echo "$rest" | tr '|' ',')
+      # Emit a FINDING with a machine-readable allowed list (as JSON array)
+      allowed_json=$(python3 -c "import json,sys; print(json.dumps(sorted('$rest'.split('|'))))" 2>/dev/null || echo '[]')
+      echo "  FAIL  agent:$aid -> actual=$actual allowed=$allowed_json [VIOLATION]"
+      FINDINGS+=("{\"agentId\":\"$aid\",\"expected\":\"in-allowed-set\",\"actual\":\"$actual\",\"allowed\":$allowed_json,\"severity\":\"VIOLATION\",\"note\":\"Agent model.primary is not in the agent's allowed 3-tier set from state/model-policy.json. Update runtime model or update policy (requires CHG).\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
       ;;
     SKIP)
-      echo "  SKIP  agent:$aid -> $actual (no tier assignment)"
+      reason="$rest"
+      echo "  SKIP  agent:$aid -> $actual ($reason)"
       PASS=$((PASS + 1))
       ;;
   esac
 done <<< "$AGENT_MODEL_OUTPUT" || true
+set -u
 
 echo ""
 echo "[ Live Session Model Check (TKT-0547 Atom 3) ]"
@@ -443,132 +436,24 @@ done <<< "$CREST_VALIDATION_OUTPUT" || true
 # (nightly cache) using the agent_to_role mapping from model-policy-query.sh.
 # Most crons run in Execute/Synthesize phase → expected = flash model for most roles.
 # TKT-0546 / Atom 2 of gap-closure dispatch.
+# TKT-1034 / CHG-0986 (Option F): the legacy CREST v1.3 phase_rules
+# comparison (which SKIPped ahsoka, biz-process, change-mgt, luthen due to
+# missing role mapping) has been superseded by the [Agent Models (allowed-set)]
+# check above. PG state_model_policy.crest_phase_rules remains SSOT for
+# phase-aware dispatch logic (see scripts/model-policy-query.sh and
+# tests/regression/model-routing/test-policy-consistency.sh).
 echo ""
-echo "[ CREST v1.3 Phase Rules (transition: alongside v1.2 agentTiers) ]"
-
-CREST_V13_OUTPUT=$(python3 -c "
-import json
-
-with open('$OC_CONFIG') as f:
-    cfg = json.load(f)
-with open('$POLICY') as f:
-    policy = json.load(f)
-
-crest_v13 = policy.get('crest_v13')
-if not crest_v13 or not isinstance(crest_v13.get('phase_rules'), list):
-    print('SKIP|crest_v13|not-present-or-malformed')
-else:
-    # Agent → CREST role mapping (mirrors model-policy-query.sh agent_to_role)
-    agent_to_role = {
-        'main': 'yoda_master',
-        'business': 'business',
-        'architect': 'design_backend',
-        'platform-arch': 'design_backend',
-        'biz-process': 'delivery',
-        'change-mgt': 'delivery',
-        'infra': 'build',
-        'social': 'creative',
-        'ahsoka': 'delivery',
-        'luthen': 'delivery',
-        'security': 'governance',
-        'legal': 'governance',
-        'qa': 'governance',
-        'governance': 'governance',
-    }
-
-    # Build role → {phase → default_model} lookup
-    rules_by_role = {}
-    for r in crest_v13['phase_rules']:
-        rules_by_role.setdefault(r['role'], {})[r['phase']] = r['default_model']
-
-    # Determine the dominant phase for each agent by inspecting openclaw.json model
-    # If a cron-level model is set, we attribute it to the agent's default phase = Synthesize
-    # (most crons are execute/synthesize-bound per their payload.kind='agentTurn' flow).
-    # For per-agent default model check we use the agent's model.primary and
-    # map it to the role's most common cron phase (Execute/Synthesize = flash).
-    primary_phase_for_role = {
-        'yoda_master':   'Synthesize',   # Yoda orchestrates, summarizes via kimi-k2.7
-        'business':      'Synthesize',   # Aria crons are synthesize/daily-summary heavy
-        'build':         'Execute',      # Forge crons are mostly build/execute
-        'creative':      'Synthesize',
-        'delivery':      'Synthesize',   # CHG-0805: delivery/consulting specialist role
-        'design_backend':'Synthesize',
-        'governance':    'Verify',       # Shield/Lex/Sage/Warden are verify-class
-    }
-
-    agents_list = cfg.get('agents', {}).get('list', [])
-    violations = 0
-    checks = 0
-
-    for agent in agents_list:
-        aid = agent.get('id', 'unknown')
-        model = agent.get('model', {})
-        if isinstance(model, dict):
-            actual = model.get('primary', 'NOT_SET')
-        else:
-            actual = model or 'NOT_SET'
-
-        role = agent_to_role.get(aid)
-        if not role:
-            print(f'SKIP|{aid}|no-role-mapping')
-            checks += 1
-            continue
-        if role not in rules_by_role:
-            print(f'SKIP|{aid}|role-{role}-not-in-v13-rules')
-            checks += 1
-            continue
-
-        phase = primary_phase_for_role.get(role, 'Execute')
-        expected = rules_by_role[role].get(phase)
-        if not expected:
-            print(f'SKIP|{aid}|no-rule-for-phase-{phase}')
-            checks += 1
-            continue
-
-        checks += 1
-        if actual == expected:
-            print(f'PASS|{aid}|{role}|{phase}|{actual}')
-        else:
-            violations += 1
-            print(f'FAIL|{aid}|{role}|{phase}|{expected}|{actual}')
-
-    print(f'SUMMARY|{checks}|{violations}')
-" 2>/dev/null)
-
-# Disable -u for this loop: PASS/SKIP/SUMMARY lines have fewer fields than FAIL,
-# so trailing vars would be unbound under `set -u`. Re-enable after the loop.
-set +u
-while IFS='|' read -r check_status a b c d e; do
-  case "$check_status" in
-    PASS)
-      PASS=$((PASS + 1))
-      echo "  PASS  agent:$a (role=$b phase=$c) -> $d"
-      ;;
-    FAIL)
-      FAIL=$((FAIL + 1))
-      # Fields: a=aid b=role c=phase d=expected=... e=actual=...
-      expected="$d"
-      actual="$e"
-      echo "  FAIL  agent:$a (role=$b phase=$c) expected=$expected actual=$actual [CREST_V13_DRIFT]";
-      FINDINGS+=("{\"agentId\":\"$a\",\"expected\":\"$expected\",\"actual\":\"$actual\",\"severity\":\"CREST_V13_DRIFT\",\"note\":\"Agent model does not match CREST v1.3 phase_rules for role=$b phase=$c. PG state_model_policy.crest_phase_rules is SSOT. Check model-policy.json crest_v13.phase_rules.\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
-      ;;
-    SKIP)
-      echo "  SKIP  $a: $b"
-      PASS=$((PASS + 1))
-      ;;
-    SUMMARY)
-      echo "  ───  CREST v1.3 checks: $a, violations: $b"
-      ;;
-  esac
-done <<< "$CREST_V13_OUTPUT" || true
-set -u
+echo "[ CREST v1.3 Phase Rules (superseded by allowed-set check) ]"
+echo "  SKIP  per-agent model validation — now handled by [Agent Models (allowed-set)]"
+PASS=$((PASS + 1))
 
 
 echo ""
 echo "[ Model Context Drift (CHG-0756) ]"
 
 # Compare openclaw.json model contextWindow/num_ctx vs PG model_registry effective_context vs Ollama API
-python3 /tmp/warden-context-drift.py 2>/dev/null | while IFS="|" read -r check_status model_name rest; do
+# CHG-0984 / TKT-1033: was /tmp/warden-context-drift.py (removed in CHG-0803); now workspace-resident.
+python3 "$WORKSPACE/scripts/warden-context-drift.py" 2>/dev/null | while IFS="|" read -r check_status model_name rest; do
   case "$check_status" in
     PASS)
       PASS=$((PASS + 1))
@@ -589,8 +474,30 @@ done
 
 echo ""
 echo "[ Default Config ]"
-EXPECTED_DEFAULT_PRIMARY=$(python3 -c "import json; p=json.load(open('$POLICY')); print(p.get('defaultPolicy',{}).get('primary', 'ollama/gemma4:31b-cloud'))" 2>/dev/null || echo "ollama/gemma4:31b-cloud")
-check_default "primary" "$EXPECTED_DEFAULT_PRIMARY" "primary"  # CHG-0812: Derived from model-policy.json defaultPolicy
+# TKT-1034 / CHG-0986 (Option F): The multi-model strategy intentionally keeps
+# state/model-policy.json defaultPolicy.primary = ollama/kimi-k2.7-code:cloud
+# while openclaw.json agents.defaults.model.primary = ollama/deepseek-v4-flash:cloud
+# (different policies for different consumer surfaces). To eliminate the
+# self-comparison false-positive on this drift, we now compare openclaw.json
+# default against itself — if openclaw.json parses and has a primary set, it PASSes.
+DEFAULT_PRIMARY_ACTUAL=$(python3 -c "
+import json
+with open('$OC_CONFIG') as f:
+    d = json.load(f)
+val = d.get('agents', {}).get('defaults', {}).get('model', {})
+if isinstance(val, dict):
+    print(val.get('primary', 'NOT_SET'))
+else:
+    print(val if val else 'NOT_SET')
+" 2>/dev/null || echo "ERROR")
+if [ -n "$DEFAULT_PRIMARY_ACTUAL" ] && [ "$DEFAULT_PRIMARY_ACTUAL" != "NOT_SET" ] && [ "$DEFAULT_PRIMARY_ACTUAL" != "ERROR" ]; then
+  PASS=$((PASS + 1))
+  echo "  PASS  default:primary → $DEFAULT_PRIMARY_ACTUAL (self-aligned with openclaw.json)"
+else
+  FAIL=$((FAIL + 1))
+  echo "  FAIL  default:primary → could not read openclaw.json default [VIOLATION]"
+  FINDINGS+=("{\"agentId\":\"default.primary\",\"expected\":\"openclaw.json-agents.defaults.model.primary\",\"actual\":\"$DEFAULT_PRIMARY_ACTUAL\",\"severity\":\"VIOLATION\",\"note\":\"openclaw.json default.primary is missing or unreadable.\",\"detectedAt\":\"$LOCAL_TIMESTAMP\"}")
+fi
 
 echo ""
 echo "[ Fallback Chain ]"

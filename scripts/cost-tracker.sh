@@ -502,7 +502,8 @@ estimate_workflow_cost() {
   fi
 
   local budget_file="$HOME/.openclaw/workspace/state/agent-budgets.json"
-  local JQ_BIN="/opt/homebrew/bin/jq"
+  # Resolve jq (CHG-0987 / TKT-1035: portable, honours $JQ env override)
+  local JQ_BIN="${JQ:-$(command -v jq 2>/dev/null || echo /usr/bin/jq)}"
 
   if [[ ! -f "$budget_file" ]]; then
     echo "ERROR: agent-budgets.json not found — run TKT-0092 setup first"
