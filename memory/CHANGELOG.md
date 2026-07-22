@@ -1,3 +1,15 @@
+## 2026-07-22 12:44 MYT — [CHG-0988] Register gemma4:26b-mlx in openclaw.json
+**Type:** config
+**Change Type:** Normal
+**Source:** ken-prompt
+**Trigger:** TKT-0778 / Ken approved proceed at 2026-07-22 12:44 +08 to add gemma4:26b-mlx as a usable gateway model
+**What changed:** Add gemma4:26b-mlx model block to models.providers.ollama.models in /Users/ainchorsoc2a/.openclaw/openclaw.json alongside existing models. Fields: id=gemma4:26b-mlx, name=Gemma 4 26B MLX, input=["text"], contextWindow=262144, reasoning=false, zero-cost block, params.num_ctx=262144 + think=false.
+**Why:** Make gemma4:26b-mlx selectable through the OpenClaw gateway for non-CREST/interactive workloads, not only via scripts.
+**Verification:** Gateway health/model list shows gemma4:26b-mlx; direct chat completion via gateway responds; response contains no <think> tags; model-drift-check.sh exit 0; regression tests pass.
+**Rollback:** Remove the gemma4:26b-mlx block from models.providers.ollama.models in openclaw.json or restore from git.
+**Linked:** TKT-0778,CHG-0987-context
+---
+
 ## 2026-07-22 10:45 MYT — [CHG-0987] Workspace-wide JQ path standardization and residual script fixes
 **Type:** script
 **Change Type:** Normal
